@@ -1,0 +1,102 @@
+<head>
+	<!-- <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet' type='text/css'> -->
+	
+	<script src="jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
+	<script src="jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+	<script src="Stuk-jszip-4cbaf0e/dist/jszip.js"> </script?
+	
+	<script src="js/helper.js"></script>
+	<script src="js/output.js"></script>
+	<script src="js/screenshot.js"></script>
+	
+	<script src="popup.js"></script>
+	
+	<title>GenderMag</title>
+</head>
+
+<body>
+
+
+<div id="userInfo" style="height:10%; width:100%; margin:5px; overflow:hidden;">
+
+
+	<span id="welcomeText">The GenderMag Tool</span> 
+    
+    &nbsp; &nbsp; &nbsp;
+    <span class="icon" id="team">
+        <i class="fa fa-2x fa-users" aria-hidden="true"></i>
+        <label id="teamName"></label>
+        <button id='editTeam' hidden>Edit</button>
+    </span>
+        
+    <span class="icon" id="persona">
+        <i class="fa fa-2x fa-user" aria-hidden="true"></i>
+        <label id="personaName"></label>
+        <button id='editPersona' hidden>Edit</button>
+    </span>
+        
+    <span class="icon" id="scenario">
+        <i class="fa fa-2x fa-road" aria-hidden="true"></i>
+        <label id="scenarioName"></label>
+        <button id='editScenario' hidden>Edit</button>
+    </span>
+	
+
+<!--button id="saveAndExit" style="margin-top:5px;">Save</button-->
+<!-- <button id="viewPersona">View Personas</button> -->
+
+	</div>
+<hr>
+<div id="sideBySide" style="overflow-y:auto; overflow-x:hidden;">
+	<nav id="subgoalList" style="height:80%; width:10%; float:left"></nav>
+	<div id="containeryo" style="height:80%; width:50%; margin:5px;  float:left; overflow-y: auto; overflow-x:hidden;" >
+		<div id="setup" class="instruction" style="margin-bottom:5px;">
+			<!--span class="preview"> Before you get started with the GenderMag walkthrough... </span-->
+			
+			<span class="complete"> Before you get started with the GenderMag walkthrough,
+			please enter some information that will help identify this session.</span>
+			
+			<!--button class="moreOrLess" stateVar=0> See more </button-->
+			
+		</div>
+		
+		<div id="getTeam">
+			<label id="teamPrompt">First, what is the name of your team?</label><br>
+			<input id="teamInput" type="text" placeholder="ex. Mobile Dev Group">
+			<input type="submit" id="submitTeam"><br>
+		</div>
+		
+		<div id="getPersona" hidden>
+			<label id="personaPrompt">Now select a Persona</label><br>
+			<select id="personaSelection" name="persona">
+				<option value="Abby">Abby</option>
+				<option value="Tim">Tim</option>
+				<option value="Patrick">Patrick</option>
+				<option value="Patricia">Patricia</option>
+			</select>
+		
+			<button id="submitPersona">Submit</button><br>
+		</div>
+		
+		<div id="getScenario" hidden>
+			<label id="scenarioPrompt"></label><br>
+			<input id="scenarioInput" type="text" placeholder="ex Edit Sue's contact information" size="40" >
+			<input type="submit" id="submitScenario"><br>
+		</div>
+			
+		<div id="subgoals">
+		</div>
+			
+		<div id="getSubgoal" hidden>
+			<label id="subgoalPrompt"></label><br>
+			<input id="subgoalInput" type="text" placeholder="ex Search for 'Sue' in the DB">
+			<input type="submit" id="submitSubgoal" value="Add Subgoal">
+		</div>
+</div>
+	<div id="personaInfo"style ="height:80%; width:35%; float:left; margin:5px;overflow-y:auto;overflow-x:hidden;"></div>
+
+
+ <br style="clear:left;" />
+</div>
+	</body>
+</html>
