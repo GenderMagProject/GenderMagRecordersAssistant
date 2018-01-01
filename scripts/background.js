@@ -25,6 +25,8 @@ var screenShotURL;
 	chrome.pageAction.onClicked.addListener(function(tab) {
 		chrome.tabs.executeScript(null, { file: "./jquery-ui-1.11.4.custom/jquery.js" }, function() {
 			chrome.tabs.getSelected(null, function(tab) {
+				chrome.runtime.sendMessage(null, tab.id, {callFunction: "toggleSidebar}, function responseCallback)
+				/*
 				chrome.tabs.sendRequest(
 					//Selected tab id
 					tab.id,
@@ -33,7 +35,7 @@ var screenShotURL;
 					//Optional callback function
 					function(response) {
 						//console.log(response);
-					}
+					}*/
 				);
 			});
 		});
