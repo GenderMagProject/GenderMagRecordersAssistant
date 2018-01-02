@@ -25,7 +25,9 @@ var screenShotURL;
 	chrome.pageAction.onClicked.addListener(function(tab) {
 		chrome.tabs.executeScript(null, { file: "./jquery-ui-1.11.4.custom/jquery.js" }, function() {
 			chrome.tabs.getSelected(null, function(tab) {
-				chrome.runtime.sendMessage(null, tab.id, {callFunction: "toggleSidebar}, function responseCallback)
+			chrome.runtime.sendMessage(null, tab.id, {callFunction: "toggleSidebar"}, function(response) {})
+			
+			});
 				/*
 				chrome.tabs.sendRequest(
 					//Selected tab id
@@ -36,8 +38,7 @@ var screenShotURL;
 					function(response) {
 						//console.log(response);
 					}*/
-				);
 			});
 		});
-	});
+	
 //console.log( 'Background.html done.' );
