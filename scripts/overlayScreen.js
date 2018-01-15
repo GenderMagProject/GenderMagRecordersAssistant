@@ -118,6 +118,7 @@ function overlayScreen(onlyDraw){
         else {
              myImg.src = localStorage.getItem("currImgURL");
         }
+		console.log("Myimg.src", myImg.src);
 		var imageRatio = myImg.width/myImg.height;
 		var ratioHeight = myImg.height * 0.75;
 		var ratioWidth = imageRatio*ratioHeight;
@@ -344,7 +345,7 @@ function overlayScreen(onlyDraw){
 }}
 
 function renderImage(imgURL){
-
+console.log("in render image");
 	var toolTip = document.createElement("div");
 	toolTip.id = "myToolTip";
 	toolTip.style.position = "absolute";
@@ -507,6 +508,7 @@ function renderImage(imgURL){
         else {
              myImg.src = localStorage.getItem("currImgURL");
         }
+		console.log("myIImagesource" , myImg);
 		var imageRatio = myImg.width/myImg.height;
 		var ratioHeight = myImg.height * 0.75;
 		var ratioWidth = imageRatio*ratioHeight;
@@ -521,7 +523,7 @@ function renderImage(imgURL){
 		localStorage.setItem("sourceX", sourceX);
 		localStorage.setItem("sourceY", sourceY);
 		
-    	//console.log("Source x and y: ", elm.offsetLeft, elm.offsetTop, sourceX, sourceY);
+		//console.log("Source x and y: ", elm.offsetLeft, elm.offsetTop, sourceX, sourceY);
     	var destWidth = myImg.width-ratioWidth;
     	var destHeight = myImg.height-ratioHeight;
 		var sourceWidth = myImg.width - destWidth;
@@ -529,12 +531,16 @@ function renderImage(imgURL){
     	var destX = canvas.width / 2 - destWidth / 2;
     	var destY = canvas.height / 2 - destHeight / 2;
 		//console.log(globXY);
-			
+		
+		//console.log("after glob");
+    	
 		$(".previewTrigger").unbind( "click" ).click(function(){ //#triggered
 		importStylesheet("head","/styles/overlayScreen.css");
 		appendTemplateToElement("body", "/templates/imageAnnotation.html");
+	//console.log("after preview trigger");
+    	
 		//document.getElementById("#imageAnnotation").style.transition = "all 2s";	
-	//	console.log("mytooltip", myToolTip.style.top, myToolTip.style.left);
+		//console.log("mytooltip", myToolTip.style.top, myToolTip.style.left);
 		$("#imageAnnotation").width(ratioWidth+10);
 		$("#imageAnnotation").height(ratioHeight+40);
 		$("#imageAnnotation").draggable();
@@ -551,10 +557,9 @@ function renderImage(imgURL){
 			var annotationCanvas = document.getElementById("annotationCanvas");
 			ctx = annotationCanvas.getContext("2d");
 	
-			//console.log("Waiting for the rain to come")
-		
+			console.log("about to draw image", myImg);
 			ctx.drawImage(myImg,0,0,myImg.width, myImg.height,0,0,ratioWidth, ratioHeight);
-	
+			console.log("image drawn");
 		$('#undoDraw').unbind( "click" ).click(function() {
 			//console.log("undo", annotationCanvas, ctx);
 			var drawnOnURL = history.undo(annotationCanvas, ctx);
@@ -622,13 +627,16 @@ function renderImage(imgURL){
 		//console.log("old height", myImg.width, myImg.height);
 		var sx = localStorage.getItem("sx");
 		var sy = localStorage.getItem("sy");
+		console.log("after sx/sy")
 		if(sx && sy){
 			context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+			console.log("after if")
 		}
 		else{
 			context.drawImage(myImg,sourceX, sourceY,myImg.width, myImg.height,0,0,ratioWidth*9/10, ratioHeight*9/10);
+			console.log("after else", sourceX, sourceY, sx, sy);
 		}	
-				
+					
 }
 
 
