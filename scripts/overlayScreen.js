@@ -509,10 +509,15 @@ console.log("in render image");
              myImg.src = localStorage.getItem("currImgURL");
         }
 		console.log("myIImagesource" , myImg);
+		if(myImg.width == 0 || myImg.height == 0){
+			myImg.width = 1920
+			myImg.height = 742			
+		}
+		
 		var imageRatio = myImg.width/myImg.height;
 		var ratioHeight = myImg.height * 0.75;
 		var ratioWidth = imageRatio*ratioHeight;
-		//console.log("my image", myImg.height, myImg.width, imageRatio, ratioHeight, ratioWidth);
+		console.log("my image", myImg.height, myImg.width, imageRatio, ratioHeight, ratioWidth);
 		var sourceY = elm.offsetTop;
 		var sourceX = elm.offsetLeft;
 		
@@ -627,14 +632,16 @@ console.log("in render image");
 		//console.log("old height", myImg.width, myImg.height);
 		var sx = localStorage.getItem("sx");
 		var sy = localStorage.getItem("sy");
-		console.log("after sx/sy")
+		console.log("after sx/sy", context)
 		if(sx && sy){
 			context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
 			console.log("after if")
 		}
 		else{
-			context.drawImage(myImg,sourceX, sourceY,myImg.width, myImg.height,0,0,ratioWidth*9/10, ratioHeight*9/10);
-			console.log("after else", sourceX, sourceY, sx, sy);
+			myImg.onload = function(){
+			context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+			console.log("after else", ratioWidth*9/10, ratioHeight*9/10);
+			}
 		}	
 					
 }
