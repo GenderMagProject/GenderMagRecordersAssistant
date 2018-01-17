@@ -1,1 +1,2 @@
-# GenderMagTool2015PageAction
+# GenderMagRecordersAssistant
+This is the repository for the GenderMag Recorders Assistant
