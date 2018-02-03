@@ -7,7 +7,7 @@ About GenderMag Recorders Assistant:
 1. [Goal](#goal)
 1. [How to Contribute](#how-to-contribute)
 1. [How to Fix Bugs](#how-to-fix-bugs)
-1. [FAQ's](#faq's)
+1. [FAQ's](#faqs)
 1. [More About GenderMag](#more-about-gendermag)
 1. [How to use the Tool](#how-to-use-the-tool)
 
