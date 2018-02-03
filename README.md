@@ -3,7 +3,7 @@ This is the repository for the GenderMag Recorders Assistant
 About GenderMag Recorders Assistant:
 
 ## Table of Contents
-1. [About GenderMag Recorders Assistant] (#About GenderMag Recorders Assistant)
+1. [About GenderMag Recorders Assistant] (#about-gendermag-recorders-assistant)
 1. [Goal] (#Goal)
 1. [How to Contribute] (#How to Contribute)
 1. [How to Fix Bugs] (#How to Fix bugs)
