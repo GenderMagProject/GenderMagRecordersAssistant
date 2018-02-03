@@ -4,12 +4,12 @@ About GenderMag Recorders Assistant:
 
 ## Table of Contents
 1. [About GenderMag Recorders Assistant](#about-gendermag-recorders-assistant)
-1. [Goal] (#Goal)
-1. [How to Contribute] (#How to Contribute)
-1. [How to Fix Bugs] (#How to Fix bugs)
-1. [FAQ's] (#FAQ's)
-1. [More About GenderMag] (#More About GenderMag)
-1. [How to use the Tool] (#How to use the Tool)
+1. [Goal](#goal)
+1. [How to Contribute]-(#how-to-contribute)
+1. [How to Fix Bugs](#how-to-fix-bugs)
+1. [FAQ's](#faq's)
+1. [More About GenderMag](#more-about-gendermag)
+1. [How to use the Tool](#how-to-use-the-tool)
 
 ## About GenderMag Recorders Assistant
 Software has been facing usability problems since programs first started to be made. GenderMag Recorders Assistant looks to address problems with User Focus, Information Content, Structure, Layout, and much more. Many of the problems found with the GenderMag Recorders Assistant show a bias towards usage patterns common in men or women. This means that software is often biased towards a subset of the population instead of being inclusive to the population as a whole. Anyone can learn to use the GenderMag Recorders Assistant, from software engineers to management to usability experts. Diverse ideas and opinions enhance the process for all involved and as such we welcome anyone from any background to contribute to our process of trying to make the world of software more gender inclusive.
