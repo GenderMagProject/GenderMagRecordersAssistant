@@ -27,16 +27,16 @@ People with little to no experience can use GM Recorders Assistant and find an a
 Everyone is welcome to contribute to GM Recorders Assistant. If contributors have any questions on what to do or how to do something feel free to shoot us an email and we will get back to you as soon as possible. We encourage new open source contributors to start here.
 
 - Create a personal fork of the project on Github.
-Clone the fork on your local machine. Your remote repo on Github is called origin.
-Add the original repository as a remote called upstream.
-Create a new branch to work on! Branch from develop if it exists, else from master.
-Implement/fix your feature, comment your code.
-Follow the code style of the project, including indentation.
-Add or change the documentation as needed.
-Squash your commits into a single commit with git's interactive rebase. Create a new branch if necessary.
-Push your branch to your fork on Github, the remote origin.
-From your fork open a pull request in the correct branch. Target the project's develop branch if there is one, else go for master!
-Once the pull request is approved and merged you can pull the changes from upstream to your local repo and delete your extra branch(es).
+- Clone the fork on your local machine. Your remote repo on Github is called origin.
+- Add the original repository as a remote called upstream.
+- Create a new branch to work on! Branch from develop if it exists, else from master.
+- Implement/fix your feature, comment your code.
+- Follow the code style of the project, including indentation.
+- Add or change the documentation as needed.
+- Squash your commits into a single commit with git's interactive rebase. Create a new branch if necessary.
+- Push your branch to your fork on Github, the remote origin.
+- From your fork open a pull request in the correct branch. Target the project's develop branch if there is one, else go for master!
+- Once the pull request is approved and merged you can pull the changes from upstream to your local repo and delete your extra branch(es).
 
 
 ## How to fix bugs
@@ -50,20 +50,20 @@ How much experience with Open Source do I need?
 
 ## More about GenderMag
 At the GenderMag method’s core are five problem-solving facets that matter to software’s gender-inclusiveness. These facets are :	
-a user’s motivations for using the software,
-their information processing style,
-their computer self-efficacy,
-their attitude towards risk, &
-their ways of learning new technology. 
+- a user’s motivations for using the software,
+- their information processing style,
+- their computer self-efficacy,
+- their attitude towards risk, &
+- their ways of learning new technology. 
 The GenderMag method brings these facets to life with 4 personas (Tim, Abby, Patrick and Patricia), and sets the personas and facets into a simple, systematic process (The GenderMag Cognitive Walkthrough). 
-How we get from here to the tool
+CM How we get from here to the tool
 
 ## How to use the Tool
 The GenderMag Cognitive Walkthrough specializes and streamlines the traditional cognitive walkthrough, incorporating explicit references to the five facets of gender inclusiveness:
-a user’s motivations for using the software,
-their information processing style,
-their computer self-efficacy,
-their attitude towards risk, &
-their ways of learning new technology. 
+- a user’s motivations for using the software,
+- their information processing style,
+- their computer self-efficacy,
+- their attitude towards risk, &
+- their ways of learning new technology. 
 Through the GM Cognitive Walkthrough we can follow the process to find gender-inclusiveness issues. We can then fix the issues we find one at a time to remove barriers that may disproportionately affect one gender.
 
