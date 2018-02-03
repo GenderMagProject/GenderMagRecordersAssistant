@@ -5,7 +5,7 @@ About GenderMag Recorders Assistant:
 ## Table of Contents
 1. [About GenderMag Recorders Assistant](#about-gendermag-recorders-assistant)
 1. [Goal](#goal)
-1. [How to Contribute]-(#how-to-contribute)
+1. [How to Contribute](#how-to-contribute)
 1. [How to Fix Bugs](#how-to-fix-bugs)
 1. [FAQ's](#faq's)
 1. [More About GenderMag](#more-about-gendermag)
