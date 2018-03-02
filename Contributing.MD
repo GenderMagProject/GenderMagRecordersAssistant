@@ -2,10 +2,12 @@
 Below you find how to contribute to our code.
 
 1.	Next, clone your copy of the project (the forked version) to your local machine.
-2.	If you need help setting up a local git environment, please check:
-2.	If you are new to Git and/or need a reminder on Git commands, please follow this link:
+
+1.1.	If you need help setting up a local git environment, please check:
+
+1.	If you are new to Git and/or need a reminder on Git commands, please follow this link:
 1.	Now create a new branch to work on. Ex: The command git branch test creates a new branch called test.
-2.	Use git checkout [name of branch] to switch to that branch.
+1.1.	Use git checkout [name of branch] to switch to that branch.
 1.	To look for issues you can contribute to please navigate back to the original GenderMag repo (not your forked repo) and look at the issues under the issue tracker (Issues tab on the top)
 1•	To just run the GenderMag, open Chrome and click on “More tools” -> “Extensions”
 1•	Turn on developer mode by checking the “Developer Mode” checkbox
