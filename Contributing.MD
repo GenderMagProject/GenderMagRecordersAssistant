@@ -3,8 +3,7 @@ Below you find how to contribute to our code.
 * First, create a fork of the project to your personal GitHub account.
 * Next, clone your copy of the project (the forked version) to your local machine.
   * If you need help setting up a local git environment, please check:
-  * 
-*	If you are new to Git and/or need a reminder on Git commands, please follow this link:
+  * If you are new to Git and/or need a reminder on Git commands, please follow this link:
  *	Now create a new branch to work on. Ex: The command git branch test creates a new branch called test.
  *	Use git checkout [name of branch] to switch to that branch.
 
@@ -14,6 +13,7 @@ Below you find how to contribute to our code.
 -	Turn on developer mode by checking the “Developer Mode” checkbox
 -	Click on “Load unpacked extension”
 -	In the pop-up box navigate to the place you stored your local copy of the GenderMagsRecordersAssistant (the copy that you cloned to your local desktop)
+
 -	Enable the extension and click “Update extensions now”
 -	Then navigate to the page you wish to perform GenderMag on.
 -	Make any new changes or fixes on your branch and then push the branch to your remote repo
