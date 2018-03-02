@@ -10,7 +10,7 @@
 
 *	To look for issues you can contribute to please navigate back to the original GenderMag repo (not your forked repo) and look at the issues under the issue tracker (Issues tab on the top)
 
--	To just run the GenderMag, open Chrome and click on “More tools” -> “Extensions”
+-	To run the GenderMag, open Chrome and click on “More tools” -> “Extensions”
 -	Turn on developer mode by checking the “Developer Mode” checkbox
 -	Click on “Load unpacked extension”
 -	In the pop-up box navigate to the place you stored your local copy of the GenderMagsRecordersAssistant (the copy that you cloned to your local desktop)
