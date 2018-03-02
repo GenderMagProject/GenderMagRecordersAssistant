@@ -1,5 +1,5 @@
 # This is GenderMagRecordersAssisant Contrubuting.MD.
-Below you find how to contrubute to our code.
+Below you find how to contribute to our code.
 
 ## Table of Contents
 
