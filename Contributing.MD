@@ -1,10 +1,10 @@
-# This is GenderMagRecordersAssisant Contributing.MD.
+# This is GenderMagRecordersAssisant Contributing.MD
 Below you find how to contribute to our code.
 
 -  First, create a fork of the project to your personal GitHub account.
 -	Next, clone your copy of the project (the forked version) to your local machine.
 
--	If you need help setting up a local git environment, please check:
+--	If you need help setting up a local git environment, please check:
 
 -	If you are new to Git and/or need a reminder on Git commands, please follow this link:
 -	Now create a new branch to work on. Ex: The command git branch test creates a new branch called test.
