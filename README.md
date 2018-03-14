@@ -26,30 +26,7 @@ Due to the lack of all encompassing software, GM Recorders Assistant aims to pro
 People with little to no experience can use GM Recorders Assistant and find an array of problems. People who’ve been contributing to open source for years can also use GM Recorders Assistant and find just as many problems. 
 
 ## How to Contribute:
-Everyone is welcome to contribute to GM Recorders Assistant. If contributors have any questions on what to do or how to do something feel free to shoot us an email and we will get back to you as soon as possible. We encourage new open source contributors to start here.
-
-- Create a personal fork of the project on Github.
-
-- Clone the fork on your local machine. Your remote repo on Github is called origin.
-
-- Add the original repository as a remote called upstream.
-
-- Create a new branch to work on! Branch from develop if it exists, else from master.
-
-- Implement/fix your feature, comment your code.
-
-- Follow the code style of the project, including indentation.
-
-- Add or change the documentation as needed.
-
-- Squash your commits into a single commit with git's interactive rebase. Create a new branch if necessary.
-
-- Push your branch to your fork on Github, the remote origin.
-
-- From your fork open a pull request in the correct branch. Target the project's develop branch if there is one, else go for master!
-
-- Once the pull request is approved and merged you can pull the changes from upstream to your local repo and delete your extra branch(es).
-
+See contributing.md file
 
 ## How to fix bugs:
 CM Chris**
