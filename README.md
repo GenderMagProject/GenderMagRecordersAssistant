@@ -40,7 +40,7 @@ their information processing style,
 their computer self-efficacy,
 their attitude towards risk, &
 their ways of learning new technology.
-The GenderMag method brings these facets to life with 4 personas (Tim, Abby, Patrick and Patricia), and sets the personas and facets into a simple, systematic process (The GenderMag Cognitive Walkthrough: http://gendermag.org, **foundationdoc**).
+The GenderMag method brings these facets to life with 4 personas (Tim, Abby, Patrick and Patricia), and sets the personas and facets into a simple, systematic process (The GenderMag Cognitive Walkthrough: http://gendermag.org, http://eusesconsortium.org/gender/GenderMagPersona-FoundationDocuments/Foundations.html).
 
 ## How to use the Tool:
 The GenderMag Cognitive Walkthrough specializes and streamlines the traditional cognitive walkthrough, incorporating explicit references to the five facets of gender inclusiveness:
