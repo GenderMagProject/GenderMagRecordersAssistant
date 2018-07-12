@@ -1,5 +1,5 @@
-# This is GenderMagRecordersAssisant Contributing.MD
-## Below you will find how to contribute to our code.
+# This is GenderMag Recorder's Assisant Contributing.MD
+## How to install and contribute to our code:
 
 * First, create a fork of the project to your personal GitHub account.
 * Then install the tool as follows:
