@@ -4,11 +4,13 @@
 * First, create a fork of the project to your personal GitHub account.
 * Then install the tool as follows:
   * Click on "Clone or download" and the click "Download zip"
-  * Open Chrome and click on “More tools” -> “Extensions”
+  * Open Chrome and click on setting
+  * click on “More tools” -> “Extensions”
   * Turn on developer mode by checking the “Developer Mode” checkbox
   * Click on “Load unpacked extension”
+  * Select the folder you saved the extracted file.
   * Enable the extension and click “Update extensions now”
-* If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on,  and click the GenderMag button at the bottom of the screen. (See the video at http://gendermag.org for examples of running it.)
+* If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on,  and click the maroon bar GenderMag button at the bottom of the screen. (See the video at http://gendermag.org for examples of running it.)
 *	To turn off the GenderMag extension navigate back to “Extensions” and uncheck the “Enable” box and uncheck “Developer Mode”.
 
 * To contribute:
