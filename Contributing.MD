@@ -3,7 +3,7 @@
 
 * First, create a fork of the project to your personal GitHub account.
 * Then install the tool as follows:
-  * click on "Clone or download" and the click "Download zip"
+  * Click on "Clone or download" and the click "Download zip"
   * Open Chrome and click on “More tools” -> “Extensions”
   * Turn on developer mode by checking the “Developer Mode” checkbox
   * Click on “Load unpacked extension”
