@@ -26,7 +26,7 @@ We welcome everyone with any background to contribute to making the world of sof
 
 ## Contributing
 
-Please follow our [Code Of Conduct](https://github.com/Brijbhuva/Gendermag_webpage/blob/master/Code_of_Conduct.md) and read our [Contributing Guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Contributing.MD).
+Please follow our [Code Of Conduct](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Code_of_Conduct.md) and read our [Contributing Guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Contributing.MD).
 
 
 ## Contributors
