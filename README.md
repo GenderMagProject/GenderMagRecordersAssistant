@@ -1,4 +1,4 @@
-  <a href="http://gendermag.org" title="Gendermag" >
+<a href="http://gendermag.org" title="Gendermag" >
     <img src="http://gendermag.org/images/rsz_profile_pic.png" width:"180" height="180" style="margin-top: 10px;" align="left">
   </a>
 
@@ -9,8 +9,9 @@ The GenderMag Recorder’s Assistant is a tool to identify gender-inclusiveness 
 If you want to help make software gender-inclusive, one way is to contribute to the GenderMag Recorder’s Assistant. 
 
 We welcome everyone with any background to contribute to making the world of software more gender inclusive.
+<a name="install">
 
-## How to install the GenderMag Recorder's Assistant:
+## How to install the GenderMag Recorder's Assistant:</a>
 
 * First, create a fork of the project to your personal GitHub account.
 * Then install the tool as follows:
@@ -38,14 +39,15 @@ list of contributors.
 
 ## FAQ’s:
 <ol>
-  <li>How to download  GenderMag Recorder’s Assistant (chrome extension):</li>
-  
-  <li>What language do we use:
+  <li>How to install  GenderMag Recorder’s Assistant (chrome extension):
+    <ul>
+      <li><a href="#install">Instructions here</a></li>
+    </ul></li>
+     <li>Technologies used in the project:
      <ul>
       <li>HTML</li>
       <li>CSS</li>
       <li>JavaScript</li>
      </ul>
   </li>
-  <li>How much experience with Open Source do I need?</li>
-</ol>  
+</ol>
