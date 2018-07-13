@@ -40,7 +40,12 @@ list of contributors.
 <ol>
   <li>How to download  GenderMag Recorder’s Assistant (chrome extension):</li>
   
-  <li>What language do we use:</li>
-  
+  <li>What language do we use:
+     <ul>
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+     </ul>
+  </li>
   <li>How much experience with Open Source do I need?</li>
 </ol>  
