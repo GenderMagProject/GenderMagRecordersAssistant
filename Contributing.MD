@@ -20,3 +20,7 @@
 *	To look for issues you can contribute to please navigate back to the original GenderMag repo (not your forked repo) and look at the issues under the issue tracker (Issues tab on the top).
 *	Make any new changes or fixes on your branch and then push the branch to your remote repo.
 *	Then make a pull request. You will hear back from us soon!
+
+
+## IMPORTANT:
+By submitting a patch,you agree to allow the project owner to license your work under the same license as that used by the project.
