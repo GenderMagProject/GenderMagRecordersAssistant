@@ -1,7 +1,7 @@
 {
 	"name": "GenderMag Tool 2015",
 	"manifest_version": 2,
-	"description": "Inject a sidebar on the current tab when the page action is clicked",
+	"description": "GenderMag socio-technical tool",
 	"version": "0.2",
 	"background": {
 		"scripts": ["jquery-ui-1.11.4.custom/external/jquery/jquery.js", "jquery-ui-1.11.4.custom/jquery-ui.min.js", "scripts/background.js", "scripts/screenshot.js"]
