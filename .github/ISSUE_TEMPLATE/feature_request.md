@@ -1,19 +1,36 @@
 ---
-name: Feature request
-about: Suggest an idea for GenderMag Recorders Assistant project
+Name: Feature request template
+About: Suggest an idea for GenderMag Recorders Assistant project
 
 ---
 
-Feature requests are welcome, But take a moment to find out whether your idea fits with the scope and aim of the project. It's up to you to make a strong case to convince the project's developers of the merits of this feature. Please provide as much detail and context as possible.
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+* **Description** (Example: feature to add exit button)
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+
+* **Describe the feature to add (or improvement)** (Example: there is no right way to exit from the application)
+
+
+
+
+* **New feature fit for the project: how does your idea fit with the aim/scope of the project?** (Example: feature gives the workflow) 
+
+
+
+
+* **Merits: what are the merits of the feature?** (Example: prevent data loss)
+
+
+
+
+* **Screenshot, if you can show something similar or a sketch.**
+
+
+
+
+* **Any other information.**
+
+
+
