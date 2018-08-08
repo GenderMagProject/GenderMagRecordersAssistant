@@ -1,6 +1,6 @@
 ---
-Name: Feature request template
-About: Suggest an idea for GenderMag Recorders Assistant project
+name: Feature request template
+about: Suggest an idea for GenderMag Recorders Assistant project
 
 ---
 
