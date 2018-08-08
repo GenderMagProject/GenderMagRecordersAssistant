@@ -1,13 +1,20 @@
 ---
-name: Pull request
+name: Pull request template
 about: GenderMag Recorders Assistant project
 
 ---
 
-* what does this implementation /fix ?explain your changes
+* **What does this implementation fix? Explain your changes.**
 	
-* does this close any currently open issue ?(give issue id from issue tracker)
+	
+	
+* **Does this close any currently open issue? (Give issue id from issue tracker)**
 
-* any related logs,error,output file?
 
-* any other comments?
+
+* **Include any related logs, error, output file etc.**
+
+
+
+* **Any other information?**
+
