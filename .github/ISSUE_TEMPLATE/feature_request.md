@@ -4,7 +4,6 @@ about: Suggest an idea for GenderMag Recorders Assistant project
 
 ---
 
-
 * **Description** (Example: feature to add exit button)
 
 
@@ -31,6 +30,3 @@ about: Suggest an idea for GenderMag Recorders Assistant project
 
 
 * **Any other information.**
-
-
-
