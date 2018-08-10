@@ -1,20 +1,36 @@
 # This is the GenderMag Recorder's Assistant Contributing.MD
 
-## How to install and contribute to our code:
+## How to install:
 
-* First, create a fork of the project to your personal GitHub account.
-* Then install the tool as follows:
-  * Click on "Clone or download" and the click "Download zip"
-  * Open Chrome and click on setting
-  * click on “More tools” -> “Extensions”
-  * Turn on developer mode by checking the “Developer Mode” checkbox
-  * Click on “Load unpacked extension”
-  * Select the folder you saved the extracted file.
-  * Enable the extension and click “Update extensions now”
-* If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on,  and click the maroon bar GenderMag button at the bottom of the screen. (See the video at http://gendermag.org for examples of running it.)
-*	To turn off the GenderMag extension navigate back to “Extensions” and uncheck the “Enable” box and uncheck “Developer Mode”.
+**1) Create a fork of the project to your GitHub account.**
 
-* To contribute:
+**2) Install the tool by following steps(a-h)**
+
+    a) Click on "Clone or download" and the click "Download zip".
+    
+    b) Open Chrome and click on the icon(⋮)in the top right corner.
+    
+    c) Click on “More tools” -> “Extensions”.
+    
+    d) Enable on developer mode by checking the “Developer Mode” slider in the top right.
+    
+    e) Click on “Load unpacked extension” under the search bar.
+    
+    f) Select the folder you saved the extracted file and click "ok". 
+    
+    g) Click on “Update ” under the search bar.
+    
+    h) A new extension called ”GenderMag Recorder's Assistant” should be in the top left corner of the extensions.
+    
+**3) If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. (See the video at http://gendermag.org for examples of running it.)**
+
+
+## How to Disable GenderMag:
+* To turn off the GenderMag extension navigate back to “Extensions” and uncheck the “Enable” box and uncheck “Developer Mode”.
+
+
+
+## To contribute:
   *	Now create a new branch to work on. Ex: The command git branch test creates a new branch called test.
   *	Use git checkout [name of branch] to switch to that branch.
   * In the pop-up box navigate to the place you stored your local copy of the GenderMagsRecordersAssistant (the copy that you cloned to your local desktop)
