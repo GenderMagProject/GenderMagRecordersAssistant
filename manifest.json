@@ -1,7 +1,7 @@
 {
 	"name": "GenderMag Recorder's Assistant",
 	"manifest_version": 2,
-	"description": "Helps to keep organize record from your GenderMag session.",
+	"description": "Walks you through GenderMag evaluations of the software or website you're creating, step-by-step, and produces a report at the end.",
 	"version": "0.2",
 	"background": {
 		"scripts": ["jquery-ui-1.11.4.custom/external/jquery/jquery.js", "jquery-ui-1.11.4.custom/jquery-ui.min.js", "scripts/background.js", "scripts/screenshot.js"]
