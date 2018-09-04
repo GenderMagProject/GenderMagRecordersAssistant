@@ -19,3 +19,7 @@ As soon as the user enters data GenderMag Recorder’s Assistant write data in G
 
 * When GenderMag Recorder’s Assistant extension reads data?  
 GenderMag Recorder’s Assistant NEVER reads the data.
+
+## CHANGES
+
+We may update this privacy policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal or regulatory reasons.
