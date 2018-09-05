@@ -3,22 +3,16 @@
 This Privacy Policy describes how your information is collected, used, and shared when you use GenderMag Recorder's Assistant tool.
 
 * How does the GenderMag Recorder’s Assistant collect data?  
-The GenderMag Recorder’s Assistant ask questions during the Gendermag walkthrough on prototype or website.
+The GenderMag Recorder’s Assistant asks questions during the Gendermag walkthrough on your prototype or website.
 
 * Where exactly does the GenderMag Recorder’s Assistant store data?  
-The GenderMag Recorder’s Assistant stores data in Google Chrome Local storage on the user’s machine. 
+The GenderMag Recorder’s Assistant stores data in Google Chrome Local storage on your machine, but only until you click "Quit GenderMag". 
 
 * What data is in there?  
-The GenderMag Recorder’s Assistant stores all the questions, answers and screenshots from the prototype collected during the GenderMag walkthrough. The GenderMag Recorder’s Assistant never asks for personal data about the user.
+The GenderMag Recorder’s Assistant stores all the questions, answers and screenshots that you created during the GenderMag walkthrough. The GenderMag Recorder’s Assistant never asks for personal data.
 
-* How long does that data existe?  
-At the end of  the GenderMag walkthrough when user click on “Quit GenderMag” and GenderMag Recorder’s Assistant stores zip file into the downloads folder. The zip contains a CSV file(which is excel usable) with the question and answers and an image folder with all screenshots. The Tool also removes the local storage file from Google Chrome’s Local storage on the user’s machine.
-
-* When GenderMag Recorder’s Assistant extension writes data?  
-As soon as the user enters data GenderMag Recorder’s Assistant write data in Google Chrome Local storage.
-
-* When GenderMag Recorder’s Assistant extension reads data?  
-GenderMag Recorder’s Assistant NEVER reads the data.
+* How long does that data exist?  
+At the end of the GenderMag walkthrough when you click on “Quit GenderMag”, the GenderMag Recorder’s Assistant stores a zip file into the downloads folder. The zip contains a CSV file (which is Excel usable) with the questions and answers and an image folder with all your screenshots. The tool then removes the local storage file from Google Chrome’s Local storage on your machine.
 
 ## CHANGES
 
