@@ -1,6 +1,6 @@
 ## PRIVACY POLICY
 
-This Privacy Policy describes how your information is collected, used, and shared when you use GenderMag Recorder's Assistant tool.
+This Privacy Policy describes how your information is collected, used, and shared when you use the GenderMag Recorder's Assistant tool.
 
 * How does the GenderMag Recorder’s Assistant collect data?  
 The GenderMag Recorder’s Assistant asks questions during the Gendermag walkthrough on your prototype or website.
