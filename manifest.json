@@ -1,4 +1,4 @@
-{
+﻿{
 	"name": "GenderMag Recorder's Assistant",
 	"manifest_version": 2,
 	"description": "Walks you through GenderMag evaluations of the software or website you're creating, step-by-step, and produces a report at the end.",

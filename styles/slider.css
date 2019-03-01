@@ -1,5 +1,11 @@
+html {
+	position: relative;
+	z-index: 99999;
+}
+
 body {
-	margin: 0px; 
+	margin: 0px;
+	z-index: 99999;
 }
 
 #slideout {
@@ -17,6 +23,7 @@ body {
 	-o-transition-duration: 0.3s;
 	transition-duration: 0.3s;
 	border-width:0px;
+	z-index: 99999;
 }
 
 
@@ -45,6 +52,7 @@ body {
 	border-style: solid;
 	border-width: 2px 0px 0px 0px;
 	border-color: #7D1935;
+	z-index: 99999;
 }
 
 
