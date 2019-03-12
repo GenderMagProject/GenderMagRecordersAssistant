@@ -25,7 +25,6 @@
 	overflow-y:auto;
 	border: 5px ridge #4099FF;
 	background-color: white;
-	z-index: 9999999;
 	float: right;
 	padding: none;
 	resize:both;

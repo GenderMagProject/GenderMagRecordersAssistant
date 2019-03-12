@@ -31,7 +31,7 @@ function overlayScreen(onlyDraw){
 		canvasContainer.style.top="0px";
 		canvasContainer.style.width="100%";
 		canvasContainer.style.height="100%";
-		canvasContainer.style.zIndex="1000";
+		//canvasContainer.style.zIndex="1000";
 		document.body.appendChild(canvasContainer);
 		
 		var canvas = document.createElement('canvas');
@@ -209,6 +209,7 @@ function overlayScreen(onlyDraw){
 	}
 	
 	else {
+		//close slider to prepare for screenshot box cursor
 		closeSlider();
 		sidebarBody().find("#nukeStatus").show();
 	if(!document.getElementById('genderMagCanvasContainer')){
@@ -282,11 +283,11 @@ function overlayScreen(onlyDraw){
 			highlightClick.style.width = elm.offsetWidth + "px";
 			highlightClick.style.border = "3px solid #7D1935";
 			highlightClick.style.opacity = "1";
-			highlightClick.style.zindex = "10000";
+			//highlightClick.style.zindex = "10000";
+			//highlightClick.style.zIndex = "99999";
 	
 			//console.log("Clicked ", highlightClick)
             setStatusToTrue("highlightedAction");
-		
 			//console.log(elements);
 			for(var element in elements){
 				if(element.id == "genderMagCanvas" || element.id == "genderMagCanvasContainer" ){
@@ -329,8 +330,10 @@ function overlayScreen(onlyDraw){
 				highlightHover.style.width = "100" + "px";
 				highlightHover.style.border = "3px solid #7D1935";
 				highlightHover.style.opacity = "1";
-				highlightHover.style.zindex = "10000";
-				//console.log("Hovered if", hoverElm)
+				//THIS MESSES WITH THE ABILITY TO CLICK THINGS
+				//highlightHover.style.zIndex = "99999";
+
+				//console.log("Hovered if", hoverElm);
 			}
 			else{
 				var highlightHover = document.createElement("div");
@@ -355,7 +358,7 @@ console.log("in render image");
 	toolTip.style.top = 100 + "px";	
 	toolTip.style.height = "550px";
 	toolTip.style.width = "500px";
-	toolTip.style.zindex = "10002";	
+	toolTip.style.zIndex = "99999";
 	toolTip.style.border ="3px solid #4A96AD";
 	toolTip.style.backgroundColor = "white";
 	toolTip.style.cursor="pointer";
@@ -386,7 +389,7 @@ console.log("in render image");
 		var canvas = document.getElementById("imageCanvas");
 		canvas.width = "465";
 		canvas.height=	"150";
-		canvas.style.border="2px solid #4A96AD"
+		canvas.style.border="2px solid #4A96AD";
 		canvas.style.margin="10px";
 		var context = canvas.getContext("2d");
 		var myImg = document.getElementById("previewImage");
@@ -557,6 +560,7 @@ console.log("in render image");
 		$("#imageAnnotation").css("position", "absolute");
 		$("#imageAnnotation").css("top", myToolTip.style.top);
 		$("#imageAnnotation").css("left", myToolTip.style.left);
+		$("#imageAnnotation").css("zIndex", 99999);
 			
 			drawOnCanvas("#annotationCanvas");
 			var annotationCanvas = document.getElementById("annotationCanvas");
