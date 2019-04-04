@@ -1,11 +1,9 @@
 html {
 	position: relative;
-	z-index: 99999;
 }
 
 body {
 	margin: 0px;
-	z-index: 99999;
 }
 
 #slideout {

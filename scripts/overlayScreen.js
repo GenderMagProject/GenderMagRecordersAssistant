@@ -31,7 +31,7 @@ function overlayScreen(onlyDraw){
 		canvasContainer.style.top="0px";
 		canvasContainer.style.width="100%";
 		canvasContainer.style.height="100%";
-		canvasContainer.style.zIndex="1000";
+		//canvasContainer.style.zIndex="1000";
 		document.body.appendChild(canvasContainer);
 		
 		var canvas = document.createElement('canvas');
@@ -77,6 +77,7 @@ function overlayScreen(onlyDraw){
 		toolTip.style.backgroundColor = "white";
 		toolTip.style.cursor="pointer";
 		toolTip.style.borderRadius="5px";
+		toolTip.style.overflow="auto";
 		setStatusToTrue("drewToolTip");
 		
 		document.body.appendChild(toolTip);
@@ -104,10 +105,10 @@ function overlayScreen(onlyDraw){
 		//$(".previewTrigger").click(function(){ //#triggered
 		//	window.open(imgURL);
 		//});
-		var canvas = document.getElementById("imageCanvas");
+		canvas = document.getElementById("imageCanvas");
 		canvas.width = "465";
-		canvas.height=	"150";
-		canvas.style.border="2px solid #4A96AD"
+		canvas.height=	"350";
+		canvas.style.border="2px solid #4A96AD";
 		canvas.style.margin="10px";
 		var context = canvas.getContext("2d");
 		var myImg = document.getElementById("previewImage");
@@ -140,7 +141,7 @@ function overlayScreen(onlyDraw){
 		var sx = localStorage.getItem("sx");
 		var sy = localStorage.getItem("sy");
 		if(sx && sy){
-			//console.log("in iff")
+			//console.log("drawing image in canvas");
 			context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
 		}
 		else{
@@ -149,7 +150,7 @@ function overlayScreen(onlyDraw){
  			$(".previewTrigger").unbind( "click" ).click(function(){ 
 		importStylesheet("head","/styles/overlayScreen.css");
 		appendTemplateToElement("body", "/templates/imageAnnotation.html");
-		
+
 		$("#imageAnnotation").width(ratioWidth+10);
 		$("#imageAnnotation").height(ratioHeight+40);
 		$("#imageAnnotation").draggable();
@@ -209,6 +210,7 @@ function overlayScreen(onlyDraw){
 	}
 	
 	else {
+		//close slider to prepare for screenshot box cursor
 		closeSlider();
 		sidebarBody().find("#nukeStatus").show();
 	if(!document.getElementById('genderMagCanvasContainer')){
@@ -282,11 +284,11 @@ function overlayScreen(onlyDraw){
 			highlightClick.style.width = elm.offsetWidth + "px";
 			highlightClick.style.border = "3px solid #7D1935";
 			highlightClick.style.opacity = "1";
-			highlightClick.style.zindex = "10000";
+			//highlightClick.style.zindex = "10000";
+			//highlightClick.style.zIndex = "99999";
 	
 			//console.log("Clicked ", highlightClick)
             setStatusToTrue("highlightedAction");
-		
 			//console.log(elements);
 			for(var element in elements){
 				if(element.id == "genderMagCanvas" || element.id == "genderMagCanvasContainer" ){
@@ -329,8 +331,10 @@ function overlayScreen(onlyDraw){
 				highlightHover.style.width = "100" + "px";
 				highlightHover.style.border = "3px solid #7D1935";
 				highlightHover.style.opacity = "1";
-				highlightHover.style.zindex = "10000";
-				//console.log("Hovered if", hoverElm)
+				//THIS MESSES WITH THE ABILITY TO CLICK THINGS
+				//highlightHover.style.zIndex = "99999";
+
+				//console.log("Hovered if", hoverElm);
 			}
 			else{
 				var highlightHover = document.createElement("div");
@@ -355,11 +359,12 @@ console.log("in render image");
 	toolTip.style.top = 100 + "px";	
 	toolTip.style.height = "550px";
 	toolTip.style.width = "500px";
-	toolTip.style.zindex = "10002";	
+	toolTip.style.zIndex = "99999";
 	toolTip.style.border ="3px solid #4A96AD";
 	toolTip.style.backgroundColor = "white";
 	toolTip.style.cursor="pointer";
 	toolTip.style.borderRadius="5px";
+	toolTip.style.overflow="auto";
     setStatusToTrue("drewToolTip");
 	
 	document.body.appendChild(toolTip);
@@ -385,8 +390,8 @@ console.log("in render image");
 		$(".actionNameSpan").html("Action: " + actionSpan);
 		var canvas = document.getElementById("imageCanvas");
 		canvas.width = "465";
-		canvas.height=	"150";
-		canvas.style.border="2px solid #4A96AD"
+		canvas.height=	"350";
+		canvas.style.border="2px solid #4A96AD";
 		canvas.style.margin="10px";
 		var context = canvas.getContext("2d");
 		var myImg = document.getElementById("previewImage");
@@ -508,23 +513,31 @@ console.log("in render image");
         else {
              myImg.src = localStorage.getItem("currImgURL");
         }
-		console.log("myIImagesource" , myImg);
+		//console.log("myIImagesource" , myImg);
 		if(myImg.width == 0 || myImg.height == 0){
-			myImg.width = 1920
-			myImg.height = 742			
+			myImg.width = 1920;
+			myImg.height = 742;
 		}
 		
 		var imageRatio = myImg.width/myImg.height;
+
+		//set size for image preview
+		var previewHeight = 350;
+		var previewWidth = 465;
+
+		//set size for annotation
 		var ratioHeight = myImg.height * 0.75;
 		var ratioWidth = imageRatio*ratioHeight;
 		console.log("my image", myImg.height, myImg.width, imageRatio, ratioHeight, ratioWidth);
 		var sourceY = elm.offsetTop;
 		var sourceX = elm.offsetLeft;
 		
-		if(elm.offsetLeft > 90)
-			var sourceX = elm.offsetLeft -90;//-(elm.offsetLeft/16);
-		if(elm.offsetTop > 60)
-			var sourceY = elm.offsetTop -60;//+ (elm.offsetTop/8);
+		if(elm.offsetLeft > 90) {
+			sourceX = elm.offsetLeft - 90;//-(elm.offsetLeft/16);
+		}
+		if(elm.offsetTop > 60) {
+			sourceY = elm.offsetTop - 60;//+ (elm.offsetTop/8);
+		}
 		localStorage.setItem("sourceX", sourceX);
 		localStorage.setItem("sourceY", sourceY);
 		
@@ -545,7 +558,7 @@ console.log("in render image");
 	//console.log("after preview trigger");
     	
 		//document.getElementById("#imageAnnotation").style.transition = "all 2s";	
-		//console.log("mytooltip", myToolTip.style.top, myToolTip.style.left);
+		console.log("mytooltip", ratioWidth, ratioHeight, myToolTip.style.top, myToolTip.style.left);
 		$("#imageAnnotation").width(ratioWidth+10);
 		$("#imageAnnotation").height(ratioHeight+40);
 		$("#imageAnnotation").draggable();
@@ -557,13 +570,14 @@ console.log("in render image");
 		$("#imageAnnotation").css("position", "absolute");
 		$("#imageAnnotation").css("top", myToolTip.style.top);
 		$("#imageAnnotation").css("left", myToolTip.style.left);
+		$("#imageAnnotation").css("zIndex", 99999);
 			
 			drawOnCanvas("#annotationCanvas");
 			var annotationCanvas = document.getElementById("annotationCanvas");
 			ctx = annotationCanvas.getContext("2d");
 	
 			console.log("about to draw image", myImg);
-			ctx.drawImage(myImg,0,0,myImg.width, myImg.height,0,0,ratioWidth, ratioHeight);
+			ctx.drawImage(myImg,0,0, ratioWidth, ratioHeight);
 			console.log("image drawn");
 		$('#undoDraw').unbind( "click" ).click(function() {
 			//console.log("undo", annotationCanvas, ctx);
@@ -587,13 +601,13 @@ console.log("in render image");
 					var oldHeight = myImg.height;
 					smallerImg.src = drawnOnURL
 					//console.log("New height", oldWidth, oldHeight, smallerImg.width, smallerImg.height);
-					context.clearRect(0,0,465, 150);
+					context.clearRect(0,0,465, 350);
 				if(oldHeight > smallerImg.height){
 					var sx = sourceX *smallerImg.width/oldWidth;
 					var sy = sourceY *smallerImg.height/oldHeight;
 					localStorage.setItem("sx", sx);
 					localStorage.setItem("sy", sy);
-					context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+					context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
 				}
 				else{
 					var sx = localStorage.getItem("sx");
@@ -610,7 +624,7 @@ console.log("in render image");
 				var smallerImg = document.getElementById("previewImage");
 					var oldWidth = myImg.width;
 					var oldHeight = myImg.height;
-					smallerImg.src = drawnOnURL
+					smallerImg.src = drawnOnURL;
 					//console.log("New height", oldWidth, oldHeight, smallerImg.width, smallerImg.height);
 					context.clearRect(0,0,465, 150);
 				if(oldHeight > smallerImg.height){
@@ -632,15 +646,14 @@ console.log("in render image");
 		//console.log("old height", myImg.width, myImg.height);
 		var sx = localStorage.getItem("sx");
 		var sy = localStorage.getItem("sy");
-		console.log("after sx/sy", context)
+		//console.log("after sx/sy", context);
 		if(sx && sy){
-			context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
-			console.log("after if")
+			context.drawImage(myImg, 0, 0, myImg.width, myImg.height,0,0, previewWidth*9/10, previewHeight*9/10);
+			//console.log("after if")
 		}
 		else{
 			myImg.onload = function(){
-			context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
-			console.log("after else", ratioWidth*9/10, ratioHeight*9/10);
+			context.drawImage(myImg, 0, 0, previewWidth, previewHeight);
 			}
 		}	
 					
