@@ -23,7 +23,7 @@ var screenShotURL;
 	
 	/*Send request to current tab when page action is clicked*/
 	chrome.pageAction.onClicked.addListener(function(tab) {
-		chrome.tabs.executeScript(null, { file: "./jquery-ui-1.11.4.custom/jquery.js" }, function() {
+		chrome.tabs.executeScript(null, { file: "./jquery-ui-1.12.1/jquery.js" }, function() {
 			chrome.tabs.getSelected(null, function(tab) {
 			chrome.runtime.sendMessage(tab.id, {callFunction: "toggleSidebar"}, function(response) {})
 			
