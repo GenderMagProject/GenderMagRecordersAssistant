@@ -15,13 +15,14 @@ function overlayScreen(onlyDraw){
 	if (onlyDraw == "onlyToolTip") {
 		closeSlider();
 		sidebarBody().find("#nukeStatus").show();
+		var canvasContainer;
 		if(!document.getElementById('genderMagCanvasContainer')){
 			//console.log("in if");
-			var canvasContainer = document.createElement('div');
+			canvasContainer = document.createElement('div');
 				// Add the div into the document
 		}
 		else{
-			var canvasContainer = document.getElementById('genderMagCanvas');	
+			canvasContainer = document.getElementById('genderMagCanvas');
 		}
 		
 		canvasContainer.id = "genderMagCanvasContainer";
@@ -31,7 +32,7 @@ function overlayScreen(onlyDraw){
 		canvasContainer.style.top="0px";
 		canvasContainer.style.width="100%";
 		canvasContainer.style.height="100%";
-		//canvasContainer.style.zIndex="1000";
+		canvasContainer.style.zIndex="9999";
 		document.body.appendChild(canvasContainer);
 		
 		var canvas = document.createElement('canvas');
@@ -229,7 +230,7 @@ function overlayScreen(onlyDraw){
 		canvasContainer.style.top="0px";
 		canvasContainer.style.width="100%";
 		canvasContainer.style.height="100%";
-		canvasContainer.style.zIndex="1000";
+		canvasContainer.style.zIndex="99999";
 		document.body.appendChild(canvasContainer);
 		
 		var canvas = document.createElement('canvas');
@@ -250,12 +251,18 @@ function overlayScreen(onlyDraw){
 			ctx = genderMagCanvas.getContext('2d'),
 			rect = {},
 			drag = false;
-		
+
+		var screenshotFlag = true;
+
 	
 		function init() {
 			genderMagCanvas.addEventListener('mousedown', mouseDown, false);
 			genderMagCanvas.addEventListener('mouseup', mouseUp, false);
-			genderMagCanvas.addEventListener('mousemove', mouseMove, false);			
+			genderMagCanvas.addEventListener('mousemove', mouseMove, false);
+
+			//genderMagCanvasContainer.addEventListener('mousedown', mouseDown, false);
+			//genderMagCanvasContainer.addEventListener('mouseup', mouseUp, false);
+			//genderMagCanvas.parentElement.addEventListener('mousemove', mouseMove, false);
 		}
 		function mouseDown(e) {
 			rect.startX = e.pageX - this.offsetLeft;
@@ -263,59 +270,62 @@ function overlayScreen(onlyDraw){
 			drag = true;
 		}			
 		function mouseUp(e) {
-			drag = false;
-			//console.log(rect);
-			globXY = [e.pageX,e.pageY];
-			elm = document.elementFromPoint(rect.startX, rect.startY);//elm can return undefined;
-			var elements = new Array();
-			while(elm.id == "genderMagCanvas" || elm.id == "genderMagCanvasContainer" ){
-				elements.push(elm);
-				elm.style.display = "none";
-				elm = document.elementFromPoint(rect.startX, rect.startY);
-			}
-			//console.log("element" , elm.innerText, elm.textContent);
-			var highlightClick = document.createElement("div");
-			highlightClick.id = "highlightClick";
-		//	document.body.appendChild(highlightClick);
-			highlightClick.style.position = "absolute";
-			highlightClick.style.left = elm.offsetLeft + "px";
-			highlightClick.style.top = elm.offsetTop + "px";
-			highlightClick.style.height = elm.offsetHeight + "px";
-			highlightClick.style.width = elm.offsetWidth + "px";
-			highlightClick.style.border = "3px solid #7D1935";
-			highlightClick.style.opacity = "1";
-			//highlightClick.style.zindex = "10000";
-			//highlightClick.style.zIndex = "99999";
-	
-			//console.log("Clicked ", highlightClick)
-            setStatusToTrue("highlightedAction");
-			//console.log(elements);
-			for(var element in elements){
-				if(element.id == "genderMagCanvas" || element.id == "genderMagCanvasContainer" ){
-					element.style.display = "default";
+			if(screenshotFlag) {
+				drag = false;
+				console.log("mouse up");
+				globXY = [e.pageX, e.pageY];
+				elm = document.elementFromPoint(rect.startX, rect.startY);//elm can return undefined;
+				var elements = new Array();
+				while (elm.id === "genderMagCanvas") {
+					elements.push(elm);
+					elm.style.display = "none";
+					elm = document.elementFromPoint(rect.startX, rect.startY);
 				}
+				//console.log("element" , elm.innerText, elm.textContent);
+				var highlightClick = document.createElement("div");
+				highlightClick.id = "highlightClick";
+				//	document.body.appendChild(highlightClick);
+				highlightClick.style.position = "absolute";
+				highlightClick.style.left = elm.offsetLeft + "px";
+				highlightClick.style.top = elm.offsetTop + "px";
+				highlightClick.style.height = elm.offsetHeight + "px";
+				highlightClick.style.width = elm.offsetWidth + "px";
+				highlightClick.style.border = "3px solid #7D1935";
+				highlightClick.style.opacity = "1";
+				//highlightClick.style.zindex = "10000";
+				//highlightClick.style.zIndex = "99999";
+
+				//console.log("Clicked ", highlightClick)
+				setStatusToTrue("highlightedAction");
+				//console.log(elements);
+				for (var element in elements) {
+					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" || element.id === "highlightHover") {
+						element.style.display = "default";
+					}
+				}
+				chrome.runtime.sendMessage({greeting: "takeScreenShot"}, function (response) {
+
+				});
+
+
+				//console.log("sending message");
+				setTimeout(function () {
+					//	document.getElementById("highlightClick").remove();
+					$("#highlightHover").remove();
+					screenshotFlag = false;
+				}, 500);
 			}
-		chrome.runtime.sendMessage({greeting: "takeScreenShot"}, function(response) {
-				
-		});
-
-
-		//console.log("sending message");
-		setTimeout(function(){
-		//	document.getElementById("highlightClick").remove();
-			$("#highlightHover").remove();
-		}, 2000);
 		}
 		function mouseMove(e) {
 			if (drag) {
 				rect.w = (e.pageX - this.offsetLeft) - rect.startX;
 				rect.h = (e.pageY - this.offsetTop) - rect.startY ;
-				ctx.clearRect(0,0,canvas.width,canvas.height);				
-				draw();
+				//ctx.clearRect(0,0,canvas.width,canvas.height);
+				//draw();
 			}
-			if($("#highlightHover")){
-				rect.startX = e.pageX - this.offsetLeft;
-				rect.startY = e.pageY - this.offsetTop;
+			if($("#highlightHover") && screenshotFlag){
+				rect.startX = e.clientX - this.offsetLeft;
+				rect.startY = e.clientY - this.offsetTop;
 				var hoverElm = document.elementFromPoint(rect.startX, rect.startY);
 				rect.w = (e.pageX - this.offsetLeft) - rect.startX;
 				rect.h = (e.pageY - this.offsetTop) - rect.startY ;
@@ -323,16 +333,15 @@ function overlayScreen(onlyDraw){
 				$("#highlightHover").remove();
 				var highlightHover = document.createElement("div");
 				highlightHover.id = "highlightHover";
-				document.body.appendChild(highlightHover);
+				document.getElementById('genderMagCanvasContainer').appendChild(highlightHover);
+				//document.body.appendChild(highlightHover);
 				highlightHover.style.position = "absolute";
 				highlightHover.style.left = rect.startX-30 + "px";
 				highlightHover.style.top = rect.startY-20 + "px";
-				highlightHover.style.height = "50" + "px";
-				highlightHover.style.width = "100" + "px";
+				highlightHover.style.height = "50px";
+				highlightHover.style.width = "100px";
 				highlightHover.style.border = "3px solid #7D1935";
 				highlightHover.style.opacity = "1";
-				//THIS MESSES WITH THE ABILITY TO CLICK THINGS
-				//highlightHover.style.zIndex = "99999";
 
 				//console.log("Hovered if", hoverElm);
 			}
@@ -349,7 +358,6 @@ function overlayScreen(onlyDraw){
 }}
 
 function renderImage(imgURL){
-console.log("in render image");
 	var toolTip = document.createElement("div");
 	toolTip.id = "myToolTip";
 	toolTip.style.position = "absolute";
