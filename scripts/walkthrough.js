@@ -1,3 +1,41 @@
+function editSubgoal(subgoalNum){
+	console.log("edit subgoal");
+	//Show subgoal name field, hide subgoal questions
+	sidebarBody().find("#getSubgoal").show();
+	sidebarBody().find("#subgoalQuestions").hide();
+	sidebarBody().find("#subgoalFacets").hide();
+	sidebarBody().find("#subgoalButtons").hide();
+	sidebarBody().find("#editTeam").hide();
+	sidebarBody().find("#editPersona").hide();
+	sidebarBody().find("#editScenario").hide();
+	var personaName = getVarFromLocal("personaName");
+	if (!personaName) {
+		console.log("persona name was null. Check your save");
+	}
+	sidebarBody().find("#subgoalPrompt").html("Rename subgoal \"" + localStorage.getItem("currSubgoalName") + "\":");
+
+
+	sidebarBody().find('body').off('click', '#submitSubgoal').on('click', '#submitSubgoal', function() {
+		if (sidebarBody().find("#subgoalInput").val() == "") {
+			alert("Please name your subgoal before continuing");
+		}
+		else {
+			var subgoalId = subgoalNum;
+			setStatusToTrue("gotSubgoalName");
+			var subName = sidebarBody().find("#subgoalInput").val();
+			localStorage.setItem("currSubgoalName", subName);
+			//Display subgoal questions again
+			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
+			sidebarBody().find("#getSubgoal").hide();
+			sidebarBody().find("#subgoalQuestions").show();
+			sidebarBody().find("#subgoalFacets").show();
+			sidebarBody().find("#subgoalButtons").show();
+
+		}
+	});
+
+
+}
 
 function drawSubgoal(subgoalId){
 	id = "#GenderMagFrame";
@@ -9,23 +47,34 @@ function drawSubgoal(subgoalId){
 	
 
 	if (isSetSubgoalQuestions) {
-		//console.log("in walkthrough if");
+		console.log("in walkthrough if");
 		var subgoals = getSubgoalArrayFromLocal();
 		var numActions = localStorage.getItem("numActions");
 
-		var subName = subgoals[subgoalId - 1].name;
-		//console.log("subname", subName);
+		//off by one when editing??
+		console.log(subgoalId);
+		console.log("sub", subgoals[0]);
+		console.log(subgoals.length);
+		var subName = localStorage.getItem("currSubgoalName");
+
 
 		var el = $(id).contents().find('#containeryo');
 		el.empty();
 		appendTemplateToElement(el,file);
+
+		if(subgoals[subgoalId] !== undefined && subgoals[subgoalId - 1].name !== subName){
+			subName = subgoals[subgoalId - 1].name;
+			sidebarBody().find('#editSubName').hide();
+		}
+
+		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){editSubgoal(subgoalId);});
 		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
 		sidebarBody().find('#editSubgoal').hide();
 		if(subgoals){
-			var subgoal = subgoals[subgoalId-1];
+			var subgoal = subgoals[subgoals.length-1];
 			//console.log("in draw subgoals", subgoal, subgoalId, subgoal.ynm.yes, subgoal.name);
 			//console.log("in subgoal setting area", subName)
-			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subgoal.name);
+			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
 			sidebarBody().find('#yes').prop("checked", subgoal.ynm.yes);
 			sidebarBody().find('#no').prop("checked", subgoal.ynm.no);
 			sidebarBody().find('#maybe').prop("checked", subgoal.ynm.maybe);
@@ -72,13 +121,15 @@ function drawSubgoal(subgoalId){
 	}
 	
 	else {
-		//console.log("in walkthrough else");
+		console.log("in walkthrough else");
 		var subName = localStorage.getItem("currSubgoalName");
 		var el = $(id).contents().find('#containeryo');
 		el.empty();
 		appendTemplateToElement(el,file);
 		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
 
+		console.log(sidebarBody().find('#editSubName'));
+		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){editSubgoal(subgoalId);});
 		sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
 			var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"), "no": sidebarBody().find("#no").is(":checked"), "maybe": sidebarBody().find("#maybe").is(":checked")};
 			var whyText = sidebarBody().find('#A0Q0whyYes').val();

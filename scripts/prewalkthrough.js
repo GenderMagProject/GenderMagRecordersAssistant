@@ -349,7 +349,7 @@ function handlePreWalkthroughInfo () {
 				localStorage.setItem("numSubgoals", subgoalId);
 			}
 			else{
-				//subgoalId++;
+				subgoalId++;
 				localStorage.setItem("numSubgoals", subgoalId);
 				
 			}
@@ -365,11 +365,14 @@ function handlePreWalkthroughInfo () {
 				localStorage.setItem("numSubgoals", subgoalId);
 			}
 			else{
-				//subgoalId++;
+				subgoalId++;
 				localStorage.setItem("numSubgoals", subgoalId);
 				
 			}
 			//console.log("subName: ", subName, "subId: ", subgoalId);
+            sidebarBody().find("#editTeam").hide();
+            sidebarBody().find("#editPersona").hide();
+            sidebarBody().find("#editScenario").hide();
 			drawSubgoal(subgoalId);
 			console.log("Drawn 2");
 		}			
