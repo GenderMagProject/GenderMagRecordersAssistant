@@ -169,8 +169,8 @@ function actionLoop(el){
 		addToSandwich('idealAction', 0);
 		$(el).remove();
         setStatusToFalse("drewToolTip");
-		overlayScreen(0);
-		overlayScreen(0); //Need to refactor overlay screen to not have to call it twice in certain instances
+        //console.log("calling overlay 1");
+		overlayScreen("");
 		preActionQuestions(el);     
         
         //Reset action states                   
@@ -191,6 +191,7 @@ function actionLoop(el){
 		localStorage.setItem("currSubgoalName", $(el).find("#subgoalInput").val() );
 		$(el).remove();
         setStatusToFalse("drewToolTip");
+        document.getElementById('genderMagCanvasContainer').style.display="none";
         
         //Reset action states
         setStatusToFalse("gotActionName");

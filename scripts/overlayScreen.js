@@ -3,7 +3,6 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
   console.log("renderimage" , request);
     if (request.callFunction == "renderImage"){
-    //console.log("rendering image" , request.imageUrl);
 		renderImage(request.imageUrl);
         localStorage.setItem("currImgURL", request.imageUrl);
 	}
@@ -11,43 +10,51 @@ chrome.runtime.onMessage.addListener(
 
 
 function overlayScreen(onlyDraw){
-	
-	if (onlyDraw == "onlyToolTip") {
+	//If skipping screenshot and loading tooltip window
+	if (onlyDraw === "onlyToolTip") {
+		console.log("HERE!!");
 		closeSlider();
 		sidebarBody().find("#nukeStatus").show();
 		var canvasContainer;
-		if(!document.getElementById('genderMagCanvasContainer')){
-			//console.log("in if");
+		if (document.getElementById('genderMagCanvasContainer')) {
+			canvasContainer = document.getElementById('genderMagCanvasContainer');
+			canvasContainer.style.display = "block";
+			document.getElementById('genderMagCanvas').style.display = "block";
+		} else {
 			canvasContainer = document.createElement('div');
-				// Add the div into the document
-		}
-		else{
-			canvasContainer = document.getElementById('genderMagCanvas');
-		}
-		
-		canvasContainer.id = "genderMagCanvasContainer";
-		canvasContainer.style.position="fixed";
-		// Set to 100% so that it will have the dimensions of the document
-		canvasContainer.style.left="0px";
-		canvasContainer.style.top="0px";
-		canvasContainer.style.width="100%";
-		canvasContainer.style.height="100%";
-		canvasContainer.style.zIndex="9999";
-		document.body.appendChild(canvasContainer);
-		
-		var canvas = document.createElement('canvas');
-		canvas.style.width = canvasContainer.scrollWidth+"px";
-		canvas.style.height = canvasContainer.scrollHeight+"px";
-		canvas.id = "genderMagCanvas";
-		canvas.position = "fixed";
-		//canvas.style.cssText = "z-index:100; background:blue; width:100%; height:100%;";
-		canvas.style.opacity = .50;
-		canvas.width=canvasContainer.scrollWidth;
-		canvas.height=canvasContainer.scrollHeight;
-		canvas.style.overflow = 'visible';
-		canvas.style.position = 'fixed';
-		canvasContainer.appendChild(canvas);
+			// Add the div into the document
 
+			canvasContainer.id = "genderMagCanvasContainer";
+			canvasContainer.style.position = "fixed";
+			// Set to 100% so that it will have the dimensions of the document
+			canvasContainer.style.left = "0px";
+			canvasContainer.style.top = "0px";
+			canvasContainer.style.width = "100%";
+			canvasContainer.style.height = "100%";
+			canvasContainer.style.zIndex = "9999";
+			document.body.appendChild(canvasContainer);
+
+			console.log("Creating canvas 1");
+			var canvas = document.createElement('canvas');
+			canvas.style.width = canvasContainer.scrollWidth + "px";
+			canvas.style.height = canvasContainer.scrollHeight + "px";
+			canvas.id = "genderMagCanvas";
+			canvas.position = "fixed";
+			//canvas.style.cssText = "z-index:100; background:blue; width:100%; height:100%;";
+			canvas.style.opacity = .50;
+			canvas.width = canvasContainer.scrollWidth;
+			canvas.height = canvasContainer.scrollHeight;
+			canvas.style.overflow = 'visible';
+			canvas.style.position = 'fixed';
+
+			canvas.style.left = "0px";
+			canvas.style.top = "0px";
+			canvas.style.width = "100%";
+			canvas.style.height = "100%";
+			canvas.style.zIndex = "9999";
+
+			canvasContainer.appendChild(canvas);
+		}
 
 		var genderMagCanvas = document.getElementById('genderMagCanvas'),
 			ctx = genderMagCanvas.getContext('2d'),
@@ -214,38 +221,46 @@ function overlayScreen(onlyDraw){
 		//close slider to prepare for screenshot box cursor
 		closeSlider();
 		sidebarBody().find("#nukeStatus").show();
-	if(!document.getElementById('genderMagCanvasContainer')){
-		//console.log("In overlayScreen");
-		var canvasContainer = document.createElement('div');
+		if (document.getElementById('genderMagCanvasContainer')) {
+			var canvasContainer = document.getElementById('genderMagCanvasContainer');
+			canvasContainer.style.display = "block";
+			document.getElementById('genderMagCanvas').style.display = "block";
+		} else {
+			//console.log("In overlayScreen");
+			var canvasContainer = document.createElement('div');
 			// Add the div into the document
-	}
-	else{
-		var canvasContainer = document.getElementById('genderMagCanvas');	
-	}
-	
-		canvasContainer.id = "genderMagCanvasContainer";
-		canvasContainer.style.position="fixed";
-		// Set to 100% so that it will have the dimensions of the document
-		canvasContainer.style.left="0px";
-		canvasContainer.style.top="0px";
-		canvasContainer.style.width="100%";
-		canvasContainer.style.height="100%";
-		canvasContainer.style.zIndex="99999";
-		document.body.appendChild(canvasContainer);
-		
-		var canvas = document.createElement('canvas');
-		canvas.style.width = canvasContainer.scrollWidth+"px";
-		canvas.style.height = canvasContainer.scrollHeight+"px";
-		canvas.id = "genderMagCanvas";
-		canvas.position = "fixed";
-		//canvas.style.cssText = "z-index:100; background:blue; width:100%; height:100%;";
-		canvas.style.opacity = .50;
-		canvas.width=canvasContainer.scrollWidth;
-		canvas.height=canvasContainer.scrollHeight;
-		canvas.style.overflow = 'visible';
-		canvas.style.position = 'fixed';
-		canvasContainer.appendChild(canvas);
 
+			canvasContainer.id = "genderMagCanvasContainer";
+			canvasContainer.style.position = "fixed";
+			// Set to 100% so that it will have the dimensions of the document
+			canvasContainer.style.left = "0px";
+			canvasContainer.style.top = "0px";
+			canvasContainer.style.width = "100%";
+			canvasContainer.style.height = "100%";
+			canvasContainer.style.zIndex = "99999";
+			document.body.appendChild(canvasContainer);
+
+			console.log("creating canvas 2");
+			var canvas = document.createElement('canvas');
+			canvas.style.width = canvasContainer.scrollWidth + "px";
+			canvas.style.height = canvasContainer.scrollHeight + "px";
+			canvas.id = "genderMagCanvas";
+			canvas.position = "fixed";
+			//canvas.style.cssText = "z-index:100; background:blue; width:100%; height:100%;";
+			canvas.style.opacity = .50;
+			canvas.width = canvasContainer.scrollWidth;
+			canvas.height = canvasContainer.scrollHeight;
+			canvas.style.overflow = 'visible';
+			canvas.style.position = 'fixed';
+
+			canvas.style.left = "0px";
+			canvas.style.top = "0px";
+			canvas.style.width = "100%";
+			canvas.style.height = "100%";
+			canvas.style.zIndex = "99999";
+
+			canvasContainer.appendChild(canvas);
+		}
 
 		var genderMagCanvas = document.getElementById('genderMagCanvas'),
 			ctx = genderMagCanvas.getContext('2d'),

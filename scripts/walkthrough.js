@@ -53,7 +53,7 @@ function drawSubgoal(subgoalId){
 
 		//off by one when editing??
 		console.log(subgoalId);
-		console.log("sub", subgoals[0]);
+		//console.log("sub", subgoals[0]);
 		console.log(subgoals.length);
 		var subName = localStorage.getItem("currSubgoalName");
 
@@ -62,16 +62,22 @@ function drawSubgoal(subgoalId){
 		el.empty();
 		appendTemplateToElement(el,file);
 
-		if(subgoals[subgoalId] !== undefined && subgoals[subgoalId - 1].name !== subName){
+		var subgoal;
+		if(subgoals[subgoalId - 1] !== undefined && subgoals[subgoalId - 1].name !== subName){
+		    console.log("updating subname");
 			subName = subgoals[subgoalId - 1].name;
 			sidebarBody().find('#editSubName').hide();
-		}
+            subgoal = subgoals[subgoalId - 1];
+		} else{
+		    //console.log(subgoals);
+		    subgoal =  subgoals[subgoals.length-1];
+        }
 
 		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){editSubgoal(subgoalId);});
 		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
 		sidebarBody().find('#editSubgoal').hide();
 		if(subgoals){
-			var subgoal = subgoals[subgoals.length-1];
+
 			//console.log("in draw subgoals", subgoal, subgoalId, subgoal.ynm.yes, subgoal.name);
 			//console.log("in subgoal setting area", subName)
 			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
@@ -237,7 +243,8 @@ function drawAction(actionNum, subgoalId){
 			var justTheToolTip = document.getElementById("myToolTip");
 			$(justTheToolTip).remove();
 		}
-		overlayScreen();
+        console.log("calling overlay 3");
+		//overlayScreen();
 		overlayScreen();
 	});
 	sidebarBody().find("#promptActionBack").unbind( "click" ).click(function(){
