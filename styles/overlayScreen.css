@@ -19,6 +19,7 @@
 	left:100px;
 	border:3px solid #4A96AD;
 	background-color : white;
+	z-index: 99999;
 
 	 -webkit-transition:width 300ms ease-in-out, height 300ms ease-in-out;
     -moz-transition:width 300ms ease-in-out, height 300ms ease-in-out;

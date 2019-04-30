@@ -63,11 +63,14 @@ function preActionQuestions(el){
 }
 
 function doActionPrompt(el){
+    //console.log(el);
 	$(el).find("#imageCaption3").hide();
 	$(el).find("#imageCaption2").show();	
 	$(el).find("#imageCanvas").show();
 	$(el).find("#preActionTemplate").hide();
     $(el).find("#doActionPromptTemplate").show();
+    var container = document.getElementById("genderMagCanvasContainer");
+    container.style.display = "none";
 	$("#postAction").unbind( "click" ).click(function(){
         setStatusToTrue("idealActionPerformed");
 		postActionQuestions(el);
@@ -80,6 +83,7 @@ function doActionPrompt(el){
 	});
 	$(".continueTrigger").unbind("click").click(function(){
 		setStatusToTrue("idealActionPerformed");
+        container.style.display = "block";
 		postActionQuestions(el);
 	});
 }
@@ -156,7 +160,10 @@ function actionLoop(el){
 	$(el).find("#HRmorelikefunpolice").hide();
 	$(el).find("#imageCanvas").hide();
 	$(el).find("#imageCaption3").hide();
+    $(el).find("#retakeImage").hide();
+    $(el).find("#annotateImage").hide();
 	$(el).find("#actionLoopTemplate").show();
+
 	
 	
 	$("#moreActions").unbind( "click" ).click(function(){
