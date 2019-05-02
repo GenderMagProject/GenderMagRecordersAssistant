@@ -50,7 +50,7 @@ list of contributors.
 
 * Chrome Extension link: [GenderMag Recorder's Assistant](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en)
 * Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
-* Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](ftp://ftp.cs.orst.edu/pub/burnett/vlhcc18-toolPaper.pdf)
+* Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
 * [Video](http://gendermag.org/GenderMag%20Demonstration.mp4) using the GenderMag Recorder's Assistant.
 
 ## FAQ’s:
