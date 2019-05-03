@@ -97,6 +97,8 @@ function overlayScreen(onlyDraw){
 		});
 
 		$("#imageBack").unbind( "click" ).unbind( "click" ).click(function(){
+		    toolTip.remove();
+            document.getElementById('genderMagCanvasContainer').style.display="none";
 			openSlider();
 		});
 
@@ -263,12 +265,15 @@ function overlayScreen(onlyDraw){
 				globXY = [e.pageX, e.pageY];
 				elm = document.elementFromPoint(rect.startX, rect.startY);//elm can return undefined;
 				var elements = new Array();
-				while (elm.id === "genderMagCanvas") {
-					elements.push(elm);
-					elm.style.display = "none";
-					elm = document.elementFromPoint(rect.startX, rect.startY);
-				}
-
+				if(elm === null){
+				  elm = document.getElementById("genderMagCanvasContainer");
+                }else {
+                    while (elm.id === "genderMagCanvas") {
+                        elements.push(elm);
+                        elm.style.display = "none";
+                        elm = document.elementFromPoint(rect.startX, rect.startY);
+                    }
+                }
 				setStatusToTrue("highlightedAction");
 				for (var element in elements) {
 					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" || element.id === "highlightHover") {
@@ -353,6 +358,8 @@ function renderImage(imgURL){
 		overlayScreen();
 	});
 	$("#imageBack").unbind( "click" ).click(function(){
+	    toolTip.remove();
+        document.getElementById('genderMagCanvasContainer').style.display="none";
 		openSlider();
 	});
 	var actionSpan = localStorage.getItem("currActionName");
