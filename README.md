@@ -39,13 +39,6 @@ We welcome everyone with any background to contribute to making the world of sof
 
 Please follow our [Code Of Conduct](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Code_of_Conduct.md) and read our [Contributing Guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Contributing.MD).
 
-
-## Contributors
-
-Please see the
-[Contributors Graph](https://github.com/mendezc1/GenderMagRecordersAssistant/graphs/contributors) for our
-list of contributors.
-
 ## Resource
 
 * Chrome Extension link: [GenderMag Recorder's Assistant](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en)

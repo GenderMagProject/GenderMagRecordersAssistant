@@ -45,3 +45,9 @@
 
 ## IMPORTANT:
 By submitting a patch,you agree to allow the project owner to license your work under the same license as that used by the project.
+
+## Contributors
+
+Please see the
+[Contributors Graph](https://github.com/mendezc1/GenderMagRecordersAssistant/graphs/contributors) for our
+list of contributors.
