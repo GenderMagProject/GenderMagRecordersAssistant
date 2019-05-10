@@ -1,5 +1,9 @@
 # This is the GenderMag Recorder's Assistant Contributing.MD
 
+## Git Resources
+
+* Please review the resources available at https://try.github.io/ if you are not already familiar with Git/GitHub or need a reference for Git terms and commands as you prepare to contribute.
+
 ## How to install:
 
 **1) Create a fork of the project to your GitHub account.**
