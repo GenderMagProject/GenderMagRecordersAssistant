@@ -1,15 +1,26 @@
+/*
+ * File Name: utilities.js
+ * Functions: init, appendTemplateToElement, importStylesheet, addOnClicks, sidebarBody, openSlider, closeSlider
+ * Description: This file provides utility functions for use throughout the project such as 'openSlider'
+ */
+
+/*
+ * Function: init
+ * Description: This function
+ * Params: None
+ */
 function init(){
 	
     //init the status object
     initStatusObject();
 
+    //import all necessary stylesheets and start out with just the slider on the page
 	importStylesheet("body","./styles/slider.css");
 	appendTemplateToElement("body","./templates/slider.html");
 	importStylesheet($("#slideout").contents().find("head"),"/styles/sliderbody.css");
 	importStylesheet($("#slideout").contents().find("head"),"/styles/styles.css");
 	importStylesheet($("#slideout").contents().find("head"),"/jquery-ui-1.12.1/jquery-ui.css");
 	importStylesheet($("#slideout").contents().find("head"),"font-awesome-4.6.1/css/font-awesome.min.css");
-	//importStylesheet($("body"), "/styles/screenShotStyle.css");
 	$("#slideout").contents().find("body").append("GenderMag");
 	addOnClicks();
 	setup("#GenderMagFrame", "./templates/firstState.html");
@@ -22,13 +33,13 @@ function init(){
 	
 }
 
-/* Function appendTemplateToElement
- * 
- * Takes 2 arguements:
- * 		element: the element to which the template will be appended
+/* Function: appendTemplateToElement
+ * Description: This function is used to add the contents of another html file to a specified element
+ * Params:
+ * 		el: the element to which the template will be appended
  *		file: the LOCAL path of the template to use (e.g., "/templates/popup.html")
  *
- * Pre: element must exist
+ * Pre: element el must exist
  * Post: template will be added to element AFTER all other content. Elements within the template can be referred to
  * as long as the referrer is still in the scope in which this function was called.
  */ 
@@ -38,16 +49,15 @@ function appendTemplateToElement(el,file){
 	$(el).append(dataToAppend);
 }
 
-/* Function importStylesheet
- * 
- * Takes 2 arguements:
- * 		element: the element to which the stylesheet will be appended
+/* Function: importStylesheet
+ * Description: This function is used to add another stylesheet to an element
+ * Takes 2 arguments:
+ * 		el: the element to which the stylesheet will be appended
  *		file: the LOCAL path of the template to use (e.g., "/styles/styles.css")
  *
- * Pre: element must exist
+ * Pre: element el must exist
  * Post: Stylesheet will be added to the element.
  */
-
 function importStylesheet(el, file){
 	//console.log("#"+ el);
 	return $("<link>", {
@@ -56,14 +66,14 @@ function importStylesheet(el, file){
 			type: "text/css"
 		}).appendTo($(el));	
 }
-/* Function addOnClicks
- *
- * Takes no arguments, adds all onclicks for the page
- *
+
+/* Function: addOnClicks
+ * Description: This function adds on clicks for the slider bar
+ * Params: None
  */
 function addOnClicks(){
 	
-	//The slider handle
+	//when slider is clicked, open or close
 	var el = $("#slideout").contents().find("body");
 	if (el) {
 		$("#slideout").contents().find("body").off('click').on('click', function(event) {
@@ -80,10 +90,20 @@ function addOnClicks(){
     
 }
 
+/*
+ * Function: sidebarBody
+ * Description: This function returns the GenderMag frame element
+ * Params: None
+ */
 function sidebarBody(){
 	return $("#GenderMagFrame").contents();
 }
 
+/*
+ * Function: openSlider
+ * Description: This function shows the contents of the slider at the bottom of the screen
+ * Params: None
+ */
 function openSlider(){
 	if(!$("#slideout").hasClass("clicked")){
 		$("#slideout").addClass("clicked");
@@ -92,6 +112,11 @@ function openSlider(){
 	}
 }
 
+/*
+ * Function: closeSlider
+ * Description: This function hides the contents of the slider at the bottom of the screen
+ * Params: None
+ */
 function closeSlider(){
 	if($("#slideout").hasClass("clicked")){
 		$("#slideout").toggleClass("clicked");
