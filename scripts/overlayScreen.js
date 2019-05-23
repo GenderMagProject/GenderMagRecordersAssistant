@@ -175,7 +175,7 @@ function overlayScreen(onlyDraw){
 		    $("#imageAnnotation").css("position", "absolute");
 		    $("#imageAnnotation").css("top", myToolTip.style.top);
 		    $("#imageAnnotation").css("left", myToolTip.style.left);
-		    $("#imageAnnotation").css("zIndex", 99999);
+		    //$("#imageAnnotation").css("zIndex", 99999);
 
 		    //set up draw on image functionality
 	    	var annotationCanvas = document.getElementById("annotationCanvas");
@@ -555,6 +555,12 @@ function renderImage(imgURL){
     }
     localStorage.setItem("sourceX", sourceX);
     localStorage.setItem("sourceY", sourceY);
+    var destWidth = myImg.width-ratioWidth;
+    var destHeight = myImg.height-ratioHeight;
+    var sourceWidth = myImg.width - destWidth;
+    var sourceHeight = myImg.height - destHeight;
+    var destX = canvas.width / 2 - destWidth / 2;
+    var destY = canvas.height / 2 - destHeight / 2;
 
     //functionality for drawing preview image on pop up
     $(".previewTrigger").unbind( "click" ).click(function(){
@@ -569,9 +575,10 @@ function renderImage(imgURL){
 		$("#annotationCanvas").attr("height", ratioHeight);
 		$("#annotationCanvas").width(ratioWidth);
 		$("#annotationCanvas").height(ratioHeight);
-
+        $("#imageAnnotation").css("position", "absolute");
 		$("#imageAnnotation").css("top", myToolTip.style.top);
 		$("#imageAnnotation").css("left", myToolTip.style.left);
+        $("#imageAnnotation").css("zIndex", 99999);
 			
 		drawOnCanvas("#annotationCanvas");
 		var annotationCanvas = document.getElementById("annotationCanvas");
