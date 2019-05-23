@@ -112,6 +112,9 @@ function overlayScreen(onlyDraw){
 			overlayScreen();
 			overlayScreen();
 		});
+        $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
+            saveAndExit("popup");
+        });
 
 		$("#imageBack").unbind( "click" ).unbind( "click" ).click(function(){
 		    toolTip.remove();
@@ -403,6 +406,9 @@ function renderImage(imgURL){
         setStatusToFalse("drewToolTip");
 		overlayScreen();
 	});
+    $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
+        saveAndExit("popup");
+    });
 	$("#imageBack").unbind( "click" ).click(function(){
 	    toolTip.remove();
         document.getElementById('genderMagCanvasContainer').style.display="none";

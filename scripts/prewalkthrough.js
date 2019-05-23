@@ -25,6 +25,9 @@ function preWalkthrough (id, file) {
 	//nukeButtonOnclick();
 	makeEditable();
 	handlePreWalkthroughInfo();
+	sidebarBody().find('body').off('click', '#saveAndExit').on('click', '#saveAndExit', function() {
+		saveAndExit("slider");
+	});
 
 }
 
@@ -100,14 +103,19 @@ function handlePreWalkthroughInfo () {
 		sidebarBody().find('body').off('click', '#submitTeam').on('click', '#submitTeam', function() {
 			//Get and save team name
 			var teamName = sidebarBody().find("#teamInput").val();
-			saveVarToLocal("teamName", teamName);
-            setStatusToTrue("gotTeamName");
-			
-			//Display team name and edit button
-			sidebarBody().find("#teamName").html("<b>Team:</b> "+ teamName);
-			sidebarBody().find("#editTeam").show();
-			sidebarBody().find("#getTeam").hide();
-			sidebarBody().find("#getPersona").show();
+			if(teamName === ""){
+				alert("Please enter a team name");
+			}
+			else {
+				saveVarToLocal("teamName", teamName);
+				setStatusToTrue("gotTeamName");
+
+				//Display team name and edit button
+				sidebarBody().find("#teamName").html("<b>Team:</b> " + teamName);
+				sidebarBody().find("#editTeam").show();
+				sidebarBody().find("#getTeam").hide();
+				sidebarBody().find("#getPersona").show();
+			}
 		});
 	}
 
@@ -211,32 +219,36 @@ function handlePreWalkthroughInfo () {
 			
 			//Get and save scenario name
 			var scenarioName = sidebarBody().find("#scenarioInput").val();
-			saveVarToLocal("scenarioName", scenarioName);
-            setStatusToTrue("gotScenarioName");
-            setStatusToTrue("finishedPrewalkthrough");
-			
-			//Display scenario and related info
-			sidebarBody().find("#scenarioName").html("<b>Scenario:</b> " + scenarioName);
-			sidebarBody().find("#editScenario").show();
-			
-			sidebarBody().find("#getScenario").children().hide();
-			sidebarBody().find("#getScenario").hide();
-		
-			//Show subtask
-			sidebarBody().find("#getSubgoal").show();
-			sidebarBody().find("#setup").hide();
-			
-			var personaName = getVarFromLocal("personaName");
-			if (!personaName) {
-				console.log("persona name was null. Check your save");
+			if(scenarioName === ""){
+				alert("Please enter the scenario name");
 			}
-			sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
-			sidebarBody().find("#subgoalInput").keyup(function(event){
-				if(event.keyCode == 13){
-					sidebarBody().find("#submitSubgoal").unbind( "click" ).click();
-				} 
-			});
-			
+			else {
+				saveVarToLocal("scenarioName", scenarioName);
+				setStatusToTrue("gotScenarioName");
+				setStatusToTrue("finishedPrewalkthrough");
+
+				//Display scenario and related info
+				sidebarBody().find("#scenarioName").html("<b>Scenario:</b> " + scenarioName);
+				sidebarBody().find("#editScenario").show();
+
+				sidebarBody().find("#getScenario").children().hide();
+				sidebarBody().find("#getScenario").hide();
+
+				//Show subtask
+				sidebarBody().find("#getSubgoal").show();
+				sidebarBody().find("#setup").hide();
+
+				var personaName = getVarFromLocal("personaName");
+				if (!personaName) {
+					console.log("persona name was null. Check your save");
+				}
+				sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
+				sidebarBody().find("#subgoalInput").keyup(function (event) {
+					if (event.keyCode == 13) {
+						sidebarBody().find("#submitSubgoal").unbind("click").click();
+					}
+				});
+			}
 		});
 	}
 	
@@ -262,9 +274,7 @@ function handlePreWalkthroughInfo () {
 				localStorage.setItem("numSubgoals", subgoalId);
 				
 			}
-			console.log("Before");
 			drawSubgoal(subgoalId);
-			console.log("Drawn");
 		}
 		else {
 			//They have subgoals

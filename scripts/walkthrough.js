@@ -1,7 +1,7 @@
 /*
  * File Name: walkthrough.js
  * Functions: editSubgoal, drawSubgoal, drawAction
- * Description: This file contains functions to handle the wlakthrough from subgoal entry and action setup
+ * Description: This file contains functions to handle the walkthrough from subgoal entry and action setup
  */
 
 /*
@@ -61,7 +61,7 @@ function drawSubgoal(subgoalId){
 	var file = "/templates/subgoal.html";
 
 	var isSetSubgoalQuestions = (statusIsTrue("gotSubgoalQuestions"));
-	
+
 	// if already got answers for subgoal questions,
 	if (isSetSubgoalQuestions) {
 		var subgoals = getSubgoalArrayFromLocal();

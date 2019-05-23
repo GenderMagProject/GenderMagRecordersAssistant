@@ -56,25 +56,46 @@ function preActionQuestions(el){
 	//Set up links by checkboxes to show info popups
 	//currently hard coded with Abby name, not sure how this will impact when selecting other personas but suspect things might break. 
 	//motivation info
-    $(".abbyMTrigger").unbind( "click" ).click(function (){
-        addToolTip(personaName+"MToolTip", personaName);
-    });
-	//info processing info
-    $(".abbyIPSTrigger").unbind( "click" ).click(function(){
-        addToolTip(personaName+"IPSToolTip", personaName);
-    });
-	//self efficacy info
-    $(".abbySETrigger").unbind( "click" ).click(function(){
-        addToolTip(personaName+"SEToolTip", personaName);
-    });
-	//risk aversion info
-    $(".abbyRTrigger").unbind( "click" ).click(function(){
-        addToolTip(personaName+"RToolTip", personaName);
-    });
-	//tinkering info
-    $(".abbyTTrigger").unbind( "click" ).click(function(){
-        addToolTip(personaName+"TToolTip", personaName);
-    });
+
+	//set functionality for motivation pop up info window
+	$(".abbyMTrigger").unbind( "click" ).click(function (){
+		addToolTip("abbyMToolTip", "Abby");
+		$('#abbyMSeeMOAR').off('click').on('click', function() {
+			var isOpen = $(this).attr("stateVar");
+
+			//The "see more" is expanded and needs to be closed
+			if (isOpen == 0) {
+				$("#abbyMPreview").hide();
+				$("#abbyMComplete").show();
+				$("#abbyMSeeMOAR").html("See less");
+				$(this).attr("stateVar", 1);
+			}
+			else{
+				$("#abbyMPreview").show();
+				$("#abbyMComplete").hide();
+				$("#abbyMSeeMOAR").html("See more...");
+				$(this).attr("stateVar", 0);
+			}
+
+		});
+	});
+	//set up other info pop ups
+	$(".abbyIPSTrigger").unbind( "click" ).click(function(){
+		addToolTip("abbyIPSToolTip", "Abby");
+
+	});
+	$(".abbySETrigger").unbind( "click" ).click(function(){
+		addToolTip("abbySEToolTip", "Abby");
+
+	});
+	$(".abbyRTrigger").unbind( "click" ).click(function(){
+		addToolTip("abbyRToolTip", "Abby");
+
+	});
+	$(".abbyTTrigger").unbind( "click" ).click(function(){
+		addToolTip("abbyTToolTip", "Abby");
+
+	});
 }
 
 /*
@@ -235,13 +256,14 @@ function actionLoop(el){
 
 	//make new subgoal on 'create new subgoal' button click
 	$("#newSubgoal").unbind( "click" ).click(function(){
-		if($(el).find("#subgoalInput").val() == ""){
-			alert("Please name your subgoal before continuing")
+		if($(el).find("#subgoalInput").val() === ""){
+			alert("Please name your subgoal before continuing");
 		}
 		else{
 			//reset subgoal stats, set new name as current subgoal name
 			localStorage.setItem("numActions", 0 );
 			localStorage.setItem("currSubgoalName", $(el).find("#subgoalInput").val() );
+			setStatusToTrue("gotSubgoalName");
 			//remove tooltip
 			$(el).remove();
         	setStatusToFalse("drewToolTip");
@@ -258,7 +280,7 @@ function actionLoop(el){
         	setStatusToFalse("idealActionPerformed");
         	setStatusToFalse("gotPostActionQuestions");
         	//Reset subgoal states
-        	setStatusToFalse("gotSubgoalName");
+        	//setStatusToFalse("gotSubgoalName");
         	setStatusToFalse("gotSubgoalQuestions");
 
         	//open slider and go back to subgoal questions
