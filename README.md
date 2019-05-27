@@ -42,6 +42,36 @@ Note: You can also install this tool from the chrome web store using the link pr
 ## How to Disable GenderMag:
 * To turn off the GenderMag extension navigate back to “Extensions” and uncheck the “Enable” box and uncheck “Developer Mode”.
 
+## How to use GenderMag:
+
+1) After you have installed the GenderMag recorder's assistance extension a maroon button will appear on the bottom of the screen click it to open GenderMag.
+
+2) After clicking on the maroon button text explaining what GenderMag is will appear on the screen. Click on "Start GenderMag" to get started.
+    
+3) Enter the name of your team and hit submit.
+
+4) Select the persona that you want to use for this session. Currently, you can select from four personas, Abby, Tim, Patrick, and Patricia.
+
+5) After you have selected the persona, on the right side the description of the persona you selected will appear. If you want to change the persona or team name, click edit on top of the tool. In the text box that appeared on the left side, describe the scenario the persona will be performing.
+
+6) Add the sub goal.
+
+7) Answer: Yes, No, or Maybe for, if the persona would have formed this sub goal as a step to her overall goal, and in the textbox under it explain why, why not, or why maybe? On the right of that textbox select all the checkboxes against the facets that were used to answer the previous question.
+
+8) Add action for the sub goal.
+
+9) Click on the click here button to take a screen capture of ideal action. Move the rectangular box around your box to the action that you want to focus on and hit the left click. This will create a screen capture of ideal action. If you want to add more info to the capture click on the draw on the image button and annotate the image. If the image looks okay, click save and continue.
+
+10) Answer: Yes, No, or Maybe for, will the persona know what to do at this step, and in the textbox under it explain why, why not, or why maybe? On the right of that textbox select all the checkboxes against the facets that were used to answer the previous question.
+
+11) Perform the ideal action and click on the click here button to continue.
+
+12) Answer: Yes, No, or Maybe for, if the persona did the right thing will she know that she did the right thing, and is making progress towards the goal and in the textbox under it explain why, why not, or why maybe? On the right of that textbox select all the checkboxes against the facets that were used to answer the previous question.
+
+13) Of you have more actions for the current sub goal add the action and follow steps 8 through 13 again, if you have more sub goals add the sub goal and follow step 6 through 13 again. If you don't have any actions or the sub goals left click "save and stop GenderMag session" this should download a zip file containing the captures and a .csv file containing the output of the session.
+
+14) If the zip file was not downloaded click Re-Download zip file, otherwise check the desclaimer saying that the file was downloaded and hit "Quit GenderMag".
+
 ## Contributing
 
 Please follow our [Code Of Conduct](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Code_of_Conduct.md) and read our [Contributing Guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Contributing.MD).
