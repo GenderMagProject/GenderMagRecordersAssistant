@@ -13,6 +13,8 @@ We welcome everyone with any background to contribute to making the world of sof
 
 ## How to install the GenderMag Recorder's Assistant:</a>
 
+Note: You can also install this tool from the chrome web store using the link provided in the resources.
+
 1) Create a fork of the project to your GitHub account.
 
 2) Install the tool by following steps(a-h)
