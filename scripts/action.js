@@ -19,6 +19,13 @@ else { personaName = "abby"; }
  * Params: el - tooltip pop up element
  */
 function preActionQuestions(el){
+    //get persona name and pronouns to set question text
+    var personaName = getVarFromLocal("personaName");
+    var pronoun = getVarFromLocal("personaPronoun");
+    var possessive = getVarFromLocal("personaPossessive");
+    $(el).find("#preActQ").html("Will " + personaName+ " know what to do at this step?");
+    $(el).find("#preFacets").html("Which of " + personaName + "'s facets did you use to answer the above question?");
+
 	//hide draw button and retake button, show preaction questions
     $(el).find("#annotateImage").hide();
     $(el).find("#retakeImage").hide();
@@ -142,6 +149,15 @@ function doActionPrompt(el){
  * Params: el - tooltip pop up element
  */
 function postActionQuestions(el){
+    //get persona name and pronouns to set question text
+    var personaName = getVarFromLocal("personaName");
+    var pronoun = getVarFromLocal("personaPronoun");
+    var possessive = getVarFromLocal("personaPossessive");
+    $(el).find("#postActQ").html("If " + personaName + " did the right thing (what you just demonstrated), will " +
+        pronoun + " know that " + pronoun + " did the right thing and is making progress toward " +
+        possessive + " goal?");
+    $(el).find("#postFacets").html("Which of " + personaName + "'s facets did you use to answer the above question?");
+
 	//hide do action prompt, show post action questions
 	$(el).find("#doActionPromptTemplate").hide();
     $(el).find("#postActionTemplate").show();

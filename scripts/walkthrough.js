@@ -23,6 +23,8 @@ function editSubgoal(subgoalNum){
 
 	//retrieve persona name from local storage, if it's not there somethings wrong
 	var personaName = getVarFromLocal("personaName");
+    var pronoun = getVarFromLocal("personaPronoun");
+    var possessive = getVarFromLocal("personaPossessive");
 	if (!personaName) {
 		console.log("persona name was null. Check your save");
 	}
@@ -42,7 +44,9 @@ function editSubgoal(subgoalNum){
 			localStorage.setItem("currSubgoalName", subName);
 			//Display subgoal questions again
 			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
-			sidebarBody().find("#getSubgoal").hide();
+            sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
+            sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
+            sidebarBody().find("#getSubgoal").hide();
 			sidebarBody().find("#subgoalQuestions").show();
 			sidebarBody().find("#subgoalFacets").show();
 			sidebarBody().find("#subgoalButtons").show();
@@ -67,7 +71,7 @@ function drawSubgoal(subgoalId){
 		var subgoals = getSubgoalArrayFromLocal();
 		var numActions = localStorage.getItem("numActions");
 
-		//get current subgoal name
+		//get current subgoal name and pronoun/possessive
 		var subName = localStorage.getItem("currSubgoalName");
 
 		//empty contents of question container in the slider and put in subgoal questions
@@ -87,9 +91,14 @@ function drawSubgoal(subgoalId){
         }
 
 		//set up header and edit subgoal buttons
+        var personaName = getVarFromLocal("personaName");
+        var pronoun = getVarFromLocal("personaPronoun");
+        var possessive = getVarFromLocal("personaPossessive");
 		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){editSubgoal(subgoalId);});
 		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
-		sidebarBody().find('#editSubgoal').hide();
+        sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
+        sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
+        sidebarBody().find('#editSubgoal').hide();
 		if(subgoals){
 			//populate existing information
 			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
@@ -143,12 +152,16 @@ function drawSubgoal(subgoalId){
 	//if subgoal questions haven't been gotten yet
 	else {
 		//get current subgoal, empty question container and add in subgoal questions
+        var personaName = getVarFromLocal("personaName");
+        var pronoun = getVarFromLocal("personaPronoun");
+        var possessive = getVarFromLocal("personaPossessive");
 		var subName = localStorage.getItem("currSubgoalName");
 		var el = $(id).contents().find('#containeryo');
 		el.empty();
 		appendTemplateToElement(el,file);
 		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
-
+        sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
+        sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
 		//edit subgoal button calls edit subgoal
 		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){
 			editSubgoal(subgoalId);
