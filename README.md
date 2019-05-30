@@ -33,7 +33,7 @@ We welcome everyone with any background to contribute to making the world of sof
     
     h) A new extension called ”GenderMag Recorder's Assistant” should be in the top left corner of the extensions.
     
-3) If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. (See the video at http://gendermag.org for examples of running it.)
+3) If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. (See the [video](http://gendermag.org/GenderMag%20Demonstration.mp4) from http://gendermag.org for examples of running it.
 
 ## Contributing
 
