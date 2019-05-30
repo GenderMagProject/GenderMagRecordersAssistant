@@ -11,6 +11,53 @@ var personaName = localStorage.getItem("personaName");
 if (personaName !== null ) {personaName = personaName.slice(1, personaName.length-1);}
 else { personaName = "abby"; }
 
+function setFacetPopups(personaName) {
+    if(personaName === "Custom"){
+
+    }
+    else {
+        var lowercaseName = personaName.toLowerCase();
+        //set functionality for motivation pop up info window
+        $(".MTrigger").unbind("click").click(function () {
+            addToolTip(lowercaseName+"MToolTip", personaName);
+            /*$('#abbyMSeeMOAR').off('click').on('click', function () {
+                var isOpen = $(this).attr("stateVar");
+
+                //The "see more" is expanded and needs to be closed
+                if (isOpen == 0) {
+                    $("#abbyMPreview").hide();
+                    $("#abbyMComplete").show();
+                    $("#abbyMSeeMOAR").html("See less");
+                    $(this).attr("stateVar", 1);
+                } else {
+                    $("#abbyMPreview").show();
+                    $("#abbyMComplete").hide();
+                    $("#abbyMSeeMOAR").html("See more...");
+                    $(this).attr("stateVar", 0);
+                }
+
+            });*/
+        });
+        //set up other info pop ups
+        $(".IPSTrigger").unbind("click").click(function () {
+            addToolTip(lowercaseName+"IPSToolTip", personaName);
+
+        });
+        $(".SETrigger").unbind("click").click(function () {
+            addToolTip(lowercaseName+"SEToolTip", personaName);
+
+        });
+        $(".RTrigger").unbind("click").click(function () {
+            addToolTip(lowercaseName+"RToolTip", personaName);
+
+        });
+        $(".TTrigger").unbind("click").click(function () {
+            addToolTip(lowercaseName+"TToolTip", personaName);
+
+        });
+    }
+}
+
 /*
  * Function: preActionQuestions
  * Description: This function handles the 'preaction questions' in the pop up window
@@ -61,48 +108,9 @@ function preActionQuestions(el){
 	});
 
 	//Set up links by checkboxes to show info popups
-	//currently hard coded with Abby name, not sure how this will impact when selecting other personas but suspect things might break. 
+	//currently hard coded with Abby name, not sure how this will impact when selecting other personas but suspect things might break.
 	//motivation info
-
-	//set functionality for motivation pop up info window
-	$(".abbyMTrigger").unbind( "click" ).click(function (){
-		addToolTip("abbyMToolTip", "Abby");
-		$('#abbyMSeeMOAR').off('click').on('click', function() {
-			var isOpen = $(this).attr("stateVar");
-
-			//The "see more" is expanded and needs to be closed
-			if (isOpen == 0) {
-				$("#abbyMPreview").hide();
-				$("#abbyMComplete").show();
-				$("#abbyMSeeMOAR").html("See less");
-				$(this).attr("stateVar", 1);
-			}
-			else{
-				$("#abbyMPreview").show();
-				$("#abbyMComplete").hide();
-				$("#abbyMSeeMOAR").html("See more...");
-				$(this).attr("stateVar", 0);
-			}
-
-		});
-	});
-	//set up other info pop ups
-	$(".abbyIPSTrigger").unbind( "click" ).click(function(){
-		addToolTip("abbyIPSToolTip", "Abby");
-
-	});
-	$(".abbySETrigger").unbind( "click" ).click(function(){
-		addToolTip("abbySEToolTip", "Abby");
-
-	});
-	$(".abbyRTrigger").unbind( "click" ).click(function(){
-		addToolTip("abbyRToolTip", "Abby");
-
-	});
-	$(".abbyTTrigger").unbind( "click" ).click(function(){
-		addToolTip("abbyTToolTip", "Abby");
-
-	});
+    setFacetPopups(personaName);
 }
 
 /*
@@ -184,51 +192,8 @@ function postActionQuestions(el){
 		actionLoop(el);
 	});
 
-	//set functionality for motivation pop up info window
-    $(".abbyMTrigger").unbind( "click" ).click(function (){
-        addToolTip("abbyMToolTip", "Abby");	
-		$('#abbyMSeeMOAR').off('click').on('click', function() {
-				var isOpen = $(this).attr("stateVar");
-		
-				//The "see more" is expanded and needs to be closed
-				if (isOpen == 0) {
-					$("#abbyMPreview").hide();
-					$("#abbyMComplete").show();
-					$("#abbyMSeeMOAR").html("See less");	
-					$(this).attr("stateVar", 1);
-				}
-				else{
-					$("#abbyMPreview").show();
-					$("#abbyMComplete").hide();
-					$("#abbyMSeeMOAR").html("See more...");	
-					$(this).attr("stateVar", 0);
-				}
-				
-			});
-    });
-    //set up other info pop ups
-    $(".abbyIPSTrigger").unbind( "click" ).click(function(){
-        addToolTip("abbyIPSToolTip", "Abby");
-			
-    });
-    $(".abbySETrigger").unbind( "click" ).click(function(){
-        addToolTip("abbySEToolTip", "Abby");
-		
-		});
-    $(".abbyRTrigger").unbind( "click" ).click(function(){
-        addToolTip("abbyRToolTip", "Abby");
-		
-    });
-    $(".abbyTTrigger").unbind( "click" ).click(function(){
-        addToolTip("abbyTToolTip", "Abby");
-	
-	});
-    $("#postActionBack").unbind( "click" ).click(function(){
-        $(el).find("#postActionTemplate").hide();
-        $(el).find("#doActionPromptTemplate").show();
-        setStatusToFalse("idealActionPerformed");
-        doActionPrompt(el);
-    });
+	//set functionality for facet pop up info window
+	setFacetPopups(personaName);
 }
 
 /*
