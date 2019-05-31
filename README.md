@@ -47,18 +47,23 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    c) Create a subgoal to proceed with the process. 
     
    d) Enter an action that pertains to this subgoal. 
-         i) Choose and then input the action the persona would perform next and type that action into the text field. At
+   
+   * i) Choose and then input the action the persona would perform next and type that action into the text field. At
          this point the action field ui should appear.
-         ii) The action field ui will ask you if the personal will know what to do at this step. Select “yes,” “no,” or
+         
+   * ii) The action field ui will ask you if the personal will know what to do at this step. Select “yes,” “no,” or
          “maybe” from the radio buttons and put your explanation in the text box field.
-         iii) The action field ui will prompt you to choose which of the persona’s facets are used to answer the question
-         from (ii). Select the radio buttons that apply.
+         
+   * iii) The action field ui will prompt you to choose which of the persona’s facets are used to answer the question
+          from (ii). Select the radio buttons that apply.
          
    e) After the action fields have been completed an after-action ui prompt will continue the process.
-          i) You will be prompted to evaluate if the persona thinks the action they have completed was the right thing to
-          do. Select “yes,” “no,” or “maybe” from the radio buttons and put your explanation in the text box.
-          ii) The after-action field ui will prompt you to choose which of the persona’s facets are used to answer the
-          question from (i). Select the radio buttons that apply.
+
+   * i) You will be prompted to evaluate if the persona thinks the action they have completed was the right thing to
+   do. Select “yes,” “no,” or “maybe” from the radio buttons and put your explanation in the text box.
+          
+   * ii) The after-action field ui will prompt you to choose which of the persona’s facets are used to answer the
+   question from (i). Select the radio buttons that apply.
           
    f) If your persona needs another action to complete the current subgoal, return to (d) and do the steps pertinent to (d)
     and (e).
