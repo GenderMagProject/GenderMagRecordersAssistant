@@ -158,13 +158,6 @@ function handlePreWalkthroughInfo () {
 			sidebarBody().find("#personaName").html("<b>Persona:</b> " + personaName);
 			loadPersona(personaName);
 			sidebarBody().find("#personaInfo").show();
-			/*if ((personaName == "Tim") || (personaName == "Patrick")) {
-				pronoun = "he";
-				possessive = "his";
-			} else {
-				pronoun = "she";
-				possessive = "her";
-			}*/
 			var pronoun = localStorage.getItem('personaPronoun');
 			var possessive = localStorage.getItem('personaPossessive');
 			sidebarBody().find("#getPersona").children().hide();

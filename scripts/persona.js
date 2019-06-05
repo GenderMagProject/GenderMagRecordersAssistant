@@ -1,27 +1,27 @@
 function loadPersona(personaName){
 	//console.log("in load persona" , personaName);
-	if(personaName === "Abby"){
+	if(personaName === "Abi"){
 		saveVarToLocal("personaPronoun", "she");
 		saveVarToLocal("personaPossessive", 'her');
-		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Abby/abbyPersona.html");
-		var abbySRC=chrome.extension.getURL("images/abbymulti.png");
-		var abbyIMG= "<img id='AbbyPhoto' src='" + abbySRC + "' alt='Abby Jones' class='sidebarImg' width='120' height='100'/>";
-		sidebarBody().find("#picGoesHere").append(abbyIMG);
-		sidebarBody().find(".abbyMTrigger").unbind( "click" ).click(function (){
-			addToolTip("abbyMToolTip", "Abby");
+		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Abi/abiPersona.html");
+		var abiSRC=chrome.extension.getURL("images/abimulti.png");
+		var abiIMG= "<img id='AbiPhoto' src='" + abiSRC + "' alt='Abi Jones' class='sidebarImg' width='120' height='100'/>";
+		sidebarBody().find("#picGoesHere").append(abiIMG);
+		sidebarBody().find(".abiMTrigger").unbind( "click" ).click(function (){
+			addToolTip("abiMToolTip", "Abi");
 		});
-		sidebarBody().find(".abbyIPSTrigger").unbind( "click" ).click(function(){
-			addToolTip("abbyIPSToolTip", "Abby");
+		sidebarBody().find(".abiIPSTrigger").unbind( "click" ).click(function(){
+			addToolTip("abiIPSToolTip", "Abi");
 		});
 
-		sidebarBody().find(".abbySETrigger").unbind( "click" ).click(function(){
-			addToolTip("abbySEToolTip", "Abby");
+		sidebarBody().find(".abiSETrigger").unbind( "click" ).click(function(){
+			addToolTip("abiSEToolTip", "Abi");
 		});
-		sidebarBody().find(".abbyRTrigger").unbind( "click" ).click(function(){
-			addToolTip("abbyRToolTip", "Abby");
+		sidebarBody().find(".abiRTrigger").unbind( "click" ).click(function(){
+			addToolTip("abiRToolTip", "Abi");
 		});
-		sidebarBody().find(".abbyTTrigger").unbind( "click" ).click(function(){
-			addToolTip("abbyTToolTip", "Abby");
+		sidebarBody().find(".abiTTrigger").unbind( "click" ).click(function(){
+			addToolTip("abiTToolTip", "Abi");
 		});
 
 

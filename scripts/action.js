@@ -9,7 +9,7 @@
 //Sets persona name?? Runs at startup??
 var personaName = localStorage.getItem("personaName");
 if (personaName !== null ) {personaName = personaName.slice(1, personaName.length-1);}
-else { personaName = "abby"; }
+else { personaName = "Abi"; }
 
 function setFacetPopups(personaName) {
     if(personaName === "Custom"){
@@ -108,8 +108,6 @@ function preActionQuestions(el){
 	});
 
 	//Set up links by checkboxes to show info popups
-	//currently hard coded with Abby name, not sure how this will impact when selecting other personas but suspect things might break.
-	//motivation info
     setFacetPopups(personaName);
 }
 
