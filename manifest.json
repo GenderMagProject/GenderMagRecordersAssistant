@@ -3,6 +3,10 @@
 	"manifest_version": 2,
 	"description": "Walks you through GenderMag evaluations of the software or website you're creating, step-by-step, and produces a report at the end.",
 	"version": "0.2",
+	"icons": { 
+	   "16": "icon.png",
+           "48": "icon48.png",
+          "128": "icon128.png" },
 	"background": {
 		"scripts": ["jquery-ui-1.12.1/external/jquery/jquery.js", "jquery-ui-1.12.1/jquery-ui.min.js", "scripts/background.js", "scripts/screenshot.js"]
 	},
