@@ -1,3 +1,20 @@
+/*
+ * This function is made to insert the users pronouns and possessive adjective into the tool tip
+ * It should be called from addToolTip but is currently not in use do to grammar problems with the wording
+ * in the tool tip (for example: she gathers vs. they gather)
+ */
+function updatePronoun() {
+	var x = document.getElementsByClassName("pronoun");
+	var i;
+	for (i = 0; i < x.length; i++) {
+		x[i].innerHTML = localStorage.getItem('personaPronoun');
+	}
+	var y = document.getElementsByClassName("possessive");
+	for (i = 0; i < y.length; i++) {
+		y[i].innerHTML = localStorage.getItem('personaPossessive');
+	}
+}
+
 function addToolTip(toolTipName, folderName){
 	if($("#"+toolTipName + "Div")){
 		$("#"+toolTipName+"Div").remove();
@@ -41,5 +58,5 @@ function addToolTip(toolTipName, folderName){
 				}
 				
 		});
-	
+	//updatePronoun();
 }

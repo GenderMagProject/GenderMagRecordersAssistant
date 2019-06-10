@@ -1,12 +1,12 @@
 <html>
 	<body>
-    <button id="exitButton" style="float:right; width:100px; height:25px;background-color:#7D1935;color:white;"> Save and Exit</button>
+    <button id="exitButton" style="float:right; width:95px;font-size: smaller; height:25px;background-color:#7D1935;color:white;"> Save and Exit</button>
         <div id="imageCanvasTemplate"text-align:center;>
 
             <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<!--span class="actionNameSpan" style="color:white;"> </span-->
                 <button id="imageBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
-                <button id="saveImageAndCloseButton" class="closeToolTip" style="zindex:10002; float:right; width:150px; height:25px;background-color:#7D1935;color:white;"> Save and Continue</button>
+                <button id="saveImageAndCloseButton" class="closeToolTip" style="float:right; width:130px; height:25px;background-color:#7D1935;color:white;font-size: smaller"> Save and Continue</button>
             </div>
 
 			<p id="imageCaption" style="margin:10px">
@@ -26,7 +26,7 @@
 					<span class="actionNameSpan" style="color:white;"> </span>
                     <button id="preActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
 
-                    <button id="preActionClose" style="float:right; width:180px; height:25px;background-color:#7D1935;color:white;">Save and Continue </button>
+                    <button id="preActionClose" style="float:right; width:130px;font-size: smaller; height:25px;background-color:#7D1935;color:white;">Save and Continue </button>
                 </div>
                 <br>
 
@@ -77,7 +77,7 @@
             <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<span class="actionNameSpan" style="color:white;"> </span>
                 <button id="postActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
-                <input id="submitPostAction" type="submit" value="Save and Continue" style="zindex:10002; float:right; width:180px; height:25px;background-color:#7D1935;color:white;">
+                <input id="submitPostAction" type="submit" value="Save and Continue" style="float:right; width:130px; font-size: smaller; height:25px;background-color:#7D1935;color:white;">
             </div>
             <br>
 
@@ -110,7 +110,7 @@
 		</p>
         <div>
         <canvas id="imageCanvas" style="zindex:10002">
-                <img id="previewImage"></img>
+                <img id="previewImage">
            </canvas>
         <button id="annotateImage" class="previewTrigger" style="zindex:10002; float:right; width:150px; height:25px;background-color:#7D1935;color:white;"> Draw on Image </button>
         <button id="retakeImage" style="zindex:10002; float:right; width:150px; height:25px;background-color:#7D1935;color:white;"> Retake Screenshot </button>
