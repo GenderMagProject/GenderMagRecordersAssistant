@@ -15,7 +15,7 @@ body {
 	padding: 0px;
 	text-align: center;
 	transform: translate(-50%, -0%);
-	background: #7D1935;
+	background: #1e57c8;
 	-webkit-transition-duration: 0.3s;
 	-moz-transition-duration: 0.3s;
 	-o-transition-duration: 0.3s;
@@ -49,7 +49,7 @@ body {
 	border-radius: 0 0 5px 0;
 	border-style: solid;
 	border-width: 2px 0px 0px 0px;
-	border-color: #7D1935;
+	border-color: #1e57c8;
 	z-index: 99999;
 }
 

@@ -119,7 +119,7 @@ function preActionQuestions(el){
 function doActionPrompt(el){
 	//hide preaction questions, show action prompt
 	$(el).find("#imageCaption3").hide();
-	$(el).find("#imageCaption2").show();	
+	$(el).find("#imageCaption2").show();
 	$(el).find("#imageCanvas").show();
 	$(el).find("#preActionTemplate").hide();
     $(el).find("#doActionPromptTemplate").show();
@@ -167,7 +167,7 @@ function postActionQuestions(el){
 	//hide do action prompt, show post action questions
 	$(el).find("#doActionPromptTemplate").hide();
     $(el).find("#postActionTemplate").show();
-	$(el).find("#imageCaption2").hide();	
+	$(el).find("#imageCaption2").hide();
 	$(el).find("#imageCanvas").hide();
 	$(el).find("#imageCaption3").show();
 
@@ -203,7 +203,7 @@ function postActionQuestions(el){
 function actionLoop(el){
 	//hide post action questions, show action loop (if user wants new subgoal/action or close session
 	$(el).find("#postActionTemplate").hide();
-    $(el).find("#imageCaption2").hide();	
+    $(el).find("#imageCaption2").hide();
 	$(el).find("#HRmorelikefunpolice").hide();
 	$(el).find("#imageCanvas").hide();
 	$(el).find("#imageCaption3").hide();
@@ -293,17 +293,17 @@ function actionLoop(el){
 		$("#finalYesCheckbox").unbind("click").click(function () {
 			if ($('#finalYesCheckbox').is(":checked")) {
 				$('#finalYes').prop('disabled', false);
-				$("#finalYes").attr("style","background-color:#7D1935;color:white;");
+				$("#finalYes").attr("style","background-color:#ed7d31;color:white;");
 			}
 			else {
 				$('#finalYes').prop('disabled', true);
-				$("#finalYes").attr("style","background-color:#7D1935;color:white;opacity:0.5");
+				$("#finalYes").attr("style","background-color:#ed7d31;color:white;opacity:0.5");
 			}
-		});	
+		});
 
 		//final quit button clears local storage and reloads
 		$("#finalYes").unbind("click").click(function () {
-			localStorage.clear(); 
+			localStorage.clear();
 			location.reload();
 		});
 
@@ -357,7 +357,7 @@ function reloadToolTipState () {
 		postActionQuestions(toolTip);
 	}
 	//if preaction questions are done, go to action prompt
-	else if (statusIsTrue("gotPreActionQuestions")) {	
+	else if (statusIsTrue("gotPreActionQuestions")) {
 		$(toolTip).find("#imageCanvasTemplate").hide();
 		doActionPrompt(toolTip);
 	}
