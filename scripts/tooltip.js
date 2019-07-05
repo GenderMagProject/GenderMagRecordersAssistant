@@ -29,7 +29,7 @@ function addToolTip(toolTipName, folderName){
 		pageDiv.style.height = "200px";
 		pageDiv.style.width = "500px";
 		pageDiv.style.zIndex = "99999";
-		pageDiv.style.border ="3px solid #1e57c8";
+		pageDiv.style.border ="3px solid #4A96AD";
 		pageDiv.style.cursor="pointer";
 		pageDiv.style.borderRadius="5px";
 		pageDiv.style.backgroundColor = "white";
@@ -47,13 +47,13 @@ function addToolTip(toolTipName, folderName){
 				if (isOpen == 0) {
 					$("#"+toolTipName+"Preview").hide();
 					$("#"+toolTipName+"Complete").show();
-					$("#"+toolTipName+"SeeMOAR").html("See less");
+					$("#"+toolTipName+"SeeMOAR").html("See less");	
 					$(this).attr("stateVar", 1);
 				}
 				else{
 					$("#"+toolTipName+"Preview").show();
 					$("#"+toolTipName+"Complete").hide();
-					$("#"+toolTipName+"SeeMOAR").html("See more...");
+					$("#"+toolTipName+"SeeMOAR").html("See more...");	
 					$(this).attr("stateVar", 0);
 				}
 				
