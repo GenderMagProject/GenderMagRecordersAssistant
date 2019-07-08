@@ -47,7 +47,7 @@ function loadPersona(personaName){
 		});
 
 	}
-	else if(personaName === "Patrick"){
+	/*else if(personaName === "Patrick"){
 		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Patrick/patrickPersona.html");
 		var patrickSRC=chrome.extension.getURL("images/Patricmulti.png");
 		var patrickIMG= "<img id='PatrickPhoto' src='" + patrickSRC + "' alt='Patrick Jones' class='sidebarImg' width='100' height='100'/>";
@@ -68,27 +68,27 @@ function loadPersona(personaName){
 		sidebarBody().find(".patrickTTrigger").unbind( "click" ).click(function(){
 			addToolTip("patrickTToolTip", "Patrick");
 		});
-	}
-	else if(personaName === "Patricia"){
+	} */
+	else if(personaName === "Pat"){
 		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Patricia/patriciaPersona.html");
 		var patriciaSRC=chrome.extension.getURL("images/Patriciamulti.png");
-		var patriciaIMG= "<img id='PatriciaPhoto' src='" + patriciaSRC + "' alt='Patricia Jones' class='sidebarImg' width='100' height='100'/>";
+		var patriciaIMG= "<img id='PatriciaPhoto' src='" + patriciaSRC + "' alt='Pat Jones' class='sidebarImg' width='100' height='100'/>";
 		sidebarBody().find("#picGoesHere").append(patriciaIMG);
 
 		sidebarBody().find(".patriciaMTrigger").unbind( "click" ).click(function (){
-			addToolTip("patriciaMToolTip", "Patricia");
+			addToolTip("patriciaMToolTip", "Pat");
 		});
 		sidebarBody().find(".patriciaIPSTrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaIPSToolTip", "Patricia");
+			addToolTip("patriciaIPSToolTip", "Pat");
 		});
 		sidebarBody().find(".patriciaSETrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaSEToolTip", "Patricia");
+			addToolTip("patriciaSEToolTip", "Pat");
 		});
 		sidebarBody().find(".patriciaRTrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaRToolTip", "Patricia");
+			addToolTip("patriciaRToolTip", "Pat");
 		});
 		sidebarBody().find(".patriciaTTrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaTToolTip", "Patricia");
+			addToolTip("patriciaTToolTip", "Pat");
 		});
 	}
 	else if(personaName === "Custom"){
