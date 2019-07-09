@@ -70,24 +70,24 @@ function loadPersona(personaName){
 		});
 	} */
 	else if(personaName === "Pat"){
-		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Patricia/patriciaPersona.html");
-		var patriciaSRC=chrome.extension.getURL("images/Patriciamulti.png");
-		var patriciaIMG= "<img id='PatriciaPhoto' src='" + patriciaSRC + "' alt='Pat Jones' class='sidebarImg' width='100' height='100'/>";
-		sidebarBody().find("#picGoesHere").append(patriciaIMG);
+		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/pat/patPersona.html");
+		var patSRC=chrome.extension.getURL("images/Patmulti.png");
+		var patIMG= "<img id='patPhoto' src='" + patSRC + "' alt='Pat Jones' class='sidebarImg' width='100' height='100'/>";
+		sidebarBody().find("#picGoesHere").append(patIMG);
 
-		sidebarBody().find(".patriciaMTrigger").unbind( "click" ).click(function (){
+		sidebarBody().find(".patMTrigger").unbind( "click" ).click(function (){
 			addToolTip("patMToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaIPSTrigger").unbind( "click" ).click(function(){
+		sidebarBody().find(".patIPSTrigger").unbind( "click" ).click(function(){
 			addToolTip("patIPSToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaSETrigger").unbind( "click" ).click(function(){
+		sidebarBody().find(".patSETrigger").unbind( "click" ).click(function(){
 			addToolTip("patSEToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaRTrigger").unbind( "click" ).click(function(){
+		sidebarBody().find(".patRTrigger").unbind( "click" ).click(function(){
 			addToolTip("patRToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaTTrigger").unbind( "click" ).click(function(){
+		sidebarBody().find(".patTTrigger").unbind( "click" ).click(function(){
 			addToolTip("patTToolTip", "Pat");
 		});
 	}
@@ -97,19 +97,19 @@ function loadPersona(personaName){
 //	var patrickIMG= "<img id='PatrickPhoto' src='" + patrickSRC + "' alt='Patrick Jones' class='sidebarImg' width='100' height='100'/>";
 //	sidebarBody().find("#picGoesHere").append(patrickIMG);
 
-		sidebarBody().find(".patriciaMTrigger").unbind( "click" ).click(function (){
+		sidebarBody().find(".patMTrigger").unbind( "click" ).click(function (){
 			addToolTip("patMToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaIPSTrigger").unbind( "click" ).click(function(){
+		sidebarBody().find(".patIPSTrigger").unbind( "click" ).click(function(){
 			addToolTip("patIPSToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaSETrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaSEToolTip", "Pat");
+		sidebarBody().find(".patSETrigger").unbind( "click" ).click(function(){
+			addToolTip("patSEToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaRTrigger").unbind( "click" ).click(function(){
+		sidebarBody().find(".patRTrigger").unbind( "click" ).click(function(){
 			addToolTip("patRToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaTTrigger").unbind( "click" ).click(function(){
+		sidebarBody().find(".patTTrigger").unbind( "click" ).click(function(){
 			addToolTip("patTToolTip", "Pat");
 		});
 	}
