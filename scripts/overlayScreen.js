@@ -87,7 +87,7 @@ function overlayScreen(onlyDraw){
 		toolTip.style.height = "600px";
 		toolTip.style.width = "500px";
 		toolTip.style.zIndex = "99999";
-		toolTip.style.border ="3px solid #1e57c8";
+		toolTip.style.border ="3px solid #4A96AD";
 		toolTip.style.backgroundColor = "white";
 		toolTip.style.cursor="pointer";
 		toolTip.style.borderRadius="5px";
@@ -129,7 +129,7 @@ function overlayScreen(onlyDraw){
 		canvas = document.getElementById("imageCanvas");
 		canvas.width = "465";
 		canvas.height=	"350";
-		canvas.style.border="2px solid #1e57c8";
+		canvas.style.border="2px solid #4A96AD";
 		canvas.style.margin="10px";
 		var context = canvas.getContext("2d");
 		var myImg = document.getElementById("previewImage");
@@ -373,7 +373,7 @@ function overlayScreen(onlyDraw){
 				highlightBorder2.style.top = rect.startY-20 + "px";
 				highlightBorder2.style.height = "50px";
 				highlightBorder2.style.width = "100px";
-				highlightBorder2.style.border = "0px solid #FFFFFF";
+				highlightBorder2.style.border = "7px solid #FFFFFF";
 				highlightBorder2.style.opacity = "1";
 			}
 			else{
@@ -404,7 +404,7 @@ function renderImage(imgURL){
 	toolTip.style.height = "600px";
 	toolTip.style.width = "500px";
 	toolTip.style.zIndex = "99999";
-	toolTip.style.border ="3px solid #1e57c8";
+	toolTip.style.border ="3px solid #4A96AD";
 	toolTip.style.backgroundColor = "white";
 	toolTip.style.cursor="pointer";
 	toolTip.style.borderRadius="5px";
@@ -444,7 +444,7 @@ function renderImage(imgURL){
 	var canvas = document.getElementById("imageCanvas");
 	canvas.width = "465";
 	canvas.height=	"350";
-	canvas.style.border="2px solid #1e57c8";
+	canvas.style.border="2px solid #4A96AD";
 	canvas.style.margin="10px";
 	var context = canvas.getContext("2d");
 	var myImg = document.getElementById("previewImage");
