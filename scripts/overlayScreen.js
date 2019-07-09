@@ -351,7 +351,7 @@ function overlayScreen(onlyDraw){
 				highlightHover.style.top = rect.startY-20 + "px";
 				highlightHover.style.height = "50px";
 				highlightHover.style.width = "100px";
-				highlightHover.style.border = "3px solid #7D1935";
+				highlightHover.style.border = "6px solid #7D1935";
 				highlightHover.style.opacity = "1";
 			}
 			else{
@@ -373,7 +373,7 @@ function overlayScreen(onlyDraw){
 				highlightBorder2.style.top = rect.startY-20 + "px";
 				highlightBorder2.style.height = "50px";
 				highlightBorder2.style.width = "100px";
-				highlightBorder2.style.border = "7px solid #FFFFFF";
+				highlightBorder2.style.border = "3px solid #FFFFFF";
 				highlightBorder2.style.opacity = "1";
 			}
 			else{
