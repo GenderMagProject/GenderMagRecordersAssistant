@@ -308,7 +308,7 @@ function overlayScreen(onlyDraw){
                 }
 				setStatusToTrue("highlightedAction");
 				for (var element in elements) {
-					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" || element.id === "highlightHover") {
+					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" || element.id === "highlightHover" || element.id === "highlightBorder2") {
 						element.style.display = "default";
 					}
 				}
@@ -322,7 +322,8 @@ function overlayScreen(onlyDraw){
 
 
 				setTimeout(function () {
-					$("#highlightHover").remove();
+                    $("#highlightHover").remove();
+                    $("#highlightBorder2").remove();
 					//screenshot process finished, flag set to false
 					screenshotFlag = false;
 				}, 500);
@@ -356,6 +357,28 @@ function overlayScreen(onlyDraw){
 			else{
 				var highlightHover = document.createElement("div");
 				highlightHover.id = "highlightHover";
+			}
+			if($("#highlightBorder2") && screenshotFlag){
+				rect.startX = e.clientX - this.offsetLeft;
+				rect.startY = e.clientY - this.offsetTop;
+				rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+				rect.h = (e.pageY - this.offsetTop) - rect.startY ;
+
+				$("#highlightBorder2").remove();
+				var highlightBorder2 = document.createElement("div");
+				highlightBorder2.id = "highlightBorder2";
+				document.getElementById('genderMagCanvasContainer').appendChild(highlightBorder2);
+				highlightBorder2.style.position = "absolute";
+				highlightBorder2.style.left = rect.startX-30 + "px";
+				highlightBorder2.style.top = rect.startY-20 + "px";
+				highlightBorder2.style.height = "50px";
+				highlightBorder2.style.width = "100px";
+				highlightBorder2.style.border = "0px solid #FFFFFF";
+				highlightBorder2.style.opacity = "1";
+			}
+			else{
+				var highlightBorder2 = document.createElement("div");
+				highlightBorder2.id = "highlightBorder2";
 			}
 		}
 		function draw() {
