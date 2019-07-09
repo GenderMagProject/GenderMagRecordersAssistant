@@ -374,7 +374,7 @@ function overlayScreen(onlyDraw){
 				highlightBorder2.style.top = rect.startY-20 + "px";
 				highlightBorder2.style.height = "50px";
 				highlightBorder2.style.width = "100px";
-				highlightBorder2.style.border = "4px solid #FFFFFF";
+				highlightBorder2.style.border = "0px solid #FFFFFF";
 				highlightBorder2.style.opacity = "1";
 			}
 			else{
