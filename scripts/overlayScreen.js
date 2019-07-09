@@ -87,7 +87,7 @@ function overlayScreen(onlyDraw){
 		toolTip.style.height = "600px";
 		toolTip.style.width = "500px";
 		toolTip.style.zIndex = "99999";
-		toolTip.style.border ="3px solid #1e57c8";
+		toolTip.style.border ="3px solid #4A96AD";
 		toolTip.style.backgroundColor = "white";
 		toolTip.style.cursor="pointer";
 		toolTip.style.borderRadius="5px";
@@ -129,7 +129,7 @@ function overlayScreen(onlyDraw){
 		canvas = document.getElementById("imageCanvas");
 		canvas.width = "465";
 		canvas.height=	"350";
-		canvas.style.border="2px solid #1e57c8";
+		canvas.style.border="2px solid #4A96AD";
 		canvas.style.margin="10px";
 		var context = canvas.getContext("2d");
 		var myImg = document.getElementById("previewImage");
@@ -308,7 +308,7 @@ function overlayScreen(onlyDraw){
                 }
 				setStatusToTrue("highlightedAction");
 				for (var element in elements) {
-					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" || element.id === "highlightHover") {
+					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" || element.id === "highlightHover" || element.id === "highlightBorder2") {
 						element.style.display = "default";
 					}
 				}
@@ -322,7 +322,8 @@ function overlayScreen(onlyDraw){
 
 
 				setTimeout(function () {
-					$("#highlightHover").remove();
+                    $("#highlightHover").remove();
+                    $("#highlightBorder2").remove();
 					//screenshot process finished, flag set to false
 					screenshotFlag = false;
 				}, 500);
@@ -350,12 +351,34 @@ function overlayScreen(onlyDraw){
 				highlightHover.style.top = rect.startY-20 + "px";
 				highlightHover.style.height = "50px";
 				highlightHover.style.width = "100px";
-				highlightHover.style.border = "3px solid #7D1935";
+				highlightHover.style.border = "6px solid #7D1935";
 				highlightHover.style.opacity = "1";
 			}
 			else{
 				var highlightHover = document.createElement("div");
 				highlightHover.id = "highlightHover";
+			}
+			if($("#highlightBorder2") && screenshotFlag){
+				rect.startX = e.clientX - this.offsetLeft;
+				rect.startY = e.clientY - this.offsetTop;
+				rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+				rect.h = (e.pageY - this.offsetTop) - rect.startY ;
+
+				$("#highlightBorder2").remove();
+				var highlightBorder2 = document.createElement("div");
+				highlightBorder2.id = "highlightBorder2";
+				document.getElementById('genderMagCanvasContainer').appendChild(highlightBorder2);
+				highlightBorder2.style.position = "absolute";
+				highlightBorder2.style.left = rect.startX-30 + "px";
+				highlightBorder2.style.top = rect.startY-20 + "px";
+				highlightBorder2.style.height = "50px";
+				highlightBorder2.style.width = "100px";
+				highlightBorder2.style.border = "3px solid #FFFFFF";
+				highlightBorder2.style.opacity = "1";
+			}
+			else{
+				var highlightBorder2 = document.createElement("div");
+				highlightBorder2.id = "highlightBorder2";
 			}
 		}
 		function draw() {
@@ -381,7 +404,7 @@ function renderImage(imgURL){
 	toolTip.style.height = "600px";
 	toolTip.style.width = "500px";
 	toolTip.style.zIndex = "99999";
-	toolTip.style.border ="3px solid #1e57c8";
+	toolTip.style.border ="3px solid #4A96AD";
 	toolTip.style.backgroundColor = "white";
 	toolTip.style.cursor="pointer";
 	toolTip.style.borderRadius="5px";
@@ -421,7 +444,7 @@ function renderImage(imgURL){
 	var canvas = document.getElementById("imageCanvas");
 	canvas.width = "465";
 	canvas.height=	"350";
-	canvas.style.border="2px solid #1e57c8";
+	canvas.style.border="2px solid #4A96AD";
 	canvas.style.margin="10px";
 	var context = canvas.getContext("2d");
 	var myImg = document.getElementById("previewImage");
