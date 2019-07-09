@@ -1,12 +1,12 @@
 <html>
 	<body>
-    <button id="exitButton" style="float:right; width:95px;font-size: smaller; height:25px;background-color:#ed7d31;color:white;"> Save and Exit</button>
+    <button id="exitButton" style="float:right; width:95px;font-size: smaller; height:25px;background-color:#7D1935;color:white;"> Save and Exit</button>
         <div id="imageCanvasTemplate"text-align:center;>
 
-            <div style="height:25px; background-color:#1e57c8;text-align:center;">
+            <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<!--span class="actionNameSpan" style="color:white;"> </span-->
-                <button id="imageBack" style="float:left; width:30px; height:25px;background-color:#ed7d31;color:white;">&#8592 </button>
-                <button id="saveImageAndCloseButton" class="closeToolTip" style="float:right; width:130px; height:25px;background-color:#ed7d31;color:white;font-size: smaller"> Save and Continue</button>
+                <button id="imageBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
+                <button id="saveImageAndCloseButton" class="closeToolTip" style="float:right; width:130px; height:25px;background-color:#7D1935;color:white;font-size: smaller"> Save and Continue</button>
             </div>
 
 			<p id="imageCaption" style="margin:10px">
@@ -22,11 +22,11 @@
 
             <div id="preActionQuestions">
 
-                <div style="height:25px; background-color:#1e57c8;text-align:center;">
+                <div style="height:25px; background-color:#4A96AD;text-align:center;">
 					<span class="actionNameSpan" style="color:white;"> </span>
-                    <button id="preActionBack" style="float:left; width:30px; height:25px;background-color:#ed7d31;color:white;">&#8592 </button>
+                    <button id="preActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
 
-                    <button id="preActionClose" style="float:right; width:130px;font-size: smaller; height:25px;background-color:#ed7d31;color:white;">Save and Continue </button>
+                    <button id="preActionClose" style="float:right; width:130px;font-size: smaller; height:25px;background-color:#7D1935;color:white;">Save and Continue </button>
                 </div>
                 <br>
 
@@ -57,10 +57,10 @@
 
         <div id="doActionPromptTemplate" style="display:none;">
 
-            <div style="height:25px; background-color:#1e57c8;text-align:center;">
+            <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<span class="actionNameSpan" style="color:white;"> </span>
-                <button id="doActionBack" style="float:left; width:30px; height:25px;background-color:#ed7d31;color:white;">&#8592 </button>
-                <!--input id="postAction" type="submit" value="Save and Continue" style="float:right; width:180px; height:25px;background-color:#ed7d31;color:white;"-->
+                <button id="doActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
+                <!--input id="postAction" type="submit" value="Save and Continue" style="float:right; width:180px; height:25px;background-color:#7D1935;color:white;"-->
             </div>
             <p style="padding:5px;">
 				<div>Please follow the steps below: </div>
@@ -74,10 +74,10 @@
 
         <div id="postActionTemplate" style="display:none;">
 
-            <div style="height:25px; background-color:#1e57c8;text-align:center;">
+            <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<span class="actionNameSpan" style="color:white;"> </span>
-                <button id="postActionBack" style="float:left; width:30px; height:25px;background-color:#ed7d31;color:white;">&#8592 </button>
-                <input id="submitPostAction" type="submit" value="Save and Continue" style="float:right; width:130px; font-size: smaller; height:25px;background-color:#ed7d31;color:white;">
+                <button id="postActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
+                <input id="submitPostAction" type="submit" value="Save and Continue" style="float:right; width:130px; font-size: smaller; height:25px;background-color:#7D1935;color:white;">
             </div>
             <br>
 
@@ -112,38 +112,38 @@
         <canvas id="imageCanvas" style="zindex:10002">
                 <img id="previewImage">
            </canvas>
-        <button id="annotateImage" class="previewTrigger" style="zindex:10002; float:right; width:150px; height:25px;background-color:#ed7d31;color:white;"> Draw on Image </button>
-        <button id="retakeImage" style="zindex:10002; float:right; width:150px; height:25px;background-color:#ed7d31;color:white;"> Retake Screenshot </button>
+        <button id="annotateImage" class="previewTrigger" style="zindex:10002; float:right; width:150px; height:25px;background-color:#7D1935;color:white;"> Draw on Image </button>
+        <button id="retakeImage" style="zindex:10002; float:right; width:150px; height:25px;background-color:#7D1935;color:white;"> Retake Screenshot </button>
 </div>
         <div id="actionLoopTemplate" style="display:none;">
             
-            <div style="height:25px; background-color:#1e57c8;text-align:center;">
+            <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<span class="actionNameSpan" style="color:white;"> </span>
-                <button id="loopActionBack" style="float:left; width:30px; height:25px;background-color:#ed7d31;color:white;">&#8592 </button>
+                <button id="loopActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
             </div>
 
             <p> Are there more actions for this subgoal? </p>
 			<p>Yes, create a new Action</p>
 			<input id="actionNameInput" type="text" placeholder="ex Type 'Sue' in the search bar">
-			<input id="moreActions" type="submit" value="Add another action" style="background-color:#ed7d31;color:white;"></input><br>
+			<input id="moreActions" type="submit" value="Add another action" style="background-color:#7D1935;color:white;"></input><br>
 
 			<p>No, create a new Subgoal</p>
             <input id="subgoalInput" type="text" placeholder="ex Search for 'Sue' in the DB">
-			<input type="submit" id="newSubgoal" value="Create new subgoal"style="background-color:#ed7d31;color:white;">
+			<input type="submit" id="newSubgoal" value="Create new subgoal"style="background-color:#7D1935;color:white;">
 			
 			<p>No, please exit the tool</p>
-            <input id="saveAndExit" type="submit" value="Save and stop GenderMag session"style="background-color:#ed7d31;color:white;"></input><br>
+            <input id="saveAndExit" type="submit" value="Save and stop GenderMag session"style="background-color:#7D1935;color:white;"></input><br>
             
         </div>
 		
 		<div id ="theFinalCountDown" style="display:none;">
-			<div style="height:25px; background-color:#1e57c8;text-align:center;">
+			<div style="height:25px; background-color:#4A96AD;text-align:center;">
             </div>
-			<p>WARNING! Selecting 'Quit GenderMag' below will clear all of your current session's data. Please ensure that you have downloaded the zip file (download should start automatically), which contains all your screen captures and a file with all of your answers.</p>
-			<label>You can <button id="finalDownload" style="background-color:#ed7d31;color:white;"> Re-download zip file</button> if needed</label><br><br>
+			<p>WARNING! Selecting 'Quit GenderMag' below will clear all of your current session's data. Please ensure that you have downloaded the zip file (download should start automatically), which contains all your screen captures and a file with all of your answers.</p>  
+			<label>You can <button id="finalDownload" style="background-color:#7D1935;color:white;"> Re-download zip file</button> if needed</label><br><br>
 			<label><input id="finalYesCheckbox" type="checkbox"> I understand AND HAVE DOWNLOADED MY FILES, let me end GenderMag </label> <br>
-			<button id="finalYes" style="background-color:#ed7d31;color:white;opacity:0.5" disabled> Quit GenderMag </button>
-			<button id="finalNo" style="background-color:#ed7d31;color:white;"> I'm not done, take me back </button>
+			<button id="finalYes" style="background-color:#7D1935;color:white;opacity:0.5" disabled> Quit GenderMag </button>
+			<button id="finalNo" style="background-color:#7D1935;color:white;"> I'm not done, take me back </button>
 		</div>
         
 
