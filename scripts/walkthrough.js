@@ -219,7 +219,7 @@ function drawAction(actionNum, subgoalId){
 			actionName = currArray[subgoalId-1].actions[actionNum-1].name;
 		}
 		sidebarBody().find('#getActionName').hide();
-        sidebarBody().find('#actionNameGot').html("<b>Ideal Action: " + actionName + "</b>");
+        sidebarBody().find('#actionNameGot').html("<b> Action: " + actionName + "</b>");
         sidebarBody().find('#actionNameGot').show();
 		sidebarBody().find("#promptAction").show();
 		setStatusToTrue("actionPromptOnScreen");
@@ -248,7 +248,7 @@ function drawAction(actionNum, subgoalId){
 			saveVarToLocal("currActionName", actionName);
 			setStatusToTrue("gotActionName");
 			sidebarBody().find('#getActionName').hide();
-			sidebarBody().find('#actionNameGot').html("<b>Ideal Action: " + actionName + "</b>");
+			sidebarBody().find('#actionNameGot').html("<b> Action: " + actionName + "</b>");
 			sidebarBody().find('#actionNameGot').show();
 			sidebarBody().find("#promptAction").show();
 			setStatusToTrue("actionPromptOnScreen");
