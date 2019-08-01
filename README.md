@@ -33,7 +33,7 @@ We welcome everyone with any background to contribute to making the world of sof
     
     h) A new extension called ”GenderMag Recorder's Assistant” should be in the top left corner of the extensions.
     
-3) If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. (See the [video](http://gendermag.org/GenderMag%20Demonstration.mp4) from http://gendermag.org for examples of running it.
+3) If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. (See the [video](http://gendermag.org/) from http://gendermag.org for examples of running it.
 
 ## Contributing
 
@@ -44,7 +44,7 @@ Please follow our [Code Of Conduct](https://github.com/mendezc1/GenderMagRecorde
 * Chrome Extension link: [GenderMag Recorder's Assistant](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en)
 * Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
 * Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
-* [Video](http://gendermag.org/GenderMag%20Demonstration.mp4) using the GenderMag Recorder's Assistant.
+* [Video](http://gendermag.org) using the GenderMag Recorder's Assistant.
 
 ## FAQ’s:
 <ol>
