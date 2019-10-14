@@ -128,14 +128,14 @@ function createCSV(entries) {
 
 	
 	var header2 = ["Subgoal",  
-					"Will Abby have formed this subgoal as a step to her overall goal?", 
+					"Will the persona have formed this subgoal as a step to their overall goal?",
 					"Yes", "No", "Maybe", 
 					"Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", 
 					"Action", 
-					"Will Abby know what to do at this step?", 
+					"Will the persona know what to do at this step?",
 					"Yes", "No", "Maybe", 
 					"Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", 
-					sanitizeString("If Abby does the right thing, will she know that she did the right thing and is making progress toward her goal?"), 
+					sanitizeString("If the persona does the right thing, will they know that they did the right thing and is making progress toward their goal?"),
 					"Yes", "No", "Maybe", 
 					"Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker"];
 	csvContent += header2.join(",") + "\n";

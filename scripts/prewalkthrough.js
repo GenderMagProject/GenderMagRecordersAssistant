@@ -54,6 +54,7 @@ function makeEditable () {
 		sidebarBody().find("#personaInfo").empty();
 		sidebarBody().find("#getPersona").show();
 		sidebarBody().find("#getPersona").children().show();
+		sidebarBody().find("#getPersonaPronoun").show();
 	});
 	
 	//Scenario name button
@@ -126,25 +127,14 @@ function handlePreWalkthroughInfo () {
 		var personaName = getVarFromLocal("personaName");
 		sidebarBody().find("#personaName").html("<b>Persona:</b> " + personaName);
 		loadPersona(personaName);
-		//fix pronouns based on persona in use
 		sidebarBody().find("#personaInfo").show();
-		if ((personaName == "Tim") || (personaName == "Patrick")) {
-			pronoun = "he";
-			possessive = "his";
-		} else {
-			pronoun = "she";
-			possessive = "her";
-		}
 		sidebarBody().find("#getPersona").children().hide();
 		sidebarBody().find("#getPersona").hide();
 		sidebarBody().find("#editPersona").show();
+		//show persona pronouns
+		sidebarBody().find("#getPersonaPronoun").show();
 		personaShown = true;
-		if( localStorage.getItem("inGetScenario") != "true") {
-			//Show Scenario
-			sidebarBody().find("#getScenario").show();
-			//sidebarBody().find("#getScenario").children().show();
-			sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
-		}
+
 	}
 	else {
 		//Persona selection
@@ -153,25 +143,71 @@ function handlePreWalkthroughInfo () {
 			var personaName = sidebarBody().find("#personaSelection").val();
 			saveVarToLocal("personaName", personaName);
             setStatusToTrue("gotPersonaName");
-			
+
 			//Display persona selection and related info
 			sidebarBody().find("#personaName").html("<b>Persona:</b> " + personaName);
 			loadPersona(personaName);
 			sidebarBody().find("#personaInfo").show();
-			if ((personaName == "Tim") || (personaName == "Patrick")) {
-				pronoun = "he";
-				possessive = "his";
-			} else {
-				pronoun = "she";
-				possessive = "her";
-			}
+			var pronoun = localStorage.getItem('personaPronoun');
+			var possessive = localStorage.getItem('personaPossessive');
 			sidebarBody().find("#getPersona").children().hide();
 			sidebarBody().find("#getPersona").hide();
+
+            //show persona pronouns
+			sidebarBody().find("#getPersonaPronoun").show();
+		});
+	}
+
+	var isSetPronoun = statusIsTrue("gotPronoun");
+	if (isSetPronoun) {
+		//Restore from previous state
+		//Get and save scenario name
+		var pronoun = getVarFromLocal("pronoun");
+		var possessive = getVarFromLocal("possessive");
+		var personaName = getVarFromLocal("personaName");
+		sidebarBody().find("#getPersonaPronoun").hide();
+
+		if( localStorage.getItem("inGetScenario") !== "true") {
 			//Show Scenario
 			sidebarBody().find("#getScenario").show();
+			//sidebarBody().find("#getScenario").children().show();
 			sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
-			sidebarBody().find("#editPersona").show();
-			personaShown = true;
+		}
+	}
+	else{
+		//enter get pronoun stuff here
+		sidebarBody().find("#pronounInput").keyup(function(event){
+			if(event.keyCode === 13){
+				sidebarBody().find("#submitPronoun").unbind( "click" ).click();
+			}
+		});
+		sidebarBody().find("#possessiveInput").keyup(function(event){
+			if(event.keyCode === 13){
+				sidebarBody().find("#submitPronoun").unbind( "click" ).click();
+			}
+		});
+		sidebarBody().find('body').off('click', '#submitPronoun').on('click', '#submitPronoun', function() {
+
+			//Get and save scenario name
+			var personaPronoun = sidebarBody().find("#pronounInput").val();
+			var personaPossessive = sidebarBody().find("#possessiveInput").val();
+			if(personaPronoun === "" || personaPossessive === ""){
+				alert("Please enter both the pronoun and possessive adjective.");
+			}
+			else {
+				saveVarToLocal("personaPronoun", personaPronoun);
+				saveVarToLocal("personaPossessive", personaPossessive);
+				sidebarBody().find("#pronounInput").val('');
+				sidebarBody().find("#possessiveInput").val('');
+
+				var personaName = getVarFromLocal("personaName");
+				setStatusToTrue("gotPronoun");
+				sidebarBody().find("#getPersonaPronoun").hide();
+				sidebarBody().find("#getScenario").show();
+				sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
+				sidebarBody().find("#editPersona").show();
+				personaShown = true;
+			}
 		});
 	}
 	

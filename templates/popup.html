@@ -43,7 +43,7 @@
     </span>
 
 
-<button id="saveAndExit" style="float:right; width:80px; height:25px;background-color:#7D1935;color:white;"> Exit</button>
+<button id="saveAndExit" style="float:right; width:100px; height:25px;background-color:#7D1935;color:white;"> Save and Exit</button>
 <!-- <button id="viewPersona">View Personas</button> -->
 
 	</div>
@@ -68,16 +68,25 @@
 		</div>
 
 		<div id="getPersona" hidden>
-			<label id="personaPrompt">Now select a Persona</label><br>
+			<br><label id="personaPrompt">Now select a Persona</label><br>
 			<select id="personaSelection" name="persona">
-				<option value="Abby">Abby</option>
+				<option value="Abi">Abi</option>
 				<option value="Tim">Tim</option>
-				<option value="Patrick">Patrick</option>
-				<option value="Patricia">Patricia</option>
+				<option value="Pat">Pat</option>
 				<option value="Custom">Custom</option>
 			</select>
 
-			<button id="submitPersona">Submit</button><br>
+            <button id="submitPersona">Submit</button><br><br>
+            <b><p>To learn more about these personas, click <a href = "http://gendermag.org/Foundations.html" target = "_blank">here.</a></p></b>
+		</div>
+
+		<div id="getPersonaPronoun" hidden>
+			<label id="pronounPrompt">Please enter pronouns for your persona</label><br>
+			<label for="pronounInput">Subject Pronoun:</label><br>
+			<input id="pronounInput" type="text" placeholder="ex: she, they, ze"><br>
+			<label for="possessiveInput">Possessive Adjective:</label><br>
+			<input id="possessiveInput" type="text" placeholder="ex: her, their, zir"><br>
+			<input type="submit" id="submitPronoun"><br>
 		</div>
 
 		<div id="getScenario" hidden>

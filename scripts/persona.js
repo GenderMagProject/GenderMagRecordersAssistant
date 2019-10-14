@@ -1,30 +1,30 @@
 function loadPersona(personaName){
 	//console.log("in load persona" , personaName);
-	if(personaName == "Abby"){
-		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Abby/abbyPersona.html");
-		var abbySRC=chrome.extension.getURL("images/abbymulti.png");
-		var abbyIMG= "<img id='AbbyPhoto' src='" + abbySRC + "' alt='Abby Jones' class='sidebarImg' width='120' height='100'/>";
-		sidebarBody().find("#picGoesHere").append(abbyIMG);
-		sidebarBody().find(".abbyMTrigger").unbind( "click" ).click(function (){
-			addToolTip("abbyMToolTip", "Abby");
+	if(personaName === "Abi"){
+		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Abi/abiPersona.html");
+		var abiSRC=chrome.extension.getURL("images/abimulti.png");
+		var abiIMG= "<img id='AbiPhoto' src='" + abiSRC + "' alt='Abi Jones' class='sidebarImg' width='120' height='100'/>";
+		sidebarBody().find("#picGoesHere").append(abiIMG);
+		sidebarBody().find(".abiMTrigger").unbind( "click" ).click(function (){
+			addToolTip("abiMToolTip", "Abi");
 		});
-		sidebarBody().find(".abbyIPSTrigger").unbind( "click" ).click(function(){
-			addToolTip("abbyIPSToolTip", "Abby");
+		sidebarBody().find(".abiIPSTrigger").unbind( "click" ).click(function(){
+			addToolTip("abiIPSToolTip", "Abi");
 		});
 
-		sidebarBody().find(".abbySETrigger").unbind( "click" ).click(function(){
-			addToolTip("abbySEToolTip", "Abby");
+		sidebarBody().find(".abiSETrigger").unbind( "click" ).click(function(){
+			addToolTip("abiSEToolTip", "Abi");
 		});
-		sidebarBody().find(".abbyRTrigger").unbind( "click" ).click(function(){
-			addToolTip("abbyRToolTip", "Abby");
+		sidebarBody().find(".abiRTrigger").unbind( "click" ).click(function(){
+			addToolTip("abiRToolTip", "Abi");
 		});
-		sidebarBody().find(".abbyTTrigger").unbind( "click" ).click(function(){
-			addToolTip("abbyTToolTip", "Abby");
+		sidebarBody().find(".abiTTrigger").unbind( "click" ).click(function(){
+			addToolTip("abiTToolTip", "Abi");
 		});
 
 
 	}
-	else if(personaName == "Tim"){
+	else if(personaName === "Tim"){
 		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Tim/timPersona.html");
 		var timSRC=chrome.extension.getURL("images/Timmulti.png");
 		var tImg = "<img id='TimPhoto' src='" + timSRC + "' alt='Tim Hopkins' class='sidebarImg' width='100' height='100'/>";
@@ -47,7 +47,7 @@ function loadPersona(personaName){
 		});
 
 	}
-	else if(personaName == "Patrick"){
+	/*else if(personaName === "Patrick"){
 		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Patrick/patrickPersona.html");
 		var patrickSRC=chrome.extension.getURL("images/Patricmulti.png");
 		var patrickIMG= "<img id='PatrickPhoto' src='" + patrickSRC + "' alt='Patrick Jones' class='sidebarImg' width='100' height='100'/>";
@@ -68,52 +68,51 @@ function loadPersona(personaName){
 		sidebarBody().find(".patrickTTrigger").unbind( "click" ).click(function(){
 			addToolTip("patrickTToolTip", "Patrick");
 		});
-	}
-	else if(personaName == "Patricia"){
-		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Patricia/patriciaPersona.html");
-		var patriciaSRC=chrome.extension.getURL("images/Patriciamulti.png");
-		var patriciaIMG= "<img id='PatriciaPhoto' src='" + patriciaSRC + "' alt='Patricia Jones' class='sidebarImg' width='100' height='100'/>";
-		sidebarBody().find("#picGoesHere").append(patriciaIMG);
+	} */
+	else if(personaName === "Pat"){
+		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/pat/patPersona.html");
+		var patSRC=chrome.extension.getURL("images/Patmulti.png");
+		var patIMG= "<img id='patPhoto' src='" + patSRC + "' alt='Pat Jones' class='sidebarImg' width='100' height='100'/>";
+		sidebarBody().find("#picGoesHere").append(patIMG);
 
-		sidebarBody().find(".patriciaMTrigger").unbind( "click" ).click(function (){
-			addToolTip("patriciaMToolTip", "Patricia");
+		sidebarBody().find(".patMTrigger").unbind( "click" ).click(function (){
+			addToolTip("patMToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaIPSTrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaIPSToolTip", "Patricia");
+		sidebarBody().find(".patIPSTrigger").unbind( "click" ).click(function(){
+			addToolTip("patIPSToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaSETrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaSEToolTip", "Patricia");
+		sidebarBody().find(".patSETrigger").unbind( "click" ).click(function(){
+			addToolTip("patSEToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaRTrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaRToolTip", "Patricia");
+		sidebarBody().find(".patRTrigger").unbind( "click" ).click(function(){
+			addToolTip("patRToolTip", "Pat");
 		});
-		sidebarBody().find(".patriciaTTrigger").unbind( "click" ).click(function(){
-			addToolTip("patriciaTToolTip", "Patricia");
+		sidebarBody().find(".patTTrigger").unbind( "click" ).click(function(){
+			addToolTip("patTToolTip", "Pat");
 		});
 	}
-	else if(personaName == "Custom"){
-	appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/custom/custom.html");
+	else if(personaName === "Custom"){
+		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/custom/custom.html");
 //	var patrickSRC=chrome.extension.getURL("images/Patricmulti.png");
 //	var patrickIMG= "<img id='PatrickPhoto' src='" + patrickSRC + "' alt='Patrick Jones' class='sidebarImg' width='100' height='100'/>";
 //	sidebarBody().find("#picGoesHere").append(patrickIMG);
 
-sidebarBody().find(".patriciaMTrigger").unbind( "click" ).click(function (){
-	addToolTip("patriciaMToolTip", "Patricia");
-});
-sidebarBody().find(".patriciaIPSTrigger").unbind( "click" ).click(function(){
-	addToolTip("patriciaIPSToolTip", "Patricia");
-});
-sidebarBody().find(".patriciaSETrigger").unbind( "click" ).click(function(){
-	addToolTip("patriciaSEToolTip", "Patricia");
-});
-sidebarBody().find(".patriciaRTrigger").unbind( "click" ).click(function(){
-	addToolTip("patriciaRToolTip", "Patricia");
-});
-sidebarBody().find(".patriciaTTrigger").unbind( "click" ).click(function(){
-	addToolTip("patriciaTToolTip", "Patricia");
-});
-
-}
+		sidebarBody().find(".patMTrigger").unbind( "click" ).click(function (){
+			addToolTip("patMToolTip", "Pat");
+		});
+		sidebarBody().find(".patIPSTrigger").unbind( "click" ).click(function(){
+			addToolTip("patIPSToolTip", "Pat");
+		});
+		sidebarBody().find(".patSETrigger").unbind( "click" ).click(function(){
+			addToolTip("patSEToolTip", "Pat");
+		});
+		sidebarBody().find(".patRTrigger").unbind( "click" ).click(function(){
+			addToolTip("patRToolTip", "Pat");
+		});
+		sidebarBody().find(".patTTrigger").unbind( "click" ).click(function(){
+			addToolTip("patTToolTip", "Pat");
+		});
+	}
 	else{
 
 	}

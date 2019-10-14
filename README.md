@@ -36,41 +36,76 @@ Note: You can also install this tool from the chrome web store using the link pr
     h) Click on “Update ” under the search bar.
     
     i) A new extension called ”GenderMag Recorder's Assistant” should be in the top left corner of the extensions.
+
+## How to Run a GenderMag Session Using the Tool
+If you have downloaded and installed the tool and want to run the tool at this point,
+make sure the extension is enabled, navigate to the page you wish to perform 
+GenderMag on and click the GenderMag button at the bottom of the screen. 
+
+See the [video](http://gendermag.org/) from http://gendermag.org for examples and/or
+read the guide below.
+
+Here is a step-by-step guide on how to run the Recorder Assistant tool: 
+
+   1) After you have installed the GenderMag recorder's assistance extension a maroon
+      button will appear on the bottom of the screen click it to open GenderMag.
+      
+   2) After clicking on the maroon button text explaining what GenderMag is will appear
+      on the screen. Click on "Start GenderMag" to get started.
+      
+   3) Enter the name of your team and click submit.
+   
+   4) Select the persona that you want to use for this session. 
+      Currently, you can select from three personas: Abi, Tim, and Pat.
+      After you have selected the persona, the description of the selected persona you
+      selected will appear to the right.
+
+     * a) If you want to change the persona or team name, click edit on top of the tool.
+   
+   5) Provide the scenario that your persona will be performing in the text box and click submit.
     
-3) If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. (See the video at http://gendermag.org for examples of running it. The link to the video is given in the resources.)
+   6) Enter a subgoal and click 'enter subgoal'. 
+   
+   7) Answer: Yes, No, or Maybe for if the persona would have formed this subgoal as a step to their
+   overall goal, and in the textbox under it explain why, why not, or why maybe? On the right of that
+   textbox select all the checkboxes against the facets that were used to answer the previous question.
+   Then click save and continue.
+    
+   8) Enter an action that pertains to this subgoal. 
+   
+   9) Click on the 'click here' button to take a screen capture of ideal action. Move the rectangular 
+   box around your box to the action that you want to focus on and hit the left click. This will 
+   create a screen capture of ideal action. If you want to add more info to the capture click on the 
+   draw on the image button and annotate the image. If the image looks okay, click save and continue.
+
+   10) Answer: Yes, No, or Maybe for, will the persona know what to do at this step, and in the textbox
+   under it explain why, why not, or why maybe? On the right of that textbox select all the checkboxes
+   against the facets that were used to answer the previous question.
+
+   11) Perform the action you indicated previously in step 9 and click on the 'click here' link to continue.
+   
+   12) Answer: Yes, No, or Maybe for, if the persona did the right thing will she know that they did
+   the right thing, and is making progress towards the goal and in the textbox under it explain why,
+   why not, or why maybe? On the right of that textbox select all the checkboxes against the facets
+   that were used to answer the previous question. Click 'save and continue' when ready.
+       
+   13) If your persona needs another action to complete the current subgoal, enter the new action in the
+   top text box and click 'add another action'. Return to (9) and complete all subsequent steps.
+   
+   14) If the subgoal is complete, but another subgoal is needed to complete the scenario, enter the subgoal
+   in the bottom text box and click 'create new subgoal'. Return to (7) and complete all subsequent steps. 
+    
+   15) If the scenario has been completed, click 'save and stop GenderMag session'. This will take you to
+   another page and download a zip file with your session's information.
+   
+   16) If the zip file was not downloaded click Re-Download zip file. Otherwise, check the box next to the
+   desclaimer saying that the file was downloaded and hit "Quit GenderMag". This will reload the page and close
+   the tool.
+
+See the video at http://gendermag.org for examples of what running the tool looks like.
 
 ## How to Disable GenderMag:
 * To turn off the GenderMag extension navigate back to “Extensions” and uncheck the “Enable” box and uncheck “Developer Mode”.
-
-## How to use GenderMag:
-
-1) After you have installed the GenderMag recorder's assistance extension a maroon button will appear on the bottom of the screen click it to open GenderMag.
-
-2) After clicking on the maroon button text explaining what GenderMag is will appear on the screen. Click on "Start GenderMag" to get started.
-    
-3) Enter the name of your team and hit submit.
-
-4) Select the persona that you want to use for this session. Currently, you can select from four personas, Abby, Tim, Patrick, and Patricia.
-
-5) After you have selected the persona, on the right side the description of the persona you selected will appear. If you want to change the persona or team name, click edit on top of the tool. In the text box that appeared on the left side, describe the scenario the persona will be performing.
-
-6) Add the sub goal.
-
-7) Answer: Yes, No, or Maybe for, if the persona would have formed this sub goal as a step to her overall goal, and in the textbox under it explain why, why not, or why maybe? On the right of that textbox select all the checkboxes against the facets that were used to answer the previous question.
-
-8) Add action for the sub goal.
-
-9) Click on the click here button to take a screen capture of ideal action. Move the rectangular box around your box to the action that you want to focus on and hit the left click. This will create a screen capture of ideal action. If you want to add more info to the capture click on the draw on the image button and annotate the image. If the image looks okay, click save and continue.
-
-10) Answer: Yes, No, or Maybe for, will the persona know what to do at this step, and in the textbox under it explain why, why not, or why maybe? On the right of that textbox select all the checkboxes against the facets that were used to answer the previous question.
-
-11) Perform the ideal action and click on the click here button to continue.
-
-12) Answer: Yes, No, or Maybe for, if the persona did the right thing will she know that she did the right thing, and is making progress towards the goal and in the textbox under it explain why, why not, or why maybe? On the right of that textbox select all the checkboxes against the facets that were used to answer the previous question.
-
-13) Of you have more actions for the current sub goal add the action and follow steps 8 through 13 again, if you have more sub goals add the sub goal and follow step 6 through 13 again. If you don't have any actions or the sub goals left click "save and stop GenderMag session" this should download a zip file containing the captures and a .csv file containing the output of the session.
-
-14) If the zip file was not downloaded click Re-Download zip file, otherwise check the desclaimer saying that the file was downloaded and hit "Quit GenderMag".
 
 ## Contributing
 
@@ -81,7 +116,7 @@ Please follow our [Code Of Conduct](https://github.com/mendezc1/GenderMagRecorde
 * Chrome Extension link: [GenderMag Recorder's Assistant](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en)
 * Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
 * Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
-* [Video](http://gendermag.org/GenderMag%20Demonstration.mp4) using the GenderMag Recorder's Assistant.
+* [Video](http://gendermag.org) using the GenderMag Recorder's Assistant.
 
 ## FAQ’s:
 <ol>
