@@ -3,7 +3,7 @@
     width="180" height="180" style="margin-top: 10px;" align="left">
   </a>
 
-## What is the GenderMag Recorder's Assistant?
+# What is the GenderMag Recorder's Assistant?
 
 The GenderMag Recorder’s Assistant is a tool to identify gender-inclusiveness 
 issues in software. [GenderMag](http://gendermag.org/) is a process you can use 
@@ -18,9 +18,9 @@ We welcome everyone with any background to contribute to making the world of
 software more gender inclusive.
 <a name="install">
 
-## How to install the GenderMag Recorder's Assistant:</a>
+# How to install the GenderMag Recorder's Assistant:</a>
 
-###Method 1: Download from GitHub: 
+##Method 1: Download from GitHub: 
 
 1) Create a fork of the project to your GitHub account. 
     For information on how to do this, please see
@@ -48,11 +48,11 @@ located and extract the zipped files. (Right click on the zipped
 10) The new extension called ”GenderMag Recorder's Assistant” should be in the 
 top left corner of the extensions.
 
-###Method 2: Install from Chrome Extension Store
-~Work in Progress~
+##Method 2: Install from Chrome Extension Store
+Work in Progress
 See https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en
 
-## How to Run a GenderMag Session Using the Tool
+# How to Run a GenderMag Session Using the Tool
 If you have downloaded and installed the tool and want to run it,
 make sure the extension is enabled, navigate to the page you wish to perform 
 GenderMag on and click the GenderMag button at the bottom of the screen. 
@@ -137,7 +137,7 @@ looks like.
 * To turn off the GenderMag extension navigate back to “Extensions” and uncheck 
 the “Enable” box and uncheck “Developer Mode”.
 
-## Contributing
+# Contributing
 
 Please follow our 
 [Code Of Conduct](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Code_of_Conduct.md) and read our [Contributing Guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Contributing.MD).
@@ -149,7 +149,7 @@ Please follow our
 * Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
 * [Video](http://gendermag.org) using the GenderMag Recorder's Assistant.
 
-## FAQ’s:
+# FAQ’s:
 <ol>
   <li>How to install  GenderMag Recorder’s Assistant (chrome extension):
     <ul>
