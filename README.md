@@ -20,7 +20,7 @@ software more gender inclusive.
 
 # How to install the GenderMag Recorder's Assistant:</a>
 
-##Method 1: Download from GitHub: 
+## Method 1: Download from GitHub: 
 
 1) Create a fork of the project to your GitHub account. 
     For information on how to do this, please see
@@ -48,7 +48,7 @@ located and extract the zipped files. (Right click on the zipped
 10) The new extension called ”GenderMag Recorder's Assistant” should be in the 
 top left corner of the extensions.
 
-##Method 2: Install from Chrome Extension Store
+## Method 2: Install from Chrome Extension Store
 Work in Progress
 See https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en
 
@@ -150,6 +150,7 @@ Please follow our
 * [Video](http://gendermag.org) using the GenderMag Recorder's Assistant.
 
 # FAQ’s:
+Note: If you have questions you would like us to answer, please let us know by filing an issue asking the question!
 <ol>
   <li>How to install  GenderMag Recorder’s Assistant (chrome extension):
     <ul>
