@@ -78,6 +78,10 @@ hr {
 	float: right;
 }
 
+#scenario, #persona{
+	padding-left: 15px;
+}
+
 .instruction {
 	font-size: 13px;
 	text-align: center;
