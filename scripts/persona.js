@@ -47,28 +47,6 @@ function loadPersona(personaName){
 		});
 
 	}
-	/*else if(personaName === "Patrick"){
-		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/Patrick/patrickPersona.html");
-		var patrickSRC=chrome.extension.getURL("images/Patricmulti.png");
-		var patrickIMG= "<img id='PatrickPhoto' src='" + patrickSRC + "' alt='Patrick Jones' class='sidebarImg' width='100' height='100'/>";
-		sidebarBody().find("#picGoesHere").append(patrickIMG);
-
-		sidebarBody().find(".patrickMTrigger").unbind( "click" ).click(function (){
-			addToolTip("patrickMToolTip", "Patrick");
-		});
-		sidebarBody().find(".patrickIPSTrigger").unbind( "click" ).click(function(){
-			addToolTip("patrickIPSToolTip", "Patrick");
-		});
-		sidebarBody().find(".patrickSETrigger").unbind( "click" ).click(function(){
-			addToolTip("patrickSEToolTip", "Patrick");
-		});
-		sidebarBody().find(".patrickRTrigger").unbind( "click" ).click(function(){
-			addToolTip("patrickRToolTip", "Patrick");
-		});
-		sidebarBody().find(".patrickTTrigger").unbind( "click" ).click(function(){
-			addToolTip("patrickTToolTip", "Patrick");
-		});
-	} */
 	else if(personaName === "Pat"){
 		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/pat/patPersona.html");
 		var patSRC=chrome.extension.getURL("images/Patmulti.png");

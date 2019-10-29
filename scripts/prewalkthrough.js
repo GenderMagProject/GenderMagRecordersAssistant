@@ -208,6 +208,7 @@ function handlePreWalkthroughInfo () {
 				sidebarBody().find("#editPersona").show();
 				personaShown = true;
 			}
+			updatePronouns();
 		});
 	}
 	

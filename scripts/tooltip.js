@@ -3,15 +3,28 @@
  * It should be called from addToolTip but is currently not in use do to grammar problems with the wording
  * in the tool tip (for example: she gathers vs. they gather)
  */
-function updatePronoun() {
-	var x = document.getElementsByClassName("pronoun");
-	var i;
-	for (i = 0; i < x.length; i++) {
-		x[i].innerHTML = localStorage.getItem('personaPronoun');
-	}
-	var y = document.getElementsByClassName("possessive");
-	for (i = 0; i < y.length; i++) {
-		y[i].innerHTML = localStorage.getItem('personaPossessive');
+function updatePronouns() {
+	if(getVarFromLocal('personaPronoun')){
+		var x = document.getElementsByClassName("pronoun");
+		var i;
+		for (i = 0; i < x.length; i++) {
+			x[i].innerHTML = getVarFromLocal('personaPronoun');
+		}
+		var y = document.getElementsByClassName("possessive");
+		for (i = 0; i < y.length; i++) {
+			y[i].innerHTML = getVarFromLocal('personaPossessive');
+		}
+		if (getVarFromLocal('personaPronoun') === 'she' ||
+			getVarFromLocal('personaPronoun') === 'he') {
+			var y = document.getElementsByClassName("verb-is");
+			for (i = 0; i < y.length; i++) {
+				y[i].innerHTML = "is";
+			}
+			var w = document.getElementsByClassName("verb-other");
+			for (i = 0; i < w.length; i++) {
+				w[i].innerHTML = "s";
+			}
+		}
 	}
 }
 
@@ -56,7 +69,6 @@ function addToolTip(toolTipName, folderName){
 					$("#"+toolTipName+"SeeMOAR").html("See more...");	
 					$(this).attr("stateVar", 0);
 				}
-				
 		});
-	//updatePronoun();
+	updatePronouns();
 }
