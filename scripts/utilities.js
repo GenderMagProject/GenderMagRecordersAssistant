@@ -129,17 +129,18 @@ function closeSlider(){
  * Function: saveAndExit
  */
 function saveAndExit(exitType){
-	console.log("SAVE AND EXIT");
 	el = sidebarBody().find('#sideBySide');
 	if(exitType === "slider") {
 		el.contents().hide();
 		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
+		sidebarBody().find('#saveAndExit').attr("hidden", true);
 	} else {
 		document.getElementById('myToolTip').style.display = "none";
 		document.getElementById('genderMagCanvasContainer').style.display="none";
 		openSlider();
 		el.contents().hide();
 		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
+		sidebarBody().find('#saveAndExit').attr("hidden", true);
 	}
 	var entrees = parseSubgoalArray();
 	var scurvy = createCSV(entrees);
@@ -168,6 +169,7 @@ function saveAndExit(exitType){
 	});
 
 	$(el).find("#sliderFinalNo").unbind("click").click(function () {
+		sidebarBody().find('#saveAndExit').attr("hidden", false);
 		$(el).find('#sliderFinalCountdown').remove();
 		if(exitType ==="slider") {
 			$(el).find('#subgoalList').show();
@@ -179,10 +181,6 @@ function saveAndExit(exitType){
 			document.getElementById('genderMagCanvasContainer').style.display="block";
 			closeSlider();
 			el.contents().show();
-			//$(el).find('#subgoalList').show();
-			//$(el).find('#containeryo').show();
-			//$(el).find('#personaInfo').show();
 		}
 	});
-
 }
