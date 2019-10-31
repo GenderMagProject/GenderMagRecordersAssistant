@@ -204,6 +204,17 @@ function postActionQuestions(el){
 		actionLoop(el);
 	});
 
+	$("#postActionBack").unbind("click").click(function(){
+		setStatusToFalse("idealActionPerformed");
+		$(el).find("#doActionPromptTemplate").show();
+		$(el).find("#postActionTemplate").hide();
+		$(el).find("#imageCaption2").show();
+		$(el).find("#imageCanvas").show();
+		$(el).find("#imageCaption3").hide();
+
+		doActionPrompt(el);
+	});
+
 	//set functionality for facet pop up info window
 	setFacetPopups(personaName);
 }
