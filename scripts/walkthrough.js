@@ -128,12 +128,19 @@ function drawSubgoal(subgoalId){
 
 			//save and continue is clicked save subgoal and call draw action function
             sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
-                var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"), "no": sidebarBody().find("#no").is(":checked"), "maybe": sidebarBody().find("#maybe").is(":checked")};
+                var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
+					"no": sidebarBody().find("#no").is(":checked"),
+					"maybe": sidebarBody().find("#maybe").is(":checked")};
                 var whyText = sidebarBody().find('#A0Q0whyYes').val();
                 if (whyText === "") {
                     whyText = sidebarBody().find('#A0Q0Response').html();
                 }
-                var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"), "info": sidebarBody().find("#A0Q0info").is(":checked"), "selfE": sidebarBody().find("#A0Q0selfE").is(":checked"), "risk": sidebarBody().find("#A0Q0risk").is(":checked"), "tinker": sidebarBody().find("#A0Q0tinker").is(":checked")};
+                var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"),
+					"info": sidebarBody().find("#A0Q0info").is(":checked"),
+					"selfE": sidebarBody().find("#A0Q0selfE").is(":checked"),
+					"risk": sidebarBody().find("#A0Q0risk").is(":checked"),
+					"tinker": sidebarBody().find("#A0Q0tinker").is(":checked"),
+					"none": sidebarBody().find("#A0Q0none").is(":checked")};
                 saveSubgoal(subgoalId, subName, yesNoMaybe, whyText, facets);
                 //change key for subgoal questions
                 setStatusToTrue("gotSubgoalQuestions");
@@ -169,12 +176,19 @@ function drawSubgoal(subgoalId){
 
 		//on save and continue, save subgoal question answers and call draw action
 		sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
-			var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"), "no": sidebarBody().find("#no").is(":checked"), "maybe": sidebarBody().find("#maybe").is(":checked")};
+			var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
+				"no": sidebarBody().find("#no").is(":checked"),
+				"maybe": sidebarBody().find("#maybe").is(":checked")};
 			var whyText = sidebarBody().find('#A0Q0whyYes').val();
             if (whyText === "") {
                 whyText = sidebarBody().find('#A0Q0Response').html();
             }
-			var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"), "info": sidebarBody().find("#A0Q0info").is(":checked"), "selfE": sidebarBody().find("#A0Q0selfE").is(":checked"), "risk": sidebarBody().find("#A0Q0risk").is(":checked"), "tinker": sidebarBody().find("#A0Q0tinker").is(":checked")};
+			var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"),
+				"info": sidebarBody().find("#A0Q0info").is(":checked"),
+				"selfE": sidebarBody().find("#A0Q0selfE").is(":checked"),
+				"risk": sidebarBody().find("#A0Q0risk").is(":checked"),
+				"tinker": sidebarBody().find("#A0Q0tinker").is(":checked"),
+				"none": sidebarBody().find("#A0Q0none").is(":checked")};
 			saveSubgoal(subgoalId, subName, yesNoMaybe, whyText, facets);
 			setStatusToTrue("gotSubgoalQuestions");
 			var numActions = localStorage.getItem("numActions");

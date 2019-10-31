@@ -83,9 +83,16 @@ function preActionQuestions(el){
 	//when save and continue button is clicked, save input values
 	$("#preActionClose").unbind( "click" ).click(function(){
 		var actionName = localStorage.getItem("currActionName"); //Currently save and then deletes this name before it can be called again
-		var yesNoMaybe = {"yes": $('#actionYes').is(":checked"), "no": $('#actionNo').is(":checked"), "maybe": $('#actionMaybe').is(":checked")};
+		var yesNoMaybe = {"yes": $('#actionYes').is(":checked"),
+			"no": $('#actionNo').is(":checked"),
+			"maybe": $('#actionMaybe').is(":checked")};
 		var whyText = $('#whyYes').val();
-		var facets = {"motiv": $('#motiv').is(":checked"), "info": $('#info').is(":checked"), "self": $('#self').is(":checked"), "risk": $('#risk').is(":checked"), "tinker": $('#tinker').is(":checked")};
+		var facets = {"motiv": $('#motiv').is(":checked"),
+			"info": $('#info').is(":checked"),
+			"self": $('#self').is(":checked"),
+			"risk": $('#risk').is(":checked"),
+			"tinker": $('#tinker').is(":checked"),
+			"none": $('#none').is(":checked")};
 		savePreIdealAction(actionName, yesNoMaybe, whyText, facets);
         setStatusToTrue("gotPreActionQuestions");
 		doActionPrompt(el);
@@ -182,9 +189,16 @@ function postActionQuestions(el){
 	$("#submitPostAction").unbind( "click" ).click(function(){
 	    setStatusToTrue("gotPostActionQuestions");
 		var actionName = localStorage.getItem("currActionName");
-		var yesNoMaybe = {"yes": $('#YNMyes').is(":checked"), "no": $('#YNMno').is(":checked"), "maybe": $('#YNMmaybe').is(":checked")};
+		var yesNoMaybe = {"yes": $('#YNMyes').is(":checked"),
+			"no": $('#YNMno').is(":checked"),
+			"maybe": $('#YNMmaybe').is(":checked")};
 		var whyText = $('#postWhyYes').val();
-		var facets = {"motiv": $('#Q2motiv').is(":checked"), "info": $('#Q2info').is(":checked"), "self": $('#Q2self').is(":checked"), "risk": $('#Q2risk').is(":checked"), "tinker": $('#Q2tinker').is(":checked")};
+		var facets = {"motiv": $('#Q2motiv').is(":checked"),
+			"info": $('#Q2info').is(":checked"),
+			"self": $('#Q2self').is(":checked"),
+			"risk": $('#Q2risk').is(":checked"),
+			"tinker": $('#Q2tinker').is(":checked"),
+			"none": $('#Q2none').is(":checked")};
 		savePostIdealAction(actionName, yesNoMaybe, whyText, facets);
         //move on to checking if user wants new subgoal or action or end session
 		actionLoop(el);
@@ -271,6 +285,7 @@ function actionLoop(el){
 		}
 	});
 
+	//TODO(roseg31) : Invesitgate this...
 	//on save and exit button click, save all info, close session
 	$("#saveAndExit").unbind( "click" ).click(function(){
 		$(el).find("#actionLoopTemplate").hide();
