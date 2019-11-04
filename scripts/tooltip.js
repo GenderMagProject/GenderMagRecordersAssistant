@@ -50,14 +50,15 @@ function addToolTip(toolTipName, folderName){
 
 		appendTemplateToElement($("#"+toolTipName+"Div"), 'templates/'+folderName+ '/' +toolTipName +'.html');
 		$("#"+toolTipName+"Div").draggable();
+		$("#"+toolTipName+"Complete").hide();
 		$("#" + toolTipName + "Button").off('click').on('click', function() {
 			$("#" + toolTipName + "Div").remove();
 		});
 		$('#'+toolTipName+'SeeMOAR').off('click').on('click', function() {
 				var isOpen = $(this).attr("stateVar");
-		
+
 				//The "see more" is expanded and needs to be closed
-				if (isOpen == 0) {
+				if ($(this).attr("stateVar") == 0) {
 					$("#"+toolTipName+"Preview").hide();
 					$("#"+toolTipName+"Complete").show();
 					$("#"+toolTipName+"SeeMOAR").html("See less");	
