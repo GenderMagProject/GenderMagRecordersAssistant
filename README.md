@@ -49,8 +49,12 @@ located and extract the zipped files. (Right click on the zipped
 top left corner of the extensions.
 
 ## Method 2: Install from Chrome Extension Store
-Work in Progress
-See https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en
+<a href="https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en" title="GenderMag Recorder's Assistant" >
+    <img src="images/ico-chrome.png"  >
+  </a> 
+  
+  For more details about extension installation [click here](https://support.google.com/chrome_webstore/answer/2664769?hl=en)
+
 
 # How to Run a GenderMag Session Using the Tool
 If you have downloaded and installed the tool and want to run it,
