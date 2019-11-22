@@ -49,7 +49,7 @@ located and extract the zipped files. (Right click on the zipped
 top left corner of the extensions.
 
 ## Method 2: Install from Chrome Web Store
-<a href="https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en" title="GenderMag Recorder's Assistant" >
+<a href="https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en" target="_blank" title=" GenderMag Recorder's Assistant" >
     <img src="images/ico-chrome.png"  >
   </a> 
   
