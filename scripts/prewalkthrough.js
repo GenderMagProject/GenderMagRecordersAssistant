@@ -377,13 +377,11 @@ function nukeButtonOnclick () {
 		el.contents().hide();
 		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
 
-		var entrees = parseSubgoalArray();
-		var scurvy = createCSV(entrees);
+		var scurvy = createCSV();
 		downloadCSV(scurvy);
 
 		sidebarBody().find("#sliderFinalDownload").unbind("click").click(function () {
-			var entrees = parseSubgoalArray();
-			var scurvy = createCSV(entrees);
+			var scurvy = createCSV();
 			downloadCSV(scurvy);
 		});
 

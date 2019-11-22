@@ -141,14 +141,12 @@ function saveAndExit(exitType){
 		el.contents().hide();
 		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
 		sidebarBody().find('#saveAndExit').attr("hidden", true);
-	}
-	var entrees = parseSubgoalArray();
-	var scurvy = createCSV(entrees);
+	};
+	var scurvy = createCSV();
 	downloadCSV(scurvy);
 
 	$(el).find("#sliderFinalDownload").unbind("click").click(function () {
-		var entrees = parseSubgoalArray();
-		var scurvy = createCSV(entrees);
+		var scurvy = createCSV();
 		downloadCSV(scurvy);
 	});
 

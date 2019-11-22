@@ -304,14 +304,12 @@ function actionLoop(el){
 
 		//create and download sheet with session data
         setStatusToTrue("finishedGM");
-		var entrees = parseSubgoalArray();
-		var scurvy = createCSV(entrees);
+		var scurvy = createCSV();
 		downloadCSV(scurvy);
 
 		//on click of redownload zip button, download sheet again
 		$("#finalDownload").unbind("click").click(function () {
-			var entrees = parseSubgoalArray();
-			var scurvy = createCSV(entrees);
+			var scurvy = createCSV();
 			downloadCSV(scurvy);
 		});
 
