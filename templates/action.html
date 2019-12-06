@@ -122,16 +122,20 @@
                 <button id="loopActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
             </div>
 
-            <p> Are there more actions for this subgoal? </p>
-			<p>Yes, create a new Action</p>
-			<input id="actionNameInput" type="text" placeholder="ex Type 'Sue' in the search bar">
-			<input id="moreActions" type="submit" value="Add another action" style="background-color:#7D1935;color:white;"></input><br>
+            <p> Action Completed. </p>
 
-			<p>No, create a new Subgoal</p>
+            <p> If there is another action for this subgoal,
+                enter the name of the next action then click continue to
+                proceed to highlighting the action and taking a screenshot. </p>
+			<input id="actionNameInput" type="text" placeholder="ex Type 'Sue' in the search bar">
+			<input id="moreActions" type="submit" value="Continue" style="background-color:#7D1935;color:white;"></input><br>
+
+            <p> If there are there is another subgoal for this scenario, enter the
+                name of the next subgoal.</p>
             <input id="subgoalInput" type="text" placeholder="ex Search for 'Sue' in the DB">
 			<input type="submit" id="newSubgoal" value="Create new subgoal"style="background-color:#7D1935;color:white;">
 			
-			<p>No, please exit the tool</p>
+			<p>If you are done with this session, please exit the tool</p>
             <input id="saveAndExit" type="submit" value="Save and stop GenderMag session"style="background-color:#7D1935;color:white;"></input><br>
             
         </div>
@@ -140,7 +144,11 @@
 			<div style="height:25px; background-color:#4A96AD;text-align:center;">
             </div>
 			<p>WARNING! Selecting 'Quit GenderMag' below will clear all of your current session's data. Please ensure that you have downloaded the zip file (download should start automatically), which contains all your screen captures and a file with all of your answers.</p>  
-			<label>You can <button id="finalDownload" style="background-color:#7D1935;color:white;"> Re-download zip file</button> if needed</label><br><br>
+			<label>You can <button id="finalDownload" style="background-color:#7D1935;color:white;"> Re-download zip file</button> or
+                <button id="oldFormat" style="background-color:#7D1935;color:white;">
+                    download the old result format
+                </button> if needed
+            </label><br><br>
 			<label><input id="finalYesCheckbox" type="checkbox"> I understand AND HAVE DOWNLOADED MY FILES, let me end GenderMag </label> <br>
 			<button id="finalYes" style="background-color:#7D1935;color:white;opacity:0.5" disabled> Quit GenderMag </button>
 			<button id="finalNo" style="background-color:#7D1935;color:white;"> I'm not done, take me back </button>

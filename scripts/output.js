@@ -15,6 +15,15 @@ function now() {
 	return date.getHours() + ":" + date.getMinutes();
 }
 
+function today() {
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var dayOfMonth = date.getDate();
+    var year = date.getFullYear();
+
+    return month + "/" + dayOfMonth + "/" + year;
+}
+
 /*
  * Function: sanitizeString
  * Arg: string unsafeWord
@@ -200,8 +209,8 @@ function createCSV() {
  * todo: Refactor so this is included in another method as it's unnecessary to
  *  have this be separate.
  */
-function downloadCSV(csvContent) {
-	create_zip(csvContent);
+function downloadCSV(csvContent, old) {
+	create_zip(csvContent, old);
 	return;
 }
 
@@ -214,11 +223,11 @@ function downloadURI(uri, name) {
 		uri: safeUri
 	};
 	//console.log("imgobj", imgObj);
-	imgList.push(imgObj)
+	imgList.push(imgObj);
 
   }
 
-function create_zip(csvContent) {
+function create_zip(csvContent, old) {
 	var zip = new JSZip();
     var today = new Date();
     var dd = today.getDate() + 1;
@@ -226,7 +235,11 @@ function create_zip(csvContent) {
     var yyyy = today.getFullYear();
     var hr = today.getHours();
     var min = today.getMinutes();
-	zip.file("GenderMagSession-on-"+ mm + "-"+ dd + "-"+ yyyy + "-at-"+ hr + "-" + min + ".csv", csvContent);
+    if(old){
+        zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+    } else {
+        zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+    }
 	var img = zip.folder("images");
 	for(var i in imgList){
 		img.file(imgList[i].name, imgList[i].uri, {base64: true});
@@ -238,7 +251,8 @@ function create_zip(csvContent) {
 }
 
 /*
- *  OLD BROKEN/UNUSED FUNCTIONS FOR REFERENCE ONLY
+ *  OLD FUNCTIONS DO NOT CALL FROM NEW FUNCTIONS
+ *  DO NOT LIKE THESE
  *  DO NOT USE THESE FUNCTIONS THE FORMATTING IS BAD
  */
 
@@ -334,4 +348,42 @@ function parseSubgoalArray(){
         }
     }
     return entries;
+}
+
+function createOldCSV() {
+    console.log('getting things');
+    var entries = parseSubgoalArray();
+    var csvContent = "";
+    var header1 = ["Date", "Time", "Team", "Persona", "Scenario"];
+    csvContent += header1.join(",") + "\n";
+    var teamName = localStorage.getItem("teamName");
+    var persona5Delayed = localStorage.getItem("personaName");
+    var inAWorld = localStorage.getItem("scenarioName");
+    var DTTPS = [today(), now(), teamName, persona5Delayed, inAWorld];
+    globName += DTTPS[0];
+    globName += DTTPS[2];
+    globName += "OldFormatGenderMagSession";
+    csvContent += DTTPS.join(",") + "\n";
+
+
+    var header2 = ["Subgoal",
+        "Will the persona have formed this subgoal as a step to their overall goal?",
+        "Yes", "No", "Maybe",
+        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker",
+        "Action",
+        "Will the persona know what to do at this step?",
+        "Yes", "No", "Maybe",
+        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker",
+        sanitizeString("If the persona does the right thing, will they know that they did the right thing and is making progress toward their goal?"),
+        "Yes", "No", "Maybe",
+        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker"];
+    csvContent += header2.join(",") + "\n";
+
+    entries.forEach(function(entry, index){
+        //console.log("entry", entry);
+        var dataString = entry.join(",");
+        csvContent += index < entries.length ? dataString + "\n" : dataString;
+    });
+
+    return csvContent;
 }

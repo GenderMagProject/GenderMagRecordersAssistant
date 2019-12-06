@@ -147,7 +147,12 @@ function saveAndExit(exitType){
 
 	$(el).find("#sliderFinalDownload").unbind("click").click(function () {
 		var scurvy = createCSV();
-		downloadCSV(scurvy);
+		downloadCSV(scurvy, false);
+	});
+
+	$(el).find("#oldFormat").unbind("click").click(function () {
+		var scurvy = createOldCSV();
+		downloadCSV(scurvy, true);
 	});
 
 	$(el).find("#sliderYesCheckbox").unbind("click").click(function () {

@@ -382,7 +382,12 @@ function nukeButtonOnclick () {
 
 		sidebarBody().find("#sliderFinalDownload").unbind("click").click(function () {
 			var scurvy = createCSV();
-			downloadCSV(scurvy);
+			downloadCSV(scurvy, false);
+		});
+
+		sidebarBody().find("#oldFormat").unbind("click").click(function () {
+			var scurvy = createOldCSV();
+			downloadCSV(scurvy, true);
 		});
 
 		sidebarBody().find("#sliderYesCheckbox").unbind("click").click(function () {

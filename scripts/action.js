@@ -310,7 +310,12 @@ function actionLoop(el){
 		//on click of redownload zip button, download sheet again
 		$("#finalDownload").unbind("click").click(function () {
 			var scurvy = createCSV();
-			downloadCSV(scurvy);
+			downloadCSV(scurvy, false);
+		});
+
+		$("#oldFormat").unbind("click").click(function () {
+			var scurvy = createOldCSV();
+			downloadCSV(scurvy, true);
 		});
 
 		//make sure user has downloaded their file before quitting
