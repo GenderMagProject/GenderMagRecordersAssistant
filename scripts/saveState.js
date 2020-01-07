@@ -505,10 +505,10 @@ function showMeTheStringFacets (targetId, targetObj) {
 			}
 			else if (foundFacet == "tinker") {
 				if (propsFound == 1) {
-					myString = myString.concat("Willingness to Tinker");
+					myString = myString.concat("Learning: by Process vs. by Tinkering");
 				}
 				else {
-					myString = myString.concat(", Wilingness To Tinker");
+					myString = myString.concat(", Learning: by Process vs. by Tinkering");
 				}
 			}
 		}
