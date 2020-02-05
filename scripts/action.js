@@ -93,7 +93,19 @@ function preActionQuestions(el){
 			"risk": $('#risk').is(":checked"),
 			"tinker": $('#tinker').is(":checked"),
 			"none": $('#none').is(":checked")};
-		savePreIdealAction(actionName, yesNoMaybe, whyText, facets);
+
+		var yesNoMaybePost = {"yes": false,
+			"no": false,
+			"maybe": false};
+		var whyTextPost = "";
+		var facetsPost = {"motiv": false,
+			"info": false,
+			"self": false,
+			"risk": false,
+			"tinker": false,
+			"none": false};
+
+		saveIdealAction(actionName, yesNoMaybe, whyText, facets, yesNoMaybePost, whyTextPost,facetsPost);
         setStatusToTrue("gotPreActionQuestions");
 		doActionPrompt(el);
 	});
@@ -188,6 +200,7 @@ function postActionQuestions(el){
 	//save and continue button - on click save input
 	$("#submitPostAction").unbind( "click" ).click(function(){
 	    setStatusToTrue("gotPostActionQuestions");
+	    setStatusToFalse("inMiddleOfAction");
 		var actionName = localStorage.getItem("currActionName");
 		var yesNoMaybe = {"yes": $('#YNMyes').is(":checked"),
 			"no": $('#YNMno').is(":checked"),
@@ -243,13 +256,26 @@ function actionLoop(el){
 		} else{
 			//save action name, get screenshot, set up pop up, start action questions
 			localStorage.setItem("currActionName", $(el).find("#actionNameInput").val());
+			var actionName = $(el).find("#actionNameInput").val();
 			addToSandwich('idealAction', 0);
+            var yesNoMaybe = {"yes": false,
+                "no": false,
+                "maybe": false};
+            var whyText = "";
+            var facets = {"motiv": false,
+                "info": false,
+                "self": false,
+                "risk": false,
+                "tinker": false,
+                "none": false};
+            saveIdealAction(actionName, yesNoMaybe, whyText, facets, yesNoMaybe, whyText, facets);
 			$(el).remove();
         	setStatusToFalse("drewToolTip");
 			overlayScreen("");
 			preActionQuestions(el);
 
         	//Reset action states
+			setStatusToTrue("inMiddleOfAction");
         	setStatusToFalse("highlightedAction");
         	setStatusToFalse("gotScreenshot");
         	setStatusToFalse("gotPreActionQuestions");
@@ -299,6 +325,8 @@ function actionLoop(el){
 	//TODO(roseg31) : Invesitgate this...
 	//on save and exit button click, save all info, close session
 	$("#saveAndExit").unbind( "click" ).click(function(){
+		//setStatusToFalse("inMiddleOfAction");
+		localStorage.setItem("inMiddleOfAction", "false");
 		$(el).find("#actionLoopTemplate").hide();
 		$(el).find("#theFinalCountDown").show();
 
@@ -309,6 +337,7 @@ function actionLoop(el){
 
 		//on click of redownload zip button, download sheet again
 		$("#finalDownload").unbind("click").click(function () {
+			setStatusToFalse("inMiddleOfAction");
 			var scurvy = createCSV();
 			downloadCSV(scurvy, false);
 		});
@@ -352,6 +381,7 @@ function actionLoop(el){
 		$(el).find("#imageCaption2").show();
 		$(el).find("#HRmorelikefunpolice").show();
         setStatusToFalse("gotPostActionQuestions");
+		setStatusToTrue("inMiddleOfAction");
 		postActionQuestions(el);
 	});
 	

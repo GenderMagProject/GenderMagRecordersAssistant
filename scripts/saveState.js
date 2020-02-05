@@ -104,6 +104,36 @@ function addToSandwich(type, item){
 	
 }
 
+function saveIdealAction(name, yesnomaybe, whyText, facets, yesnomaybePost, whyTextPost, facetsPost) {
+	var currArray = getSubgoalArrayFromLocal();
+	var targetSubgoal = currArray[(currArray.length - 1)];
+	var preIdealAction = {
+		actionId: targetSubgoal.actions.length + 1,
+		name: name,
+		subgoalId: targetSubgoal.id,
+		ynm: yesnomaybe,
+		why: whyText,
+		facetValues: facets
+	};
+	var postIdealAction = {
+		actionId: preIdealAction.actionId,  //Check this when done
+		name: name,
+		subgoalId: preIdealAction.subgoalId,
+		ynm: yesnomaybePost,
+		why: whyTextPost,
+		facetValues: facetsPost
+	};
+	var currImgURL = localStorage.getItem("currImgURL");
+	var idealAction = {
+		id: preIdealAction.actionId,
+		name: preIdealAction.name,
+		imgURL: currImgURL,
+		preAction: preIdealAction,
+		postAction: postIdealAction
+	};
+	localStorage.setItem("currPreAction", JSON.stringify(idealAction));
+	localStorage.setItem("inMiddleOfAction", "true");
+}
 
 //Creates a new preIdealAction object and saves it to local storage on the current subgoal's actions
 //Pre: subgoalArray isn't empty
@@ -149,18 +179,18 @@ function savePostIdealAction (name, yesnomaybe, whyText, facets) {
 *	Pre: both must exist
 *	Post: target subgoal's actions array has an action object made of pre and post action objects.
 */
-function glueActionsAndSave (preAction, postAction) {
+function glueActionsAndSave (action, postAction) {
     
     //Get the associated image's URL from local
     var currImgURL = localStorage.getItem("currImgURL"); 
     //Make the object
     var idealAction = {
-        id: preAction.actionId,
-        name: preAction.name,
+        id: action.id,
+        name: action.name,
         imgURL: currImgURL,
-        preAction: preAction,
+        preAction: action.preAction,
         postAction: postAction
-    }
+    };
     //console.log("incoming ideal action: ", idealAction);
     
     //Save it to local

@@ -249,17 +249,25 @@ function drawAction(actionNum, subgoalId){
         }
         else {
         	//make action and save name
-
-            //currArray = getSubgoalArrayFromLocal();
             var actionItem = {
                 name: actionName,
                 actionId: actionNum, 
                 subgoalId: subgoalId
             };
-            
-           //if(actionName==""){
-            //}
 			saveVarToLocal("currActionName", actionName);
+
+			var yesNoMaybe = {"yes": false,
+				"no": false,
+				"maybe": false};
+			var whyText = "";
+			var facets = {"motiv": false,
+				"info": false,
+				"self": false,
+				"risk": false,
+				"tinker": false,
+				"none": false};
+			saveIdealAction(actionName, yesNoMaybe, whyText, facets, yesNoMaybe, whyText, facets);
+
 			setStatusToTrue("gotActionName");
 			sidebarBody().find('#getActionName').hide();
 			sidebarBody().find('#actionNameGot').html("<b> Action: " + actionName + "</b>");
@@ -268,12 +276,8 @@ function drawAction(actionNum, subgoalId){
 			setStatusToTrue("actionPromptOnScreen");
             //if its a new action, add to the list
             if(actionNum >  currArray[subgoalId-1].actions.length){
-                //console.log("sadness sandwhich", actionNum, currArray[subgoalId-1].actions.length, actionItem);
                 addToSandwich("idealAction", actionItem);
-                
             }
-            //else{
-            //}
             sidebarBody().find("#editAction").show();
             sidebarBody().find("#editAction").unbind( "click" ).click(function(){
                 sidebarBody().find('#editAction').hide();

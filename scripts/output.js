@@ -83,8 +83,14 @@ function getSubgoalInfo(){
 
         var subgoalString = subgoalEntry.join(",");
         for (var i in currSubgoal.actions) {
+            console.log("action");
             var actionString = getActionInfo(currSubgoal.actions);
             subgoalString = subgoalString + actionString;
+        }
+        if(localStorage.getItem("inMiddleOfAction")==="true" && !localStorage.getItem("finishedGM")){
+            console.log("middle of action!");
+            var actString = getActionInfo([getVarFromLocal("currPreAction")]);
+            subgoalString = subgoalString + actString;
         }
         fullEntry = fullEntry + subgoalString;
     }
@@ -211,7 +217,6 @@ function createCSV() {
  */
 function downloadCSV(csvContent, old) {
 	create_zip(csvContent, old);
-	return;
 }
 
 function downloadURI(uri, name) {
@@ -228,6 +233,7 @@ function downloadURI(uri, name) {
   }
 
 function create_zip(csvContent, old) {
+    console.log((csvContent));
 	var zip = new JSZip();
     var today = new Date();
     var dd = today.getDate() + 1;
