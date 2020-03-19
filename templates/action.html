@@ -6,12 +6,12 @@
             <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<!--span class="actionNameSpan" style="color:white;"> </span-->
                 <button id="imageBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
-                <button id="saveImageAndCloseButton" class="closeToolTip" style="float:right; width:130px; height:25px;background-color:#7D1935;color:white;font-size: smaller"> Save and Continue</button>
+                <button id="saveImageAndCloseButton" class="closeToolTip" style="float:right; width:130px; height:25px;background-color:#7D1935;color:white;font-size: smaller"> Continue</button>
             </div>
 
 			<p id="imageCaption" style="margin:10px">
 				This is a preview of your image.
-				You may also retake your image if you aren't happy with it. Once you have an image you like, select the save and continue
+				You may also retake your image if you aren't happy with it. Once you have an image you like, select the continue button.
     		</p>
            
 
@@ -26,7 +26,7 @@
 					<span class="actionNameSpan" style="color:white;"> </span>
                     <button id="preActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
 
-                    <button id="preActionClose" style="float:right; width:130px;font-size: smaller; height:25px;background-color:#7D1935;color:white;">Save and Continue </button>
+                    <button id="preActionClose" style="float:right; width:130px;font-size: smaller; height:25px;background-color:#7D1935;color:white;">Continue </button>
                 </div>
                 <br>
 
@@ -60,11 +60,11 @@
             <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<span class="actionNameSpan" style="color:white;"> </span>
                 <button id="doActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
-                <input class="continueTrigger" type="submit" value="Save and Continue" style="float:right; width:130px;font-size: smaller; height:25px;background-color:#7D1935;color:white;">
+                <input class="continueTrigger" type="submit" value="Continue" style="float:right; width:95px;font-size: smaller; height:25px;background-color:#7D1935;color:white;">
             </div>
             <p style="padding:5px;">
 				<div>Please perform the action specified previously and then
-            click the 'Save and Continue' button to proceed </div>
+            click the 'Continue' button to proceed </div>
 			</p>
 
         </div>
@@ -76,7 +76,7 @@
             <div style="height:25px; background-color:#4A96AD;text-align:center;">
 				<span class="actionNameSpan" style="color:white;"> </span>
                 <button id="postActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
-                <input id="submitPostAction" type="submit" value="Save and Continue" style="float:right; width:130px; font-size: smaller; height:25px;background-color:#7D1935;color:white;">
+                <input id="submitPostAction" type="submit" value="Continue" style="float:right; width:130px; font-size: smaller; height:25px;background-color:#7D1935;color:white;">
             </div>
             <br>
 
@@ -125,14 +125,16 @@
             <p> Action Completed. </p>
 
             <p> If there is another action for this subgoal,
-                enter the name of the next action then click continue to
+                enter the name of the next action then click 'Create New Action' to
                 proceed to highlighting the action and taking a screenshot. </p>
-			<input id="actionNameInput" type="text" placeholder="ex Type 'Sue' in the search bar">
-			<input id="moreActions" type="submit" value="Continue" style="background-color:#7D1935;color:white;"></input><br>
+			<input id="actionNameInput" type="text" placeholder="ex: Type 'Sue' in the search bar" size="40">
+			<input id="moreActions" type="submit" value="Create New Action" style="background-color:#7D1935;color:white;">
+
+            <br>
 
             <p> If there are there is another subgoal for this scenario, enter the
                 name of the next subgoal.</p>
-            <input id="subgoalInput" type="text" placeholder="ex Search for 'Sue' in the DB">
+            <input id="subgoalInput" type="text" placeholder="ex: Search for 'Sue' in the DB" size="40">
 			<input type="submit" id="newSubgoal" value="Create new subgoal"style="background-color:#7D1935;color:white;">
 			
 			<p>If you are done with this session, please exit the tool</p>
