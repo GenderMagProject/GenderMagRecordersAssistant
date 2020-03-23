@@ -82,10 +82,14 @@ function getSubgoalInfo(){
         subgoalEntry.push("\n"); // new row
 
         var subgoalString = subgoalEntry.join(",");
+        var currentAction = 0;
         for (var i in currSubgoal.actions) {
-            console.log("action");
-            var actionString = getActionInfo(currSubgoal.actions);
-            subgoalString = subgoalString + actionString;
+            if(i.id !== currentAction) {
+                currentAction = i.id;
+                console.log("action");
+                var actionString = getActionInfo(currSubgoal.actions);
+                subgoalString = subgoalString + actionString;
+            }
         }
         if(localStorage.getItem("inMiddleOfAction")==="true" && !localStorage.getItem("finishedGM")){
             console.log("middle of action!");
@@ -107,11 +111,12 @@ function getSubgoalInfo(){
 function getActionInfo(actionList){
     var actionEntry = [];
     for(var i in actionList) {
+        console.log("CALLED");
         //get new line and to the right part of csv
         actionEntry.push("\n");
         actionEntry.push("\n"); //new row
         //pre action question
-        actionEntry.push("Action " + (i+1));
+        actionEntry.push("Action " + actionList[i].id);
         actionEntry.push(actionList[i].name);
         actionEntry.push("\n");
         actionEntry.push("Will the persona know what to do at this step?");
