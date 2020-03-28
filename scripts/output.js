@@ -87,7 +87,7 @@ function getSubgoalInfo(){
             if(i.id !== currentAction) {
                 currentAction = i.id;
                 console.log("action");
-                var actionString = getActionInfo(currSubgoal.actions);
+                var actionString = getActionInfo(currSubgoal.actions, j);
                 subgoalString = subgoalString + actionString;
             }
         }
@@ -108,10 +108,9 @@ function getSubgoalInfo(){
  * Formats the action information for all actions in a given list so
  * it's ready to go into the csv file.
  */
-function getActionInfo(actionList){
+function getActionInfo(actionList, j){
     var actionEntry = [];
     for(var i in actionList) {
-        console.log("CALLED");
         //get new line and to the right part of csv
         actionEntry.push("\n");
         actionEntry.push("\n"); //new row
@@ -175,6 +174,12 @@ function getActionInfo(actionList){
         actionEntry.push(actionList[i].postAction.facetValues["self"]);
         actionEntry.push(actionList[i].postAction.facetValues["risk"]);
         actionEntry.push(actionList[i].postAction.facetValues["tinker"]);
+        actionEntry.push("\n");
+        actionEntry.push("Action Image Name:");
+        actionEntry.push("S"+(1 + parseInt(j))+"A"+(1 + parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
+        actionEntry.push("\n");
+
+        downloadURI(actionList[i].imgURL, "S"+(1 + parseInt(j))+"A"+(1 + parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
     }
     return actionEntry.join(",");
 }
@@ -227,12 +232,12 @@ function downloadCSV(csvContent, old) {
 function downloadURI(uri, name) {
 	var safeName = name;
 	var safeUri = uri.slice(22);
-	//console.log("in image", safeUri);
+	console.log("in image", safeUri);
 	var imgObj = {
 		name:safeName+".png",
 		uri: safeUri
 	};
-	//console.log("imgobj", imgObj);
+	console.log("imgobj", imgObj);
 	imgList.push(imgObj);
 
   }
@@ -252,7 +257,9 @@ function create_zip(csvContent, old) {
         zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
     }
 	var img = zip.folder("images");
+    console.log(imgList + "HHH");
 	for(var i in imgList){
+	    console.log("IMAGE");
 		img.file(imgList[i].name, imgList[i].uri, {base64: true});
 	}
 	zip.generateAsync({type:"blob"}).then(function(content) {
