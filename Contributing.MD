@@ -1,4 +1,4 @@
-# This is the GenderMag Recorder's Assistant Contributing.MD
+# GenderMag Recorder's Assistant Contributing Instructions
 
 ## Git Resources
 
