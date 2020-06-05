@@ -6,17 +6,15 @@
 
 ## How to install and edit:
 
-1) Create a fork of the project to your GitHub account.
+1) Install the tool via instructions in the README
 
-2) Install the tool via instructions in the README
+2) If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. (See the video at http://gendermag.org for examples of running it.)
 
-3) If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. (See the video at http://gendermag.org for examples of running it.)
+3) Open the project files in an editor of your choice (e.g. Intellij)
 
-4) Open the project files in an editor of your choice (e.g. Intellij)
+4) Make and save edits
 
-5) Make and save edits
-
-6) To view and test edits, navigate to “Extensions” (triple dot icon(⋮) --> 'More Tools' --> Extentions) and hit the refresh button (↻). Then reload the page where you are using the tool.
+5) To view and test edits, navigate to “Extensions” (triple dot icon(⋮) --> 'More Tools' --> Extentions) and hit the refresh button (↻). Then reload the page where you are using the tool.
 
 ## To Contribute:
   *	Create a new branch to work on. Ex: The command git branch test creates a new branch called test.
