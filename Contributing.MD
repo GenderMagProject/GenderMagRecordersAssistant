@@ -1,4 +1,4 @@
-# GenderMag Recorder's Assistant Contributing Instructions
+# GenderMag Recorder's Assistant Contributing Guide
 
 ## Git Resources
 
