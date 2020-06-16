@@ -22,7 +22,7 @@
   * In the pop-up box navigate to the place you stored your local copy of the GenderMagsRecordersAssistant (the copy that you cloned to your local desktop)
   *	To look for issues you can contribute to please navigate back to the original GenderMag repo (not your forked repo) and look at the issues under the issue tracker (Issues tab on the top).
   *	Make any new changes or fixes on your branch and then push the branch to your remote repo.
-  *	Then make a pull request. 
+  *	Then make a pull request using [this](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Recorder's%20Assistant%20Testing_Pull%20Request%20Guide%20.pdf) guide
   * You will hear back from us soon!
 
 
