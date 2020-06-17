@@ -17,6 +17,13 @@ the GenderMag Recorder’s Assistant.
 We welcome everyone with any background to contribute to making the world of 
 software more gender inclusive.
 <a name="install">
+    
+## Resources and Background Information
+
+* Chrome Extension link: [GenderMag Recorder's Assistant](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en)
+* Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
+* Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
+* [Video](http://gendermag.org) using the GenderMag Recorder's Assistant.
 
 # How to install the GenderMag Recorder's Assistant:</a>
 
@@ -146,12 +153,6 @@ the “Enable” box and uncheck “Developer Mode”.
 Please follow our 
 [Code Of Conduct](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Code_of_Conduct.md) and read our [Contributing Guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Contributing.MD).
 
-## Resource
-
-* Chrome Extension link: [GenderMag Recorder's Assistant](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en)
-* Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
-* Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
-* [Video](http://gendermag.org) using the GenderMag Recorder's Assistant.
 
 # FAQ’s:
 Note: If you have questions you would like us to answer, please let us know by filing an issue asking the question!
