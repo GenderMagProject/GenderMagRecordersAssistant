@@ -1,4 +1,5 @@
 //functions to initialize status object, save and get status object. Set object status to true, false or stop.
+//add error handling?
 
 var statusObject = {							
 	sliderIsOpen: "",                           //set for first time in utilities.js
