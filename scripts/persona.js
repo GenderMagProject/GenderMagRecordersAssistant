@@ -1,3 +1,14 @@
+/*
+ * File Name: persona.js
+ * Functions: loadPersona
+ * Description: This file contains code to display persona info in the slider
+ */
+
+/*
+ * Function: loadPersona
+ * Description: This function loads the persona's image, description, and tooltips from their template
+ * Params: personaName - the persona chosen by the user
+ */
 function loadPersona(personaName){
 	//console.log("in load persona" , personaName);
 	if(personaName === "Abi"){
@@ -75,7 +86,7 @@ function loadPersona(personaName){
 //	var patrickIMG= "<img id='PatrickPhoto' src='" + patrickSRC + "' alt='Patrick Jones' class='sidebarImg' width='100' height='100'/>";
 //	sidebarBody().find("#picGoesHere").append(patrickIMG);
 
-		sidebarBody().find(".patMTrigger").unbind( "click" ).click(function (){
+		/*sidebarBody().find(".patMTrigger").unbind( "click" ).click(function (){
 			addToolTip("patMToolTip", "Pat");
 		});
 		sidebarBody().find(".patIPSTrigger").unbind( "click" ).click(function(){
@@ -89,7 +100,7 @@ function loadPersona(personaName){
 		});
 		sidebarBody().find(".patTTrigger").unbind( "click" ).click(function(){
 			addToolTip("patTToolTip", "Pat");
-		});
+		});*/
 	}
 	else{
 

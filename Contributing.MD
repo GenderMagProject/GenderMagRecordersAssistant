@@ -34,5 +34,3 @@ By submitting a patch, you agree to allow the project owner to license your work
 Please see the
 [Contributors Graph](https://github.com/mendezc1/GenderMagRecordersAssistant/graphs/contributors) for our
 list of contributors.
-
-
