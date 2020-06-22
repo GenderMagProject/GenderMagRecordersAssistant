@@ -1,4 +1,3 @@
-//console.log( 'Background.html starting!' );
 var screenShotURL;
 	/*Put page action icon on all tabs*/
 	chrome.tabs.onUpdated.addListener(function(tabId) {
@@ -23,11 +22,14 @@ var screenShotURL;
 	
 	/*Send request to current tab when page action is clicked*/
 	chrome.pageAction.onClicked.addListener(function(tab) {
-		chrome.tabs.executeScript(null, { file: "./jquery-ui-1.12.1/jquery.js" }, function() {
-			chrome.tabs.getSelected(null, function(tab) {
-			chrome.runtime.sendMessage(tab.id, {callFunction: "toggleSidebar"}, function(response) {})
+		window.open("https://github.com/mendezc1/GenderMagRecordersAssistant");
+		//TODO: Think about creating open/close function and call it here?
+		/*OLD CODE HERE DON'T DELETE UNTIL TO DO IS RESOLVED*/
+		//chrome.tabs.executeScript(null, { file: "./jquery-ui-1.12.1/jquery.js" }, function() {
+			//chrome.tabs.getSelected(null, function(tab) {
+			//chrome.runtime.sendMessage(tab.id, {callFunction: "toggleSidebar"}, function(response) {});
 			
-			});
+			//});
 				/*
 				chrome.tabs.sendRequest(
 					//Selected tab id
@@ -38,7 +40,6 @@ var screenShotURL;
 					function(response) {
 						//console.log(response);
 					}*/
-			});
+			//});
+		/* END OLD CODE*/
 		});
-	
-//console.log( 'Background.html done.' );

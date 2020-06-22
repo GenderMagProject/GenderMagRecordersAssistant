@@ -4,17 +4,16 @@ about: GenderMag Recorders Assistant project
 
 ---
 
-* **What does this implementation fix? Explain your changes.**
+* **What does this implementation fix? Explain your changes.**	
 	
-	
-	
-* **Does this close any currently open issue? (Give issue id from issue tracker)**
-
-
+* **Does this close any open issue? (Give issue id from issue tracker)**
 
 * **Include any related logs, error, output file etc.**
 
+* **Did you test on Mac and Windows?**
 
+* **Did you test the full GM process and verify that the code does not contribute any unexpected errors/bugs?**
+
+* **If possible, provide a screenshot of the functionality.**
 
 * **Any other information?**
-
