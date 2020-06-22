@@ -35,4 +35,3 @@ Please see the
 [Contributors Graph](https://github.com/mendezc1/GenderMagRecordersAssistant/graphs/contributors) for our
 list of contributors.
 
-
