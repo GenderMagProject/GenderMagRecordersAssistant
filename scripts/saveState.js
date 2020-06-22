@@ -1,3 +1,11 @@
+/*
+ * File Name: saveState.js
+ * Functions: saveSubgoal, addToSandwich, saveIdealAction, savePreIdealAction, savePostIdealAction,
+ 	glueActionsAndSave, saveVarToLocal, getVarFromLocal, getSubgoalArrayFromLocal, reloadSandwich,
+ 	sideSubgoalExpandy, loadActionAnswersTemplate, showMeTheStringYNM, showMeTheStringFacets
+ * Description: This file contains functions to handle local storage/organization of subgoals and actions
+ */
+
 var subgoalArray = [];
 
 //Creates a new subgoal and saves it to local storage at the end of subgoalArray
@@ -29,6 +37,11 @@ function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
 	}
 }
 
+/*
+ * Function: addToSandwich
+ * Description: This function handles display of subgoals and actions in the expandable sidebar
+ * Params: type - either subgoal or idealAction, item - the object (either subgoal or action)
+ */
 function addToSandwich(type, item){
 	
 	if(!type.localeCompare("subgoal")){ 		
@@ -36,6 +49,7 @@ function addToSandwich(type, item){
 		drawSubgoal(item.id);
         var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
 		var sideSubgoal = '<div stateVar=0 superCoolAttr=' + item.id + ' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:blue;text-decoration:underline;margin:5px;" id="sideSubgoal' + item.id + '"> <img id="sideSubgoalImg' + item.id + '" src="' + arrowSRC + '"></img> Subgoal ' + item.id + ': ' + item.name + '</div>';
+		// what exactly is the goal here (last subgoal or out of bounds)
 		if (item.id >= subArr.length) {
             var foundIt = false;
             sidebarBody().find('#subgoalList').children().each(function () {
@@ -44,6 +58,7 @@ function addToSandwich(type, item){
                     foundIt = true;
                 }
             });
+            // should the item id not be changed to be in bounds?
             if (!foundIt) {
                 sidebarBody().find("#subgoalList").append(sideSubgoal);
             }
@@ -61,12 +76,14 @@ function addToSandwich(type, item){
 		var sideActionIdToFind = item.subgoalId + "-" + item.actionId;
         var sideActionIdForClick = "#sideAction" + item.subgoalId + "-" + item.actionId;
 		var foundIt = false;
+		// update an existing action?
 		sidebarBody().find('#subgoalList').children().each(function () {
 			var currId = this.getAttribute('supercoolattr');
-			if (! sideActionIdToFind.localeCompare(currId)) {
+			if (!sideActionIdToFind.localeCompare(currId)) {
 				foundIt = true;
 			}
 		});
+		// add the action (which already exists?)
 		if (!foundIt) {
 			sidebarBody().find("#subgoalList").append(sideAction);
 			sideSubgoalExpandy(item.subgoalId, "expand");
@@ -74,6 +91,7 @@ function addToSandwich(type, item){
             actionNum++;
             localStorage.setItem("numActions", actionNum);
 		}
+		// simple display
         else {
             sidebarBody().find(sideActionIdForClick).html('Action ' + item.actionId + ': ' + item.name);
             var currArray = getSubgoalArrayFromLocal();
@@ -84,6 +102,7 @@ function addToSandwich(type, item){
 			drawAction(item.actionId, item.subgoalId);
 		});
 	}
+	// create a new action object and add to the list
 	else if(!type.localeCompare("idealAction") && !item){ 	
 		var subgoalId = localStorage.getItem("numSubgoals");
 		var actionId = localStorage.getItem("numActions");
@@ -468,7 +487,6 @@ function loadActionAnswersTemplate (actionId, subgoalId) {
 	}
 	
 }
-
 
 
 //Iterates through the passed YNM object to see which values are true and puts the right string on the answers template in the passed id.
