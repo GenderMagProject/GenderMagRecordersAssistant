@@ -496,9 +496,11 @@ function showMeTheStringYNM (targetId, targetObj) {
 	var propsFound = 0;
 	for (var prop in targetObj) {
 		if (targetObj[prop] == true) {
+			//adds the first string in targetObj to myString
 			if (propsFound == 0) {
 				myString = myString.concat(prop);
 			}
+			//concatenates the strings after the first string separated by a comma
 			else {
 				myString = myString.concat(", ", prop);
 			}
@@ -521,6 +523,7 @@ function showMeTheStringFacets (targetId, targetObj) {
 			propsFound++;
 		
 			//Switch statement-ish on the facet
+			//If it is the first prop found, add the true value without comma. Concatenates the rest of the true values with commas afterwards.
 			if (foundFacet == "info") {
 				if (propsFound == 1) {
 					myString = myString.concat("Information Processing Style");
