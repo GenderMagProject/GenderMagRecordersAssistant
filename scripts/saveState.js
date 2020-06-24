@@ -125,6 +125,7 @@ function addToSandwich(type, item){
 	
 }
 
+//defines what a preIdealAction, postIdealAction, and idealAction are
 function saveIdealAction(name, yesnomaybe, whyText, facets, yesnomaybePost, whyTextPost, facetsPost) {
 	var currArray = getSubgoalArrayFromLocal();
 	var targetSubgoal = currArray[(currArray.length - 1)];
@@ -152,6 +153,7 @@ function saveIdealAction(name, yesnomaybe, whyText, facets, yesnomaybePost, whyT
 		preAction: preIdealAction,
 		postAction: postIdealAction
 	};
+	
 	localStorage.setItem("currPreAction", JSON.stringify(idealAction));
 	localStorage.setItem("inMiddleOfAction", "true");
 }
@@ -159,7 +161,8 @@ function saveIdealAction(name, yesnomaybe, whyText, facets, yesnomaybePost, whyT
 //Creates a new preIdealAction object and saves it to local storage on the current subgoal's actions
 //Pre: subgoalArray isn't empty
 function savePreIdealAction (name, yesnomaybe, whyText, facets) {
-    
+	
+	//gets the current subgoal from the subgoal array
 	var currArray = getSubgoalArrayFromLocal();
 	var targetSubgoal = currArray[(currArray.length - 1)];
 	var preIdealAction = {
@@ -202,7 +205,7 @@ function savePostIdealAction (name, yesnomaybe, whyText, facets) {
 */
 function glueActionsAndSave (action, postAction) {
     
-    //Get the associated image's URL from local
+    //Get the associated image's (screenshot of action) URL from local
     var currImgURL = localStorage.getItem("currImgURL"); 
     //Make the object
     var idealAction = {
@@ -302,11 +305,13 @@ $( window ).unload(function() {
 
 
 //Happens after refresh
+//confused about when this happens exactly
 function reloadSandwich () {
 	console.log("Reloading sandwich menu...");
 	var sidebarHTML = localStorage.getItem('sidebarHTML');
 	//console.log(sidebarHTML);
 	var subgoalDiv = sidebarBody().find('#subgoalList');
+	//check to see if user is on subgoals before refresh
 	if (subgoalDiv && statusIsTrue('finishedPrewalkthrough')) {
 		subgoalDiv.html(sidebarHTML);
 		sidebarBody().find('#subgoalList').children().each(function () {
@@ -322,8 +327,9 @@ function reloadSandwich () {
 			}
             
 			else {
-				//It's an action
+				//User was not on subgoal--was on an action before refresh
 				//console.log("action", currId);
+				//get which action under which subgoal
 				var thisActionNum = Number(currId[currId.length-1]);
                 var thisSubNum = Number(currId[0]);
 				var subgoals = getSubgoalArrayFromLocal();
@@ -342,6 +348,7 @@ function reloadSandwich () {
 							actionName = subgoals[ thisSubNum-1 ].actions[ thisActionNum-1 ].name;
 						}
 						else {
+							//they name the function for the user?
 							actionName = "Lights, Camera";
 						}
 						sidebarBody().find('#actionNameInput').html(actionName);
