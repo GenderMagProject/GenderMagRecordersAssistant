@@ -83,10 +83,12 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    3) Enter the name of your team and click submit.
    
    4) Select the persona that you want to use for this session. 
-      Currently, you can select from three personas: Abi, Tim, and Pat.
+      Currently, you can select from these personas: Abi, Tim, Pat, or a custom persona of your creation.
       
       After you have selected the persona, the description of the selected 
       persona you selected will appear to the right.
+      
+      * If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be on these forms instead of in the GenderMag extension.
 
       If you want to change the persona or team name, click edit on top of the 
       tool.
