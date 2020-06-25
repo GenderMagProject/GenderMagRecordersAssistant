@@ -88,7 +88,7 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
       After you have selected the persona, the description of the selected 
       persona you selected will appear to the right.
       
-      * If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be on these forms instead of in the GenderMag extension.
+      * If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be listed on these forms instead of in the GenderMag extension.
 
       If you want to change the persona or team name, click edit on top of the 
       tool.
