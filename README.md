@@ -36,9 +36,10 @@ software more gender inclusive.
 2) On the Recorder's Assistant GitHub page, click on "Clone or 
 download" and then click "Download zip".
 
-3) Navigate to the folder on your computer where the zip file is
+3) Navigate to the folder on your computer where the *zip file* (not just the file folder) is
 located and extract the zipped files. (Right click on the zipped
  folder -> "Extract All")
+ * After clicking on the intitial downloadeded file, navigate backwards one step in the Files app to reach the zipped folder. 
     
 4) Open Chrome and click on the icon(⋮)in the top right corner.
     
@@ -46,10 +47,11 @@ located and extract the zipped files. (Right click on the zipped
     
 6) Enable developer mode by checking the “Developer Mode” slider in the top right.
     
-7) Click on “Load unpacked extension” under the search bar.
+7) Click on “Load unpacked” under the search bar.
     
-8) Select the folder you saved the extracted file and click "ok". 
-    
+8) Select the extracted *zip file* and click "ok". 
+* Don't select the standard file folder (only the zip file will upload).
+
 9) Click on “Update” under the search bar.
     
 10) The new extension called ”GenderMag Recorder's Assistant” should be in the 
@@ -83,10 +85,12 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    3) Enter the name of your team and click submit.
    
    4) Select the persona that you want to use for this session. 
-      Currently, you can select from three personas: Abi, Tim, and Pat.
+      Currently, you can select from these personas: Abi, Tim, Pat, or a custom persona of your creation.
       
       After you have selected the persona, the description of the selected 
       persona you selected will appear to the right.
+      
+      * If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be listed on these forms instead of in the GenderMag extension.
 
       If you want to change the persona or team name, click edit on top of the 
       tool.
