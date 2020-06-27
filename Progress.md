@@ -5,7 +5,7 @@
 * issue [#11](../../issues/11) : subgoals/actions bug
     * point of contact:
 * issue [#15](../../issues/15) : implement delete action button
-    * point of contact:
+    * point of contact: Diana
 ### Tasks
 - [x] make a readme to keep track of issues and progress
 - [ ] contact owner of github for tips on debugging (set up a call?)
