@@ -4,6 +4,10 @@
 ### Issues
 * issue [#11](../../issues/11) : subgoals/actions bug
     * point of contact: Elizabeth
+    - [x] add subgoals to tree before "save and continue"
+    - [x] test
+    - [ ] fix last action added to every subgoal
+    - [ ] test
     
 * issue [#15](../../issues/15) : implement delete action button
     * point of contact: Diana
