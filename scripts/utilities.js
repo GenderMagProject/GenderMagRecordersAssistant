@@ -187,3 +187,62 @@ function saveAndExit(exitType){
 		}
 	});
 }
+
+function justExit(exitType){
+	el = sidebarBody().find('#sideBySide');
+	if(exitType === "slider") {
+		el.contents().hide();
+		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
+		sidebarBody().find('#justExit').attr("hidden", true);
+	} else {
+		document.getElementById('myToolTip').style.display = "none";
+		document.getElementById('genderMagCanvasContainer').style.display="none";
+		openSlider();
+		el.contents().hide();
+		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
+		sidebarBody().find('#justExit').attr("hidden", true);
+	};
+	var scurvy = createCSV();
+
+	$(el).find("#sliderFinalDownload").unbind("click").click(function () {
+		var scurvy = createCSV();
+		downloadCSV(scurvy, false);
+	});
+
+	$(el).find("#oldFormat").unbind("click").click(function () {
+		var scurvy = createOldCSV();
+		downloadCSV(scurvy, true);
+	});
+
+	$(el).find("#sliderYesCheckbox").unbind("click").click(function () {
+		if ($(el).find('#sliderYesCheckbox').is(":checked")) {
+			$(el).find('#sliderFinalYes').prop('disabled', false);
+			$(el).find("#sliderFinalYes").attr("style","background-color:#7D1935;color:white;");
+		}
+		else {
+			$(el).find('#sliderFinalYes').prop('disabled', true);
+			$(el).find("#sliderFinalYes").attr("style","background-color:#7D1935;color:white;opacity:0.5");
+		}
+	});
+
+	$(el).find("#sliderFinalYes").unbind("click").click(function () {
+		localStorage.clear();
+		location.reload();
+	});
+
+	$(el).find("#sliderFinalNo").unbind("click").click(function () {
+		sidebarBody().find('#justExit').attr("hidden", false);
+		$(el).find('#sliderFinalCountdown').remove();
+		if(exitType ==="slider") {
+			$(el).find('#subgoalList').show();
+			$(el).find('#containeryo').show();
+			$(el).find('#personaInfo').show();
+		}
+		else{
+			document.getElementById('myToolTip').style.display = "block";
+			document.getElementById('genderMagCanvasContainer').style.display="block";
+			closeSlider();
+			el.contents().show();
+		}
+	});
+}
