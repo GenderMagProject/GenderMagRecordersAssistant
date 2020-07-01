@@ -195,6 +195,9 @@ function savePostIdealAction (name, yesnomaybe, whyText, facets) {
 	
 	//Put them together and save
     glueActionsAndSave(currPreAction, postIdealAction);
+    //Clear state variables
+    localStorage.setItem("currPreAction", "");
+    localStorage.setItem("inMiddleOfAction", "false");		
 }
 
 

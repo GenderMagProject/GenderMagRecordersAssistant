@@ -82,21 +82,25 @@ function getSubgoalInfo(){
         subgoalEntry.push("\n"); // new row
 
         var subgoalString = subgoalEntry.join(",");
+        // This for loop is really weird --> TODO cleanup
         var currentAction = 0;
         for (var i in currSubgoal.actions) {
             if(i.id !== currentAction) {
                 currentAction = i.id;
-                console.log("action");
+                console.log("action" + i);
                 var actionString = getActionInfo(currSubgoal.actions, j);
                 subgoalString = subgoalString + actionString;
             }
         }
-        if(localStorage.getItem("inMiddleOfAction")==="true" && !localStorage.getItem("finishedGM")){
+        fullEntry = fullEntry + subgoalString;
+    }
+    // Add any uncompleted action
+    // The assumption here is that uncompleted actions will always belong to the last subgoal
+    // This assumption may need to be updated later on
+    if(localStorage.getItem("inMiddleOfAction")==="true" && !localStorage.getItem("finishedGM")){
             console.log("middle of action!");
             var actString = getActionInfo([getVarFromLocal("currPreAction")]);
-            subgoalString = subgoalString + actString;
-        }
-        fullEntry = fullEntry + subgoalString;
+            fullEntry = fullEntry + actString;
     }
     return fullEntry;
 }
