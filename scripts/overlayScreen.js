@@ -112,6 +112,13 @@ function overlayScreen(onlyDraw){
 			overlayScreen();
 			overlayScreen();
 		});
+
+		//this is what i changed come back to this
+
+		//$("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
+       //     justExit("popup");
+		//});
+	
         $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
             saveAndExit("popup");
 		});
