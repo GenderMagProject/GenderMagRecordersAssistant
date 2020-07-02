@@ -59,6 +59,65 @@ function editSubgoal(subgoalNum){
 	});
 }
 
+function refreshSubgoalInfo(subgoalId){
+	var subgoals = getSubgoalArrayFromLocal();
+	//get current subgoal name and pronoun/possessive
+	var subName = localStorage.getItem("currSubgoalName");
+	var subgoal;
+
+	if(subgoals[subgoalId - 1] !== undefined && subgoals[subgoalId - 1].name !== subName){
+		subName = subgoals[subgoalId - 1].name;
+		sidebarBody().find('#editSubName').hide();
+        subgoal = subgoals[subgoalId - 1];
+	} else{
+	    subgoal =  subgoals[subgoals.length-1];
+    }
+    return subgoal;
+}
+
+function storeSubgoalInfo(subgoalId){
+	var subgoal = refreshSubgoalInfo(subgoalId);
+	/*var subgoals = getSubgoalArrayFromLocal();
+	var numActions = localStorage.getItem("numActions");
+	//get current subgoal name and pronoun/possessive
+	var subName = localStorage.getItem("currSubgoalName");
+	var subgoal;
+
+	if(subgoals[subgoalId - 1] !== undefined && subgoals[subgoalId - 1].name !== subName){
+		subName = subgoals[subgoalId - 1].name;
+		sidebarBody().find('#editSubName').hide();
+        subgoal = subgoals[subgoalId - 1];
+	} else{
+	    subgoal =  subgoals[subgoals.length-1];
+    }*/
+
+	var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
+		"no": sidebarBody().find("#no").is(":checked"),
+		"maybe": sidebarBody().find("#maybe").is(":checked")};
+    var whyText = sidebarBody().find('#A0Q0whyYes').val();
+    if (whyText === "") {
+        whyText = sidebarBody().find('#A0Q0Response').html();
+    }
+    var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"),
+		"info": sidebarBody().find("#A0Q0info").is(":checked"),
+		"selfE": sidebarBody().find("#A0Q0selfE").is(":checked"),
+		"risk": sidebarBody().find("#A0Q0risk").is(":checked"),
+		"tinker": sidebarBody().find("#A0Q0tinker").is(":checked"),
+		"none": sidebarBody().find("#A0Q0none").is(":checked")};
+    saveSubgoal(subgoalId, subgoal.name, yesNoMaybe, whyText, facets);
+    //change key for subgoal questions
+    setStatusToTrue("gotSubgoalQuestions");
+    //increase number of actions and draw action
+    var numActions = localStorage.getItem("numActions");
+    if(numActions > 0){
+        drawAction(numActions, subgoalId);
+    }
+    else{
+        localStorage.setItem("numActions", 1);
+        drawAction(1, subgoalId);
+    }
+}
+
 /*
  * Function: drawSubgoal
  * Description: This function handles displaying information for a given subgoal including displaying previously saved
@@ -70,15 +129,15 @@ function drawSubgoal(subgoalId){
 	var file = "/templates/subgoal.html";
 
 	var isSetSubgoalQuestions = (statusIsTrue("gotSubgoalQuestions"));
-	var subgoals = getSubgoalArrayFromLocal();
-	var numActions = localStorage.getItem("numActions");
+	/*var numActions = localStorage.getItem("numActions");
 	//get current subgoal name and pronoun/possessive
 	var subName = localStorage.getItem("currSubgoalName");
-	var subgoal;
+	var subgoal;*/
 
 	// if already got answers for subgoal questions,
 	if (isSetSubgoalQuestions) {
-
+		var subgoal = refreshSubgoalInfo(subgoalId);
+		var subgoals = getSubgoalArrayFromLocal();
 		//empty contents of question container in the slider and put in subgoal questions
 		var el = $(id).contents().find('#containeryo');
 		el.empty();
@@ -87,26 +146,26 @@ function drawSubgoal(subgoalId){
 		//check if subgoal number param corresponds to the current subgoal if not then set param subgoal as
 		//local subgoal
 		//var subgoal;
-		if(subgoals[subgoalId - 1] !== undefined && subgoals[subgoalId - 1].name !== subName){
+		/*if(subgoals[subgoalId - 1] !== undefined && subgoals[subgoalId - 1].name !== subName){
 			subName = subgoals[subgoalId - 1].name;
 			sidebarBody().find('#editSubName').hide();
             subgoal = subgoals[subgoalId - 1];
 		} else{
 		    subgoal =  subgoals[subgoals.length-1];
-        }
+        }*/
 
 		//set up header and edit subgoal buttons
         var personaName = getVarFromLocal("personaName");
         var pronoun = getVarFromLocal("personaPronoun");
         var possessive = getVarFromLocal("personaPossessive");
 		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){editSubgoal(subgoalId);});
-		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
+		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subgoal.name);
         sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
         sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
         sidebarBody().find('#editSubgoal').hide();
 		if(subgoals){
 			//populate existing information
-			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
+			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subgoal.name);
 			sidebarBody().find('#yes').prop("checked", subgoal.ynm.yes);
 			sidebarBody().find('#no').prop("checked", subgoal.ynm.no);
 			sidebarBody().find('#maybe').prop("checked", subgoal.ynm.maybe);
@@ -122,6 +181,8 @@ function drawSubgoal(subgoalId){
 			sidebarBody().find('#A0Q0Response').html(subgoal.why);
 			sidebarBody().find('#A0Q0whyYes').hide();
 			sidebarBody().find('#editSubgoal').show();
+			// no tomfoolery allowed
+			sidebarBody().find('#addAction').hide();
 
 			sidebarBody().find('#editSubgoal').unbind( "click" ).click(function(){
 				sidebarBody().find("#editSubgoal").hide();
@@ -133,7 +194,7 @@ function drawSubgoal(subgoalId){
 
 			//save and continue is clicked save subgoal and call draw action function
             sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
-                var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
+                /*var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
 					"no": sidebarBody().find("#no").is(":checked"),
 					"maybe": sidebarBody().find("#maybe").is(":checked")};
                 var whyText = sidebarBody().find('#A0Q0whyYes').val();
@@ -157,7 +218,7 @@ function drawSubgoal(subgoalId){
                 else{
                     localStorage.setItem("numActions", 1);
                     drawAction(1, subgoalId);
-                }
+                }*/
             });
 		}
 	}
@@ -181,14 +242,8 @@ function drawSubgoal(subgoalId){
 
 		//on save and continue, save subgoal question answers and call draw action
 		sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
-			if(subgoals[subgoalId - 1] !== undefined && subgoals[subgoalId - 1].name !== subName){
-				subName = subgoals[subgoalId - 1].name;
-				sidebarBody().find('#editSubName').hide();
-            	subgoal = subgoals[subgoalId - 1];
-			} else{
-		    	subgoal =  subgoals[subgoals.length-1];
-        	}
-			var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
+        	storeSubgoalInfo(subgoalId);
+			/*var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
 				"no": sidebarBody().find("#no").is(":checked"),
 				"maybe": sidebarBody().find("#maybe").is(":checked")};
 			var whyText = sidebarBody().find('#A0Q0whyYes').val();
@@ -210,7 +265,7 @@ function drawSubgoal(subgoalId){
 			else{
 				localStorage.setItem("numActions", 1);
 				drawAction(1, subgoalId);
-			}
+			}*/
 		});
 	}
 }
