@@ -53,9 +53,9 @@ function editSubgoal(subgoalNum){
 		}
 	});
 
+	//cancels editing the subgoal
 	sidebarBody().find('body').off('click', '#cancelSubgoal').on('click', '#cancelSubgoal', function() {
-			//change the name in storage
-			//var subgoalId = subgoalNum;
+			//changes the name to the current subgoal name
 			setStatusToTrue("gotSubgoalName");
 			var subName = localStorage.getItem("currSubgoalName");
 			localStorage.setItem("currSubgoalName", subName);	
