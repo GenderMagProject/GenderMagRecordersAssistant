@@ -42,6 +42,11 @@ function editSubgoal(subgoalNum){
 			setStatusToTrue("gotSubgoalName");
 			var subName = sidebarBody().find("#subgoalInput").val();
 			localStorage.setItem("currSubgoalName", subName);
+			//update the subgoal
+			var subArr = getSubgoalArrayFromLocal();
+			var subgoal = subArr[subgoalNum-1];
+			saveSubgoal(subgoalNum, subName, subgoal.ynm, subgoal.why, subgoal.facetValues, subgoal.actions);
+
 			//Display subgoal questions again
 			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
             sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
@@ -65,14 +70,14 @@ function drawSubgoal(subgoalId){
 	var file = "/templates/subgoal.html";
 
 	var isSetSubgoalQuestions = (statusIsTrue("gotSubgoalQuestions"));
+	var subgoals = getSubgoalArrayFromLocal();
+	var numActions = localStorage.getItem("numActions");
+	//get current subgoal name and pronoun/possessive
+	var subName = localStorage.getItem("currSubgoalName");
+	var subgoal;
 
 	// if already got answers for subgoal questions,
 	if (isSetSubgoalQuestions) {
-		var subgoals = getSubgoalArrayFromLocal();
-		var numActions = localStorage.getItem("numActions");
-
-		//get current subgoal name and pronoun/possessive
-		var subName = localStorage.getItem("currSubgoalName");
 
 		//empty contents of question container in the slider and put in subgoal questions
 		var el = $(id).contents().find('#containeryo');
@@ -81,7 +86,7 @@ function drawSubgoal(subgoalId){
 
 		//check if subgoal number param corresponds to the current subgoal if not then set param subgoal as
 		//local subgoal
-		var subgoal;
+		//var subgoal;
 		if(subgoals[subgoalId - 1] !== undefined && subgoals[subgoalId - 1].name !== subName){
 			subName = subgoals[subgoalId - 1].name;
 			sidebarBody().find('#editSubName').hide();
@@ -176,6 +181,13 @@ function drawSubgoal(subgoalId){
 
 		//on save and continue, save subgoal question answers and call draw action
 		sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
+			if(subgoals[subgoalId - 1] !== undefined && subgoals[subgoalId - 1].name !== subName){
+				subName = subgoals[subgoalId - 1].name;
+				sidebarBody().find('#editSubName').hide();
+            	subgoal = subgoals[subgoalId - 1];
+			} else{
+		    	subgoal =  subgoals[subgoals.length-1];
+        	}
 			var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
 				"no": sidebarBody().find("#no").is(":checked"),
 				"maybe": sidebarBody().find("#maybe").is(":checked")};
