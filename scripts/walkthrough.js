@@ -52,6 +52,23 @@ function editSubgoal(subgoalNum){
 			sidebarBody().find("#subgoalButtons").show();
 		}
 	});
+
+	sidebarBody().find('body').off('click', '#cancelSubgoal').on('click', '#cancelSubgoal', function() {
+			//change the name in storage
+			//var subgoalId = subgoalNum;
+			setStatusToTrue("gotSubgoalName");
+			var subName = localStorage.getItem("currSubgoalName");
+			localStorage.setItem("currSubgoalName", subName);	
+		
+			//Display subgoal questions again
+			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
+			sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
+			sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
+			sidebarBody().find("#getSubgoal").hide();
+			sidebarBody().find("#subgoalQuestions").show();
+			sidebarBody().find("#subgoalFacets").show();
+			sidebarBody().find("#subgoalButtons").show();
+	});
 }
 
 /*
