@@ -16,7 +16,7 @@
 
 * issue [#26](../../issues/26) : edit subgoal bug
     * point of contact: Elizabeth
-    - [ ] hide "save & continue" button after subgoal save (it's confusing)
+    - [x] hide "save & continue" button after subgoal save (it's confusing)
     - [ ] after "edit why text", show a new "submit" button that only changes the text
     - [ ] make sure old text is displayed first (instead of blank)
  
