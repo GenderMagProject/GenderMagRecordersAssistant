@@ -18,10 +18,19 @@ function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
 		facetValues: facets,
 		actions: []
 	};
+	// REFACTORED
+	var subArr = getSubgoalArrayFromLocal();
+	if (!subArr){
+		subArr = subgoalArray;
+	}
+	subArr[id-1] = subgoal;
+	localStorage.setItem("subgoalArray", JSON.stringify(subArr));  //update subgoalArray in local storage
+	addToSandwich("subgoal", subgoal);
+}
 
-//might be causing bugs
-//problem: using id for array index?
-	if(id > subgoalArray.length){  // new subgoal?
+/*	//might be causing bugs
+	//problem: using id for array index?
+	if(id >= subgoalArray.length){  // new subgoal?
 		var subArr = getSubgoalArrayFromLocal(); // from local storage
 		if (!subArr) {  
 			subArr = subgoalArray; //if array not found in local storage (first subgoal?), initialize with subgoalArray
@@ -33,9 +42,9 @@ function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
 	else{  //update existing subgoal? 
 		var subArr = getSubgoalArrayFromLocal();
 		subArr[id-1] = subgoal;
-		localStorage.setItem("subgoalArray", JSON.stringify(subArr));		
-	}
-}
+		localStorage.setItem("subgoalArray", JSON.stringify(subArr));
+        addToSandwich("subgoal",subgoal);
+	}*/
 
 /*
  * Function: addToSandwich
@@ -56,6 +65,8 @@ function addToSandwich(type, item){
                 var currId = Number(this.getAttribute('supercoolattr'));
                 if (item.id == currId) {
                     foundIt = true;
+                    var match = "#sideSubgoal" + currId
+                    sidebarBody().find("#subgoalList").children(match).html(sideSubgoal);
                 }
             });
             // should the item id not be changed to be in bounds?

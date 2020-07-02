@@ -107,7 +107,7 @@ function storeSubgoalInfo(subgoalId){
     saveSubgoal(subgoalId, subgoal.name, yesNoMaybe, whyText, facets);
     //change key for subgoal questions
     setStatusToTrue("gotSubgoalQuestions");
-    //increase number of actions and draw action
+    /*//increase number of actions and draw action
     var numActions = localStorage.getItem("numActions");
     if(numActions > 0){
         drawAction(numActions, subgoalId);
@@ -115,7 +115,19 @@ function storeSubgoalInfo(subgoalId){
     else{
         localStorage.setItem("numActions", 1);
         drawAction(1, subgoalId);
+    }*/
+}
+
+function preDrawAction(subgoalId){
+	//increase number of actions and draw action
+    var numActions = localStorage.getItem("numActions");
+    if(numActions > 0){
+        drawAction(numActions, subgoalId);
     }
+    else{
+        localStorage.setItem("numActions", 1);
+        drawAction(1, subgoalId);
+    }	
 }
 
 /*
@@ -186,10 +198,21 @@ function drawSubgoal(subgoalId){
 
 			sidebarBody().find('#editSubgoal').unbind( "click" ).click(function(){
 				sidebarBody().find("#editSubgoal").hide();
-				sidebarBody().find('#addAction').show();
+				//sidebarBody().find('#addAction').show();
 				sidebarBody().find("#A0Q0whyYes").show();
 				sidebarBody().find("#A0Q0whyYes").html(subgoal.why);
-				sidebarBody().find("#A0Q0Response").hide();
+				//sidebarBody().find("#A0Q0Response").hide();
+				sidebarBody().find('#submitWhy').show();
+			});
+
+			sidebarBody().find('#submitWhy').unbind( "click" ).click(function(){
+				sidebarBody().find('#submitWhy').hide();
+				sidebarBody().find("#editSubgoal").show();
+				storeSubgoalInfo(subgoalId);
+				subgoal = refreshSubgoalInfo(subgoalId);
+				sidebarBody().find('#A0Q0Response').html(subgoal.why);
+				//sidebarBody().find('#A0Q0Response').show();
+				sidebarBody().find('#A0Q0whyYes').hide();
 			});
 
 			//save and continue is clicked save subgoal and call draw action function
@@ -243,6 +266,7 @@ function drawSubgoal(subgoalId){
 		//on save and continue, save subgoal question answers and call draw action
 		sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
         	storeSubgoalInfo(subgoalId);
+        	preDrawAction(subgoalId);
 			/*var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
 				"no": sidebarBody().find("#no").is(":checked"),
 				"maybe": sidebarBody().find("#maybe").is(":checked")};
