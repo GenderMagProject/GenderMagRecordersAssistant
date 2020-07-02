@@ -7,6 +7,7 @@
     * point of contact: Annie
     - [x] front-end: HTML/CSS button on main pop-up
     - [x] back-end: displays the subgoal information without changing the subgoal name
+    - [x] made code more efficient by creating a function to display subgoal information
     
 * issue [#15](../../issues/15) : implement delete action button
     * point of contact: Diana
