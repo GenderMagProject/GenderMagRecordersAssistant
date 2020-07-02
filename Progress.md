@@ -2,6 +2,12 @@
 
 ## WEEK 1: June 29 - July 3
 ### Issues
+
+* issue [#9](../../issues/9) : add cancel button when editing subgoals
+    * point of contact: Annie
+    - [x] front-end: HTML/CSS button on main pop-up
+    - [x] back-end: displays the subgoal information without changing the subgoal name
+    
 * issue [#15](../../issues/15) : implement delete action button
     * point of contact: Diana
     - [x] frontend setup: HTML button, js click event listener
