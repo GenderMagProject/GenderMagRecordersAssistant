@@ -61,11 +61,10 @@ function editSubgoal(subgoalNum){
 	sidebarBody().find('body').off('click', '#cancelSubgoal').on('click', '#cancelSubgoal', function() {
 			//changes the name to the current subgoal name
 			setStatusToTrue("gotSubgoalName");
-			var subName = localStorage.getItem("currSubgoalName");
-			localStorage.setItem("currSubgoalName", subName);	
+	
 		
 			//Display subgoal questions again
-			displayMainSubgoalInfo(subName);
+			displayMainSubgoalInfo(localStorage.getItem("currSubgoalName"));
 	});
 }
 
