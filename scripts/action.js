@@ -322,103 +322,66 @@ function actionLoop(el){
 		}
 	});
 
-	//TODO(roseg31) : Investigate this...
-	//on save and exit button click, save all info, close session
-	$("#saveAndExit").unbind( "click" ).click(function(){
+	//exits the gendermag session
+	function exit() {
 		//setStatusToFalse("inMiddleOfAction");
 		localStorage.setItem("inMiddleOfAction", "false");
 		$(el).find("#actionLoopTemplate").hide();
 		$(el).find("#theFinalCountDown").show();
 
+		//on click of redownload zip button, download sheet again
+		$("#finalDownload").unbind("click").click(function () {
+			setStatusToFalse("inMiddleOfAction");
+			var scurvy = createCSV();
+			downloadCSV(scurvy, false);
+		});
+
+		$("#oldFormat").unbind("click").click(function () {
+			var scurvy = createOldCSV();
+			downloadCSV(scurvy, true);
+		});
+
+		//make sure user has downloaded their file before quitting
+		$("#finalYesCheckbox").unbind("click").click(function () {
+			if ($('#finalYesCheckbox').is(":checked")) {
+				$('#finalYes').prop('disabled', false);
+				$("#finalYes").attr("style","background-color:#7D1935;color:white;");
+			}
+			else {
+				$('#finalYes').prop('disabled', true);
+				$("#finalYes").attr("style","background-color:#7D1935;color:white;opacity:0.5");
+			}
+		});	
+
+		//final quit button clears local storage and reloads
+		$("#finalYes").unbind("click").click(function () {
+			localStorage.clear(); 
+			location.reload();
+		});
+
+		//'I'm not done, take me back' button returns to action loop
+		$("#finalNo").unbind("click").click(function () {
+			$('#theFinalCountDown').hide();
+			setStatusToFalse('finishedGM');
+			$('#actionLoopTemplate').show();
+		});
+	}
+
+	//TODO(roseg31) : Investigate this...
+	//on save and exit button click, save all info, close session
+	$("#saveAndExit").unbind( "click" ).click(function(){
 		//create and download sheet with session data
         setStatusToTrue("finishedGM");
 		var scurvy = createCSV();
 		downloadCSV(scurvy);
 
-		//on click of redownload zip button, download sheet again
-		$("#finalDownload").unbind("click").click(function () {
-			setStatusToFalse("inMiddleOfAction");
-			var scurvy = createCSV();
-			downloadCSV(scurvy, false);
-		});
-
-		$("#oldFormat").unbind("click").click(function () {
-			var scurvy = createOldCSV();
-			downloadCSV(scurvy, true);
-		});
-
-		//make sure user has downloaded their file before quitting
-		$("#finalYesCheckbox").unbind("click").click(function () {
-			if ($('#finalYesCheckbox').is(":checked")) {
-				$('#finalYes').prop('disabled', false);
-				$("#finalYes").attr("style","background-color:#7D1935;color:white;");
-			}
-			else {
-				$('#finalYes').prop('disabled', true);
-				$("#finalYes").attr("style","background-color:#7D1935;color:white;opacity:0.5");
-			}
-		});	
-
-		//final quit button clears local storage and reloads
-		$("#finalYes").unbind("click").click(function () {
-			localStorage.clear(); 
-			location.reload();
-		});
-
-		//'I'm not done, take me back' button returns to action loop
-		$("#finalNo").unbind("click").click(function () {
-			$('#theFinalCountDown').hide();
-			setStatusToFalse('finishedGM');
-			$('#actionLoopTemplate').show();
-		});
+		exit();
 	});
 
 	$("#justExit").unbind( "click" ).click(function(){
-		//setStatusToFalse("inMiddleOfAction");
-		localStorage.setItem("inMiddleOfAction", "false");
-		$(el).find("#actionLoopTemplate").hide();
-		$(el).find("#theFinalCountDown").show();
-
-		//create and download sheet with session data
-        setStatusToTrue("finishedGM");
+		setStatusToTrue("finishedGM");
 		var scurvy = createCSV();
-
-		//on click of redownload zip button, download sheet again
-		$("#finalDownload").unbind("click").click(function () {
-			setStatusToFalse("inMiddleOfAction");
-			var scurvy = createCSV();
-			downloadCSV(scurvy, false);
-		});
-
-		$("#oldFormat").unbind("click").click(function () {
-			var scurvy = createOldCSV();
-			downloadCSV(scurvy, true);
-		});
-
-		//make sure user has downloaded their file before quitting
-		$("#finalYesCheckbox").unbind("click").click(function () {
-			if ($('#finalYesCheckbox').is(":checked")) {
-				$('#finalYes').prop('disabled', false);
-				$("#finalYes").attr("style","background-color:#7D1935;color:white;");
-			}
-			else {
-				$('#finalYes').prop('disabled', true);
-				$("#finalYes").attr("style","background-color:#7D1935;color:white;opacity:0.5");
-			}
-		});	
-
-		//final quit button clears local storage and reloads
-		$("#finalYes").unbind("click").click(function () {
-			localStorage.clear(); 
-			location.reload();
-		});
-
-		//'I'm not done, take me back' button returns to action loop
-		$("#finalNo").unbind("click").click(function () {
-			$('#theFinalCountDown').hide();
-			setStatusToFalse('finishedGM');
-			$('#actionLoopTemplate').show();
-		});
+		exit();
 	});
 
 	//back button returns to post action questions, resets got post action key
