@@ -28,24 +28,6 @@ function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
 	addToSandwich("subgoal", subgoal);
 }
 
-/*	//might be causing bugs
-	//problem: using id for array index?
-	if(id >= subgoalArray.length){  // new subgoal?
-		var subArr = getSubgoalArrayFromLocal(); // from local storage
-		if (!subArr) {  
-			subArr = subgoalArray; //if array not found in local storage (first subgoal?), initialize with subgoalArray
-		}
-		subArr[id-1] = subgoal;  //save subgoal (who assigns id? What if it's not the right index? what if id=0?)
-		localStorage.setItem("subgoalArray", JSON.stringify(subArr));  //update subgoalArray in local storage	
-        addToSandwich("subgoal",subgoal);
-	}
-	else{  //update existing subgoal? 
-		var subArr = getSubgoalArrayFromLocal();
-		subArr[id-1] = subgoal;
-		localStorage.setItem("subgoalArray", JSON.stringify(subArr));
-        addToSandwich("subgoal",subgoal);
-	}*/
-
 /*
  * Function: addToSandwich
  * Description: This function handles display of subgoals and actions in the expandable sidebar
