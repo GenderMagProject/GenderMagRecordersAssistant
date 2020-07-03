@@ -2,8 +2,8 @@
 ## WEEK 2: July 6 - July 10
 ### Issues
 
-* issue [#22](../../issues/22) : save and exit from screenshot
-    * point of contact: Fatima
+* issue [#13](https://github.com/GenderMagProject/GenderMagRecordersAssistant/issues/13) : CSV formatting
+    * point of contact: Imani
 
 * issue [#15](../../issues/15) : implement delete action button
     * point of contact: Diana
@@ -12,8 +12,8 @@
     - [ ] backend: implement deleteAction()
     - [ ] test
  
-* issue [#13](https://github.com/GenderMagProject/GenderMagRecordersAssistant/issues/13) : CSV formatting
-    * point of contact: Imani
+* issue [#22](../../issues/22) : save and exit from screenshot
+    * point of contact: Fatima
 
 ### Tasks
 - [ ] add mentors as contributors
