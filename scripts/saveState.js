@@ -55,10 +55,11 @@ function addToSandwich(type, item){
 	
 	if(!type.localeCompare("subgoal")){ 		
 		var subArr = getSubgoalArrayFromLocal();
-		drawSubgoal(item.id);
+		//drawSubgoal(item.id);
         var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
 		var sideSubgoal = '<div stateVar=0 superCoolAttr=' + item.id + ' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:blue;text-decoration:underline;margin:5px;" id="sideSubgoal' + item.id + '"> <img id="sideSubgoalImg' + item.id + '" src="' + arrowSRC + '"></img> Subgoal ' + item.id + ': ' + item.name + '</div>';
 		// what exactly is the goal here (last subgoal or out of bounds)
+		// THIS NEEDS TO BE REFACTORED
 		if (item.id >= subArr.length) {
             var foundIt = false;
             sidebarBody().find('#subgoalList').children().each(function () {
