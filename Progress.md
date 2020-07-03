@@ -19,7 +19,7 @@
     - [x] hide "save & continue" button after subgoal save (it's confusing)
     - [x] after "edit why text", show a new "submit" button that only changes the text
     - [x] make sure old text is displayed first (instead of blank)
-    - [ ] make a button to get back to creating actions
+    - [x] make a button to get back to creating actions
  
 ### Tasks
 - [x] make a readme to keep track of issues and progress
