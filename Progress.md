@@ -11,12 +11,22 @@
     - [x] design doc (how should deleteAction() be implemented? flowchart?)
     - [ ] backend: implement deleteAction()
     - [ ] test
+    
+* issue [#21](../../issues/21) : add a toggle option to hide or display the GenderMag pop up by clicking on the extension icon
+    * point of contact: Annie
+    - [] figure out how to hide and display pop up
+    - [] test
  
 * issue [#22](../../issues/22) : save and exit from screenshot
     * point of contact: Fatima
+    
+* issue [#41](../../issues/41) : delete the exit button and the save and exit button from the exit screen
+    * point of contact: Annie
+    - [] hide buttons on exit screen
+    - [] test
 
 ### Tasks
-- [ ] add mentors as contributors
+- [x] add mentors as contributors
 - [ ] set up a code review system
 
 ## WEEK 1: June 29 - July 3
@@ -27,6 +37,7 @@
     * point of contact: Annie
     - [x] front-end: HTML/CSS button on main pop-up
     - [x] back-end: displays the subgoal information without changing the subgoal name
+    - [x] test
     - [x] made code more efficient by creating a function to display subgoal information
 
 * issue [#11](../../issues/11) : subgoals/actions bug
@@ -40,6 +51,7 @@
     * point of contact: Annie
     - [x] front-end: HTML/CSS button on main pop-up
     - [x] allow for download of csv file if user changes his/her mind even after clicking exit without saving
+    - [x] test
 
 * issue [#26](../../issues/26) : edit subgoal bug
     * point of contact: Elizabeth
