@@ -134,6 +134,7 @@ function saveAndExit(exitType){
 		el.contents().hide();
 		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
 		sidebarBody().find('#saveAndExit').attr("hidden", true);
+		sidebarBody().find('#justExit').attr("hidden", true);
 	} else {
 		document.getElementById('myToolTip').style.display = "none";
 		document.getElementById('genderMagCanvasContainer').style.display="none";
@@ -141,6 +142,7 @@ function saveAndExit(exitType){
 		el.contents().hide();
 		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
 		sidebarBody().find('#saveAndExit').attr("hidden", true);
+		sidebarBody().find('#justExit').attr("hidden", true);
 	};
 	var scurvy = createCSV();
 	downloadCSV(scurvy);
@@ -173,6 +175,7 @@ function saveAndExit(exitType){
 
 	$(el).find("#sliderFinalNo").unbind("click").click(function () {
 		sidebarBody().find('#saveAndExit').attr("hidden", false);
+		sidebarBody().find('#justExit').attr("hidden", false);
 		$(el).find('#sliderFinalCountdown').remove();
 		if(exitType ==="slider") {
 			$(el).find('#subgoalList').show();
@@ -188,11 +191,15 @@ function saveAndExit(exitType){
 	});
 }
 
+/*
+ * Function: justExit
+ */
 function justExit(exitType){
 	el = sidebarBody().find('#sideBySide');
 	if(exitType === "slider") {
 		el.contents().hide();
 		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
+		sidebarBody().find('#saveAndExit').attr("hidden", true);
 		sidebarBody().find('#justExit').attr("hidden", true);
 	} else {
 		document.getElementById('myToolTip').style.display = "none";
@@ -200,6 +207,7 @@ function justExit(exitType){
 		openSlider();
 		el.contents().hide();
 		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
+		sidebarBody().find('#saveAndExit').attr("hidden", true);
 		sidebarBody().find('#justExit').attr("hidden", true);
 	};
 	var scurvy = createCSV();
@@ -231,6 +239,7 @@ function justExit(exitType){
 	});
 
 	$(el).find("#sliderFinalNo").unbind("click").click(function () {
+		sidebarBody().find('#saveAndExit').attr("hidden", false);
 		sidebarBody().find('#justExit').attr("hidden", false);
 		$(el).find('#sliderFinalCountdown').remove();
 		if(exitType ==="slider") {
