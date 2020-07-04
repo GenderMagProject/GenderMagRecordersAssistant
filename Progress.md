@@ -14,19 +14,19 @@
     
 * issue [#21](../../issues/21) : add a toggle option to hide or display the GenderMag pop up by clicking on the extension icon
     * point of contact: Annie
-    - [] figure out how to hide and display pop up
-    - [] test
+    - [ ] figure out how to hide and display pop up
+    - [ ] test
  
 * issue [#22](../../issues/22) : save and exit from screenshot
     * point of contact: Fatima
     
 * issue [#41](../../issues/41) : delete the exit button and the save and exit button from the exit screen
     * point of contact: Annie
-    - [] hide buttons on exit screen
-    - [] test
+    - [ ] hide buttons on exit screen
+    - [ ] test
 
 ### Tasks
-- [x] add mentors as contributors
+- [ ] add mentors as contributors
 - [ ] set up a code review system
 
 ## WEEK 1: June 29 - July 3
