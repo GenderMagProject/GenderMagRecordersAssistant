@@ -158,9 +158,7 @@ function drawSubgoal(subgoalId){
 		var subgoal = refreshSubgoalInfo(subgoalId);
 		var subgoals = getSubgoalArrayFromLocal();
 
-        sidebarBody().find('#editSubgoal').hide();
         sidebarBody().find('#editSubName').hide();         
-        sidebarBody().find('#addAction').val("Continue");
         sidebarBody().find('#addAction').hide();
 
         sidebarBody().find('#A0Q0Response').html(subgoal.why);
@@ -179,16 +177,35 @@ function drawSubgoal(subgoalId){
 		sidebarBody().find('#A0Q0tinker').prop("checked", subgoal.facetValues.tinker); //not to be confused with tinkle
 		sidebarBody().find('#A0Q0none').prop("checked", subgoal.facetValues.none); //not to be confused with nun
 
+		sidebarBody().find('#editSubgoal').show();
+		// Button to edit 'why' text
+		sidebarBody().find('#editSubgoal').unbind( "click" ).click(function(){
+			sidebarBody().find("#editSubgoal").hide();
+			sidebarBody().find('#addAction').hide();
+			sidebarBody().find("#A0Q0whyYes").show();
+			sidebarBody().find("#A0Q0whyYes").html(subgoal.why);
+			sidebarBody().find('#submitWhy').show();
+		});
+		// Button to submit 'why' text
+		sidebarBody().find('#submitWhy').unbind( "click" ).click(function(){
+			sidebarBody().find('#submitWhy').hide();
+			sidebarBody().find("#editSubgoal").show();
+			storeSubgoalInfo(subgoalId);
+			// Retrieve the newly saved subgoal
+			subgoal = refreshSubgoalInfo(subgoalId);
+			sidebarBody().find('#A0Q0Response').html(subgoal.why);
+			sidebarBody().find('#A0Q0whyYes').hide();
+		});
+
 		if(subgoalId == subgoals.length){
 			// only edit or continue the latest subgoal
         	sidebarBody().find('#editSubName').show();
 			sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){
 				editSubgoal(subgoalId);
 			});
-			sidebarBody().find('#editSubgoal').show();
         	sidebarBody().find('#addAction').show();
-
-			// Button to edit 'why' text
+        	sidebarBody().find('#editSubgoal').show();
+			// Button to edit 'why' text (looks repeated but it's different)
 			sidebarBody().find('#editSubgoal').unbind( "click" ).click(function(){
 				sidebarBody().find("#editSubgoal").hide();
 				sidebarBody().find('#editSubName').hide();
@@ -210,9 +227,9 @@ function drawSubgoal(subgoalId){
 				sidebarBody().find('#addAction').show();
 
 			});
-
-			//save and continue is clicked save subgoal and call draw action function
+			//save and continue is clicked, save subgoal and call draw action function
             sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
+            	storeSubgoalInfo(subgoalId);
             	preDrawAction(subgoalId);
             });
 		}
@@ -223,9 +240,7 @@ function drawSubgoal(subgoalId){
 		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){
 			editSubgoal(subgoalId);
 		});
-
 		sidebarBody().find('#editSubgoal').hide();
-
 		//on save and continue, save subgoal question answers and call draw action
 		sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
         	storeSubgoalInfo(subgoalId);
