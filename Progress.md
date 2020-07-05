@@ -25,6 +25,11 @@
     - [ ] hide buttons on exit screen
     - [ ] test
 
+* issue [#43](../../issues/43) : fix subgoals saving in the wrong place
+    * point of contact: Elizabeth
+    - [ ] investigate what happens when clicking on previous subgoals
+    - [ ] implement a solution so the subgoalID is correct when saving
+
 ### Tasks
 - [ ] add mentors as contributors
 - [ ] set up a code review system
