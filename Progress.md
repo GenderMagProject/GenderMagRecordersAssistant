@@ -22,8 +22,8 @@
     
 * issue [#41](../../issues/41) : delete the exit button and the save and exit button from the exit screen
     * point of contact: Annie
-    - [ ] hide buttons on exit screen
-    - [ ] test
+    - [x] hide buttons on exit screen
+    - [x] test
 
 * issue [#43](../../issues/43) : fix subgoals saving in the wrong place
     * point of contact: Elizabeth
