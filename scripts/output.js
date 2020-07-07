@@ -233,7 +233,13 @@ function downloadCSV(csvContent, old) {
 	create_zip(csvContent, old);
 }
 
+/*
+*This function...
+*/
 function downloadURI(uri, name) {
+    if (uri === null || name ===null);{
+        return;
+    }
 	var safeName = name;
 	var safeUri = uri.slice(22);
 	console.log("in image", safeUri);
