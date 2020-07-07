@@ -66,18 +66,52 @@ function drawSubgoal(subgoalId){
 
 	var isSetSubgoalQuestions = (statusIsTrue("gotSubgoalQuestions"));
 
-	// if already got answers for subgoal questions,
+	var personaName = getVarFromLocal("personaName");
+	var pronoun = getVarFromLocal("personaPronoun");
+	var possessive = getVarFromLocal("personaPossessive");
+	var subName = localStorage.getItem("currSubgoalName");
+
+	//empty contents of question container in the slider and put in subgoal questions
+	var el = $(id).contents().find('#containeryo');
+	el.empty();
+	appendTemplateToElement(el,file);
+
+	sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
+	sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
+	sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
+	
+	//add click events 
+	sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){editSubgoal(subgoalId);});
+	sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){ 
+		var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
+			"no": sidebarBody().find("#no").is(":checked"),
+			"maybe": sidebarBody().find("#maybe").is(":checked")};
+		var whyText = sidebarBody().find('#A0Q0whyYes').val();
+		if (whyText === "") {
+			whyText = sidebarBody().find('#A0Q0Response').html();
+		}
+		var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"),
+			"info": sidebarBody().find("#A0Q0info").is(":checked"),
+			"selfE": sidebarBody().find("#A0Q0selfE").is(":checked"),
+			"risk": sidebarBody().find("#A0Q0risk").is(":checked"),
+			"tinker": sidebarBody().find("#A0Q0tinker").is(":checked"),
+			"none": sidebarBody().find("#A0Q0none").is(":checked")};
+		saveSubgoal(subgoalId, subName, yesNoMaybe, whyText, facets);
+		setStatusToTrue("gotSubgoalQuestions");
+		var numActions = localStorage.getItem("numActions");
+		if(numActions > 0){
+			drawAction(numActions, subgoalId);
+		}
+		else{
+			localStorage.setItem("numActions", 1);
+			drawAction(1, subgoalId);
+		}
+	});
+
+	// if already got answers for subgoal questions
 	if (isSetSubgoalQuestions) {
 		var subgoals = getSubgoalArrayFromLocal();
 		var numActions = localStorage.getItem("numActions");
-
-		//get current subgoal name and pronoun/possessive
-		var subName = localStorage.getItem("currSubgoalName");
-
-		//empty contents of question container in the slider and put in subgoal questions
-		var el = $(id).contents().find('#containeryo');
-		el.empty();
-		appendTemplateToElement(el,file);
 
 		//check if subgoal number param corresponds to the current subgoal if not then set param subgoal as
 		//local subgoal
@@ -89,15 +123,7 @@ function drawSubgoal(subgoalId){
 		} else{
 		    subgoal =  subgoals[subgoals.length-1];
         }
-
-		//set up header and edit subgoal buttons
-        var personaName = getVarFromLocal("personaName");
-        var pronoun = getVarFromLocal("personaPronoun");
-        var possessive = getVarFromLocal("personaPossessive");
-		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){editSubgoal(subgoalId);});
-		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
-        sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
-        sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
+		
         sidebarBody().find('#editSubgoal').hide();
 		if(subgoals){
 			//populate existing information
@@ -125,81 +151,7 @@ function drawSubgoal(subgoalId){
 				sidebarBody().find("#A0Q0whyYes").html(subgoal.why);
 				sidebarBody().find("#A0Q0Response").hide();
 			});
-
-			//save and continue is clicked save subgoal and call draw action function
-            sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
-                var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
-					"no": sidebarBody().find("#no").is(":checked"),
-					"maybe": sidebarBody().find("#maybe").is(":checked")};
-                var whyText = sidebarBody().find('#A0Q0whyYes').val();
-                if (whyText === "") {
-                    whyText = sidebarBody().find('#A0Q0Response').html();
-                }
-                var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"),
-					"info": sidebarBody().find("#A0Q0info").is(":checked"),
-					"selfE": sidebarBody().find("#A0Q0selfE").is(":checked"),
-					"risk": sidebarBody().find("#A0Q0risk").is(":checked"),
-					"tinker": sidebarBody().find("#A0Q0tinker").is(":checked"),
-					"none": sidebarBody().find("#A0Q0none").is(":checked")};
-                saveSubgoal(subgoalId, subName, yesNoMaybe, whyText, facets);
-                //change key for subgoal questions
-                setStatusToTrue("gotSubgoalQuestions");
-                //increase number of actions and draw action
-                var numActions = localStorage.getItem("numActions");
-                if(numActions > 0){
-                    drawAction(numActions, subgoalId);
-                }
-                else{
-                    localStorage.setItem("numActions", 1);
-                    drawAction(1, subgoalId);
-                }
-            });
 		}
-	}
-	//if subgoal questions haven't been gotten yet
-	else {
-		//get current subgoal, empty question container and add in subgoal questions
-        var personaName = getVarFromLocal("personaName");
-        var pronoun = getVarFromLocal("personaPronoun");
-        var possessive = getVarFromLocal("personaPossessive");
-		var subName = localStorage.getItem("currSubgoalName");
-		var el = $(id).contents().find('#containeryo');
-		el.empty();
-		appendTemplateToElement(el,file);
-		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
-        sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
-        sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
-		//edit subgoal button calls edit subgoal
-		sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function(){
-			editSubgoal(subgoalId);
-		});
-
-		//on save and continue, save subgoal question answers and call draw action
-		sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function(){
-			var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
-				"no": sidebarBody().find("#no").is(":checked"),
-				"maybe": sidebarBody().find("#maybe").is(":checked")};
-			var whyText = sidebarBody().find('#A0Q0whyYes').val();
-            if (whyText === "") {
-                whyText = sidebarBody().find('#A0Q0Response').html();
-            }
-			var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"),
-				"info": sidebarBody().find("#A0Q0info").is(":checked"),
-				"selfE": sidebarBody().find("#A0Q0selfE").is(":checked"),
-				"risk": sidebarBody().find("#A0Q0risk").is(":checked"),
-				"tinker": sidebarBody().find("#A0Q0tinker").is(":checked"),
-				"none": sidebarBody().find("#A0Q0none").is(":checked")};
-			saveSubgoal(subgoalId, subName, yesNoMaybe, whyText, facets);
-			setStatusToTrue("gotSubgoalQuestions");
-			var numActions = localStorage.getItem("numActions");
-			if(numActions > 0){
-				drawAction(numActions, subgoalId);
-			}
-			else{
-				localStorage.setItem("numActions", 1);
-				drawAction(1, subgoalId);
-			}
-		});
 	}
 }
 
