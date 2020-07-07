@@ -4,14 +4,7 @@
 
 * issue [#13](https://github.com/GenderMagProject/GenderMagRecordersAssistant/issues/13) : CSV formatting
     * point of contact: Imani
-
-* issue [#15](../../issues/15) : implement delete action button
-    * point of contact: Diana
-    - [x] frontend setup: HTML button, js click event listener
-    - [x] design doc (how should deleteAction() be implemented? flowchart?)
-    - [ ] backend: implement deleteAction()
-    - [ ] test
-    
+   
 * issue [#21](../../issues/21) : add a toggle option to hide or display the GenderMag pop up by clicking on the extension icon
     * point of contact: Annie
     - [ ] figure out how to hide and display pop up
@@ -53,6 +46,13 @@
     - [x] test
     - [x] fix last action added to every subgoal
     - [x] test
+  
+* issue [#15](../../issues/15) : implement delete action button
+    * point of contact: Diana
+    - [x] frontend setup: HTML button, js click event listener
+    - [x] design doc (how should deleteAction() be implemented? flowchart?)
+    - [ ] backend: implement deleteAction()
+    - [ ] test
     
 * issue [#19](../../issues/19) : add exit without saving button
     * point of contact: Annie
