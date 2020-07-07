@@ -23,6 +23,11 @@
     - [x] investigate what happens when clicking on previous subgoals
     - [x] implement a solution so the subgoalID is correct when saving
 
+* multiple issues : improvements to documentation & instructions
+    * point of contact: Elizabeth
+    - [ ] choose issues on the main repo and comment
+    - [ ] fix as many as possible lol
+
 ### Tasks
 - [ ] add mentors as contributors
 - [ ] set up a code review system
