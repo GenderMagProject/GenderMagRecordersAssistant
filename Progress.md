@@ -33,6 +33,8 @@
 ### Tasks
 - [ ] add mentors as contributors
 - [ ] set up a code review system
+- [ ] read the style guide: https://google.github.io/styleguide/jsguide.html 
+- [ ] add comments to the original repository on issues we worked on 
 
 ## WEEK 1: June 29 - July 3
 ### Issues
