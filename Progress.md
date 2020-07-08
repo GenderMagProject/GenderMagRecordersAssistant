@@ -25,8 +25,9 @@
 
 * multiple issues : improvements to documentation & instructions
     * point of contact: Elizabeth
-    - [ ] choose issues on the main repo and comment
-    - [ ] fix as many as possible lol
+    - [x] choose issues on the main repo and comment
+    - [x] fix as many as possible (6)
+    - [ ] update download instructions for Mac
 
 ### Tasks
 - [ ] add mentors as contributors
