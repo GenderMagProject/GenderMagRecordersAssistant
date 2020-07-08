@@ -48,5 +48,8 @@
 - http://gendermag.org/genderMag.html
 
 ## The tool in a distributed setting (testing of it) <a name="paragraph3"></a>
-### Here’s What You Need to Set Up (if you do it on join.me):
-### Here’s What You Need to Set Up (if you do it on zoom):
+### Here’s What You Need to Set Up (if you do it on join.me): <a name="subparagraph21"></a>
+
+### Here’s What You Need to Set Up (if you do it on zoom): <a name="subparagraph22"></a>
+- We think you can accomplish the same thing on zoom, possibly even better than on join.me, since it also has things like break-out rooms and so on, but we’ve tested it only a little.
+- (This is a stub.  Feel free to expand this.)
