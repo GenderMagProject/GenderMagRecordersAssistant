@@ -20,29 +20,29 @@
 
 ## Roles, Rules and Common Errors <a name="paragraph1"></a>
 ### Roles: <a name="subparagraph1"></a>
-- The facilitator: Leads the team through the walkthrough and keeps it on track. Can also help to enforce rules and prevent counterproductive work. <br/>
-- The record-driver: Records the team's comments, results in the GenderMag forms and drives the prototype for the team. <br/>
-- Everyone: does the evaluation work. <br/><br/>
+- **The facilitator** : Leads the team through the walkthrough and keeps it on track. Can also help to enforce rules and prevent counterproductive work. <br/>
+- **The record-driver** : Records the team's comments, results in the GenderMag forms and drives the prototype for the team. <br/>
+- **Everyone** : does the evaluation work. <br/><br/>
 
-- For a distributed session, only Record-driver will have write access on the computer (Everyone can see the screen)
+- For a distributed session, only **Record-driver** will have write access on the computer (Everyone can see the screen)
 
 ### Rules: <a name="subparagraph2"></a>
-- Stay true to the persona: The team is looking to fix issues the persona might find, so really channel the persona. <br/>
-- Follow the "ideal" sequence: The persona might do something that is not part of the pre-made sequence but stick to the chosen sequence. <br/>
-- Answer every question: The team wants to gather as much information as they can, so don't leave anything out. <br/>
-- The team doesn't have to agree: But make sure the recorder writes down everyone’s comments. <br/>
-- Just find the issues: During the session is not the time to fix the issues, save that for after. <br/>
+- **Stay true to the persona**: The team is looking to fix issues the persona might find, so really channel the persona. <br/>
+- **Follow the "ideal" sequence**: The persona might do something that is not part of the pre-made sequence but stick to the chosen sequence. <br/>
+- **Answer every question**: The team wants to gather as much information as they can, so don't leave anything out. <br/>
+- **The team doesn't have to agree** : But make sure the recorder writes down everyone’s comments. <br/>
+- **Just find the issues** : During the session is not the time to fix the issues, save that for after. <br/>
 
 ### Common Errors: <a name="subparagraph3"></a>
-- "I" Methodology: Evaluators often drift from the persona and answer questions from their perspective. Be sure to use the persona’s name to stay true to the persona. <br/>
-- "Look ahead" problems: Taking the action before the persona would, giving more information than the persona actually has. <br/>
-- Confusing actions with subgoals: Subgoals are ideas in the head while actions are done with the hands. <br/>
+- **"I" Methodology** : Evaluators often drift from the persona and answer questions from their perspective. Be sure to use the persona’s name to stay true to the persona. <br/>
+- **"Look ahead" problems** : Taking the action before the persona would, giving more information than the persona actually has. <br/>
+- **Confusing actions with subgoals** : Subgoals are ideas in the head while actions are done with the hands. <br/>
 
 ### Best practices:  <a name="subparagraph4"></a>
 
 - Sometimes people don’t actively stay involved.  To solve this, call on everyone for every question to get their response.
 - There are too many windows, so keeping the persona in mind is very hard. So solve this, encourage everyone to PRINT the persona IN ADVANCE so that it’s lying in front of them and they can use their windows for all the other info they need to keep in mind.
--  **Mariam might add more things.**
+-  (Mariam might add more things.)
 
 ## How to run GenderMag with the Tool  (if not distributed): <a name="paragraph2"></a>
 - http://gendermag.org/genderMag.html
@@ -69,7 +69,7 @@ All participants were in a distributed location.
         * willing to tinker
 	* save and continue option was hidden on some of the screens (Bug)
 
-It’s difficult because we are not able to see the faces. 
+**It’s difficult because we are not able to see the faces.** 
 
 ### Here’s What You Need to Set Up (if you do it on join.me): <a name="subparagraph21"></a>
 
