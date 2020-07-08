@@ -48,7 +48,31 @@
 - http://gendermag.org/genderMag.html
 
 ## The tool in a distributed setting (testing of it) <a name="paragraph3"></a>
+All participants were in a distributed location.
+- Brijesh Bhuva
+- Rupika Dikkala 
+- Mariam Guizani
+
+* +ve :
+    * We were able to finish the entire GM session in D.systerm
+    * Join.me easy to connect all are able to hear properly 
+    * 2 person need to access computer 
+        * The facilitator will start the session 
+        * Record-driver will Record and drive the project 
+
+* \-ve:
+    * not able to identify the cursor on the screen 
+		* Solution:
+            * Slowly circle the area which we are pointing
+           * Change the size of the cursor
+	* facets name on tool is different then persona
+        * willing to tinker
+	* save and continue option was hidden on some of the screens (Bug)
+
+It’s difficult because we are not able to see the faces. 
+
 ### Here’s What You Need to Set Up (if you do it on join.me): <a name="subparagraph21"></a>
+
 
 ### Here’s What You Need to Set Up (if you do it on zoom): <a name="subparagraph22"></a>
 - We think you can accomplish the same thing on zoom, possibly even better than on join.me, since it also has things like break-out rooms and so on, but we’ve tested it only a little.
