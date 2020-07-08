@@ -70,6 +70,7 @@ All participants were in a distributed location.
 	* save and continue option was hidden on some of the screens (Bug)
 
 **It’s difficult because we are not able to see the faces.** 
+<br/>
 ![image](images/image1.png?raw=true)
 ### Here’s What You Need to Set Up (if you do it on join.me): <a name="subparagraph21"></a>
 ![image2](images/image2.jpg?raw=true)
