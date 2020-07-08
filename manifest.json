@@ -14,10 +14,6 @@
 		"default_icon": "icon.png",
 		"default_title": "GenderMag Tool"
 	},
-	 
-	 "web_accessible_resources": [
-      "images/*.jpg", "images/*.png", "/styles/*.css",  "/Stuk-jszip-4cbaf0e/*"
-    ],
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
