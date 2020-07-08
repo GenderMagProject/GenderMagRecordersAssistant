@@ -4,7 +4,8 @@
 2. [Roles, Rules and Common Errors](#paragraph1)
     1. [Roles](#subparagraph1)
     2. [Rules](#subparagraph2)
-    2. [Common Errors](#subparagraph3)
+    3. [Common Errors](#subparagraph3)
+    4. [Best Practices](subparagraph4)
 
 ## What is GenderMag? <a name="introduction"></a>
 GenderMag (short for Gender Inclusiveness Magnifier) is a method for finding gender-inclusiveness issues in software features. Software developers and/or user experience professionals can use it to evaluate their software products from a gender-inclusiveness lens. GenderMag does not advocate for "pink" and "blue" software, but instead gender-inclusive software. 
@@ -27,3 +28,14 @@ Follow the "ideal" sequence: The persona might do something that is not part of 
 Answer every question: The team wants to gather as much information as they can, so don't leave anything out. <br/>
 The team doesn't have to agree: But make sure the recorder writes down everyone’s comments. <br/>
 Just find the issues: During the session is not the time to fix the issues, save that for after. <br/>
+
+### Common Errors: <a name="subparagraph3"></a>
+"I" Methodology: Evaluators often drift from the persona and answer questions from their perspective. Be sure to use the persona’s name to stay true to the persona. <br/>
+"Look ahead" problems: Taking the action before the persona would, giving more information than the persona actually has. <br/>
+Confusing actions with subgoals: Subgoals are ideas in the head while actions are done with the hands. <br/>
+
+### Best practices:  <a name="subparagraph4"></a>
+
+- Sometimes people don’t actively stay involved.  To solve this, call on everyone for every question to get their response.
+- There are too many windows, so keeping the persona in mind is very hard. So solve this, encourage everyone to PRINT the persona IN ADVANCE so that it’s lying in front of them and they can use their windows for all the other info they need to keep in mind.
+-  **Mariam might add more things.**
