@@ -22,12 +22,16 @@
     * point of contact: Elizabeth
     - [x] investigate what happens when clicking on previous subgoals
     - [x] implement a solution so the subgoalID is correct when saving
-
+ 
 * multiple issues : improvements to documentation & instructions
     * point of contact: Elizabeth
     - [x] choose issues on the main repo and comment
     - [x] fix as many as possible (6)
     - [ ] update download instructions for Mac
+    
+* issue [#94](https://github.com/GenderMagProject/GenderMagRecordersAssistant/issues/94): Convert distributed setting guide to MD file
+   * point of contact: Diana
+   - [x] issue closed (on the main repo)
 
 ### Tasks
 - [ ] add mentors as contributors
