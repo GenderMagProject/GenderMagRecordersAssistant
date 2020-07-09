@@ -39,9 +39,9 @@ download" and then click "Download zip".
 3) Navigate to the folder on your computer where the *zip file* (not just the file folder) is
 located and extract the zipped files. (Right click on the zipped
  folder -> "Extract All")
- * After clicking on the intitial downloadeded file, navigate backwards one step in the Files app to reach the zipped folder. 
+  * After clicking on the intitial downloadeded file, navigate backwards one step in the Files app to reach the zipped folder. 
     
-4) Open Chrome and click on the icon(⋮)in the top right corner.
+4) Open Chrome and click on the icon (⋮) in the top right corner.
     
 5) Click on “More tools” -> “Extensions”.
     
@@ -50,7 +50,7 @@ located and extract the zipped files. (Right click on the zipped
 7) Click on “Load unpacked” under the search bar.
     
 8) Select the extracted *zip file* and click "ok". 
-* Don't select the standard file folder (only the zip file will upload).
+  * Don't select the standard file folder (only the zip file will upload).
 
 9) Click on “Update” under the search bar.
     
@@ -66,9 +66,10 @@ top left corner of the extensions.
 
 
 # How to Run a GenderMag Session Using the Tool
-If you have downloaded and installed the tool and want to run it,
-make sure the extension is enabled, navigate to the page you wish to perform 
-GenderMag on and click the GenderMag button at the bottom of the screen. 
+A GenderMag session is simply an instance of using the GenderMag method. If 
+you have downloaded and installed the tool and want to run it, make sure the 
+extension is enabled, navigate to the page you wish to perform GenderMag on 
+and click the GenderMag button at the bottom of the screen. 
 
 See the [video](http://gendermag.org/genderMag.html) from GenderMag.org for examples 
 and/or read the guide below.
