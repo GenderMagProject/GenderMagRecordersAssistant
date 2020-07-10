@@ -12,6 +12,8 @@
  
 * issue [#22](../../issues/22) : save and exit from screenshot
     * point of contact: Fatima
+    - [x] investigate why program freezes
+    - [ ] implement a solution so the program exits
     
 * issue [#41](../../issues/41) : delete the exit button and the save and exit button from the exit screen
     * point of contact: Annie
