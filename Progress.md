@@ -11,9 +11,11 @@
     - [ ] test
  
 * issue [#22](../../issues/22) : save and exit from screenshot
-    * point of contact: Fatima
+    * point of contact: Fatima and Annie
+    - [x] design doc: https://docs.google.com/document/d/1-matsEHtxUJAcR5-2F_RBA9UD7O9Ej_qajQkFFxC_8o/edit?usp=sharing
     - [x] investigate why program freezes
-    - [ ] implement a solution so the program exits
+    - [ ] implement a solution so the program just exits
+    - [ ] implement a solution so the program saves and exits
     
 * issue [#41](../../issues/41) : delete the exit button and the save and exit button from the exit screen
     * point of contact: Annie
