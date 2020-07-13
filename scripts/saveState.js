@@ -18,7 +18,6 @@ function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
 		facetValues: facets,
 		actions: []
 	};
-	// REFACTORED
 	var subArr = getSubgoalArrayFromLocal();
 	if (!subArr){
 		subArr = subgoalArray;
@@ -33,15 +32,14 @@ function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
  * Description: This function handles display of subgoals and actions in the expandable sidebar
  * Params: type - either subgoal or idealAction, item - the object (either subgoal or action)
  */
+ // TODO: refactor to clarify logic and reduce duplicated code
 function addToSandwich(type, item){
 	
 	if(!type.localeCompare("subgoal")){ 		
 		var subArr = getSubgoalArrayFromLocal();
-		//drawSubgoal(item.id);
         var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
 		var sideSubgoal = '<div stateVar=0 superCoolAttr=' + item.id + ' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:blue;text-decoration:underline;margin:5px;" id="sideSubgoal' + item.id + '"> <img id="sideSubgoalImg' + item.id + '" src="' + arrowSRC + '"></img> Subgoal ' + item.id + ': ' + item.name + '</div>';
 		// what exactly is the goal here (last subgoal or out of bounds)
-		// THIS NEEDS TO BE REFACTORED
 		if (item.id >= subArr.length) {
             var foundIt = false;
             sidebarBody().find('#subgoalList').children().each(function () {
