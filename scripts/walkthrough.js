@@ -21,6 +21,16 @@ function editSubgoal(subgoalNum){
 	sidebarBody().find("#editPersona").hide();
 	sidebarBody().find("#editScenario").hide();
 
+	function displayMainSubgoalInfo(subName) {
+		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
+		sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
+		sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
+		sidebarBody().find("#getSubgoal").hide();
+		sidebarBody().find("#subgoalQuestions").show();
+		sidebarBody().find("#subgoalFacets").show();
+		sidebarBody().find("#subgoalButtons").show();
+	}
+
 	//retrieve persona name from local storage, if it's not there somethings wrong
 	var personaName = getVarFromLocal("personaName");
     var pronoun = getVarFromLocal("personaPronoun");
@@ -43,14 +53,18 @@ function editSubgoal(subgoalNum){
 			var subName = sidebarBody().find("#subgoalInput").val();
 			localStorage.setItem("currSubgoalName", subName);
 			//Display subgoal questions again
-			sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
-            sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
-            sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
-            sidebarBody().find("#getSubgoal").hide();
-			sidebarBody().find("#subgoalQuestions").show();
-			sidebarBody().find("#subgoalFacets").show();
-			sidebarBody().find("#subgoalButtons").show();
+			displayMainSubgoalInfo(subName);
 		}
+	});
+
+	//cancels editing the subgoal
+	sidebarBody().find('body').off('click', '#cancelSubgoal').on('click', '#cancelSubgoal', function() {
+			//changes the name to the current subgoal name
+			setStatusToTrue("gotSubgoalName");
+	
+		
+			//Display subgoal questions again
+			displayMainSubgoalInfo(localStorage.getItem("currSubgoalName"));
 	});
 }
 
