@@ -1,6 +1,6 @@
 # Progress Documentation
 
-## WEEK 1: July 13 - July 17
+## WEEK 3: July 13 - July 17
 ### Issues
 
 * issue [#49](../../issues/49) : screenshot image not being saved even after clicking save and exit from screenshot overlay
