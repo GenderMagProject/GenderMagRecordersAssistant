@@ -1,21 +1,30 @@
 # Progress Documentation
+
+## WEEK 1: July 13 - July 17
+### Issues
+
+* issue [#49](../../issues/49) : screenshot image not being saved even after clicking save and exit from screenshot overlay
+    * point of contact: Annie
+    - [x] investigate reason behind image not saving
+    - [x] implement a solution to save the image
+
+* issue [#12](../..issues/21) : improve styling
+    * point of contact: Annie
+    - [ ] improve styling of checkboxes
+
 ## WEEK 2: July 6 - July 10
 ### Issues
+#### Completed: [#22](../../issues/22), [#41](../../issues/41), [#43](../../issues/43)
 
 * issue [#13](https://github.com/GenderMagProject/GenderMagRecordersAssistant/issues/13) : CSV formatting
     * point of contact: Imani
-   
-* issue [#21](../../issues/21) : add a toggle option to hide or display the GenderMag pop up by clicking on the extension icon
-    * point of contact: Annie
-    - [ ] figure out how to hide and display pop up
-    - [ ] test
  
 * issue [#22](../../issues/22) : save and exit from screenshot
     * point of contact: Fatima and Annie
     - [x] design doc: https://docs.google.com/document/d/1-matsEHtxUJAcR5-2F_RBA9UD7O9Ej_qajQkFFxC_8o/edit?usp=sharing
     - [x] investigate why program freezes
-    - [ ] implement a solution so the program just exits
-    - [ ] implement a solution so the program saves and exits
+    - [x] implement a solution so the program just exits
+    - [x] implement a solution so the program saves and exits after completing the screenshot and inputting information
     
 * issue [#41](../../issues/41) : delete the exit button and the save and exit button from the exit screen
     * point of contact: Annie
