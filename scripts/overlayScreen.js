@@ -122,9 +122,6 @@ function overlayScreen(onlyDraw){
         $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
             justExit("popup");
 		});
-		$("#exitButton2").unbind( "click" ).unbind( "click" ).click(function(){
-            justExit("popup");
-		});
 		
 
 		$("#imageBack").unbind( "click" ).unbind( "click" ).click(function(){
