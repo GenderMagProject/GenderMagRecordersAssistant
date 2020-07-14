@@ -360,7 +360,7 @@ function handlePreWalkthroughInfo () {
                     
                 }
 				//save a dummy subgoal so it can be reached again if the user clicks away
-                saveSubgoal(subgoalId, subName, 0,0,0);
+                saveSubgoal(subgoalId, subName, 0, "", 0);
                 drawSubgoal(subgoalId);
             }
 		});
