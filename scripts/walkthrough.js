@@ -31,6 +31,7 @@ function editSubgoal(subgoalNum){
 	//prompt subgoal rename
 	sidebarBody().find("#subgoalPrompt").html("Rename subgoal \"" + localStorage.getItem("currSubgoalName") + "\":");
 	var subgoals = getSubgoalArrayFromLocal();
+	//fill the input box with existing subgoal name
 	sidebarBody().find("#subgoalInput").val(subgoals[subgoalNum-1].name);
 
 	//double check that user entered text before trying to submit
@@ -55,8 +56,7 @@ function editSubgoal(subgoalNum){
 			sidebarBody().find("#subgoalButtons").show();
 
 			//update the subgoal
-			var subArr = getSubgoalArrayFromLocal();
-			var subgoal = subArr[subgoalNum-1];
+			var subgoal = subgoals[subgoalNum-1];
 			saveSubgoal(subgoalNum, subName, subgoal.ynm, subgoal.why, subgoal.facetValues, subgoal.actions);
 
 		}
@@ -99,17 +99,7 @@ function storeSubgoalInfo(subgoalId){
 		"tinker": sidebarBody().find("#A0Q0tinker").is(":checked"),
 		"none": sidebarBody().find("#A0Q0none").is(":checked")
 	};
-	if (subgoal.actions.length > 0){
-		var actionList = subgoal.actions;
-	}
-    saveSubgoal(subgoalId, subgoal.name, yesNoMaybe, whyText, facets);
-    //re-add actions
-	var subgoals = getSubgoalArrayFromLocal();
-	subgoal = subgoals[subgoalId-1];    
-	for (var a in actionList){
-    	subgoal.actions.push(actionList[a]);
-    }        
-    localStorage.setItem("subgoalArray", JSON.stringify(subgoals));
+    saveSubgoal(subgoalId, subgoal.name, yesNoMaybe, whyText, facets, subgoal.actions);
 
     //change key for subgoal questions
     setStatusToTrue("gotSubgoalQuestions");

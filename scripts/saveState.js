@@ -9,14 +9,14 @@
 var subgoalArray = [];
 
 //Creates a new subgoal and saves it to local storage at the end of subgoalArray
-function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
+function saveSubgoal (id, name, yesnomaybe, whyText, facets, actionList = []) {
 	var subgoal = {
 		id: id,
 		name: name,
 		ynm: yesnomaybe,
 		why: whyText,
 		facetValues: facets,
-		actions: []
+		actions: actionList
 	};
 	var subArr = getSubgoalArrayFromLocal();
 	if (!subArr){
