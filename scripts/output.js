@@ -237,10 +237,9 @@ function downloadCSV(csvContent, old) {
 *This function...
 */
 function downloadURI(uri, name) {
-    if (uri === null || name ===null);{
-        return;
-    }
-	var safeName = name;
+    if (uri !== null) {
+        var safeName = name;
+    toString(uri);
 	var safeUri = uri.slice(22);
 	console.log("in image", safeUri);
 	var imgObj = {
@@ -249,7 +248,7 @@ function downloadURI(uri, name) {
 	};
 	console.log("imgobj", imgObj);
 	imgList.push(imgObj);
-
+    }
   }
 
 function create_zip(csvContent, old) {

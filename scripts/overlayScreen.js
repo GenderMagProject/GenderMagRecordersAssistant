@@ -122,6 +122,9 @@ function overlayScreen(onlyDraw){
         $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
             saveAndExit("popup");
 		});
+		$("#exitButton2").unbind( "click" ).unbind( "click" ).click(function(){
+            justExit("popup");
+		});
 		
 
 		$("#imageBack").unbind( "click" ).unbind( "click" ).click(function(){
@@ -438,9 +441,8 @@ function renderImage(imgURL){
 		overlayScreen();
 	});
     $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
-        saveAndExit("popup");
+        justExit("popup");
 	});
-
 
 	$("#imageBack").unbind( "click" ).click(function(){
 	    toolTip.remove();
