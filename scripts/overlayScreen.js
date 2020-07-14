@@ -120,9 +120,6 @@ function overlayScreen(onlyDraw){
 		//});
 	
         $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
-            saveAndExit("popup");
-		});
-		$("#exitButton2").unbind( "click" ).unbind( "click" ).click(function(){
             justExit("popup");
 		});
 		
