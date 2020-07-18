@@ -10,6 +10,7 @@
 
 * issue [#12](../..issues/21) : improve styling
     * point of contact: Annie
+    - [x] separate CSS from HTML files
     - [ ] improve styling of checkboxes
 
 ## WEEK 2: July 6 - July 10
