@@ -22,7 +22,18 @@ var screenShotURL;
 	
 	/*Send request to current tab when page action is clicked*/
 	chrome.pageAction.onClicked.addListener(function(tab) {
-		window.open("https://github.com/mendezc1/GenderMagRecordersAssistant");
+		// toggle the visibility of slideout (I didn't test this when the slider is open yet, beware)
+		chrome.tabs.executeScript({ code: `(${ inContent })()` });
+		function inContent() {
+  			const el = document.getElementById('slideout');
+  			if (el.style.display == 'none'){
+  				el.style.display = '';
+  			}
+  			else{
+  				el.style.display = 'none';
+  			}
+		}
+		//window.open("https://github.com/mendezc1/GenderMagRecordersAssistant");
 		//TODO: Think about creating open/close function and call it here?
 		/*OLD CODE HERE DON'T DELETE UNTIL TO DO IS RESOLVED*/
 		//chrome.tabs.executeScript(null, { file: "./jquery-ui-1.12.1/jquery.js" }, function() {
