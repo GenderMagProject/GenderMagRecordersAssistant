@@ -170,6 +170,25 @@ Note: If you have questions you would like us to answer, please let us know by f
       <li>HTML</li>
       <li>CSS</li>
       <li>JavaScript</li>
+      <li>Q: Why should GenderMag be used?</li>
+      <li>A: answer this w/info from http://gendermag.org/index.php (provide short answer and link to GM)</li>
+      <li>Q: When should GenderMag be used?</li>
+      <li>A: during the process of designing user interfaces, etc.</li>
+
+Q: Who should use the GenderMag Tool?
+A: the primary audience is software practitioners (e.g., developers, managers, UX professionals)
+
+Q: What is the output file created by the GenderMag Tool?
+A: The output file has two forms. the 'old' format is optimized for graphing or using a computer to parse the information from your GenderMag session. The 'new' format is optimized for reading the results of the GM session. Both types are CSV files and contain all the answers submitted during the use of the tool.
+
+Q: What do you mean by subgoal, scenario, action, and other terms used throughout GenderMag?
+A: link to http://gendermag.org/gendermag.php
+
+Q: How can I contribute to this project?
+A: Please see the contributing guidelines (add link to this file)
+
+Q: I have an unanswered question or need to contact someone about the project.
+A: Please open an issue and we will get back to you ASAP
      </ul>
   </li>
 </ol>
