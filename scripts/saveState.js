@@ -39,18 +39,19 @@ function addToSandwich(type, item){
 		var subArr = getSubgoalArrayFromLocal();
         var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
 		var sideSubgoal = '<div stateVar=0 superCoolAttr=' + item.id + ' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:blue;text-decoration:underline;margin:5px;" id="sideSubgoal' + item.id + '"> <img id="sideSubgoalImg' + item.id + '" src="' + arrowSRC + '"></img> Subgoal ' + item.id + ': ' + item.name + '</div>';
-		// what exactly is the goal here (last subgoal or out of bounds)
+		// checking to see if the subgoal has already been created (?)
 		if (item.id >= subArr.length) {
             var foundIt = false;
             sidebarBody().find('#subgoalList').children().each(function () {
                 var currId = Number(this.getAttribute('supercoolattr'));
                 if (item.id == currId) {
                     foundIt = true;
+                    // if the subgoal already exists, make sure it has the correct name
                     var match = "#sideSubgoal" + currId
                     sidebarBody().find("#subgoalList").children(match).html(sideSubgoal);
                 }
             });
-            // should the item id not be changed to be in bounds?
+            // add the new subgoal to the sidebar
             if (!foundIt) {
                 sidebarBody().find("#subgoalList").append(sideSubgoal);
             }
