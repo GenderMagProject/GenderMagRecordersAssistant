@@ -34,7 +34,10 @@ var screenShotURL;
   				el.style.display = 'none';
   			}
 		}
-		//window.open("https://github.com/mendezc1/GenderMagRecordersAssistant");
+		/* Alternate option: link to the GitHub
+		window.open("https://github.com/mendezc1/GenderMagRecordersAssistant");
+		*/
+		
 		//TODO: Think about creating open/close function and call it here?
 		/*OLD CODE HERE DON'T DELETE UNTIL TO DO IS RESOLVED*/
 		//chrome.tabs.executeScript(null, { file: "./jquery-ui-1.12.1/jquery.js" }, function() {
