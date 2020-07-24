@@ -60,7 +60,7 @@ function editSubgoal(subgoalNum){
  *   information and saving newly entered information
  * Params: subgoalNum - id of the subgoal to make (may or may not be the current subgoal)
  *
- * TODO: This function needs serious refactoring. A number of problems are arising because of state changes 
+ * TODO: This function needs refactoring. A number of problems are arising because of state changes 
  * that happen in the middle of execution. 
  */
 function drawSubgoal(subgoalId){
