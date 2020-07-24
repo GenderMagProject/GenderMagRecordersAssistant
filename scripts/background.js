@@ -25,12 +25,15 @@ var screenShotURL;
 		// toggle the visibility of slideout (I didn't test this when the slider is open yet, beware)
 		chrome.tabs.executeScript({ code: `(${ inContent })()` });
 		function inContent() {
-  			const el = document.getElementById('slideout');
+			  const el = document.getElementById('slideout');
+			  const el2 = document.getElementById('GenderMagFrame');
   			if (el.style.display == 'none'){
-  				el.style.display = '';
+				  el.style.display = '';
+				  el2.style.display = '';
   			}
   			else{
-  				el.style.display = 'none';
+				  el.style.display = 'none';
+				  el2.style.display = 'none';
   			}
 		}
 		//window.open("https://github.com/mendezc1/GenderMagRecordersAssistant");
