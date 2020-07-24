@@ -165,15 +165,19 @@ Note: If you have questions you would like us to answer, please let us know by f
     <ul>
       <li><a href="#install">Instructions here</a></li>
     </ul></li>
-     <li>Technologies used in the project:
+  <li>Technologies used in the project:
      <ul>
       <li>HTML</li>
       <li>CSS</li>
       <li>JavaScript</li>
-      <li>Q: Why should GenderMag be used?</li>
-      <li>A: answer this w/info from http://gendermag.org/index.php (provide short answer and link to GM)</li>
-      <li>Q: When should GenderMag be used?</li>
-      <li>A: during the process of designing user interfaces, etc.</li>
+     </ul></li>
+  <li>Why should GenderMag be used?</li>
+     <ul>
+      <li>answer this w/info from http://gendermag.org/index.php (provide short answer and link to GM)</li>
+     </ul></li>
+  <li>When should GenderMag be used?</li>
+  <li>during the process of designing user interfaces, etc.</li>
+     </ul></li>
 
 Q: Who should use the GenderMag Tool?
 A: the primary audience is software practitioners (e.g., developers, managers, UX professionals)
