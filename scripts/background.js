@@ -22,14 +22,15 @@ var screenShotURL;
 	
 	/*Send request to current tab when page action is clicked*/
 	chrome.pageAction.onClicked.addListener(function(tab) {
-		// toggle the visibility of slideout (I didn't test this when the slider is open yet, beware)
+		// toggle the visibility of slideout
 		chrome.tabs.executeScript({ code: `(${ inContent })()` });
 		function inContent() {
   			const el = document.getElementById('slideout');
   			if (el.style.display == 'none'){
   				el.style.display = '';
   			}
-  			else{
+  			// can't hide if the slider is open
+  			else if (!statusIsTrue("sliderIsOpen")){
   				el.style.display = 'none';
   			}
 		}
