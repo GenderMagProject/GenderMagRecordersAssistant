@@ -25,13 +25,16 @@ var screenShotURL;
 		// toggle the visibility of slideout
 		chrome.tabs.executeScript({ code: `(${ inContent })()` });
 		function inContent() {
-  			const el = document.getElementById('slideout');
+			  const el = document.getElementById('slideout');
+			  const el2 = document.getElementById('GenderMagFrame');
   			if (el.style.display == 'none'){
-  				el.style.display = '';
+				  el.style.display = '';
+				  el2.style.display = '';
   			}
   			// can't hide if the slider is open
   			else if (!statusIsTrue("sliderIsOpen")){
-  				el.style.display = 'none';
+				  el.style.display = 'none';
+				  el2.style.display = 'none';
   			}
 		}
 		/* Alternate option: link to the GitHub
