@@ -160,39 +160,37 @@ Please follow our
 
 # FAQ’s:
 Note: If you have questions you would like us to answer, please let us know by filing an issue asking the question!
-<ol>
-  <li>How to install  GenderMag Recorder’s Assistant (chrome extension):
+
+1. How to install  GenderMag Recorder’s Assistant (chrome extension):
     <ul>
       <li><a href="#install">Instructions here</a></li>
     </ul></li>
-  <li>Technologies used in the project:
+2. Technologies used in the project:
      <ul>
       <li>HTML</li>
       <li>CSS</li>
       <li>JavaScript</li>
      </ul></li>
-  <li>Why should GenderMag be used?</li>
-     <ul>
-      <li>answer this w/info from http://gendermag.org/index.php (provide short answer and link to GM)</li>
-     </ul></li>
-  <li>When should GenderMag be used?</li>
-  <li>during the process of designing user interfaces, etc.</li>
-     </ul></li>
+3. Why should GenderMag be used?
+    * answer this w/info from http://gendermag.org/index.php (provide short answer and link to GM)
+    
+4. When should GenderMag be used?</li>
+    * during the process of designing user interfaces, etc.
 
-Q: Who should use the GenderMag Tool?
-A: the primary audience is software practitioners (e.g., developers, managers, UX professionals)
+5. Who should use the GenderMag Tool?
+    * the primary audience is software practitioners (e.g., developers, managers, UX professionals)
 
-Q: What is the output file created by the GenderMag Tool?
-A: The output file has two forms. the 'old' format is optimized for graphing or using a computer to parse the information from your GenderMag session. The 'new' format is optimized for reading the results of the GM session. Both types are CSV files and contain all the answers submitted during the use of the tool.
+6. What is the output file created by the GenderMag Tool?
+    * The output file has two forms. the 'old' format is optimized for graphing or using a computer to parse the information from your GenderMag session. The 'new' format is optimized for reading the results of the GM session. Both types are CSV files and contain all the answers submitted during the use of the tool.
 
-Q: What do you mean by subgoal, scenario, action, and other terms used throughout GenderMag?
-A: link to http://gendermag.org/gendermag.php
+7. What do you mean by subgoal, scenario, action, and other terms used throughout GenderMag?
+    * link to http://gendermag.org/gendermag.php
 
-Q: How can I contribute to this project?
-A: Please see the contributing guidelines (add link to this file)
+8. How can I contribute to this project?
+    * Please see the contributing guidelines (add link to this file)
 
-Q: I have an unanswered question or need to contact someone about the project.
-A: Please open an issue and we will get back to you ASAP
+9. I have an unanswered question or need to contact someone about the project.
+    * Please open an issue and we will get back to you ASAP
      </ul>
   </li>
 </ol>
