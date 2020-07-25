@@ -165,16 +165,19 @@ Note: If you have questions you would like us to answer, please let us know by f
     <ul>
       <li><a href="#install">Instructions here</a></li>
     </ul></li>
+    
 2. Technologies used in the project:
      <ul>
       <li>HTML</li>
       <li>CSS</li>
       <li>JavaScript</li>
      </ul></li>
+     
 3. Why should GenderMag be used?
-    * answer this w/info from http://gendermag.org/index.php (provide short answer and link to GM)
+    * Gender biases within software indirectly discourage people of marginalized genders from engaging with technology. When software isn't inclusive for all genders, it loses out on an enormous market of paying consumers and potential future technological contributors.
+    * Visit http://gendermag.org/index.php for 
     
-4. When should GenderMag be used?</li>
+4. When should GenderMag be used?
     * during the process of designing user interfaces, etc.
 
 5. Who should use the GenderMag Tool?
@@ -191,6 +194,3 @@ Note: If you have questions you would like us to answer, please let us know by f
 
 9. I have an unanswered question or need to contact someone about the project.
     * Please open an issue and we will get back to you ASAP
-     </ul>
-  </li>
-</ol>
