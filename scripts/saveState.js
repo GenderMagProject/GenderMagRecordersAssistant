@@ -313,6 +313,9 @@ $( window ).unload(function() {
 
 //Happens after refresh
 //confused about when this happens exactly
+
+// TODO: Refactoring. This function contains code that exists elsewhere (see addToSandwich). Is it wise to have
+// buttons within an each() loop?
 function reloadSandwich () {
 	console.log("Reloading sandwich menu...");
 	var sidebarHTML = localStorage.getItem('sidebarHTML');
@@ -327,9 +330,14 @@ function reloadSandwich () {
 			if (currId.length == 1) {
 				//It's a subgoal
 				//console.log("subgoal");
-				sidebarBody().find("#sideSubgoal" + currId).unbind( "click" ).click(function(){
+			sidebarBody().find("#sideSubgoal" + currId).unbind( "click" ).click(function(){
+				var subArr = getSubgoalArrayFromLocal(); // in case something changes before the button is clicked
+				// do not enter drawSubgoal with a different id until the current subgoal is saved
+				if (statusIsTrue("gotSubgoalQuestions") || currId == subArr.length){
 					drawSubgoal(currId);
-				});
+				}
+            	sideSubgoalExpandy(currId, 0);
+			});
                 //todo: add collapse onclick function here.
 			}
             
