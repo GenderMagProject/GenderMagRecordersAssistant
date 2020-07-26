@@ -65,8 +65,9 @@ function addToSandwich(type, item){
             
         }
 		sidebarBody().find("#sideSubgoal" + item.id).unbind( "click" ).click(function(){
+			subArr = getSubgoalArrayFromLocal(); // in case something changes before the button is clicked
 			// do not enter drawSubgoal with a different id until the current subgoal is saved
-			if (statusIsTrue("gotSubgoalQuestions")){
+			if (statusIsTrue("gotSubgoalQuestions") || item.id == subArr.length){
 				drawSubgoal(item.id);
 			}
             sideSubgoalExpandy(item.id, 0);
