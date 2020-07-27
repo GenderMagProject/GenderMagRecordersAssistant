@@ -194,6 +194,6 @@ Note: If you have questions you would like us to answer, please let us know by f
 
 8. How can I contribute to this project?
     * Please see the contributing guidelines [here] (https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/Contributing.MD).
-
+    
 9. I have an unanswered question or need to contact someone about the project.
     * Please open an issue, and we will get back to you ASAP.
