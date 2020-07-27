@@ -178,7 +178,7 @@ Note: If you have questions you would like us to answer, please let us know by f
     * Visit http://gendermag.org/index.php for more information.
     
 4. When should GenderMag be used?
-    * during the process of designing user interfaces, etc.
+    * GenderMag should be used during the process of designing user interfaces. It can also be used to evaluate the inclusivity of existing software. 
 
 5. Who should use the GenderMag Tool?
     * The GenderMag tool's primary audience is software practitioners and usability professionals (e.g., developers, managers, UX professionals).
