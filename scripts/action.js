@@ -331,6 +331,7 @@ function actionLoop(el){
 		localStorage.setItem("inMiddleOfAction", "false");
 		$(el).find("#actionLoopTemplate").hide();
 		$(el).find("#theFinalCountDown").show();
+		$(el).find("#exitButton").hide();
 
 		//on click of redownload zip button, download sheet again
 		$("#finalDownload").unbind("click").click(function () {
