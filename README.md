@@ -137,7 +137,7 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    the scenario, enter the subgoal in the bottom text box and click 'create new 
    subgoal'. Return to (7) and complete all subsequent steps. 
     
-   15) If the scenario has been completed, click 'save and stop GenderMag 
+   15) If the scenario has been completed, click 'download and end my GenderMag 
    session'. This will take you to another page and download a zip file with 
    your session's information.
    
