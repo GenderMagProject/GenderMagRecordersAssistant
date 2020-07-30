@@ -28,6 +28,9 @@ function preWalkthrough (id, file) {
 	sidebarBody().find('body').off('click', '#saveAndExit').on('click', '#saveAndExit', function() {
 		saveAndExit("slider");
 	});
+	sidebarBody().find('body').off('click', '#justExit').on('click', '#justExit', function() {
+		justExit("slider");
+	});
 
 }
 
