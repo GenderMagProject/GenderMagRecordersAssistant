@@ -54,15 +54,13 @@ function addToSandwich(type, item){
             // add the new subgoal to the sidebar
             if (!foundIt) {
                 sidebarBody().find("#subgoalList").append(sideSubgoal);
-            }
-            
-        }
-		sidebarBody().find("#sideSubgoal" + item.id).unbind( "click" ).click(function(){
-			drawSubgoal(item.id);
-            sideSubgoalExpandy(item.id, 0);
-		});
+        	}
 
-			
+			sidebarBody().find("#sideSubgoal" + item.id).unbind( "click" ).click(function(){
+				drawSubgoal(item.id);
+	            sideSubgoalExpandy(item.id, 0);
+			});		
+		}
 	}
 	else if(!type.localeCompare("idealAction") && item.name){ 	
 		var sideAction = '<div superCoolAttr="' + item.subgoalId + '-' + item.actionId + '" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-indent:25px;color:blue;text-decoration:underline;margin:5px;" id="sideAction' + item.subgoalId + '-' + item.actionId + '">Action ' + item.actionId + ': ' + item.name + '</div>';
