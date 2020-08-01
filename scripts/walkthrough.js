@@ -136,6 +136,9 @@ function preDrawAction(subgoalId){
  * Description: This function handles displaying information for a given subgoal including displaying previously saved
  *   information and saving newly entered information
  * Params: subgoalNum - id of the subgoal to make (may or may not be the current subgoal)
+ *
+ * TODO: This function needs refactoring. A number of problems are arising because of state changes 
+ * that happen in the middle of execution. 
  */
 function drawSubgoal(subgoalId){
 	var id = "#GenderMagFrame";

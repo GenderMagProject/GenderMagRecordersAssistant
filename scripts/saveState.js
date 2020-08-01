@@ -54,13 +54,17 @@ function addToSandwich(type, item){
             // add the new subgoal to the sidebar
             if (!foundIt) {
                 sidebarBody().find("#subgoalList").append(sideSubgoal);
-        	}
-
-			sidebarBody().find("#sideSubgoal" + item.id).unbind( "click" ).click(function(){
+            }
+            
+        }
+		sidebarBody().find("#sideSubgoal" + item.id).unbind( "click" ).click(function(){
+			subArr = getSubgoalArrayFromLocal(); // in case something changes before the button is clicked
+			// do not enter drawSubgoal with a different id until the current subgoal is saved
+			if (statusIsTrue("gotSubgoalQuestions") || item.id == subArr.length){
 				drawSubgoal(item.id);
-	            sideSubgoalExpandy(item.id, 0);
-			});		
-		}
+			}
+            sideSubgoalExpandy(item.id, 0);
+		});
 	}
 	else if(!type.localeCompare("idealAction") && item.name){ 	
 		var sideAction = '<div superCoolAttr="' + item.subgoalId + '-' + item.actionId + '" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-indent:25px;color:blue;text-decoration:underline;margin:5px;" id="sideAction' + item.subgoalId + '-' + item.actionId + '">Action ' + item.actionId + ': ' + item.name + '</div>';
@@ -300,6 +304,9 @@ $( window ).unload(function() {
 
 //Happens after refresh
 //confused about when this happens exactly
+
+// TODO: Refactoring. This function contains code that exists elsewhere (see addToSandwich). Is it wise to have
+// buttons within an each() loop?
 function reloadSandwich () {
 	console.log("Reloading sandwich menu...");
 	var sidebarHTML = localStorage.getItem('sidebarHTML');
@@ -314,9 +321,14 @@ function reloadSandwich () {
 			if (currId.length == 1) {
 				//It's a subgoal
 				//console.log("subgoal");
-				sidebarBody().find("#sideSubgoal" + currId).unbind( "click" ).click(function(){
+			sidebarBody().find("#sideSubgoal" + currId).unbind( "click" ).click(function(){
+				var subArr = getSubgoalArrayFromLocal(); // in case something changes before the button is clicked
+				// do not enter drawSubgoal with a different id until the current subgoal is saved
+				if (statusIsTrue("gotSubgoalQuestions") || currId == subArr.length){
 					drawSubgoal(currId);
-				});
+				}
+            	sideSubgoalExpandy(currId, 0);
+			});
                 //todo: add collapse onclick function here.
 			}
             
