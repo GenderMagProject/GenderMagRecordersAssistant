@@ -234,15 +234,25 @@ function downloadCSV(csvContent, old) {
 }
 
 function downloadURI(uri, name) {
-	var safeName = name;
-	var safeUri = uri.slice(22);
-	console.log("in image", safeUri);
-	var imgObj = {
-		name:safeName+".png",
-		uri: safeUri
-	};
-	console.log("imgobj", imgObj);
-	imgList.push(imgObj);
+	try {
+        //checks to see if the uri or name is null
+        if (uri === null || name === null) throw "The uri or name for your image is null.";
+        var safeName = name;
+        //uri must be converted to string in order to perform slice function to shorten the uri
+        toString(uri);
+        var safeUri = uri.slice(22);
+        console.log("in image", safeUri);
+        //creates the image object using the name and shortened uri
+        var imgObj = {
+            name:safeName+".png",
+            uri: safeUri
+        };
+        console.log("imgobj", imgObj);
+        //pushes the image to the list of images
+        imgList.push(imgObj);
+    } catch (error) {
+        console.log(error);
+    }
 
   }
 
