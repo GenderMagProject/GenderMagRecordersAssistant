@@ -307,14 +307,9 @@ function handlePreWalkthroughInfo () {
 			sidebarBody().find("#editPersona").hide();
 			sidebarBody().find("#editScenario").hide();
 			var subgoalId = localStorage.getItem("numSubgoals");
-			if(subgoalId === undefined){
+			if(subgoalId == null){
 				subgoalId = 1;
 				localStorage.setItem("numSubgoals", subgoalId);
-			}
-			else{
-				subgoalId++;
-				localStorage.setItem("numSubgoals", subgoalId);
-				
 			}
 			drawSubgoal(subgoalId);
 		}
@@ -322,12 +317,8 @@ function handlePreWalkthroughInfo () {
 			//They have subgoals
 			//var subName = localStorage.getItem("currSubgoalName");
 			var subgoalId = localStorage.getItem("numSubgoals");
-			if(subgoalId === undefined){
+			if(subgoalId == null){
 				subgoalId = 1;
-				localStorage.setItem("numSubgoals", subgoalId);
-			}
-			else{
-				subgoalId++;
 				localStorage.setItem("numSubgoals", subgoalId);
 			}
             sidebarBody().find("#editTeam").hide();
@@ -352,7 +343,7 @@ function handlePreWalkthroughInfo () {
                 setStatusToTrue("gotSubgoalName");
                 var subName = sidebarBody().find("#subgoalInput").val();
                 localStorage.setItem("currSubgoalName", subName);
-                if(subgoalId === undefined){
+                if(subgoalId == null){
                     subgoalId = 1;
                     localStorage.setItem("numSubgoals", subgoalId);
                 }
