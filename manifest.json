@@ -22,6 +22,6 @@
 			"css": ["jquery-ui-1.12.1/jquery-ui.css"]
 		}
 	],
-	"permissions": ["storage", "tabs", "<all_urls>", "unlimitedStorage"],
+	"permissions": ["storage", "tabs", "<all_urls>", "unlimitedStorage", "activeTab"],
 	"web_accessible_resources": ["/templates/*", "/images/*.jpg", "/images/*.png", "/styles/*.css", "styles/styles.css", "/jquery-ui-1.12.1/jquery-ui.css", "/font-awesome-4.6.1/*", "/Stuk-jszip-4cbaf0e/*" ]
 }

@@ -81,6 +81,8 @@ function makeEditable () {
  *			scenario -> scenarioName
  */
 
+// TODO: Refactoring. This function might benefit from being broken up into smaller functions, and/or adding a way
+// to periodically update variables like length of subgoalArray.
 function handlePreWalkthroughInfo () {
 	
 	//var sidebarHead = $("#mySidebar").contents().find("head");
@@ -305,14 +307,9 @@ function handlePreWalkthroughInfo () {
 			sidebarBody().find("#editPersona").hide();
 			sidebarBody().find("#editScenario").hide();
 			var subgoalId = localStorage.getItem("numSubgoals");
-			if(subgoalId === undefined){
+			if(subgoalId == null){
 				subgoalId = 1;
 				localStorage.setItem("numSubgoals", subgoalId);
-			}
-			else{
-				subgoalId++;
-				localStorage.setItem("numSubgoals", subgoalId);
-				
 			}
 			drawSubgoal(subgoalId);
 		}
@@ -320,12 +317,8 @@ function handlePreWalkthroughInfo () {
 			//They have subgoals
 			//var subName = localStorage.getItem("currSubgoalName");
 			var subgoalId = localStorage.getItem("numSubgoals");
-			if(subgoalId === undefined){
+			if(subgoalId == null){
 				subgoalId = 1;
-				localStorage.setItem("numSubgoals", subgoalId);
-			}
-			else{
-				subgoalId++;
 				localStorage.setItem("numSubgoals", subgoalId);
 			}
             sidebarBody().find("#editTeam").hide();
@@ -350,7 +343,7 @@ function handlePreWalkthroughInfo () {
                 setStatusToTrue("gotSubgoalName");
                 var subName = sidebarBody().find("#subgoalInput").val();
                 localStorage.setItem("currSubgoalName", subName);
-                if(subgoalId === undefined){
+                if(subgoalId == null){
                     subgoalId = 1;
                     localStorage.setItem("numSubgoals", subgoalId);
                 }

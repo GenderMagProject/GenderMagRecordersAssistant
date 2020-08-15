@@ -9,32 +9,22 @@
 var subgoalArray = [];
 
 //Creates a new subgoal and saves it to local storage at the end of subgoalArray
-function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
+function saveSubgoal (id, name, yesnomaybe, whyText, facets, actionList = []) {
 	var subgoal = {
 		id: id,
 		name: name,
 		ynm: yesnomaybe,
 		why: whyText,
 		facetValues: facets,
-		actions: []
+		actions: actionList
 	};
-
-//might be causing bugs
-//problem: using id for array index?
-	if(id > subgoalArray.length){  // new subgoal?
-		var subArr = getSubgoalArrayFromLocal(); // from local storage
-		if (!subArr) {  
-			subArr = subgoalArray; //if array not found in local storage (first subgoal?), initialize with subgoalArray
-		}
-		subArr[id-1] = subgoal;  //save subgoal (who assigns id? What if it's not the right index? what if id=0?)
-		localStorage.setItem("subgoalArray", JSON.stringify(subArr));  //update subgoalArray in local storage	
-        addToSandwich("subgoal",subgoal);
+	var subArr = getSubgoalArrayFromLocal();
+	if (!subArr){
+		subArr = subgoalArray;
 	}
-	else{  //update existing subgoal? 
-		var subArr = getSubgoalArrayFromLocal();
-		subArr[id-1] = subgoal;
-		localStorage.setItem("subgoalArray", JSON.stringify(subArr));		
-	}
+	subArr[id-1] = subgoal;
+	localStorage.setItem("subgoalArray", JSON.stringify(subArr));  //update subgoalArray in local storage
+	addToSandwich("subgoal", subgoal);
 }
 
 /*
@@ -42,34 +32,39 @@ function saveSubgoal (id, name, yesnomaybe, whyText, facets) {
  * Description: This function handles display of subgoals and actions in the expandable sidebar
  * Params: type - either subgoal or idealAction, item - the object (either subgoal or action)
  */
+ // TODO: refactor to clarify logic and reduce duplicated code
 function addToSandwich(type, item){
 	
 	if(!type.localeCompare("subgoal")){ 		
 		var subArr = getSubgoalArrayFromLocal();
-		drawSubgoal(item.id);
         var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
 		var sideSubgoal = '<div stateVar=0 superCoolAttr=' + item.id + ' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:blue;text-decoration:underline;margin:5px;" id="sideSubgoal' + item.id + '"> <img id="sideSubgoalImg' + item.id + '" src="' + arrowSRC + '"></img> Subgoal ' + item.id + ': ' + item.name + '</div>';
-		// what exactly is the goal here (last subgoal or out of bounds)
+		// checking to see if the subgoal has already been created (?)
 		if (item.id >= subArr.length) {
             var foundIt = false;
             sidebarBody().find('#subgoalList').children().each(function () {
                 var currId = Number(this.getAttribute('supercoolattr'));
                 if (item.id == currId) {
                     foundIt = true;
+                    // if the subgoal already exists, make sure it has the correct name
+                    var match = "#sideSubgoal" + currId
+                    sidebarBody().find("#subgoalList").children(match).html(sideSubgoal);
                 }
             });
-            // should the item id not be changed to be in bounds?
+            // add the new subgoal to the sidebar
             if (!foundIt) {
                 sidebarBody().find("#subgoalList").append(sideSubgoal);
             }
             
         }
 		sidebarBody().find("#sideSubgoal" + item.id).unbind( "click" ).click(function(){
-			drawSubgoal(item.id);
+			subArr = getSubgoalArrayFromLocal(); // in case something changes before the button is clicked
+			// do not enter drawSubgoal with a different id until the current subgoal is saved
+			if (statusIsTrue("gotSubgoalQuestions") || item.id == subArr.length){
+				drawSubgoal(item.id);
+			}
             sideSubgoalExpandy(item.id, 0);
 		});
-
-			
 	}
 	else if(!type.localeCompare("idealAction") && item.name){ 	
 		var sideAction = '<div superCoolAttr="' + item.subgoalId + '-' + item.actionId + '" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-indent:25px;color:blue;text-decoration:underline;margin:5px;" id="sideAction' + item.subgoalId + '-' + item.actionId + '">Action ' + item.actionId + ': ' + item.name + '</div>';
@@ -309,6 +304,9 @@ $( window ).unload(function() {
 
 //Happens after refresh
 //confused about when this happens exactly
+
+// TODO: Refactoring. This function contains code that exists elsewhere (see addToSandwich). Is it wise to have
+// buttons within an each() loop?
 function reloadSandwich () {
 	console.log("Reloading sandwich menu...");
 	var sidebarHTML = localStorage.getItem('sidebarHTML');
@@ -323,9 +321,14 @@ function reloadSandwich () {
 			if (currId.length == 1) {
 				//It's a subgoal
 				//console.log("subgoal");
-				sidebarBody().find("#sideSubgoal" + currId).unbind( "click" ).click(function(){
+			sidebarBody().find("#sideSubgoal" + currId).unbind( "click" ).click(function(){
+				var subArr = getSubgoalArrayFromLocal(); // in case something changes before the button is clicked
+				// do not enter drawSubgoal with a different id until the current subgoal is saved
+				if (statusIsTrue("gotSubgoalQuestions") || currId == subArr.length){
 					drawSubgoal(currId);
-				});
+				}
+            	sideSubgoalExpandy(currId, 0);
+			});
                 //todo: add collapse onclick function here.
 			}
             

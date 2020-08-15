@@ -256,7 +256,7 @@ function downloadURI(uri, name) {
     } catch (error) {
         console.log(error);
     }
-  }
+}
 
 function create_zip(csvContent, old) {
     console.log((csvContent));
