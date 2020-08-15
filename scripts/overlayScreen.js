@@ -112,8 +112,15 @@ function overlayScreen(onlyDraw){
 			overlayScreen();
 			overlayScreen();
 		});
+
+		//this is what i changed come back to this
+
+		//$("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
+       //     justExit("popup");
+		//});
+	
         $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
-            saveAndExit("popup");
+            justExit("popup");
 		});
 		
 
@@ -431,9 +438,8 @@ function renderImage(imgURL){
 		overlayScreen();
 	});
     $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
-        saveAndExit("popup");
+        justExit("popup");
 	});
-
 
 	$("#imageBack").unbind( "click" ).click(function(){
 	    toolTip.remove();

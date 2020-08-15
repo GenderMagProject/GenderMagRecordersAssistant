@@ -233,8 +233,11 @@ function downloadCSV(csvContent, old) {
 	create_zip(csvContent, old);
 }
 
+/*
+*This function downloads the image into the designated folder when given the uri and name
+*/
 function downloadURI(uri, name) {
-	try {
+    try {
         //checks to see if the uri or name is null
         if (uri === null || name === null) throw "The uri or name for your image is null.";
         var safeName = name;
@@ -253,8 +256,7 @@ function downloadURI(uri, name) {
     } catch (error) {
         console.log(error);
     }
-
-  }
+}
 
 function create_zip(csvContent, old) {
     console.log((csvContent));
