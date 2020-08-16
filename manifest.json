@@ -16,16 +16,16 @@
 	},
 	 
 	 "web_accessible_resources": [
-      "images/*.jpg", "images/*.png", "/styles/*.css",  "/Stuk-jszip-4cbaf0e/*"
+      "images/*.jpg", "images/*.png", "/styles/*.css",  "/jszip-master/*"
     ],
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["jquery-ui-1.12.1/external/jquery/jquery.js", "/scripts/jcanvas.min.js", "jquery-ui-1.12.1/jquery-ui.min.js", "scripts/tooltip.js", "/scripts/utilities.js", "scripts/overlayScreen.js", "/scripts/setup.js" , "/scripts/prewalkthrough.js", "scripts/script.js", "/scripts/persona.js", "/scripts/walkthrough.js", "/scripts/saveState.js", "/scripts/action.js", "/scripts/status.js", "/scripts/output.js", "/Stuk-jszip-4cbaf0e/dist/jszip.js", "/Stuk-jszip-4cbaf0e/vendor/FileSaver.js"],
+			"js": ["jquery-ui-1.12.1/external/jquery/jquery.js", "/scripts/jcanvas.min.js", "jquery-ui-1.12.1/jquery-ui.min.js", "scripts/tooltip.js", "/scripts/utilities.js", "scripts/overlayScreen.js", "/scripts/setup.js" , "/scripts/prewalkthrough.js", "scripts/script.js", "/scripts/persona.js", "/scripts/walkthrough.js", "/scripts/saveState.js", "/scripts/action.js", "/scripts/status.js", "/scripts/output.js", "/jszip-master/dist/jszip.js", "/jszip-master/vendor/FileSaver.js"],
 
 			"css": ["jquery-ui-1.12.1/jquery-ui.css"]
 		}
 	],
 	"permissions": ["storage", "tabs", "<all_urls>", "unlimitedStorage"],
-	"web_accessible_resources": ["/templates/*", "/images/*.jpg", "/images/*.png", "/styles/*.css", "styles/styles.css", "/jquery-ui-1.12.1/jquery-ui.css", "/font-awesome-4.6.1/*", "/Stuk-jszip-4cbaf0e/*" ]
+	"web_accessible_resources": ["/templates/*", "/images/*.jpg", "/images/*.png", "/styles/*.css", "styles/styles.css", "/jquery-ui-1.12.1/jquery-ui.css", "/font-awesome-4.6.1/*", "/jszip-master/*" ]
 }
