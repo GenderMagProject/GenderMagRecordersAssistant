@@ -368,6 +368,7 @@ function actionLoop(el){
 			$('#theFinalCountDown').hide();
 			setStatusToFalse('finishedGM');
 			$('#actionLoopTemplate').show();
+			$('#exitButton').show();
 		});
 	}
 
