@@ -82,21 +82,25 @@ function getSubgoalInfo(){
         subgoalEntry.push("\n"); // new row
 
         var subgoalString = subgoalEntry.join(",");
+        // This for loop is really weird --> TODO cleanup
         var currentAction = 0;
         for (var i in currSubgoal.actions) {
             if(i.id !== currentAction) {
                 currentAction = i.id;
-                console.log("action");
+                console.log("action" + i);
                 var actionString = getActionInfo(currSubgoal.actions, j);
                 subgoalString = subgoalString + actionString;
             }
         }
-        if(localStorage.getItem("inMiddleOfAction")==="true" && !localStorage.getItem("finishedGM")){
+        fullEntry = fullEntry + subgoalString;
+    }
+    // Add any uncompleted action
+    // The assumption here is that uncompleted actions will always belong to the last subgoal
+    // This assumption may need to be updated later on
+    if(localStorage.getItem("inMiddleOfAction")==="true" && !localStorage.getItem("finishedGM")){
             console.log("middle of action!");
             var actString = getActionInfo([getVarFromLocal("currPreAction")]);
-            subgoalString = subgoalString + actString;
-        }
-        fullEntry = fullEntry + subgoalString;
+            fullEntry = fullEntry + actString;
     }
     return fullEntry;
 }
@@ -229,18 +233,30 @@ function downloadCSV(csvContent, old) {
 	create_zip(csvContent, old);
 }
 
+/*
+*This function downloads the image into the designated folder when given the uri and name
+*/
 function downloadURI(uri, name) {
-	var safeName = name;
-	var safeUri = uri.slice(22);
-	console.log("in image", safeUri);
-	var imgObj = {
-		name:safeName+".png",
-		uri: safeUri
-	};
-	console.log("imgobj", imgObj);
-	imgList.push(imgObj);
-
-  }
+    try {
+        //checks to see if the uri or name is null
+        if (uri === null || name === null) throw "The uri or name for your image is null.";
+        var safeName = name;
+        //uri must be converted to string in order to perform slice function to shorten the uri
+        toString(uri);
+        var safeUri = uri.slice(22);
+        console.log("in image", safeUri);
+        //creates the image object using the name and shortened uri
+        var imgObj = {
+            name:safeName+".png",
+            uri: safeUri
+        };
+        console.log("imgobj", imgObj);
+        //pushes the image to the list of images
+        imgList.push(imgObj);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 function create_zip(csvContent, old) {
     console.log((csvContent));

@@ -318,6 +318,9 @@ function actionLoop(el){
 			var numSubgoals = Number(localStorage.getItem("numSubgoals"));
 			numSubgoals++;
 			localStorage.setItem("numSubgoals", numSubgoals)
+			//save a dummy subgoal so it can be reached again if the user clicks away
+			var subName = localStorage.getItem("currSubgoalName");
+			saveSubgoal(numSubgoals, subName, 0, "", 0);
 			drawSubgoal(numSubgoals); //creates undefined unnamed subgoal
 		}
 	});
@@ -328,6 +331,7 @@ function actionLoop(el){
 		localStorage.setItem("inMiddleOfAction", "false");
 		$(el).find("#actionLoopTemplate").hide();
 		$(el).find("#theFinalCountDown").show();
+		$(el).find("#exitButton").hide();
 
 		//on click of redownload zip button, download sheet again
 		$("#finalDownload").unbind("click").click(function () {
@@ -364,6 +368,7 @@ function actionLoop(el){
 			$('#theFinalCountDown').hide();
 			setStatusToFalse('finishedGM');
 			$('#actionLoopTemplate').show();
+			$('#exitButton').show();
 		});
 	}
 

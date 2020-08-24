@@ -1,7 +1,15 @@
 /*
- * This function is made to insert the users pronouns and possessive adjective into the tool tip
- * It should be called from addToolTip but is currently not in use do to grammar problems with the wording
- * in the tool tip (for example: she gathers vs. they gather)
+ * File Name: tooltip.js
+ * Functions: updatePronouns (not in use), addToolTip
+ * Description: This file contains functions to handle tooltips
+ */
+
+/* 
+ * Function: updatePronouns
+ * Description: This function is made to insert the users pronouns and possessive adjective into the tool tip.
+ * 	It should be called from addToolTip but is currently not in use do to grammar problems with the wording
+ * 	in the tool tip (for example: she gathers vs. they gather)
+ * Params: none
  */
 function updatePronouns() {
 	if(getVarFromLocal('personaPronoun')){
@@ -28,7 +36,13 @@ function updatePronouns() {
 	}
 }
 
+/* 
+ * Function: addToolTip
+ * Description: This function creates a tooltip using an HTML template
+ * Params: toolTipName - the name of the tooltip, folderName - the folder where the template is stored
+ */
 function addToolTip(toolTipName, folderName){
+	// if the tooltip is already there, remove it and start again
 	if($("#"+toolTipName + "Div")){
 		$("#"+toolTipName+"Div").remove();
 	}
@@ -51,6 +65,7 @@ function addToolTip(toolTipName, folderName){
 		appendTemplateToElement($("#"+toolTipName+"Div"), 'templates/'+folderName+ '/' +toolTipName +'.html');
 		$("#"+toolTipName+"Div").draggable();
 		$("#"+toolTipName+"Complete").hide();
+		// button to close
 		$("#" + toolTipName + "Button").off('click').on('click', function() {
 			$("#" + toolTipName + "Div").remove();
 		});
@@ -64,6 +79,7 @@ function addToolTip(toolTipName, folderName){
 					$("#"+toolTipName+"SeeMOAR").html("See less");	
 					$(this).attr("stateVar", 1);
 				}
+				//The "see more" is closed and needs to be opened
 				else{
 					$("#"+toolTipName+"Preview").show();
 					$("#"+toolTipName+"Complete").hide();

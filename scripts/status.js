@@ -1,3 +1,6 @@
+//functions to initialize status object, save and get status object. Set object status to true, false or stop.
+//add error handling?
+
 var statusObject = {							
 	sliderIsOpen: "",                           //set for first time in utilities.js
 	startedGM: "",                              //set in setup.js
@@ -18,13 +21,14 @@ var statusObject = {
 	finishedGM: ""                              //set in action.js
 }
 
+//initialize obj with "status object" item
 function initStatusObject () {
     var obj = JSON.parse(localStorage.getItem("statusObject"));
     if (obj) {
         //console.log("statusObject found");
     }
     else {
-        localStorage.setItem("statusObject", JSON.stringify(statusObject));
+        localStorage.setItem("statusObject", JSON.stringify(statusObject));  
         //console.log("Initializing status object...");
     }
 }
@@ -42,11 +46,11 @@ function statusIsTrue(keyToCheck) {
     var obj = getStatusObject();
 	if (obj) {
 		if (obj[keyToCheck] == "true") {
-            return true;
-        }
-        else {
-            return false;
-        }
+            		return true;
+        	}
+        	else {
+            		return false;
+        	}
 	}
 	else {
 		//console.log("statusObject doesn't exist in local");
@@ -76,7 +80,7 @@ function setStatusToFalse (keyToChange) {
 		//console.log("statusObject doesn't exist in local");
 	} 
 }
-
+//when is stop used?
 function setStatusToStop (keyToChange) {			
 	var obj = getStatusObject();
 	if (obj) {

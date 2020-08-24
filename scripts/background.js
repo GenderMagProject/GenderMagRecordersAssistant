@@ -22,7 +22,25 @@ var screenShotURL;
 	
 	/*Send request to current tab when page action is clicked*/
 	chrome.pageAction.onClicked.addListener(function(tab) {
+		// toggle the visibility of slideout
+		chrome.tabs.executeScript({ code: `(${ inContent })()` });
+		function inContent() {
+			const slideout = document.getElementById('slideout');
+			const gmFrame = document.getElementById('GenderMagFrame');
+  			if (slideout.style.display == 'none'){
+				  slideout.style.display = '';
+				  gmFrame.style.display = '';
+  			}
+  			// if the slider is not already open, hide the slideout
+  			else if (!statusIsTrue("sliderIsOpen")){
+				  slideout.style.display = 'none';
+				  gmFrame.style.display = 'none';
+  			}
+		}
+		/* Alternate option: link to the GitHub
 		window.open("https://github.com/mendezc1/GenderMagRecordersAssistant");
+		*/
+		
 		//TODO: Think about creating open/close function and call it here?
 		/*OLD CODE HERE DON'T DELETE UNTIL TO DO IS RESOLVED*/
 		//chrome.tabs.executeScript(null, { file: "./jquery-ui-1.12.1/jquery.js" }, function() {
