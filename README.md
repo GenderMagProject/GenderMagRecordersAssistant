@@ -161,16 +161,40 @@ Please follow our
 
 # FAQ’s:
 Note: If you have questions you would like us to answer, please let us know by filing an issue asking the question!
-<ol>
-  <li>How to install  GenderMag Recorder’s Assistant (chrome extension):
+
+1. How to install  GenderMag Recorder’s Assistant (chrome extension):
     <ul>
       <li><a href="#install">Instructions here</a></li>
     </ul></li>
-     <li>Technologies used in the project:
+    
+2. Technologies used in the project:
      <ul>
       <li>HTML</li>
       <li>CSS</li>
       <li>JavaScript</li>
-     </ul>
-  </li>
-</ol>
+     </ul></li>
+     
+3. Why should GenderMag be used?
+    * Gender biases within software indirectly discourage people of marginalized genders from engaging with technology. Software that isn't inclusive for all genders loses out on an enormous market of paying consumers and potential technological contributors. By addressing these gender biases, GenderMag helps improve software experiences for end-users of any genders.
+    * Visit http://gendermag.org/index.php for more information.
+    
+4. When should GenderMag be used?
+    * GenderMag should be used during the process of designing user interfaces. It can also be used to evaluate the inclusivity of existing software. 
+
+5. Who should use the GenderMag Tool?
+    * The GenderMag tool's primary audience is software practitioners and usability professionals (e.g., developers, managers, UX professionals).
+
+6. What is the output file created by the GenderMag Tool?
+    * The output file has two forms. The 'old' format is optimized for graphing or using a computer to parse the information from your GenderMag session. The 'new' format is optimized for reading the results of the GM session. Both types are CSV files and contain all the answers submitted during the use of the tool.
+
+7. What do you mean by subgoal, scenario, action, and other terms used throughout GenderMag?
+    * Scenario/Use Case: the hypothetical situation you are walking through and evaluating (e.g., Abi wants to find a science fiction book)
+    * Subgoal: what the developer or designer hopes the user is thinking of doing next (e.g., see bookstore map)
+    * Action: what the persona needs to do to meet a subgoal (e.g., click on "browse off")
+    * Visit http://gendermag.org/gendermag.php for more information.
+
+8. How can I contribute to this project?
+    * Please see the contributing guidelines [here](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/Contributing.MD).
+    
+9. I have an unanswered question or need to contact someone about the project.
+    * Please open an issue, and we will get back to you ASAP.
