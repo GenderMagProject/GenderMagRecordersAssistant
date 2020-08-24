@@ -175,7 +175,7 @@ function drawSubgoal(subgoalId){
 		sidebarBody().find('#yes').prop("checked", subgoal.ynm.yes);
 		sidebarBody().find('#no').prop("checked", subgoal.ynm.no);
 		sidebarBody().find('#maybe').prop("checked", subgoal.ynm.maybe);
-
+    
 		sidebarBody().find('#A0Q0motiv').prop("checked", subgoal.facetValues.motiv);  //not to be confused with motion
 		sidebarBody().find('#A0Q0info').prop("checked", subgoal.facetValues.info); //not to be confused with inFork
 		sidebarBody().find('#A0Q0selfE').prop("checked", subgoal.facetValues.selfE); //not to be confused with selfie

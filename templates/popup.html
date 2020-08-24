@@ -21,7 +21,7 @@
 <div id="userInfo" style="height:10%; width:100%; margin:5px; overflow:hidden;">
 
 
-	<span id="welcomeText">GenderMag Recorder's Assistant</span>
+	<span id="welcomeText">GenderMag Recorder's Assistant: <i>Pre-Session Setup</i></span>
 
     &nbsp; &nbsp; &nbsp;
     <span class="icon" id="team">
@@ -42,9 +42,9 @@
         <button id='editScenario' style="width:55px; height:25px;background-color:#7D1935;color:white;" hidden>Edit</button>
     </span>
 
-<!-- Save and Exit button-->
-<button id="saveAndExit" style="float:right; width:100px; height:25px;background-color:#7D1935;color:white;">Save and Exit</button>
-<!-- Exit without Saving button-->
+<!-- Download and Exit button-->
+<button id="saveAndExit" style="float:right; width:150px; height:25px;background-color:#7D1935;color:white;">Download and Exit</button>
+<!-- Exit without Downloading button-->
 <button id="justExit" style="float:right; width:100px; height:25px;background-color:#7D1935;color:white;">Exit</button>
 
 <!-- <button id="viewPersona">View Personas</button> -->
@@ -57,21 +57,20 @@
 		<div id="setup" class="instruction" style="margin-bottom:5px;">
 			<!--span class="preview"> Before you get started with the GenderMag walkthrough... </span-->
 
-			<span class="complete"> Before you get started with the GenderMag walkthrough,
-			please enter some information that will help identify this session.</span>
+			<span class="complete" id="explain">This tool will guide you through a software evaluation using the GenderMag method, otherwise known as a GenderMag session. Before you get started, please enter some information that will help identify this session.</span>
 
 			<!--button class="moreOrLess" stateVar=0> See more </button-->
 
 		</div>
 
 		<div id="getTeam">
-			<label id="teamPrompt">First, what is the name of your team?</label><br>
+			<br><label id="teamPrompt">First, enter the name of your development team or project</label><br>
 			<input id="teamInput" type="text" placeholder="ex. Mobile Dev Group">
 			<input type="submit" id="submitTeam"><br>
 		</div>
 
 		<div id="getPersona" hidden>
-			<br><label id="personaPrompt">Now select a Persona</label><br>
+			<label id="personaPrompt">Now select a Persona</label><br>
 			<select id="personaSelection" name="persona">
 				<option value="Abi">Abi</option>
 				<option value="Tim">Tim</option>
@@ -104,7 +103,7 @@
 		<div id="getSubgoal" hidden>
 			<label id="subgoalPrompt"></label><br>
 			<input id="subgoalInput" type="text" placeholder="ex Search for 'Sue' in the DB">
-			<input type="submit" id="submitSubgoal" value="Add Subgoal">
+			<input type="submit" id="submitSubgoal" value="Submit Subgoal">
 		</div>
 </div>
 	<div id="personaInfo"style ="height:80%; width:35%; float:left; margin:5px;overflow-y:auto;overflow-x:hidden;"></div>

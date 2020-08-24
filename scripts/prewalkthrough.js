@@ -91,6 +91,9 @@ function handlePreWalkthroughInfo () {
 	//If the state variable is set, reload previous input
 	var isSetTeam = statusIsTrue("gotTeamName");
 	if (isSetTeam) {
+		//Hide initial instructions
+		sidebarBody().find("#explain").hide();
+
 		sidebarBody().find("#teamName").html("<b>Team:</b> "+ getVarFromLocal("teamName") );
 		sidebarBody().find("#editTeam").show();
 		sidebarBody().find("#getTeam").hide();
@@ -110,7 +113,7 @@ function handlePreWalkthroughInfo () {
 			//Get and save team name
 			var teamName = sidebarBody().find("#teamInput").val();
 			if(teamName === ""){
-				alert("Please enter a team name");
+				alert("Please enter a name");
 			}
 			else {
 				saveVarToLocal("teamName", teamName);
@@ -121,6 +124,8 @@ function handlePreWalkthroughInfo () {
 				sidebarBody().find("#editTeam").show();
 				sidebarBody().find("#getTeam").hide();
 				sidebarBody().find("#getPersona").show();
+				//Hide the initial instructions
+				sidebarBody().find("#explain").hide();
 			}
 		});
 	}
@@ -299,6 +304,8 @@ function handlePreWalkthroughInfo () {
 	var isSetSubName = statusIsTrue("gotSubgoalName");
 	if (isSetSubName) {
 		//Restore from previous state
+		sidebarBody().find("#welcomeText").html("GenderMag Recorder's Assistant: <i>In Session</i>");
+
 		var subgoalArray = getSubgoalArrayFromLocal();
 		if (!subgoalArray) {
 			//They haven't saved any subgoals yet, but they have the name
@@ -336,6 +343,7 @@ function handlePreWalkthroughInfo () {
                 alert("Please name your subgoal before continuing");
             }
             else {
+            	sidebarBody().find("#welcomeText").html("GenderMag Recorder's Assistant: <i>In Session</i>");
                 sidebarBody().find("#editTeam").hide();
                 sidebarBody().find("#editPersona").hide();
                 sidebarBody().find("#editScenario").hide();

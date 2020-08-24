@@ -39,9 +39,9 @@ download" and then click "Download zip".
 3) Navigate to the folder on your computer where the *zip file* (not just the file folder) is
 located and extract the zipped files. (Right click on the zipped
  folder -> "Extract All")
- * After clicking on the intitial downloadeded file, navigate backwards one step in the Files app to reach the zipped folder. 
+  * After clicking on the intitial downloadeded file, navigate backwards one step in the Files app to reach the zipped folder. 
     
-4) Open Chrome and click on the icon(⋮)in the top right corner.
+4) Open Chrome and click on the icon (⋮) in the top right corner.
     
 5) Click on “More tools” -> “Extensions”.
     
@@ -50,7 +50,7 @@ located and extract the zipped files. (Right click on the zipped
 7) Click on “Load unpacked” under the search bar.
     
 8) Select the extracted *zip file* and click "ok". 
-* Don't select the standard file folder (only the zip file will upload).
+  * Don't select the standard file folder (only the zip file will upload).
 
 9) Click on “Update” under the search bar.
     
@@ -66,9 +66,10 @@ top left corner of the extensions.
 
 
 # How to Run a GenderMag Session Using the Tool
-If you have downloaded and installed the tool and want to run it,
-make sure the extension is enabled, navigate to the page you wish to perform 
-GenderMag on and click the GenderMag button at the bottom of the screen. 
+A GenderMag session is simply an instance of using the GenderMag method. If 
+you have downloaded and installed the tool and want to run it, make sure the 
+extension is enabled, navigate to the page you wish to perform GenderMag on 
+and click the GenderMag button at the bottom of the screen. 
 
 See the [video](http://gendermag.org/genderMag.html) from GenderMag.org for examples 
 and/or read the guide below.
@@ -137,7 +138,7 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    the scenario, enter the subgoal in the bottom text box and click 'create new 
    subgoal'. Return to (7) and complete all subsequent steps. 
     
-   15) If the scenario has been completed, click 'save and stop GenderMag 
+   15) If the scenario has been completed, click 'download and end my GenderMag 
    session'. This will take you to another page and download a zip file with 
    your session's information.
    
@@ -160,16 +161,40 @@ Please follow our
 
 # FAQ’s:
 Note: If you have questions you would like us to answer, please let us know by filing an issue asking the question!
-<ol>
-  <li>How to install  GenderMag Recorder’s Assistant (chrome extension):
+
+1. How to install  GenderMag Recorder’s Assistant (chrome extension):
     <ul>
       <li><a href="#install">Instructions here</a></li>
     </ul></li>
-     <li>Technologies used in the project:
+    
+2. Technologies used in the project:
      <ul>
       <li>HTML</li>
       <li>CSS</li>
       <li>JavaScript</li>
-     </ul>
-  </li>
-</ol>
+     </ul></li>
+     
+3. Why should GenderMag be used?
+    * Gender biases within software indirectly discourage people of marginalized genders from engaging with technology. Software that isn't inclusive for all genders loses out on an enormous market of paying consumers and potential technological contributors. By addressing these gender biases, GenderMag helps improve software experiences for end-users of any genders.
+    * Visit http://gendermag.org/index.php for more information.
+    
+4. When should GenderMag be used?
+    * GenderMag should be used during the process of designing user interfaces. It can also be used to evaluate the inclusivity of existing software. 
+
+5. Who should use the GenderMag Tool?
+    * The GenderMag tool's primary audience is software practitioners and usability professionals (e.g., developers, managers, UX professionals).
+
+6. What is the output file created by the GenderMag Tool?
+    * The output file has two forms. The 'old' format is optimized for graphing or using a computer to parse the information from your GenderMag session. The 'new' format is optimized for reading the results of the GM session. Both types are CSV files and contain all the answers submitted during the use of the tool.
+
+7. What do you mean by subgoal, scenario, action, and other terms used throughout GenderMag?
+    * Scenario/Use Case: the hypothetical situation you are walking through and evaluating (e.g., Abi wants to find a science fiction book)
+    * Subgoal: what the developer or designer hopes the user is thinking of doing next (e.g., see bookstore map)
+    * Action: what the persona needs to do to meet a subgoal (e.g., click on "browse off")
+    * Visit http://gendermag.org/gendermag.php for more information.
+
+8. How can I contribute to this project?
+    * Please see the contributing guidelines [here](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/Contributing.MD).
+    
+9. I have an unanswered question or need to contact someone about the project.
+    * Please open an issue, and we will get back to you ASAP.
