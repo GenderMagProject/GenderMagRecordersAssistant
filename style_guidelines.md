@@ -1,4 +1,4 @@
-Google Style Guide section 4 (formatting): 
+Formatting : 
   - Line length (column limit)
     - Column limit is 80 characters. Any line exceeding said limit must be wrapped.
   - Line wrapping
@@ -13,7 +13,7 @@ Google Style Guide section 4 (formatting):
     - No line break before opening brace
     - Line breaks after opening and closing brace, and before closing brace.
     
-Code itself: 
+Naming and Comments: 
   - Naming 
     - Method and package names are written in lowerCamelCase, private methods end with _
     - Class, interface, record, typedef, and enum names are written in UpperCamelCase.
