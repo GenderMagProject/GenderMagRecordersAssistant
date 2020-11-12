@@ -1,3 +1,9 @@
+/*
+ * File Name: background.js
+ * Functions : inContent
+ * Description : Behavior of the code as a chrome extension are through the chrome API.
+*/
+
 var screenShotURL;
 	/*Put page action icon on all tabs*/
 	chrome.tabs.onUpdated.addListener(function(tabId) {
@@ -21,9 +27,14 @@ var screenShotURL;
 		}});
 	
 	/*Send request to current tab when page action is clicked*/
-	chrome.pageAction.onClicked.addListener(function(tab) {
+	chrome.pageAction.onClicked.addListener(function(tab) { // Handles the functionality of when the extension icon in the topbar is clicked.
 		// toggle the visibility of slideout
 		chrome.tabs.executeScript({ code: `(${ inContent })()` });
+/*
+ * Function Name: inContent
+ * Description : Hiding and showing the chrome extension when the button in the browser header is clicked.
+ * Params : none
+*/
 		function inContent() {
 			const slideout = document.getElementById('slideout');
 			const gmFrame = document.getElementById('GenderMagFrame');
@@ -40,24 +51,4 @@ var screenShotURL;
 		/* Alternate option: link to the GitHub
 		window.open("https://github.com/mendezc1/GenderMagRecordersAssistant");
 		*/
-		
-		//TODO: Think about creating open/close function and call it here?
-		/*OLD CODE HERE DON'T DELETE UNTIL TO DO IS RESOLVED*/
-		//chrome.tabs.executeScript(null, { file: "./jquery-ui-1.12.1/jquery.js" }, function() {
-			//chrome.tabs.getSelected(null, function(tab) {
-			//chrome.runtime.sendMessage(tab.id, {callFunction: "toggleSidebar"}, function(response) {});
-			
-			//});
-				/*
-				chrome.tabs.sendRequest(
-					//Selected tab id
-					tab.id,
-					//Params inside a object data
-					{callFunction: "toggleSidebar"}, 
-					//Optional callback function
-					function(response) {
-						//console.log(response);
-					}*/
-			//});
-		/* END OLD CODE*/
 		});
