@@ -71,7 +71,8 @@ function preActionQuestions(el){
     var pronoun = getVarFromLocal("personaPronoun");
     var possessive = getVarFromLocal("personaPossessive");
     $(el).find("#preActQ").html("Will " + personaName+ " know what to do at this step?");
-    $(el).find("#preFacets").html("Which of " + personaName + "'s facets did you use to answer the above question?");
+    $(el).find("#preFacets").html("Which of " + personaName + 
+				  "'s facets did you use to answer the above question?");
 
 	//hide draw button and retake button, show preaction questions
     $(el).find("#annotateImage").hide();
@@ -82,7 +83,8 @@ function preActionQuestions(el){
 	$(el).find("#HRmorelikefunpolice").show();
 	//when save and continue button is clicked, save input values
 	$("#preActionClose").unbind( "click" ).click(function(){
-		var actionName = localStorage.getItem("currActionName"); //Currently save and then deletes this name before it can be called again
+		//(actionName)Currently save and then deletes this name before it can be called again
+		var actionName = localStorage.getItem("currActionName"); 
 		var yesNoMaybe = {"yes": $('#actionYes').is(":checked"),
 			"no": $('#actionNo').is(":checked"),
 			"maybe": $('#actionMaybe').is(":checked")};
@@ -178,10 +180,12 @@ function postActionQuestions(el){
     var personaName = getVarFromLocal("personaName");
     var pronoun = getVarFromLocal("personaPronoun");
     var possessive = getVarFromLocal("personaPossessive");
-    $(el).find("#postActQ").html("If " + personaName + " did the right thing (what you just demonstrated), will " +
+    $(el).find("#postActQ").html("If " + personaName + 
+				 " did the right thing (what you just demonstrated), will " +
         pronoun + " know that " + pronoun + " did the right thing and is making progress toward " +
         possessive + " goal?");
-    $(el).find("#postFacets").html("Which of " + personaName + "'s facets did you use to answer the above question?");
+    $(el).find("#postFacets").html("Which of " + personaName +
+				   "'s facets did you use to answer the above question?");
 
 	//hide do action prompt, show post action questions
 	$(el).find("#doActionPromptTemplate").hide();
