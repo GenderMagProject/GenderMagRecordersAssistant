@@ -1,3 +1,5 @@
+# GenderMag Recorders Assistant Style Guide
+
 ## Formatting : 
   - Line length (column limit)
     - Column limit is 80 characters. Any line exceeding said limit must be wrapped.
