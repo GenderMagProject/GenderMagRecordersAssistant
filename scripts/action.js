@@ -12,10 +12,7 @@ if (personaName !== null ) {personaName = personaName.slice(1, personaName.lengt
 else { personaName = "Abi"; }
 
 function setFacetPopups(personaName) {
-    if(personaName === "Custom"){
-
-    }
-    else {
+    if(personaName !== "Custom"){
         var lowercaseName = personaName.toLowerCase();
         //set functionality for motivation pop up info window
         $(".MTrigger").unbind("click").click(function () {
