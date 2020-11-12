@@ -14,6 +14,8 @@ about: GenderMag Recorders Assistant project
 
 * **Did you test the full GM process and verify that the code does not contribute any unexpected errors/bugs?**
 
+* **Did you follow the style guidlines and verify that the code does not have any incorrect formatting?**
+
 * **If possible, provide a screenshot of the functionality.**
 
 * **Any other information?**
