@@ -1,4 +1,4 @@
-Formatting : 
+## Formatting : 
   - Line length (column limit)
     - Column limit is 80 characters. Any line exceeding said limit must be wrapped.
   - Line wrapping
@@ -13,7 +13,7 @@ Formatting :
     - No line break before opening brace
     - Line breaks after opening and closing brace, and before closing brace.
     
-Naming and Comments: 
+## Naming and Comments: 
   - Naming 
     - Method and package names are written in lowerCamelCase, private methods end with _
     - Class, interface, record, typedef, and enum names are written in UpperCamelCase.
@@ -31,6 +31,6 @@ Naming and Comments:
     - All lowercase and can include underscores and dashes. 
     - Name is an overly simplified version of the task the function performs
     
-Other general:
+## Other general:
   - CSS alphabetical order
     - All statements in CSS files must be included in alphabetical order
