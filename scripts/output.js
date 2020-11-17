@@ -1,4 +1,13 @@
 /*
+ * Filename : output.js
+ * Functions : now, today, sanitizeString, getSubgoalInfo, getActionInfo, createCSV, 
+ * downloadCSV, downloadURI, create_zip, parseSubgoalArray, createOldCSV
+ * Description : 
+*/
+
+
+
+/*
  * Global Varibles
  * Don't modify without updating rest of file!
  * Also todo: Refactor so there are no global variables!
@@ -14,7 +23,10 @@ function now() {
 	var date = new Date();
 	return date.getHours() + ":" + date.getMinutes();
 }
-
+/*
+ * Function: today
+ * Gets the date in the format month/day/year
+ */
 function today() {
     var date = new Date();
     var month = date.getMonth() + 1;
@@ -257,7 +269,10 @@ function downloadURI(uri, name) {
         console.log(error);
     }
 }
-
+/*
+ * Function: create_zip
+ * Generates a zip file containing the date and content of the gendermag session.
+ */
 function create_zip(csvContent, old) {
     console.log((csvContent));
 	var zip = new JSZip();
