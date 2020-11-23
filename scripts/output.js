@@ -330,7 +330,10 @@ function create_zip(csvContent, old) {
 		why: whyText,
 		facetValues: facets
 
-*/
+/*
+ * Function: parseSubgoalArray
+ * 
+ */
 function parseSubgoalArray(){
     var userInput= getSubgoalArrayFromLocal();
     var entry = []; //corresponds to a single row in the csv
@@ -398,7 +401,10 @@ function parseSubgoalArray(){
     }
     return entries;
 }
-
+/*
+ * Function: createOLDCSV
+ *
+ */
 function createOldCSV() {
     console.log('getting things');
     var entries = parseSubgoalArray();
