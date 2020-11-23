@@ -181,7 +181,8 @@ function handlePreWalkthroughInfo () {
 			//Show Scenario
 			sidebarBody().find("#getScenario").show();
 			//sidebarBody().find("#getScenario").children().show();
-			sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
+			sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " 
+								   + personaName + " will be performing");
 		}
 	}
 	else{
@@ -214,7 +215,8 @@ function handlePreWalkthroughInfo () {
 				setStatusToTrue("gotPronoun");
 				sidebarBody().find("#getPersonaPronoun").hide();
 				sidebarBody().find("#getScenario").show();
-				sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
+				sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " 
+									   + personaName + " will be performing");
 				sidebarBody().find("#editPersona").show();
 				personaShown = true;
 			}
@@ -246,7 +248,8 @@ function handlePreWalkthroughInfo () {
 				console.log("persona name was null. Check your save");
 			}
 			//prompt for subgoal name - can use submit button or enter key
-			sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
+			sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " 
+								  + personaName + " to perform");
 			sidebarBody().find("#subgoalInput").keyup(function(event){
 				if(event.keyCode == 13){
 					sidebarBody().find("#submitSubgoal").unbind( "click" ).click();
@@ -289,7 +292,8 @@ function handlePreWalkthroughInfo () {
 				if (!personaName) {
 					console.log("persona name was null. Check your save");
 				}
-				sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
+				sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " 
+									  + personaName + " to perform");
 				sidebarBody().find("#subgoalInput").keyup(function (event) {
 					if (event.keyCode == 13) {
 						sidebarBody().find("#submitSubgoal").unbind("click").click();
