@@ -218,12 +218,14 @@ function overlayScreen(onlyDraw){
                     var sy = sourceY *smallerImg.height/oldHeight;
                     localStorage.setItem("sx", sx);
                     localStorage.setItem("sy", sy);
-                    context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+                    context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0,
+				      ratioWidth*9/10, ratioHeight*9/10);
                 }
                 else{
                     var sx = localStorage.getItem("sx");
                     var sy = localStorage.getItem("sy");
-                    context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+                    context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, 
+				      ratioWidth*9/10, ratioHeight*9/10);
                 }
 		    });
 
@@ -316,7 +318,8 @@ function overlayScreen(onlyDraw){
                 }
 				setStatusToTrue("highlightedAction");
 				for (var element in elements) {
-					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" || element.id === "highlightHover" || element.id === "highlightBorder2") {
+					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" 
+					    || element.id === "highlightHover" || element.id === "highlightBorder2") {
 						element.style.display = "default";
 					}
 				}
@@ -642,12 +645,14 @@ function renderImage(imgURL){
 		        var sy = sourceY *smallerImg.height/oldHeight;
 		        localStorage.setItem("sx", sx);
 		        localStorage.setItem("sy", sy);
-		        context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+		        context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, 
+					  ratioWidth*9/10, ratioHeight*9/10);
 		    }
 		    else{
 		        var sx = localStorage.getItem("sx");
 		        var sy = localStorage.getItem("sy");
-		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, 
+					  ratioWidth*9/10, ratioHeight*9/10);
 		    }
 		});
 		$("#closeLargePreview").unbind( "click" ).click(function(){
@@ -665,12 +670,14 @@ function renderImage(imgURL){
 		        var sy = sourceY *smallerImg.height/oldHeight;
 		        localStorage.setItem("sx", sx);
 		        localStorage.setItem("sy", sy);
-		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, 
+					  ratioWidth*9/10, ratioHeight*9/10);
 		    }
 		    else{
 		        var sx = localStorage.getItem("sx");
 		        var sy = localStorage.getItem("sy");
-		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, ratioWidth*9/10, ratioHeight*9/10);
+		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, 
+					  ratioWidth*9/10, ratioHeight*9/10);
 		    }
 		});
     });
