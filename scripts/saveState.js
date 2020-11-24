@@ -38,7 +38,10 @@ function addToSandwich(type, item){
 	if(!type.localeCompare("subgoal")){ 		
 		var subArr = getSubgoalArrayFromLocal();
         var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
-		var sideSubgoal = '<div stateVar=0 superCoolAttr=' + item.id + ' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:blue;text-decoration:underline;margin:5px;" id="sideSubgoal' + item.id + '"> <img id="sideSubgoalImg' + item.id + '" src="' + arrowSRC + '"></img> Subgoal ' + item.id + ': ' + item.name + '</div>';
+		var sideSubgoal = ('<div stateVar=0 superCoolAttr=' + item.id 
+				   + ' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:blue;text-decoration:underline;margin:5px;" id="sideSubgoal'
+				   + item.id + '"> <img id="sideSubgoalImg' + item.id + '" src="'
+				   + arrowSRC + '"></img> Subgoal ' + item.id + ': ' + item.name + '</div>');
 		// checking to see if the subgoal has already been created (?)
 		if (item.id >= subArr.length) {
             var foundIt = false;
@@ -67,7 +70,9 @@ function addToSandwich(type, item){
 		});
 	}
 	else if(!type.localeCompare("idealAction") && item.name){ 	
-		var sideAction = '<div superCoolAttr="' + item.subgoalId + '-' + item.actionId + '" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-indent:25px;color:blue;text-decoration:underline;margin:5px;" id="sideAction' + item.subgoalId + '-' + item.actionId + '">Action ' + item.actionId + ': ' + item.name + '</div>';
+		var sideAction = ('<div superCoolAttr="' + item.subgoalId + '-' + item.actionId 
+		+ '" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-indent:25px;color:blue;text-decoration:underline;margin:5px;" id="sideAction'
+		+ item.subgoalId + '-' + item.actionId + '">Action ' + item.actionId + ': ' + item.name + '</div>');
 		var sideActionIdToFind = item.subgoalId + "-" + item.actionId;
         var sideActionIdForClick = "#sideAction" + item.subgoalId + "-" + item.actionId;
 		var foundIt = false;
@@ -102,7 +107,9 @@ function addToSandwich(type, item){
 		var subgoalId = localStorage.getItem("numSubgoals");
 		var actionId = localStorage.getItem("numActions");
 		var actionName = localStorage.getItem("currActionName");
-		var sideAction = '<div superCoolAttr="' + subgoalId + '-' + actionId + '"style=white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-indent:25px;color:blue;text-decoration:underline;margin:5px;" id="sideAction' + subgoalId + '-' + actionId + '">Action ' + actionId + ': ' + actionName + '</div>';
+		var sideAction = ('<div superCoolAttr="' + subgoalId + '-' + actionId
+		+ '"style=white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-indent:25px;color:blue;text-decoration:underline;margin:5px;" id="sideAction'
+		+ subgoalId + '-' + actionId + '">Action ' + actionId + ': ' + actionName + '</div>');
 		sidebarBody().find("#subgoalList").append(sideAction);
 		var actionNum = localStorage.getItem("numActions");
 		actionNum++;
@@ -372,7 +379,8 @@ function reloadSandwich () {
 }
 
 
-//Called when a sideSubgoal is clicked. Expands or collapses the actions under that subgoal, but not the subgoal itself.
+//Called when a sideSubgoal is clicked. 
+//Expands or collapses the actions under that subgoal, but not the subgoal itself.
 //Call with sideSubgoalExpandy(id, 0) to toggle. 
 //Call with sideSubgoalExpandy(id, "expand") or sideSubgoalExpandy(id, "collapse") to do that specifically
 function sideSubgoalExpandy (subgoalId, whatToDo) {
@@ -386,7 +394,8 @@ function sideSubgoalExpandy (subgoalId, whatToDo) {
 		sideList.find('#sideSubgoalImg' + subgoalId).attr("src", arrowSRC);
         sideList.children().each(function () {
             var currId = (this.getAttribute('supercoolattr'));
-            //If the first part of the ID matches the subgoal number and the length of the ID is longer than 1, it's an action to expand
+            /*If the first part of the ID matches the subgoal number and the length of the ID
+	    	is longer than 1, it's an action to expand*/
             if ( Number(currId[0]) == Number(subgoalId)  &&  currId.length > 1 ) {      
                 //console.log("showing ", currId);
                 $(this).show();
@@ -402,7 +411,8 @@ function sideSubgoalExpandy (subgoalId, whatToDo) {
 		sideList.find('#sideSubgoalImg' + subgoalId).attr("src", arrowSRC);
         sideList.children().each(function () {
             var currId = (this.getAttribute('supercoolattr'));
-            //If the first part of the ID matches the subgoal number and the length of the ID is longer than 1, it's an action to collapse
+            /*If the first part of the ID matches the subgoal number and the length of the ID
+	    	is longer than 1, it's an action to collapse*/
             if ( Number(currId[0]) == Number(subgoalId)  &&  currId.length > 1 ) {      
                 //console.log("hiding ", currId);
                 $(this).hide();
@@ -425,7 +435,8 @@ function sideSubgoalExpandy (subgoalId, whatToDo) {
 			sideList.find('#sideSubgoalImg' + subgoalId).attr("src", arrowSRC);
             sideList.children().each(function () {
                 var currId = (this.getAttribute('supercoolattr'));
-                //If the first part of the ID matches the subgoal number and the length of the ID is longer than 1, it's an action to expand
+                /*If the first part of the ID matches the subgoal number and the length of the ID
+			is longer than 1, it's an action to expand*/
                 if ( Number(currId[0]) == Number(subgoalId)  &&  currId.length > 1 ) {      
                     //console.log("showing ", currId);
                     $(this).show();
@@ -441,7 +452,8 @@ function sideSubgoalExpandy (subgoalId, whatToDo) {
 			sideList.find('#sideSubgoalImg' + subgoalId).attr("src", arrowSRC);
             sideList.children().each(function () {
                 var currId = (this.getAttribute('supercoolattr'));
-                //If the first part of the ID matches the subgoal number and the length of the ID is longer than 1, it's an action to collapse
+                /*If the first part of the ID matches the subgoal number and the length of the ID
+			is longer than 1, it's an action to collapse*/
                 if ( Number(currId[0]) == Number(subgoalId)  &&  currId.length > 1 ) {      
                     //console.log("hiding ", currId);
                     $(this).hide();
@@ -502,7 +514,8 @@ function loadActionAnswersTemplate (actionId, subgoalId) {
 }
 
 
-//Iterates through the passed YNM object to see which values are true and puts the right string on the answers template in the passed id.
+/* Iterates through the passed YNM object to see which values are true
+and puts the right string on the answers template in the passed id. */
 function showMeTheStringYNM (targetId, targetObj) {
 	
 	var myString = "";
@@ -524,7 +537,8 @@ function showMeTheStringYNM (targetId, targetObj) {
 	
 }
 
-//Iterates through the passed facets object to see which values are true and puts the right string on the answers template in the passed id.
+/*Iterates through the passed facets object to see which values are true
+ and puts the right string on the answers template in the passed id. */
 function showMeTheStringFacets (targetId, targetObj) {
 	
 	var myString = "";
@@ -536,7 +550,8 @@ function showMeTheStringFacets (targetId, targetObj) {
 			propsFound++;
 		
 			//Switch statement-ish on the facet
-			//If it is the first prop found, add the true value without comma. Concatenates the rest of the true values with commas afterwards.
+			//If it is the first prop found, add the true value without comma.
+			//Concatenates the rest of the true values with commas afterwards.
 			if (foundFacet == "info") {
 				if (propsFound == 1) {
 					myString = myString.concat("Information Processing Style");
