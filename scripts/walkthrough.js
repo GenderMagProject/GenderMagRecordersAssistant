@@ -23,8 +23,10 @@ function editSubgoal(subgoalNum){
 
 	function displayMainSubgoalInfo(subName) {
 		sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
-		sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
-		sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
+		sidebarBody().find('#goalQuestion').html("Will " + personaName + 
+							 " have formed this subgoal as a step to " + possessive +" overall goal?");
+		sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + 
+						       "'s facets did you use to answer the previous question?");
 		sidebarBody().find("#getSubgoal").hide();
 		sidebarBody().find("#subgoalQuestions").show();
 		sidebarBody().find("#subgoalFacets").show();
@@ -155,8 +157,10 @@ function drawSubgoal(subgoalId){
 	el.empty();
 	appendTemplateToElement(el,file);
 	sidebarBody().find('#subgoalHeading').html("Subgoal: " + subName);
-    sidebarBody().find('#goalQuestion').html("Will " + personaName + " have formed this subgoal as a step to " + possessive +" overall goal?");
-    sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + "'s facets did you use to answer the previous question?");
+    sidebarBody().find('#goalQuestion').html("Will " + personaName + 
+					     " have formed this subgoal as a step to " + possessive +" overall goal?");
+    sidebarBody().find('#goalFacets').html("Which (if any) of " + personaName + 
+					   "'s facets did you use to answer the previous question?");
 
 	// if already got answers for subgoal questions,
 	if (isSetSubgoalQuestions) {
