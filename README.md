@@ -91,7 +91,8 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
       After you have selected the persona, the description of the selected 
       persona you selected will appear to the right.
       
-      * If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be listed on these forms instead of in the GenderMag extension.
+      
+      If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be listed on these forms instead of in the GenderMag extension.
 
       If you want to change the persona or team name, click edit on top of the 
       tool.
@@ -150,7 +151,9 @@ See the video at http://gendermag.org for examples of what running the tool
 looks like.
 
 ## How to Disable GenderMag:
-* To turn off the GenderMag extension navigate back to “Extensions” and uncheck 
+
+
+To turn off the GenderMag extension navigate back to “Extensions” and uncheck 
 the “Enable” box and uncheck “Developer Mode”.
 
 # Contributing
@@ -163,38 +166,57 @@ Please follow our
 Note: If you have questions you would like us to answer, please let us know by filing an issue asking the question!
 
 1. How to install  GenderMag Recorder’s Assistant (chrome extension):
-    <ul>
-      <li><a href="#install">Instructions here</a></li>
-    </ul></li>
+  
+  <a href="#install">Instructions here</a>
     
 2. Technologies used in the project:
-     <ul>
-      <li>HTML</li>
-      <li>CSS</li>
-      <li>JavaScript</li>
-     </ul></li>
+    
+    HTML, CSS, and JavaScript
      
 3. Why should GenderMag be used?
-    * Gender biases within software indirectly discourage people of marginalized genders from engaging with technology. Software that isn't inclusive for all genders loses out on an enormous market of paying consumers and potential technological contributors. By addressing these gender biases, GenderMag helps improve software experiences for end-users of any genders.
-    * Visit http://gendermag.org/index.php for more information.
+
+
+     Gender biases within software indirectly discourage people of marginalized genders from engaging with technology. Software that isn't inclusive for all genders loses out on an enormous market of paying consumers and potential technological contributors. By addressing these gender biases, GenderMag helps improve software experiences for end-users of any genders. Visit http://gendermag.org/index.php for more information.
     
 4. When should GenderMag be used?
-    * GenderMag should be used during the process of designing user interfaces. It can also be used to evaluate the inclusivity of existing software. 
+
+
+    GenderMag should be used during the process of designing user interfaces. It can also be used to evaluate the inclusivity of existing software. 
 
 5. Who should use the GenderMag Tool?
-    * The GenderMag tool's primary audience is software practitioners and usability professionals (e.g., developers, managers, UX professionals).
+
+
+    The GenderMag tool's primary audience is software practitioners and usability professionals (e.g., developers, managers, UX professionals).
 
 6. What is the output file created by the GenderMag Tool?
-    * The output file has two forms. The 'old' format is optimized for graphing or using a computer to parse the information from your GenderMag session. The 'new' format is optimized for reading the results of the GM session. Both types are CSV files and contain all the answers submitted during the use of the tool.
+
+
+    The output file has two forms. The 'old' format is optimized for graphing or using a computer to parse the information from your GenderMag session. The 'new' format is optimized for reading the results of the GM session. Both types are CSV files and contain all the answers submitted during the use of the tool.
 
 7. What do you mean by subgoal, scenario, action, and other terms used throughout GenderMag?
-    * Scenario/Use Case: the hypothetical situation you are walking through and evaluating (e.g., Abi wants to find a science fiction book)
-    * Subgoal: what the developer or designer hopes the user is thinking of doing next (e.g., see bookstore map)
-    * Action: what the persona needs to do to meet a subgoal (e.g., click on "browse off")
-    * Visit http://gendermag.org/gendermag.php for more information.
+
+
+    Scenario/Use Case: the hypothetical situation you are walking through and evaluating (e.g., Abi wants to find a science fiction book)
+    
+    
+    Subgoal: what the developer or designer hopes the user is thinking of doing next (e.g., see bookstore map)
+    
+    
+    Action: what the persona needs to do to meet a subgoal (e.g., click on "browse off")
+    Visit http://gendermag.org/gendermag.php for more information.
 
 8. How can I contribute to this project?
-    * Please see the contributing guidelines [here](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/Contributing.MD).
+
+
+    Please see the contributing guidelines [here](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/Contributing.MD).
     
-9. I have an unanswered question or need to contact someone about the project.
-    * Please open an issue, and we will get back to you ASAP.
+    
+9. As a newcomer to the project, what problem should I start with?
+
+
+    If you navigate and click on the Issues tab, at the top of the screen, and filter by the "Good First Issue" any issue you see there would be a good place to start.
+    
+10. I have an unanswered question or need to contact someone about the project.
+
+
+    Please open an issue, and we will get back to you ASAP.
