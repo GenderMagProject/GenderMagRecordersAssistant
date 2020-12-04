@@ -12,16 +12,5 @@ function takeScreenShot() {
 			});
 		});
 		});
-		/*
-        	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-				//chrome.extension.getBackgroundPage().console.log("Rendering image", imgUrl);	
-  				//chrome.tabs.sendMessage(tabs[0].id, {callFunction: "renderImage", imageUrl: imgUrl}, function(response) { });
-				
-				chrome.runtime.sendMessage(tabs[0].id, {callFunction: "renderImage", imageURL: imgUrl}, function(response) {});
-				
-				chrome.extension.getBackgroundPage().console.log("Image rendered");	
-			});
-        	//window.open(imgUrl);       	
-        });    */
 	});
 };
