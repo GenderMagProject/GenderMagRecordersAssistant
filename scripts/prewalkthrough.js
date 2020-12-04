@@ -21,8 +21,6 @@ function preWalkthrough (id, file) {
 	var el = $(id).contents().find('body');
 	el.empty();
 	appendTemplateToElement(el,file);
-	//seeMoreOnclick();
-	//nukeButtonOnclick();
 	makeEditable();
 	handlePreWalkthroughInfo();
 	sidebarBody().find('body').off('click', '#saveAndExit').on('click', '#saveAndExit', function() {
@@ -373,89 +371,3 @@ function handlePreWalkthroughInfo () {
 	
 }
 
-/* BROKEN / UNUSED FUNCTIONS BELOW THIS LINE */
-
-/*
- * Function: nukeButtonOnclick
- * This function..does something - maybe was supposed to be an exit button?
- * Params: None
- */
-function nukeButtonOnclick () {
-	console.log(document.getElementById('#nukeStatus'));
-	sidebarBody().find('body').off('click', '#nukeStatus').on('click', '#nukeStatus', function() {
-		var el = sidebarBody().find('#sideBySide');
-		el.contents().hide();
-		appendTemplateToElement(el, '/templates/sliderFinalWarning.html');
-
-		var scurvy = createCSV();
-		downloadCSV(scurvy);
-
-		sidebarBody().find("#sliderFinalDownload").unbind("click").click(function () {
-			var scurvy = createCSV();
-			downloadCSV(scurvy, false);
-		});
-
-		sidebarBody().find("#oldFormat").unbind("click").click(function () {
-			var scurvy = createOldCSV();
-			downloadCSV(scurvy, true);
-		});
-
-		sidebarBody().find("#sliderYesCheckbox").unbind("click").click(function () {
-			if (sidebarBody().find('#sliderYesCheckbox').is(":checked")) {
-				sidebarBody().find('#sliderFinalYes').prop('disabled', false);
-				sidebarBody().find("#sliderFinalYes").attr("style","background-color:#7D1935;color:white;");
-			}
-			else {
-				sidebarBody().find('#sliderFinalYes').prop('disabled', true);
-				sidebarBody().find("#sliderFinalYes").attr("style","background-color:#7D1935;color:white;opacity:0.5");
-			}
-		});
-
-		sidebarBody().find("#sliderFinalYes").unbind("click").click(function () {
-			localStorage.clear();
-			location.reload();
-		});
-
-		sidebarBody().find("#sliderFinalNo").unbind("click").click(function () {
-			sidebarBody().find('#sliderFinalCountdown').remove();
-			sidebarBody().find('#subgoalList').show();
-			sidebarBody().find('#containeryo').show();
-			sidebarBody().find('#personaInfo').show();
-		});
-
-	});
-
-}
-
-/* Function seeMoreOnclick
- *
- * Adds the functionality to the "See more..." link of the popup.html template.
- *
- * Takes no arguments.
- *
- * Pre: The prewalkthrough template has been appended to the sidebar (so the elements that are referenced exist).
- * Post: The "see more..." link is functional.
- */
-function seeMoreOnclick () {
-	/*sidebarBody().find('body').off('click', '.moreOrLess').on('click', '.moreOrLess', function() {
-		var isOpen = $(this).attr("stateVar");
-
-		//The "see more" is expanded and needs to be closed
-		if (isOpen == 1) {
-			$(this).attr("stateVar", 0);
-			isOpen = $(this).attr("stateVar");
-			sidebarBody().find(".complete").hide();
-			sidebarBody().find(".preview").show();
-			sidebarBody().find(".moreOrLess").html("See more");
-		}
-
-		//The "see more" is closed and needs to be expanded
-		else {
-			$(this).attr("stateVar", 1);
-			isOpen = $(this).attr("stateVar");
-			sidebarBody().find(".preview").hide();
-			sidebarBody().find(".moreOrLess").html("See less");
-			sidebarBody().find(".complete").show();
-		}
-	});*/
-}
