@@ -82,27 +82,7 @@ function loadPersona(personaName){
 	}
 	else if(personaName === "Custom"){
 		appendTemplateToElement(sidebarBody().find("#personaInfo"), "./templates/custom/custom.html");
-//	var patrickSRC=chrome.extension.getURL("images/Patricmulti.png");
-//	var patrickIMG= "<img id='PatrickPhoto' src='" + patrickSRC + "' alt='Patrick Jones' class='sidebarImg' width='100' height='100'/>";
-//	sidebarBody().find("#picGoesHere").append(patrickIMG);
-
-		/*sidebarBody().find(".patMTrigger").unbind( "click" ).click(function (){
-			addToolTip("patMToolTip", "Pat");
-		});
-		sidebarBody().find(".patIPSTrigger").unbind( "click" ).click(function(){
-			addToolTip("patIPSToolTip", "Pat");
-		});
-		sidebarBody().find(".patSETrigger").unbind( "click" ).click(function(){
-			addToolTip("patSEToolTip", "Pat");
-		});
-		sidebarBody().find(".patRTrigger").unbind( "click" ).click(function(){
-			addToolTip("patRToolTip", "Pat");
-		});
-		sidebarBody().find(".patTTrigger").unbind( "click" ).click(function(){
-			addToolTip("patTToolTip", "Pat");
-		});*/
-	}
-	else{
 
 	}
+
 }
