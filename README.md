@@ -55,7 +55,9 @@ located and extract the zipped files. (Right click on the zipped
     
 10) The new extension called ”GenderMag Recorder's Assistant” should be in the 
 top left corner of the extensions.
-For Mac Download Tutorial Go Here: https://drive.google.com/file/d/1cyWQWL5xZhyrK0O3QH_OXx1hG_tJMFWK/view?usp=sharing
+
+Tutorial for download on Mac: https://drive.google.com/file/d/1cyWQWL5xZhyrK0O3QH_OXx1hG_tJMFWK/view?usp=sharing
+
 ## Method 2: Install from Chrome Web Store
 <a href="https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en" target="_blank" title=" GenderMag Recorder's Assistant" >
     <img src="images/ico-chrome.png"  >
