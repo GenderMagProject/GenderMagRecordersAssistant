@@ -93,7 +93,7 @@ function overlayScreen(onlyDraw){
 		toolTip.style.borderRadius="5px";
 		toolTip.style.overflow="auto";
 		setStatusToTrue("drewToolTip");
-		
+
 		document.body.appendChild(toolTip);
 		$('#myToolTip').draggable();
 
@@ -118,16 +118,16 @@ function overlayScreen(onlyDraw){
 		//$("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
        //     justExit("popup");
 		//});
-	
+
         $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
             justExit("popup");
 		});
-		
+
 
 		$("#imageBack").unbind( "click" ).unbind( "click" ).click(function(){
 		    toolTip.remove();
-            document.getElementById('genderMagCanvasContainer').style.display="none";
-			openSlider();
+        document.getElementById('genderMagCanvasContainer').style.display="none";
+			  openSlider();
 		});
 
 		var actionSpan = localStorage.getItem("currActionName");
@@ -156,7 +156,7 @@ function overlayScreen(onlyDraw){
 		var canContainer = document.getElementById("genderMagCanvasContainer");
 		var sourceY = canContainer.offsetTop;
 		var sourceX = canContainer.offsetLeft;
-		
+
 		var sx = localStorage.getItem("sx");
 		var sy = localStorage.getItem("sy");
 
@@ -224,7 +224,7 @@ function overlayScreen(onlyDraw){
                 else{
                     var sx = localStorage.getItem("sx");
                     var sy = localStorage.getItem("sy");
-                    context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, 
+                    context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0,
 				      ratioWidth*9/10, ratioHeight*9/10);
                 }
 		    });
@@ -234,7 +234,7 @@ function overlayScreen(onlyDraw){
 		    });
 		});
 	}
-	
+
 	else {
 		//close slider to prepare for screenshot box cursor
 		closeSlider();
@@ -318,7 +318,7 @@ function overlayScreen(onlyDraw){
                 }
 				setStatusToTrue("highlightedAction");
 				for (var element in elements) {
-					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer" 
+					if (element.id === "genderMagCanvas" || element.id === "genderMagCanvasContainer"
 					    || element.id === "highlightHover" || element.id === "highlightBorder2") {
 						element.style.display = "default";
 					}
@@ -421,7 +421,7 @@ function renderImage(imgURL){
 	toolTip.style.borderRadius="5px";
 	toolTip.style.overflow="auto";
     setStatusToTrue("drewToolTip");
-	
+
 	document.body.appendChild(toolTip);
 	//make pop up draggable
 	$('#myToolTip').draggable();
@@ -446,13 +446,13 @@ function renderImage(imgURL){
 
 	$("#imageBack").unbind( "click" ).click(function(){
 	    toolTip.remove();
-        document.getElementById('genderMagCanvasContainer').style.display="none";
-		openSlider();
+      document.getElementById('genderMagCanvasContainer').style.display="none";
+		  openSlider();
 	});
 
 	//print current action name on pop up
-	var actionSpan = localStorage.getItem("currActionName");
-	$(".actionNameSpan").html("Action: " + actionSpan);
+  var actionSpan = localStorage.getItem("currActionName");
+  $(".actionNameSpan").html("Action: " + actionSpan);
 	var canvas = document.getElementById("imageCanvas");
 	canvas.width = "465";
 	canvas.height=	"350";
@@ -540,11 +540,11 @@ function renderImage(imgURL){
         undo: function(canvas, context) {
 	        return this.restoreState(canvas, context, this.undo_list, this.redo_list);
 	        },
-				
+
         redo: function(canvas, context) {
 	        return this.restoreState(canvas, context, this.redo_list, this.undo_list);
 	        },
-    
+
         restoreState: function(canvas, context,  pop, push) {
 	        if(pop.length) {
 	            this.saveState(canvas, push, true);
@@ -559,7 +559,7 @@ function renderImage(imgURL){
 	        }
 	    }
 	};
-	
+
 	if (imgURL) {
 	    myImg.src = imgURL;
 	} else {
@@ -570,7 +570,7 @@ function renderImage(imgURL){
 	    myImg.width = 1920;
 	    myImg.height = 742;
 	}
-		
+
 	var imageRatio = myImg.width/myImg.height;
 	//set size for image preview
     var previewHeight = 350;
@@ -581,7 +581,7 @@ function renderImage(imgURL){
     var ratioWidth = imageRatio*ratioHeight;
     var sourceY = elm.offsetTop;
     var sourceX = elm.offsetLeft;
-		
+
     if(elm.offsetLeft > 90) {
         sourceX = elm.offsetLeft - 90;
     }
@@ -605,7 +605,7 @@ function renderImage(imgURL){
 		$("#imageAnnotation").width(ratioWidth+10);
 		$("#imageAnnotation").height(ratioHeight+40);
 		$("#imageAnnotation").draggable();
-	
+
 		$("#annotationCanvas").attr("width", ratioWidth);
 		$("#annotationCanvas").attr("height", ratioHeight);
 		$("#annotationCanvas").width(ratioWidth);
@@ -614,52 +614,32 @@ function renderImage(imgURL){
 		$("#imageAnnotation").css("top", myToolTip.style.top);
 		$("#imageAnnotation").css("left", myToolTip.style.left);
         $("#imageAnnotation").css("zIndex", 99999);
-			
+
 		drawOnCanvas("#annotationCanvas");
 		var annotationCanvas = document.getElementById("annotationCanvas");
 		ctx = annotationCanvas.getContext("2d");
 		ctx.drawImage(myImg,0,0, ratioWidth, ratioHeight);
 		console.log("image drawn");
+
 		$('#undoDraw').unbind( "click" ).click(function() {
 			var drawnOnURL = history.undo(annotationCanvas, ctx);
 			localStorage.setItem("currImgURL", drawnOnURL);
 		});
-  
+
 		$('#redoDraw').unbind( "click" ).click(function() {
 			var drawnOnURL = history.redo(annotationCanvas, ctx);
 			localStorage.setItem("currImgURL", drawnOnURL);
 		});
-			
+
 		$("#backLargePreview").unbind( "click" ).click(function(){
 		    $("#imageAnnotation").remove();
-		    var drawnOnURL = history.saveState(annotationCanvas);
-		    localStorage.setItem("currImgURL", drawnOnURL);
-				
-		    var smallerImg = document.getElementById("previewImage");
-		    var oldWidth = myImg.width;
-		    var oldHeight = myImg.height;
-		    smallerImg.src = drawnOnURL
-            context.clearRect(0,0,465, 350);
-		    if(oldHeight > smallerImg.height){
-		        var sx = sourceX *smallerImg.width/oldWidth;
-		        var sy = sourceY *smallerImg.height/oldHeight;
-		        localStorage.setItem("sx", sx);
-		        localStorage.setItem("sy", sy);
-		        context.drawImage(myImg, sx, sy, myImg.width, myImg.height,0,0, 
-					  ratioWidth*9/10, ratioHeight*9/10);
-		    }
-		    else{
-		        var sx = localStorage.getItem("sx");
-		        var sy = localStorage.getItem("sy");
-		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, 
-					  ratioWidth*9/10, ratioHeight*9/10);
-		    }
+
 		});
 		$("#closeLargePreview").unbind( "click" ).click(function(){
 		    $("#imageAnnotation").remove();
 		    var drawnOnURL = history.saveState(annotationCanvas);
 		    localStorage.setItem("currImgURL", drawnOnURL);
-				
+
 		    var smallerImg = document.getElementById("previewImage");
 		    var oldWidth = myImg.width;
 		    var oldHeight = myImg.height;
@@ -670,13 +650,13 @@ function renderImage(imgURL){
 		        var sy = sourceY *smallerImg.height/oldHeight;
 		        localStorage.setItem("sx", sx);
 		        localStorage.setItem("sy", sy);
-		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, 
+		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0,
 					  ratioWidth*9/10, ratioHeight*9/10);
 		    }
 		    else{
 		        var sx = localStorage.getItem("sx");
 		        var sy = localStorage.getItem("sy");
-		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0, 
+		        context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0,
 					  ratioWidth*9/10, ratioHeight*9/10);
 		    }
 		});
@@ -693,5 +673,3 @@ function renderImage(imgURL){
         };
     }
 }
-
-
