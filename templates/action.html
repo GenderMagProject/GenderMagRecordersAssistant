@@ -13,7 +13,7 @@
 				This is a preview of your image.
 				You may also retake your image if you aren't happy with it. Once you have an image you like, select the continue button.
     		</p>
-           
+
 
          </div>
 
@@ -23,13 +23,17 @@
             <div id="preActionQuestions">
 
                 <div style="height:25px; background-color:#4A96AD;text-align:center;">
-					<span class="actionNameSpan" style="color:white;"> </span>
+					
                     <button id="preActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
 
                     <button id="preActionClose" style="float:right; width:130px;font-size: smaller; height:25px;background-color:#7D1935;color:white;">Continue </button>
-                </div>
-                <br>
-
+									</div>
+									
+									<div>		
+										<span class="actionNameSpan" style="color:black;"></span> 
+										<br>	
+									</div>
+									
                 <span id="preActQ" class="cwQuestion">Will Abi know what to do at this step?<br></span>
                 <div id="yesnomaybe" style="width:100%">
                     <span><input id="actionYes" type="checkbox" name="yes" value="yes">Yes</input></span>
@@ -58,11 +62,15 @@
         <div id="doActionPromptTemplate" style="display:none;">
 
             <div style="height:25px; background-color:#4A96AD;text-align:center;">
-				<span class="actionNameSpan" style="color:white;"> </span>
+				
                 <button id="doActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
                 <input class="continueTrigger" type="submit" value="Continue" style="float:right; width:95px;font-size: smaller; height:25px;background-color:#7D1935;color:white;">
             </div>
             <p style="padding:5px;">
+							<div>
+							<span class="actionNameSpan" style="color:black;"></span>
+							<br>
+							</div>
 				<div>Please perform the action specified previously and then
             click the 'Continue' button to proceed </div>
 			</p>
@@ -74,12 +82,14 @@
         <div id="postActionTemplate" style="display:none;">
 
             <div style="height:25px; background-color:#4A96AD;text-align:center;">
-				<span class="actionNameSpan" style="color:white;"> </span>
+				
                 <button id="postActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
                 <input id="submitPostAction" type="submit" value="Continue" style="float:right; width:130px; font-size: smaller; height:25px;background-color:#7D1935;color:white;">
             </div>
-            <br>
-
+						<div>
+						<span class="actionNameSpan" style="color:black;"></span>
+						<br>
+						</div>
             <span id="postActQ" class="cwQuestion">If Abi did the right thing (the one you just demonstrated), will they know that they did the right thing and is making progress toward her goal?<br></span>
             <div id="yesnomaybe" style="width:100%">
                 <span><input id="YNMyes" type="checkbox" name="yes" value="yes">Yes</input></span>
@@ -93,7 +103,7 @@
             <span id="postFacets" class="cwQuestion">Which of the persona's facets did you use to answer the above question?</span>
             <br>
             <input id="Q2motiv" type="checkbox" value="Motivation">						<span class="MTrigger" style="color:#0645AD; text-decoration: underline;"> Motivation</span><br>
-      
+
             <input id="Q2self" type="checkbox" value="Computer Self-Efficacies">		<span class="SETrigger" style="color:#0645AD; text-decoration: underline;">Computer Self-Efficacy</span><br>
             <input id="Q2risk" type="checkbox" value="Attitude Towards Risk">			<span class="RTrigger" style="color:#0645AD; text-decoration: underline;">Attitude Towards Risk</span><br>
             <input id="Q2info" type="checkbox" value="Information Processing Style">  <span class="IPSTrigger" style="color:#0645AD; text-decoration: underline;">Information Processing Style</span><br>
@@ -116,12 +126,15 @@
         <button id="retakeImage" style="zindex:10002; float:right; width:150px; height:25px;background-color:#7D1935;color:white;"> Retake Screenshot </button>
 </div>
         <div id="actionLoopTemplate" style="display:none;">
-            
+
             <div style="height:25px; background-color:#4A96AD;text-align:center;">
-				<span class="actionNameSpan" style="color:white;"> </span>
+				
                 <button id="loopActionBack" style="float:left; width:30px; height:25px;background-color:#7D1935;color:white;">&#8592 </button>
             </div>
-
+						<div>
+						<span class="actionNameSpan" style="color:black;"></span>
+						<br>
+						</div>
             <p> Action Completed. </p>
 
             <p> If there is another action for this subgoal,
@@ -136,16 +149,16 @@
                 name of the next subgoal.</p>
             <input id="subgoalInput" type="text" placeholder="ex: Search for 'Sue' in the DB" size="40">
 			<input type="submit" id="newSubgoal" value="Create new subgoal"style="background-color:#7D1935;color:white;">
-			
+
 			<p>If you are done with this session, please exit the tool</p>
             <input id="saveAndExit" type="submit" value="Download and end my GenderMag session"style="background-color:#7D1935;color:white;"></input><br>
-            
+
         </div>
-		
+
 		<div id ="theFinalCountDown" style="display:none;">
 			<div style="height:25px; background-color:#4A96AD;text-align:center;">
             </div>
-			<p>WARNING! Selecting 'Quit GenderMag' below will clear all of your current session's data. Please ensure that you have downloaded the zip file which contains all your screen captures and a file with all of your answers if you wish to have a copy of your current session.</p>  
+			<p>WARNING! Selecting 'Quit GenderMag' below will clear all of your current session's data. Please ensure that you have downloaded the zip file which contains all your screen captures and a file with all of your answers if you wish to have a copy of your current session.</p>
 			<label>You can <button id="finalDownload" style="background-color:#7D1935;color:white;"> Download zip file</button> or
                 <button id="oldFormat" style="background-color:#7D1935;color:white;">
                     download the old result format
@@ -155,7 +168,7 @@
 			<button id="finalYes" style="background-color:#7D1935;color:white;opacity:0.5" disabled> Quit GenderMag </button>
 			<button id="finalNo" style="background-color:#7D1935;color:white;"> I'm not done yet. Take me back </button>
 		</div>
-        
+
 
 	</body>
  </html>
