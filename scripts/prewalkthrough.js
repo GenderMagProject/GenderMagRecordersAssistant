@@ -206,8 +206,6 @@ function handlePreWalkthroughInfo () {
 			else {
 				saveVarToLocal("personaPronoun", personaPronoun);
 				saveVarToLocal("personaPossessive", personaPossessive);
-				sidebarBody().find("#pronounInput").val('');
-				sidebarBody().find("#possessiveInput").val('');
 
 				var personaName = getVarFromLocal("personaName");
 				setStatusToTrue("gotPronoun");
