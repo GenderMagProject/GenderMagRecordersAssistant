@@ -1,8 +1,8 @@
 /*
  * Filename : output.js
- * Functions : now, today, sanitizeString, getSubgoalInfo, getActionInfo, createCSV, 
+ * Functions : now, today, sanitizeString, getSubgoalInfo, getActionInfo, createCSV,
  * downloadCSV, downloadURI, create_zip, parseSubgoalArray, createOldCSV
- * Description : 
+ * Description :
 */
 
 
@@ -63,7 +63,7 @@ function getSubgoalInfo(){
         var currSubgoal = subgoalList[j]; //Current Input
         subgoalEntry.push("\n");
         subgoalEntry.push("\n"); // new row
-        subgoalEntry.push("Subgoal " + (j+1));
+        subgoalEntry.push("Subgoal " + (parseInt(j)+1));
         subgoalEntry.push(sanitizeString(currSubgoal.name));
         subgoalEntry.push("\n"); // new row
         subgoalEntry.push("Will the persona have formed this subgoal as a step to their overall goal?");
@@ -192,10 +192,10 @@ function getActionInfo(actionList, j){
         actionEntry.push(actionList[i].postAction.facetValues["tinker"]);
         actionEntry.push("\n");
         actionEntry.push("Action Image Name:");
-        actionEntry.push("S"+(1 + parseInt(j))+"A"+(1 + parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
+        actionEntry.push("S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
         actionEntry.push("\n");
 
-        downloadURI(actionList[i].imgURL, "S"+(1 + parseInt(j))+"A"+(1 + parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
+        downloadURI(actionList[i].imgURL, "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
     }
     return actionEntry.join(",");
 }
@@ -230,7 +230,7 @@ function createCSV() {
 
 	var fullContent = getSubgoalInfo();
 	csvContent += fullContent;
-	
+
 	return csvContent;
 }
 
@@ -332,7 +332,7 @@ function create_zip(csvContent, old) {
 
 /*
  * Function: parseSubgoalArray
- * 
+ *
  */
 function parseSubgoalArray(){
     var userInput= getSubgoalArrayFromLocal();
@@ -392,7 +392,7 @@ function parseSubgoalArray(){
                 newName = newName.slice(0, newName.length-1)
             }
 
-            downloadURI(currI.actions[i].imgURL, "S"+(1 + parseInt(j))+"A"+(1 + parseInt(i))+"_"+newName);
+            downloadURI(currI.actions[i].imgURL, "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
         }
 
         if (entry.length != 0) {
