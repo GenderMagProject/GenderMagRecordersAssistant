@@ -15,7 +15,7 @@ If you want to help make software gender-inclusive, one way is to contribute to
 the GenderMag Recorder’s Assistant. 
 
 We welcome everyone with any background to contribute to making the world of 
-software more gender inclusive..
+software more gender inclusive.
 <a name="install">
     
 ## Resources and Background Information
