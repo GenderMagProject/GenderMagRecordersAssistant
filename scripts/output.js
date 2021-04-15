@@ -209,9 +209,6 @@ function getActionInfo(actionList, j){
 function createCSV() {
 	var csvContent = "";
 	var header1 = "GenderMag Recorder's Assistant Results"
-	csvContent += header1 + "\n";
-	var header2 = ["Date", "Time", "Team", "Persona", "Scenario"];
-	csvContent += header2.join(",") + "\n";
 	var teamName = localStorage.getItem("teamName");
 	var personaName = localStorage.getItem("personaName");
 	var scenarioName = localStorage.getItem("scenarioName");
@@ -221,13 +218,17 @@ function createCSV() {
 	var yyyy = today.getFullYear();
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	var todayString = months[mm] + " " + dd + " " + yyyy;
-	var DTTPS = [todayString, now(), teamName, personaName, scenarioName];
+	var DTTPS = [teamName, personaName, scenarioName];
+	csvContent += header1 + "\n";
+    var header2 = ["Date:", todayString, "Time:", now()];
+    csvContent += header2 + "\n";
+    var header3 = ["Team", "Persona", "Scenario"];
+    csvContent += header3.join(",") + "\n";
 	console.log(todayString);
 	globName += DTTPS[0];
 	globName += DTTPS[2];
 	globName += "GenderMagSession";
 	csvContent += DTTPS.join(",") + "\n";
-
 	var fullContent = getSubgoalInfo();
 	csvContent += fullContent;
 
