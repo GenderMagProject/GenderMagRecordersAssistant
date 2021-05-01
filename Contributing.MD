@@ -24,8 +24,10 @@
 5.	Make any new changes or fixes on your branch and then push the branch to your remote repo.
 6.	Then make a pull request using [this guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Recorder's%20Assistant%20Testing_Pull%20Request%20Guide%20.pdf).
      * If you have questions on how to push, pull, and commit check out the [guide](https://github.com/git-guides/) GitHub has posted.
-7. Before you push your changes, check out our [style guidelines](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/style_guidelines.md). This will inform you on how to write code and comments that are consistent with the rest of the code in the repo.
-8. You will hear back from us soon!
+
+Before you push your changes, check out our [style guidelines](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/style_guidelines.md). This will inform you on how to write code and comments that are consistent with the rest of the code in the repo.
+
+You will hear back from us soon!
 
 
 ## IMPORTANT:
