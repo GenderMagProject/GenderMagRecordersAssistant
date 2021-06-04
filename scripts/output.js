@@ -306,14 +306,11 @@ function create_zip(csvContent, old) {
  */
 
 /*		each element of the action array
-
 		id: preAction.actionId,
         name: preAction.name,
         imgURL: currImgURL,
         preAction: preAction,
         postAction: postAction
-
-
 		pre
 		actionId: targetSubgoal.actions.length + 1, //Check this when done
 		name: name,
@@ -321,7 +318,6 @@ function create_zip(csvContent, old) {
 		ynm: yesnomaybe,
 		why: whyText,
 		facetValues: facets
-
 		post
 		actionId: currPreAction.actionId,  //Check this when done
 		name: name,
@@ -329,7 +325,6 @@ function create_zip(csvContent, old) {
 		ynm: yesnomaybe,
 		why: whyText,
 		facetValues: facets
-
 /*
  * Function: parseSubgoalArray
  *
