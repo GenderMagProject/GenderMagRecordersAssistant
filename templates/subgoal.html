@@ -9,16 +9,18 @@
 	<span id="goalQuestion" class="cwQuestion">Will Abi have formed this subgoal as a step to their overall goal?<br></span>
 	<div id="yesnomaybe" style="width:100%">
 		<span>
-		  <input type="checkbox" id="yes" value="yes">Yes</input>
+		  <input type="checkbox" id="yes" value="yes" onclick="DisplayTextboxYes()">Yes
+			<input type="text" id="BwhyYes" style="display:none" placeholder="Why?"><br>
 		</span>
 		<span>
-		  <input type="checkbox" id="no" value="no">No</input>
+		  <input type="checkbox" id="no" value="no" onclick="DisplayTextboxNo()">No
+			<input type="text" id="BwhyNo" style="display:none" placeholder="Why?"><br>
 		</span>
 		<span>
-		  <input type="checkbox" id="maybe" value="maybe">Maybe</input>
+		  <input type="checkbox" id="maybe" value="maybe" onclick="DisplayTextboxMaybe()">Maybe
+			<input type="text" id="BwhyMaybe" style="display:none" placeholder="Why?">
 		</span>
 	</div>
-	<textarea id="A0Q0whyYes" rows="4" cols="38" class="responseBox" placeholder="Why, why not or why maybe?" style="width: 90%; height: 100%;"></textarea>
 	<div id="A0Q0Response" class="responseDiv" style="margin:5px;"> </div>
 	<!--textarea id="A0Q0whyNo" class="responseBox" placeholder="Why not?"></textarea>
 	<textarea id="A0Q0whyMaybe" class="responseBox" placeholder="Why maybe?"></textarea--><br>
@@ -39,3 +41,33 @@
 	<button id="editSubgoal">Edit 'why' text</button>
 	<button id="submitWhy" hidden>Submit changes</button>
 </div>
+
+<script type = "text/javascript">
+function DisplayTextboxYes() {
+var checkBox = document.getElementById("yes");
+var text = document.getElementById("BwhyYes");
+if (checkBox.checked == true){
+text.style.display = "block";
+} else {
+text.style.display = "none";
+}
+}
+function DisplayTextboxNo() {
+var checkBox = document.getElementById("no");
+var text = document.getElementById("BwhyNo");
+if (checkBox.checked == true){
+text.style.display = "block";
+} else {
+text.style.display = "none";
+}
+}
+function DisplayTextboxMaybe() {
+var checkBox = document.getElementById("maybe");
+var text = document.getElementById("BwhyMaybe");
+if (checkBox.checked == true){
+text.style.display = "block";
+} else {
+text.style.display = "none";
+}
+}
+</script>

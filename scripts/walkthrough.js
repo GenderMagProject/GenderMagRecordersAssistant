@@ -76,6 +76,7 @@ function editSubgoal(subgoalNum){
 			//Display subgoal questions again
 			displayMainSubgoalInfo(localStorage.getItem("currSubgoalName"));
 	});
+
 }
 
 // I have doubts about how useful this function is. ATM it exists just to avoid duplicate code
@@ -99,8 +100,7 @@ function refreshSubgoalInfo(subgoalId){
 // Assumes subgoalArray already exists
 function storeSubgoalInfo(subgoalId){
 	var subgoal = refreshSubgoalInfo(subgoalId);
-
-	var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
+    var yesNoMaybe = {"yes": sidebarBody().find("#yes").is(":checked"),
 		"no": sidebarBody().find("#no").is(":checked"),
 		"maybe": sidebarBody().find("#maybe").is(":checked")};
     var whyText = sidebarBody().find('#A0Q0whyYes').val();

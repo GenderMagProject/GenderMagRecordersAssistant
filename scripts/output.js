@@ -16,6 +16,19 @@ var imgList = [];
 var globName = "";
 
 /*
+ * Function: insertImage()
+ * Inserts an image into the excel file
+ */
+function insertImage(){
+
+
+
+
+}
+
+
+
+/*
  * Function: now
  * Gets the date and time in the format hr:min
  */
@@ -68,30 +81,60 @@ function getSubgoalInfo(){
         subgoalEntry.push("\n"); // new row
         subgoalEntry.push("Will the persona have formed this subgoal as a step to their overall goal?");
         subgoalEntry.push("\n"); // new row
-        subgoalEntry.push("Yes");
-        subgoalEntry.push("No");
-        subgoalEntry.push("Maybe");
+      // subgoalEntry.push(currSubgoal.ynm["yes"].localeCompare("TRUE"));
+         if(currSubgoal.ynm["yes"] === true){
+            subgoalEntry.push("Yes");
+            subgoalEntry.push(currSubgoal.ynm["yes"]);
+            subgoalEntry.push("\n"); // new row
+        }
+        if(currSubgoal.ynm["no"] === true){
+            subgoalEntry.push("No");
+            subgoalEntry.push(currSubgoal.ynm["no"]);
+            subgoalEntry.push("\n"); // new row 
+        }
+
+        if(currSubgoal.ynm["maybe"] === true){
+            subgoalEntry.push("Maybe");
+            subgoalEntry.push(currSubgoal.ynm["maybe"]);
+            subgoalEntry.push("\n"); // new row
+        }
+
         subgoalEntry.push("Why?");
-        subgoalEntry.push("\n"); // new row
-        subgoalEntry.push(currSubgoal.ynm["yes"]);
-        subgoalEntry.push(currSubgoal.ynm["no"]);
-        subgoalEntry.push(currSubgoal.ynm["maybe"]);
         subgoalEntry.push(sanitizeString(currSubgoal.why));
+        subgoalEntry.push("\n"); // new row
         subgoalEntry.push("\n"); // new row
         subgoalEntry.push("Subgoal Facets:");
         subgoalEntry.push("\n"); // new row
-        subgoalEntry.push("Motivation");
-        subgoalEntry.push("Information Processing");
-        subgoalEntry.push("Computer Self Efficacy");
-        subgoalEntry.push("Attitude Toward Risk");
-        subgoalEntry.push("Tinkering"); //FIX
-        subgoalEntry.push("\n"); // new row
-        subgoalEntry.push(currSubgoal.facetValues["motiv"]);
-        subgoalEntry.push(currSubgoal.facetValues["info"]);
-        subgoalEntry.push(currSubgoal.facetValues["selfE"]);
-        subgoalEntry.push(currSubgoal.facetValues["risk"]);
-        subgoalEntry.push(currSubgoal.facetValues["tinker"]);
-        subgoalEntry.push("\n"); // new row
+        if(currSubgoal.facetValues["motiv"] === true){
+            subgoalEntry.push("Motivation");
+            subgoalEntry.push(currSubgoal.facetValues["motiv"]);
+            subgoalEntry.push("\n");
+        }
+
+        if(currSubgoal.facetValues["info"] === true){
+            subgoalEntry.push("Information Processing");
+            subgoalEntry.push(currSubgoal.facetValues["info"]);
+            subgoalEntry.push("\n");
+        }
+
+        if(currSubgoal.facetValues["selfE"] === true){
+            subgoalEntry.push("Computer Self Efficacy");
+            subgoalEntry.push(currSubgoal.facetValues["selfE"]);
+            subgoalEntry.push("\n");
+        }
+
+        if(currSubgoal.facetValues["risk"] === true){
+            subgoalEntry.push("Attitude Toward Risk");
+            subgoalEntry.push(currSubgoal.facetValues["risk"]);
+            subgoalEntry.push("\n");
+        }
+
+        if(currSubgoal.facetValues["tinker"] === true){
+            subgoalEntry.push("Tinkering"); //FIX
+            subgoalEntry.push(currSubgoal.facetValues["tinker"]);
+            subgoalEntry.push("\n"); // new row
+        }
+
 
         var subgoalString = subgoalEntry.join(",");
         // This for loop is really weird --> TODO cleanup
@@ -136,29 +179,59 @@ function getActionInfo(actionList, j){
         actionEntry.push("\n");
         actionEntry.push("Will the persona know what to do at this step?");
         actionEntry.push("\n"); //new row
-        actionEntry.push("Yes");
-        actionEntry.push("No");
-        actionEntry.push("Maybe");
+        if(actionList[i].preAction.ynm["yes"] === true){
+            actionEntry.push("Yes");
+            actionEntry.push(actionList[i].preAction.ynm["yes"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].preAction.ynm["no"] === true){
+            actionEntry.push("No");
+            actionEntry.push(actionList[i].preAction.ynm["no"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].preAction.ynm["maybe"] === true){
+            actionEntry.push("Maybe");
+            actionEntry.push(actionList[i].preAction.ynm["maybe"]);
+            actionEntry.push("\n"); //new row
+        }
+
         actionEntry.push("Why?");
-        actionEntry.push("\n"); //new row
-        actionEntry.push(actionList[i].preAction.ynm["yes"]);
-        actionEntry.push(actionList[i].preAction.ynm["no"]);
-        actionEntry.push(actionList[i].preAction.ynm["maybe"]);
         actionEntry.push(sanitizeString(actionList[i].preAction.why));
         actionEntry.push("\n"); //new row
         actionEntry.push("PreAction Facets:");
         actionEntry.push("\n"); //new row
-        actionEntry.push("Motivation");
-        actionEntry.push("Information Processing");
-        actionEntry.push("Computer Self Efficacy");
-        actionEntry.push("Attitude Toward Risk");
-        actionEntry.push("Tinkering"); //FIX
-        actionEntry.push("\n"); //new row
-        actionEntry.push(actionList[i].preAction.facetValues["motiv"]);
-        actionEntry.push(actionList[i].preAction.facetValues["info"]);
-        actionEntry.push(actionList[i].preAction.facetValues["self"]);
-        actionEntry.push(actionList[i].preAction.facetValues["risk"]);
-        actionEntry.push(actionList[i].preAction.facetValues["tinker"]);
+        if(actionList[i].preAction.facetValues["motiv"] === true){
+            actionEntry.push("Motivation");
+            actionEntry.push(actionList[i].preAction.facetValues["motiv"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].preAction.facetValues["info"] === true){
+            actionEntry.push("Information Processing");
+            actionEntry.push(actionList[i].preAction.facetValues["info"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].preAction.facetValues["self"] === true){
+            actionEntry.push("Computer Self Efficacy");
+            actionEntry.push(actionList[i].preAction.facetValues["self"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].preAction.facetValues["risk"] === true){
+            actionEntry.push("Attitude Toward Risk");
+            actionEntry.push(actionList[i].preAction.facetValues["risk"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].preAction.facetValues["tinker"] === true){
+            actionEntry.push("Tinkering"); //FIX
+            actionEntry.push(actionList[i].preAction.facetValues["tinker"]);
+            actionEntry.push("\n"); //new row
+        }
+
         actionEntry.push("\n"); //new row
         actionEntry.push("\n"); //new row
         //post action question
@@ -166,36 +239,68 @@ function getActionInfo(actionList, j){
             " they know that they did the right thing and is making " +
             "progress toward their goal?"));
         actionEntry.push("\n"); //new row
-        actionEntry.push("Yes");
-        actionEntry.push("No");
-        actionEntry.push("Maybe");
+        if(actionList[i].postAction.ynm["yes"] === true){
+            actionEntry.push("Yes");
+            actionEntry.push();
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].postAction.ynm["no"] === true){
+            actionEntry.push("No");
+            actionEntry.push(actionList[i].postAction.ynm["no"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].postAction.ynm["maybe"] === true){
+            actionEntry.push("Maybe");
+            actionEntry.push(actionList[i].postAction.ynm["maybe"]);
+            actionEntry.push("\n"); //new row
+        }
+
         actionEntry.push("Why?");
-        actionEntry.push("\n"); //new row
-        actionEntry.push(actionList[i].postAction.ynm["yes"]);
-        actionEntry.push(actionList[i].postAction.ynm["no"]);
-        actionEntry.push(actionList[i].postAction.ynm["maybe"]);
         actionEntry.push(sanitizeString(actionList[i].postAction.why));
         actionEntry.push("\n"); //new
         actionEntry.push("\n"); //new row
         actionEntry.push("Post action facets:");
         actionEntry.push("\n"); //new row
-        actionEntry.push("Motivation");
-        actionEntry.push("Information Processing");
-        actionEntry.push("Computer Self Efficacy");
-        actionEntry.push("Attitude Toward Risk");
-        actionEntry.push("Tinkering"); //FIX
-        actionEntry.push("\n"); //new row
-        actionEntry.push(actionList[i].postAction.facetValues["motiv"]);
-        actionEntry.push(actionList[i].postAction.facetValues["info"]);
-        actionEntry.push(actionList[i].postAction.facetValues["self"]);
-        actionEntry.push(actionList[i].postAction.facetValues["risk"]);
-        actionEntry.push(actionList[i].postAction.facetValues["tinker"]);
+        if(actionList[i].postAction.facetValues["motiv"] === true){
+            actionEntry.push("Motivation");
+            actionEntry.push(actionList[i].postAction.facetValues["motiv"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].postAction.facetValues["info"] === true){
+            actionEntry.push("Information Processing");
+            actionEntry.push(actionList[i].postAction.facetValues["info"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].postAction.facetValues["self"] === true){
+            actionEntry.push("Computer Self Efficacy");
+            actionEntry.push(actionList[i].postAction.facetValues["self"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].postAction.facetValues["risk"] === true){
+            actionEntry.push("Attitude Toward Risk");
+            actionEntry.push(actionList[i].postAction.facetValues["risk"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        if(actionList[i].postAction.facetValues["tinker"] === true){
+            actionEntry.push("Tinkering"); //FIX
+            actionEntry.push(actionList[i].postAction.facetValues["tinker"]);
+            actionEntry.push("\n"); //new row
+        }
+
+        actionEntry.push("\n");
         actionEntry.push("\n");
         actionEntry.push("Action Image Name:");
         actionEntry.push("S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
         actionEntry.push("\n");
 
         downloadURI(actionList[i].imgURL, "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
+       // var tempName = "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1);
     }
     return actionEntry.join(",");
 }
@@ -209,9 +314,6 @@ function getActionInfo(actionList, j){
 function createCSV() {
 	var csvContent = "";
 	var header1 = "GenderMag Recorder's Assistant Results"
-	csvContent += header1 + "\n";
-	var header2 = ["Date", "Time", "Team", "Persona", "Scenario"];
-	csvContent += header2.join(",") + "\n";
 	var teamName = localStorage.getItem("teamName");
 	var personaName = localStorage.getItem("personaName");
 	var scenarioName = localStorage.getItem("scenarioName");
@@ -221,13 +323,17 @@ function createCSV() {
 	var yyyy = today.getFullYear();
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	var todayString = months[mm] + " " + dd + " " + yyyy;
-	var DTTPS = [todayString, now(), teamName, personaName, scenarioName];
+	var DTTPS = [teamName, personaName, scenarioName];
+	csvContent += header1 + "\n";
+    var header2 = ["Date:", todayString, "Time:", now()];
+    csvContent += header2 + "\n";
+    var header3 = ["Team", "Persona", "Scenario"];
+    csvContent += header3.join(",") + "\n";
 	console.log(todayString);
 	globName += DTTPS[0];
 	globName += DTTPS[2];
 	globName += "GenderMagSession";
 	csvContent += DTTPS.join(",") + "\n";
-
 	var fullContent = getSubgoalInfo();
 	csvContent += fullContent;
 
