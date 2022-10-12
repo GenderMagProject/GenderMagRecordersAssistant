@@ -12,10 +12,11 @@ The GenderMag Recorder’s Assistant semi-automates using this process. It is ea
 to use and can be used by software engineers to management to usability experts.
 
 If you want to help make software gender-inclusive, one way is to contribute to 
-the GenderMag Recorder’s Assistant. 
+the GenderMag Recorder’s Assistant. We welcome everyone with any background to 
+contribute to making the world of software more gender inclusive. There are many 
+different ways to contribute, please see this section on <a href="#Contributing">
+Contributing</a>.  
 
-We welcome everyone with any background to contribute to making the world of 
-software more gender inclusive.
 <a name="install">
     
 ## Resources and Background Information
@@ -157,11 +158,26 @@ looks like.
 To turn off the GenderMag extension navigate back to “Extensions” and uncheck 
 the “Enable” box and uncheck “Developer Mode”.
 
+<a id="Contributing"></a>
+
 # Contributing
 
-Please follow our 
-[Code Of Conduct](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Code_of_Conduct.md) and read our [Contributing Guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Contributing.MD).
+Please review and follow our 
+[Code Of Conduct](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Code_of_Conduct.md).
 
+There are many different ways you can contribute, and we are appreciative of your efforts. If you are a first time contributor and a little hesitant, please take a little time to look through some of the options available. You can contribute to this tool by:  
+
+* Providing a review while testing use of the tool
+  * Actual use of the tool with examples of how you used it. Reviews for the Chrome extension can be made on the [Chrome Web Store site](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf)
+
+* Writing code / fixing issues
+  * The [Contributing Guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Contributing.MD) is dedicated to people who wish to write code
+* Reviewing / writing documentation
+  * Documentation is key to a good user experience, this project is no different. Any documentation on this site is open to review and improvement. There may already be open issues regarding documentation, please take a look at the [Github Issues List](https://github.com/GenderMagProject/GenderMagRecordersAssistant/issues)
+* Making foreign language translations
+  * Please enquire by creating a [Github issue](https://github.com/GenderMagProject/GenderMagRecordersAssistant/issues) or by sending email to [gendermag.method@gmail.com](mailto:gendermag.method@gmail.com)
+* Making improvements to this Github Repository
+  * Maintenance of this project site and its documents is important to help people find what they need. Sometimes it is as simple as correcting spelling or verifying any links are still valid and fixing broken ones. Follow the [Github instructions for making a new fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) and then submit changes via a pull request. Don't forget to submit info via the [pull request template](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/PULL_REQUEST_TEMPLATE.md). 
 
 # FAQ’s:
 Note: If you have questions you would like us to answer, please let us know by filing an issue asking the question!
