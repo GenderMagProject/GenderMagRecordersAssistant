@@ -1,38 +1,32 @@
 # GenderMag Recorder's Assistant Contributing Guide
 
-## Git Resources
+## IMPORTANT:
+By submitting a patch, you agree to allow the project owner to license your work under the same license as that used by the project.
 
-* Please review the resources available at https://try.github.io/ if you are not already familiar with Git/GitHub or need a reference for Git terms and commands as you prepare to contribute.
+## Git resources
+
+* Please review the resources available at https://try.github.io/ and the [GitHub guide](https://github.com/git-guides/) if you need references for Git terms and commands. 
 
 ## How to install and edit:
 
- * Install the tool via instructions in the README
+ * Download and install the tool via instructions in the README.
+ * If you want to run the tool before making edits, navigate to the page you wish to run GenderMag on and click the maroon GenderMag button at the bottom of the screen. Check the video posted on the [GenderMag website](http://gendermag.org) for an example.
+ * Open the project files in a text editor like [Intellij](https://www.jetbrains.com/idea/download/) or [Visual Studio Code](https://code.visualstudio.com/Download).
+ * Make and save your edits. Make sure your edits follow our [style guidelines](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/style_guidelines.md).
+ * To test your edits, follow steps 4-10 in the "Method 1: Download from Github" section in the [README install guide](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/README.md) to install the updated extension. 
+ * Refresh the page to load the updated extension. 
 
- * If you want to run the tool at this point, navigate to the page you wish to perform GenderMag on and click the maroon GenderMag button at the bottom of the screen. The video posted at http://gendermag.org has an example.
- * Open the project files in an editor, like Intellij, or whatever you perfer.
- * Make and save edits.
- * To view and test your edits, navigate to “Extensions”, which has a triple dot icon, at the top right corner of the broswer. Then, hover over 'More Tools' and click on Extentions. 
- * After that, you might have to hit the refresh button (↻) and reload the page where you are using the tool.
+## Contribution:
+  * Check for open issues using the issues tab. If you are a new contributor, try using the GitHub tag feature to find good first issues. 
+  * Make sure you review our [style guidelines](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/style_guidelines.md) on how to remain consistent with our existing code before making changes. 
+  *	Create and switch to a new working branch using the commands `git branch name_of_branch` and `git checkout name_of_branch`.
+  * Edit your branch and push your changes to your remote repo using the command `git push`. 
+  *	Make a pull request using [GenderMag Recorder's assistant's pull guide](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Recorder's%20Assistant%20Testing_Pull%20Request%20Guide%20.pdf).
+  * Our maintainers will contact you if needed. Thank you for your contribution!
 
-## To Contribute:
-  *	Create a new branch to work on. Ex: The command git branch test creates a new branch called test.
-  *	Use git checkout [name of branch] to switch to that branch.
-  * Navigate to the place you stored your local copy of the GenderMagsRecordersAssistant (the copy that you cloned to your local desktop)
-  *	To look for issues you can contribute to navigate back to the original GenderMag repo, not your forked repo, and look at the issues under the issue tab on the top.
-      * You can also filter the issues by the "Good first issue" tag to get started.
-  *	Make any new changes or fixes on your branch and then push the branch to your remote repo.
-  *	Then make a pull request using [this](https://github.com/mendezc1/GenderMagRecordersAssistant/blob/master/Recorder's%20Assistant%20Testing_Pull%20Request%20Guide%20.pdf) guide.
-      * If you have questions on how to push, pull, and commit check out the [guide](https://github.com/git-guides/) GitHub has posted.
-  * Before you push your changes, check out our [style guidelines](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/style_guidelines.md). This will inform you on how to write code and comments that are consistent with the rest of the code in the repo.
-  * You will hear back from us soon!
-
-
-## IMPORTANT:
-By submitting a patch, you agree to allow the project owner to license your work under the same license as that used by the project.
 
 ## Contributors
 
 Please see the
-[Contributors Graph](https://github.com/mendezc1/GenderMagRecordersAssistant/graphs/contributors) for our
-list of contributors.
+[Contributors Graph](https://github.com/mendezc1/GenderMagRecordersAssistant/graphs/contributors) for a list of contributors.
 
