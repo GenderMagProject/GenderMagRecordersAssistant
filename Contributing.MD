@@ -13,8 +13,8 @@ By submitting a patch, you agree to allow the project owner to license your work
  * If you want to run the tool before making edits, navigate to the page you wish to run GenderMag on and click the maroon GenderMag button at the bottom of the screen. Check the video posted on the [GenderMag website](http://gendermag.org) for an example.
  * Open the project files in a text editor like [Intellij](https://www.jetbrains.com/idea/download/) or [Visual Studio Code](https://code.visualstudio.com/Download).
  * Make and save your edits. Make sure your edits follow our [style guidelines](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/style_guidelines.md).
- * To test your edits, follow steps 4-10 in the "Method 1: Download from Github" section in the [README install guide](https://github.com/GenderMagProject/GenderMagRecordersAssistant/blob/master/README.md) to install the updated extension. 
- * Refresh the page to load the updated extension. 
+ * To test your edits, navigate to “Extensions”, which has a triple dot icon, at the top right corner of the broswer. Then, hover over 'More Tools' and click on Extensions. Refresh the extension as indicated in the [Chrome extension development documents](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#reload). 
+ * You may need to refresh the page to load the updated extension. 
 
 ## Contribution:
   * Check for open issues using the issues tab. If you are a new contributor, try using the GitHub tag feature to find good first issues. 
