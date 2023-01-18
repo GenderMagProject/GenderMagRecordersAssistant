@@ -5,7 +5,8 @@
 
 # What is the GenderMag Recorder's Assistant?
 
-The GenderMag Recorder’s Assistant is a tool to identify gender-inclusiveness 
+The GenderMag Recorder’s Assistant is a Chrome Extension tool that you can use 
+from Google Chrome or Microsoft Edge to identify gender-inclusiveness 
 issues in software. [GenderMag](http://gendermag.org/) is a process you can use 
 to find gender biases in user-facing software that you are designing/building. 
 The GenderMag Recorder’s Assistant semi-automates using this process. It is easy
@@ -65,6 +66,10 @@ Tutorial for download on Mac: https://youtu.be/ji1sMHljlLQ
   </a> 
   
   For more details about extension installation [click here](https://support.google.com/chrome_webstore/answer/2664769?hl=en)
+
+Note that if you are using Microsoft Edge, you must select "Allow extensions 
+from other stores" in the banner at the top of the Chrome Store page, then 
+select "Allow" to confirm  before you select "Add to Chrome".
 
 
 # How to Run a GenderMag Session Using the Tool
