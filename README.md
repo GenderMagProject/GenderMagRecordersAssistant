@@ -39,7 +39,7 @@ GenderMag uses 3 different personalities to help analyze software that fall onto
 
 ![image](https://user-images.githubusercontent.com/97061012/232521100-0b275cc7-1ef1-4a48-8821-f11163288816.png)
 
-While each individual can be at different points on these spectrums, there are some gender differences on where men and women are more likely to fall on the spectrums. As a result, analyzing different personas can be a way to help understand how a range of diverse users can use a program differently and have different needs and wants when using a program. Considering this whole range can thus lead to more gender-inclusive (and overall inclusive) software.
+While each individual can be at different points on these spectrums, facets statistically cluster around genders; for example, Abi's facet values are those frequently seen in women. As a result, analyzing different personas can be a way to help understand how a range of diverse users can use a program differently and have different needs and wants when using a program. Considering this whole range can thus lead to more gender-inclusive (and overall inclusive) software.
 
 GenderMag Recorders Assistant is a semi-automated tool that helps users walk through their software in the mindset of each of the personas and consider how they would each use the software. As a result, creators can find areas where their software only caters to part of the spectrum on each of the five cognitive style facets and address these issues to make the software more inclusive.
 
