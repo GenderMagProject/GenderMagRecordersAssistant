@@ -57,7 +57,7 @@ GenderMag Recorders Assistant is a semi-automated tool that helps users walk thr
 1) Create a fork of the project to your GitHub account. 
     For information on how to do this, please see
      [this](https://help.github.com/en/articles/fork-a-repo) page.
-     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/HowToInstallGenMagPics/blob/master/1.png?raw=true)
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/1.png)
 
 
 2) On the Recorder's Assistant GitHub page, click on "Clone or 
