@@ -54,35 +54,43 @@ GenderMag Recorders Assistant is a semi-automated tool that helps users walk thr
 # How to install the GenderMag Recorder's Assistant:</a>
 
 ## Method 1: Download from GitHub: 
-1) Create a fork of the project to your GitHub account. 
-    For information on how to do this, please see
-     [this](https://help.github.com/en/articles/fork-a-repo) page.
+1) Create a fork of Gender Mag Recorders Assistant repository by clicking the button labeled "Fork".
      ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/1.png)
 
+2) Select the owner of the forked repository, enter the name of the forked repository and optionally enter a description of the forked repository. Then press the button labeled "Create fork". 
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/2.png)
 
-2) On the Recorder's Assistant GitHub page, click on "Clone or 
-download" and then click "Download zip".
+3) On the Recorder's Assistant home GitHub page, click on the button labeled "Code".
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/3.png)
 
-3) Navigate to the folder on your computer where the *zip file* (not just the file folder) is
-located and extract the zipped files. (Right click on the zipped
- folder -> "Extract All")
-  * After clicking on the intitial downloadeded file, navigate backwards one step in the Files app to reach the zipped folder. 
-    
-4) Open Chrome and click on the icon (⋮) in the top right corner.
-    
-5) Click on “More tools” -> “Extensions”.
-    
-6) Enable developer mode by checking the “Developer Mode” slider in the top right.
-    
-7) Click on “Load unpacked” under the search bar.
-    
-8) Select the extracted *zip file* and click "ok". 
-  * Don't select the standard file folder (only the zip file will upload).
+4) Click "Download ZIP".
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/4.png)
 
-9) Click on “Update” under the search bar.
+5) Navigate to the folder on your computer where the zip file (not just the file folder) is located and extract the files. Click "Open". (Examples in picture uses Winzip).
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/5.png)
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/6.png)
     
-10) The new extension called ”GenderMag Recorder's Assistant” should be in the 
+6) Open Chrome and click on the icon (⋮) in the top right corner.
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/7.png)
+    
+7) Click on “Extensions” -> “Manage Extensions”.
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/8.png)
+    
+8) Enable developer mode by checking the “Developer Mode” slider in the top right.
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/9.png)
+    
+9) Click on “Load unpacked” under the search bar.
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/10.png)
+    
+10) Select the extracted *zip file* and click "ok". 
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/11.png)
+
+11) Click on “Update” under the search bar.
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/12.png)
+    
+12) The new extension called ”GenderMag Recorder's Assistant” should be in the 
 top left corner of the extensions.
+     ![alt text](https://github.com/chavezdo/GenderMagRecordersAssistant/blob/master/HowToInstallGenMagPics/13.png)
 
 Tutorial for download on Mac: https://youtu.be/ji1sMHljlLQ
 
