@@ -1,4 +1,14 @@
-//functions to initialize status object, save and get status object. Set object status to true, false or stop.
+/*
+ * Filename: status.js
+ * Functions: 
+ *    initStatusObject, getStatusObject, saveStatusObject, statusIsTrue,
+ *    setStatusToTrue, setStatusToFalse, setStatusToStop
+ * 
+ * Description: Manages the status object and its properties. The status object
+ *              tracks various stages and states within the application. Which 
+ *              enables information storing about the progress and interactions 
+ *              of the user.
+ */
 //add error handling?
 
 var statusObject = {							
@@ -21,7 +31,11 @@ var statusObject = {
 	finishedGM: ""                              //set in action.js
 }
 
-//initialize obj with "status object" item
+/*
+ * Function: initStatusObject
+ * Description: Initializes the status object in local storage if it is not already present.
+ * Params: None
+ */
 function initStatusObject () {
     var obj = JSON.parse(localStorage.getItem("statusObject"));
     if (obj) {
@@ -33,15 +47,34 @@ function initStatusObject () {
     }
 }
 
+/*
+ * Function: getStatusObject
+ * Description: Retrieves the status object from local storage.
+ * Params: None
+ */
 function getStatusObject () {
 	var obj = JSON.parse(localStorage.getItem("statusObject"));
 	return obj;
 }
 
+/*
+ * Function: saveStatusObject
+ * Description: Saves the provided status object to local storage.
+ * Params:
+ *   obj (Object): The status object to be saved.
+ */
 function saveStatusObject (obj) {
 	localStorage.setItem("statusObject", JSON.stringify(obj));
 }
 
+/*
+ * Function: statusIsTrue
+ * Description: Checks if the value of the specified key in the status object is "true".
+ * Params:
+ *   keyToCheck (string): The key to check the value for.
+ * Returns:
+ *   boolean: True if the value is "true", otherwise false.
+ */
 function statusIsTrue(keyToCheck) {
     var obj = getStatusObject();
 	if (obj) {
@@ -57,6 +90,12 @@ function statusIsTrue(keyToCheck) {
 	} 
 }
 
+/*
+ * Function: setStatusToTrue
+ * Description: Sets the value of the specified key in the status object to "true".
+ * Params:
+ *   keyToChange (string): The key whose value needs to be set to "true".
+ */
 function setStatusToTrue (keyToChange) {
 	var obj = getStatusObject();
 	if (obj) {
@@ -69,6 +108,12 @@ function setStatusToTrue (keyToChange) {
 	} 
 }
 
+/*
+ * Function: setStatusToFalse
+ * Description: Sets the value of the specified key in the status object to "false".
+ * Params:
+ *   keyToChange (string): The key whose value needs to be set to "false".
+ */
 function setStatusToFalse (keyToChange) {
 	var obj = getStatusObject();
 	if (obj) {
@@ -80,6 +125,13 @@ function setStatusToFalse (keyToChange) {
 		//console.log("statusObject doesn't exist in local");
 	} 
 }
+
+/*
+ * Function: setStatusToStop
+ * Description: Sets the value of the specified key in the status object to an empty string.
+ * Params:
+ *   keyToChange (string): The key whose value needs to be set to an empty string.
+ */
 //when is stop used?
 function setStatusToStop (keyToChange) {			
 	var obj = getStatusObject();
