@@ -54,28 +54,21 @@ GenderMag Recorders Assistant is a semi-automated tool that helps users walk thr
 # How to install the GenderMag Recorder's Assistant:</a>
 
 ## Method 1: Download from GitHub: 
-1) Create a fork of the project to your GitHub account. 
-    For information on how to do this, please see
-     [this](https://help.github.com/en/articles/fork-a-repo) page.
 
-2) On the Recorder's Assistant GitHub page, click on "Clone or 
+1) On the Recorder's Assistant GitHub page, click on "Clone or 
 download" and then click "Download zip".
 
-3) Navigate to the folder on your computer where the *zip file* (not just the file folder) is
-located and extract the zipped files. (Right click on the zipped
- folder -> "Extract All")
-  * After clicking on the intitial downloadeded file, navigate backwards one step in the Files app to reach the zipped folder. 
+2) Extract the downloaded zip file.
     
 4) Open Chrome and click on the icon (⋮) in the top right corner.
     
-5) Click on “More tools” -> “Extensions”.
+5) Click on “Extensions”.
     
-6) Enable developer mode by checking the “Developer Mode” slider in the top right.
+6) If Developer Mode is not enabled, click on the slider in the upper right.
     
 7) Click on “Load unpacked” under the search bar.
     
-8) Select the extracted *zip file* and click "ok". 
-  * Don't select the standard file folder (only the zip file will upload).
+8) Select the folder containing the "manifest.json" file.
 
 9) Click on “Update” under the search bar.
     
