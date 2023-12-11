@@ -1,7 +1,7 @@
 /*
  * Filename : output.js
  * Functions : now, today, sanitizeString, getSubgoalInfo, getActionInfo, createCSV,
- * downloadCSV, downloadURI, create_zip, parseSubgoalArray, createOldCSV
+ * downloadCSV, downloadURI, parseSubgoalArray, createOldCSV
  * Description :
 */
 
@@ -343,12 +343,33 @@ function createCSV() {
 /*
  * Function: downloadCSV
  * Arg: csvContent - string (ready for csv)
- * Makes call to creat_zip to put together zip file and download
- * todo: Refactor so this is included in another method as it's unnecessary to
- *  have this be separate.
+ * Arg: old - boolean 
+ * Creates and downloads a zip file containing the date and content of the gendermag session.
  */
 function downloadCSV(csvContent, old) {
-	create_zip(csvContent, old);
+    console.log((csvContent));
+	var zip = new JSZip();
+    var today = new Date();
+    var dd = today.getDate() + 1;
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    var hr = today.getHours();
+    var min = today.getMinutes();
+    if(old){
+        zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+    } else {
+        zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+    }
+	var img = zip.folder("images");
+    console.log(imgList + "HHH");
+	for(var i in imgList){
+	    console.log("IMAGE");
+		img.file(imgList[i].name, imgList[i].uri, {base64: true});
+	}
+	zip.generateAsync({type:"blob"}).then(function(content) {
+    // see FileSaver.js
+		saveAs(content, globName+".zip");
+	});
 }
 
 /*
@@ -374,35 +395,6 @@ function downloadURI(uri, name) {
     } catch (error) {
         console.log(error);
     }
-}
-/*
- * Function: create_zip
- * Generates a zip file containing the date and content of the gendermag session.
- */
-function create_zip(csvContent, old) {
-    console.log((csvContent));
-	var zip = new JSZip();
-    var today = new Date();
-    var dd = today.getDate() + 1;
-    var mm = today.getMonth() + 1;
-    var yyyy = today.getFullYear();
-    var hr = today.getHours();
-    var min = today.getMinutes();
-    if(old){
-        zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
-    } else {
-        zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
-    }
-	var img = zip.folder("images");
-    console.log(imgList + "HHH");
-	for(var i in imgList){
-	    console.log("IMAGE");
-		img.file(imgList[i].name, imgList[i].uri, {base64: true});
-	}
-	zip.generateAsync({type:"blob"}).then(function(content) {
-    // see FileSaver.js
-		saveAs(content, globName+".zip");
-	});
 }
 
 /*
