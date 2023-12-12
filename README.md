@@ -23,7 +23,7 @@ Contributing</a>.
 ## Resources and Background Information
 
 * Chrome Extension link: [GenderMag Recorder's Assistant](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en)
-* [Dowload Chrome](https://www.google.com/chrome/)
+* [Download Chrome](https://www.google.com/chrome/)
 * Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
 * Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
 * [Video](http://gendermag.org) using the GenderMag Recorder's Assistant.
@@ -78,9 +78,9 @@ located and extract the zipped files. (Right click on the zipped
 8) Select the extracted *zip file* and click "ok". 
   * Don't select the standard file folder (only the zip file will upload).
   * (For Windows) 
-    * Right click on the extracted folder and then click open, or double click on the extracted folder to go one level deeper then click Select Folder
-    * If the top level is selected you will get "Manifest file is missing"
-    * Ex. GenderMagRecordersAssistant -> GenderMagRecordersAssistant (select this one)
+    * Right click on the extracted folder and then click open, or double click on the extracted folder to go one level deeper, then click Select Folder.
+    * If the top level is selected you will get "Manifest file is missing".
+    * Ex. GenderMagRecordersAssistant -> GenderMagRecordersAssistant (select this one).
 
 
 9) Click on “Update” under the search bar in the top left.
