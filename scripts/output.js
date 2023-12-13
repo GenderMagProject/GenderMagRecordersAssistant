@@ -2,7 +2,7 @@
  * Filename : output.js
  * Functions : now, today, sanitizeString, getSubgoalInfo, getActionInfo, createCSV,
  * downloadCSV, downloadURI, create_zip, parseSubgoalArray, createOldCSV
- * Description :
+ * Description : Generates the data that will be in the output.csv file 
 */
 
 
