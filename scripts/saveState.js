@@ -8,7 +8,11 @@
 
 var subgoalArray = [];
 
-//Creates a new subgoal and saves it to local storage at the end of subgoalArray
+/*
+ * Function: saveSubgoal
+ * Description: Creates a new subgoal and saves it to local storage at the end of subgoalArray
+ * Params: id, name, yesnomaybe, whyText, facets, actionList
+ */
 function saveSubgoal (id, name, yesnomaybe, whyText, facets, actionList = []) {
 	var subgoal = {
 		id: id,
@@ -127,7 +131,11 @@ function addToSandwich(type, item){
 	
 }
 
-//defines what a preIdealAction, postIdealAction, and idealAction are
+/*
+ * Function: saveIdealAction
+ * Description: Defines what a preIdealAction, postIdealAction, and idealAction are
+ * Params: name, yesnomaybe, whyText, facets, yesnomaybePost, whyTextPost, facetsPost
+ */
 function saveIdealAction(name, yesnomaybe, whyText, facets, yesnomaybePost, whyTextPost, facetsPost) {
 	var currArray = getSubgoalArrayFromLocal();
 	var targetSubgoal = currArray[(currArray.length - 1)];
