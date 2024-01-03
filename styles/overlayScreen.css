@@ -1,30 +1,26 @@
-
-
 #ayy{
-	width: 300px;
+	background-color : white;
+	border:3px solid #4A96AD;
 	height:500px;
+	left:100px;
 	position:absolute;
 	top:100px;
-	left:100px;
-	border:3px solid #4A96AD;
-	background-color : white;
-
+	width: 300px;
 }
 
 #imageAnnotation{
-	width: 500px;
+	background-color : white;
+	border:3px solid #4A96AD;
 	height:500px;
+	left:100px;
 	position:absolute;
 	top:150px;
-	left:100px;
-	border:3px solid #4A96AD;
-	background-color : white;
+	transition:width 300ms ease-in-out, height 300ms ease-in-out;
+	width: 500px;
 	z-index: 99999;
-
-	 -webkit-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-    -moz-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-    -o-transition:width 300ms ease-in-out, height 300ms ease-in-out;
-    transition:width 300ms ease-in-out, height 300ms ease-in-out;
+    	-moz-transition:width 300ms ease-in-out, height 300ms ease-in-out;
+    	-o-transition:width 300ms ease-in-out, height 300ms ease-in-out;
+	-webkit-transition:width 300ms ease-in-out, height 300ms ease-in-out;
 }
 /* uncomment for lulz
 
