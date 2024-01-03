@@ -26,7 +26,7 @@ Contributing</a>.
 * [Download Chrome](https://www.google.com/chrome/)
 * Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
 * Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
-* [Video](http://gendermag.org) using the GenderMag Recorder's Assistant.
+* [Video](https://www.youtube.com/watch?v=GOy7Aq5lozQ) using the GenderMag Recorder's Assistant.
     
 # How does GenderMag make software more inclusive?</h1>
 
