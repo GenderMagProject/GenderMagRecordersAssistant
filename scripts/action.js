@@ -1,6 +1,6 @@
 /*
  * File Name: action.js
- * Functions: preActionQuestions, doActionPrompt, postActionQuestions, actionLoop, reloadToolTipState
+ * Functions: setFacetPopups, preActionQuestions, doActionPrompt, postActionQuestions, actionLoop, reloadToolTipState
  * Description: This file contains functions to handle the action part of the walkthrough starting right
  *   after the screenshot through the end and exit of the session
  */
@@ -11,6 +11,11 @@ var personaName = localStorage.getItem("personaName");
 if (personaName !== null ) {personaName = personaName.slice(1, personaName.length-1);}
 else { personaName = "Abi"; }
 
+/*
+ * Function: setFacetPopups
+ * Description: This function handles non-custom persona names by adding tool tips.
+ * Params: personaName
+ */
 function setFacetPopups(personaName) {
     if(personaName !== "Custom"){
         var lowercaseName = personaName.toLowerCase();
@@ -74,12 +79,12 @@ function preActionQuestions(el){
 	//hide draw button and retake button, show preaction questions
     $(el).find("#annotateImage").hide();
     $(el).find("#retakeImage").hide();
-	$(el).find("#imageCanvasTemplate").hide();
+    $(el).find("#imageCanvasTemplate").hide();
     $(el).find("#preActionTemplate").show();
-	$(el).find("#imageCaption2").show();
-	$(el).find("#HRmorelikefunpolice").show();
-	//when save and continue button is clicked, save input values
-	$("#preActionClose").unbind( "click" ).click(function(){
+    $(el).find("#imageCaption2").show();
+    $(el).find("#HRmorelikefunpolice").show();
+    //when save and continue button is clicked, save input values
+    $("#preActionClose").unbind( "click" ).click(function(){
 		//(actionName)Currently save and then deletes this name before it can be called again
 		var actionName = localStorage.getItem("currActionName"); 
 		var yesNoMaybe = {"yes": $('#actionYes').is(":checked"),
@@ -104,9 +109,9 @@ function preActionQuestions(el){
 			"tinker": false,
 			"none": false};
 
-		saveIdealAction(actionName, yesNoMaybe, whyText, facets, yesNoMaybePost, whyTextPost,facetsPost);
+	saveIdealAction(actionName, yesNoMaybe, whyText, facets, yesNoMaybePost, whyTextPost,facetsPost);
         setStatusToTrue("gotPreActionQuestions");
-		doActionPrompt(el);
+	doActionPrompt(el);
 	});
 	
 	//when back button is clicked, show buttons, hide preaction
@@ -187,9 +192,9 @@ function postActionQuestions(el){
 	//hide do action prompt, show post action questions
 	$(el).find("#doActionPromptTemplate").hide();
     $(el).find("#postActionTemplate").show();
-	$(el).find("#imageCaption2").hide();	
-	$(el).find("#imageCanvas").hide();
-	$(el).find("#imageCaption3").show();
+    $(el).find("#imageCaption2").hide();	
+    $(el).find("#imageCanvas").hide();
+    $(el).find("#imageCaption3").show();
 
 	//link to show image preview again
 	$("#afterb44lyfe").unbind("click").click(function(){

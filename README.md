@@ -23,6 +23,7 @@ Contributing</a>.
 ## Resources and Background Information
 
 * Chrome Extension link: [GenderMag Recorder's Assistant](https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en)
+* [Download Chrome](https://www.google.com/chrome/)
 * Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
 * Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
 * [Video](https://www.youtube.com/watch?v=GOy7Aq5lozQ) using the GenderMag Recorder's Assistant.
@@ -68,21 +69,25 @@ located and extract the zipped files. (Right click on the zipped
     
 4) Open Chrome and click on the icon (⋮) in the top right corner.
     
-5) Click on “More tools” -> “Extensions”.
+5) Click on “Extensions” -> “Manage Extensions”.
     
 6) Enable developer mode by checking the “Developer Mode” slider in the top right.
     
-7) Click on “Load unpacked” under the search bar.
+7) Click on “Load unpacked” under the search bar in the top left.
     
 8) Select the extracted *zip file* and click "ok". 
   * Don't select the standard file folder (only the zip file will upload).
+  * (For Windows) 
+    * Right click on the extracted folder and then click open, or double click on the extracted folder to go one level deeper, then click Select Folder.
+    * If the top level is selected you will get "Manifest file is missing".
+    * Ex. GenderMagRecordersAssistant -> GenderMagRecordersAssistant (select this one).
 
-9) Click on “Update” under the search bar.
+
+9) Click on “Update” under the search bar in the top left.
     
 10) The new extension called ”GenderMag Recorder's Assistant” should be in the 
 top left corner of the extensions.
 
-Tutorial for download on Mac: https://youtu.be/ji1sMHljlLQ
 
 ## Method 2: Install from Chrome Web Store
 <a href="https://chrome.google.com/webstore/detail/gendermag-recorders-assis/efacfbjnfhfaplaglplaljdleimiiflf?hl=en" target="_blank" title=" GenderMag Recorder's Assistant" >
