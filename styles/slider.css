@@ -1,52 +1,52 @@
-html {
-	position: relative;
-}
-
 body {
 	margin: 0px;
+}
+
+html {
+	position: relative;
 }
 
 #GenderMagFrame.clicked {
 	bottom: 0px;
 }
-		
+
 #GenderMagFrame {
-	position: fixed;
-	bottom: -250px;
 	background: #F0F0F0;
-	left: 0;
-	width: 100%;
-	height: 250px;
-	-webkit-transition-duration: 0.3s;
-	-moz-transition-duration: 0.3s;
-	-o-transition-duration: 0.3s;
-	transition-duration: 0.3s;
-	text-align: left;
-	-webkit-border-radius: 0 0 5px 0;
-	-moz-border-radius: 0 0 5px 0;
+	border-color: #7D1935;
 	border-radius: 0 0 5px 0;
 	border-style: solid;
 	border-width: 2px 0px 0px 0px;
-	border-color: #7D1935;
+	bottom: -250px;
+	height: 250px;
+	left: 0;
+	position: fixed;
+	text-align: left;
+	transition-duration: 0.3s;
+	width: 100%;
 	z-index: 99999;
+	-moz-border-radius: 0 0 5px 0;
+	-moz-transition-duration: 0.3s;
+	-o-transition-duration: 0.3s;
+	-webkit-border-radius: 0 0 5px 0;
+	-webkit-transition-duration: 0.3s;
 }
 
 #slideout {
-	position: fixed;
+	background: #7D1935;
 	bottom: 0px;
-	left: 50%;
-	width: 135px;
+	border-width:0px;
 	height:20px;
+	left: 50%;
 	padding: 0px;
+	position: fixed;
 	text-align: center;
 	transform: translate(-50%, -0%);
-	background: #7D1935;
-	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	width: 135px;
+	z-index: 99999;
 	-moz-transition-duration: 0.3s;
 	-o-transition-duration: 0.3s;
-	transition-duration: 0.3s;
-	border-width:0px;
-	z-index: 99999;
+	-webkit-transition-duration: 0.3s;
 }
 
 #slideout.clicked {
