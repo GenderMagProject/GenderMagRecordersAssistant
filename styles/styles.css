@@ -1,53 +1,74 @@
-#abbyTToolTipDiv{
-	-webkit-box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
+#abbyTToolTipDiv {
 	box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
 }
 
-#abbyTToolTipDiv:hover{
-	background:#ffffff;
-    background:-moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%); 
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color- stop(47%,#f6f6f6), color-stop(100%,#ededed)); 
-    background:-webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); 
-    background:-o-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); 
-    background:-ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
-    background:linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); 
-    filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );color:#266CAE} 
+#abbyTToolTipDiv:hover {
+	background: #ffffff;
+	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed)); 
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); 
+	background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); 
+	background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed', GradientType=0);
+	color: #266CAE;
 }
 
-#mySidebar {
-	top: 0px;
-	right: 0px;
-	position:fixed;
-	width:500px;
-	height:100%;
-    overflow-x:hidden;
-	overflow-y:auto;
-	border: 5px ridge #4099FF;
-	background-color: white;
-	float: right;
-	padding: none;
-	resize:both;
-}
-#popupBody {
-}
-
-.abbyMTrigger{
-	color: blue;
-}
 #content {
 	margin-top: 20px;
 }
-#highlightClick{
-    position: absolute;
-    border: 3px solid orange;	
-	opacity: 0.5;	
+
+#highlightClick {
+	border: 3px solid orange;
+	opacity: 0.5;
+	position: absolute;
 	z-index: 10000;
 }
+
+#icons {
+	font-size: 13px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+	text-align: center;
+}
+
+#mySidebar {
+	border: 5px ridge #4099FF;
+	background-color: white;
+	float: right;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: none;
+	position: fixed;
+	resize: both;
+	right: 0px;
+	top: 0px;
+	width: 500px;
+}
+
+#persona, #scenario {
+	padding-left: 15px;
+}
+
+#popupBody {
+}
+
+#scenario {
+	float: right;
+}
+
+#team {
+	float: left;
+}
+
 #welcomeText {
-	font-size: 50px;
-	font-family: 'Poppins', sans-serif;
 	color: Purple;
+	font-family: 'Poppins', sans-serif;
+	font-size: 50px;
 }
 
 #viewPersona {
@@ -58,108 +79,48 @@ hr {
 	border-top: 2px solid #0288D1;
 }
 
-#icons {
-	text-align: center;
-	font-size: 13px;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
-	margin-top: 15px;
-}
-
-.icon {
-	color: #03a9f4 ;
-}
-
-#team {
-	float: left;
-}
-
-#scenario {
-	float: right;
-}
-
-#scenario, #persona{
-	padding-left: 15px;
-}
-
-.instruction {
-	font-size: 13px;
-	text-align: center;
-	border: 2px solid #FFC107;
-	margin: 10px;
-	cursor: default;
-	padding: 5px;
-}
-
 button, input[type=submit] {
-    background-color: #0288D1;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 5px;
+	background-color: #0288D1;
+	border: none;
+	color: white;
+	display: inline-block;
+	font-size: 14px;
+	margin: 5px;
+	padding: 5px 10px;
+	text-align: center;
+	text-decoration: none;
 }
 
 input[type=text], textarea {
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
-  outline: none;
-  padding: 3px 0px 3px 3px;
-  margin: 5px 1px 3px 0px;
-  border: 1px solid #DDDDDD;
+	border: 1px solid #DDDDDD;
+	margin: 5px 1px 3px 0px;
+	outline: none;
+	padding: 3px 0px 3px 3px;
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-ms-transition: all 0.30s ease-in-out;
+	-o-transition: all 0.30s ease-in-out;
 }
 
 input[type=text] {
+	border: 1px solid grey;
 	height: 15px;
 	width: 200px;
-	border: 1px solid grey;
 }
- 
+
 input[type=text]:focus, textarea:focus {
-  box-shadow: 0 0 5px #FFC107;
-  padding: 3px 0px 3px 3px;
-  margin: 5px 1px 3px 0px;
-  border: 1px solid #FFC107;
-}
-
-.removeSubgoal, .removeAction {
-	float: right;
-	margin: 1px !important;
-	font-size: 12px;
-	background-color: #ffffff !important;
-	color: #ff4500 !important;
-	padding: 0px !important;
-}
-
-select {
-	width: 200px;
-	height: 15px;
-}
-
-.cwQuestion {
-	font-weight: bold;
-}
-
-.responseBox {
-	display: inline-block;
-	height: 40px;
-	border: 1px solid grey;
-}
-
-.responseBoxLabel {
-	display: inline-block;
-	padding-right: 60px;
-	padding-left: 60px;
-	margin-top: 5px;
+	border: 1px solid #FFC107;
+	box-shadow: 0 0 5px #FFC107;
+	margin: 5px 1px 3px 0px;
+	padding: 3px 0px 3px 3px;
 }
 
 label {
 	color: black;
+	
+}
+.abbyMTrigger{
+	color: blue;
 }
 
 .accordion {
@@ -170,44 +131,84 @@ label {
 	display: none;
 }
 
+.cwQuestion {
+	font-weight: bold;
+}
+
+.icon {
+	color: #03a9f4;
+}
+
+.instruction {
+	border: 2px solid #FFC107;
+	cursor: default;
+	font-size: 13px;
+	margin: 10px;
+	padding: 5px;
+	text-align: center;
+}
+
 .moreOrLess {
 	text-decoration: underline;
+}
+
+.responseBox {
+	border: 1px solid grey;
+	display: inline-block;
+	height: 40px;
+}
+.removeSubgoal, .removeAction {
+	background-color: #ffffff !important;
+	color: #ff4500 !important;
+	float: right;
+	font-size: 12px;
+	margin: 1px !important;
+	padding: 0px !important;
+}
+.responseBoxLabel {
+	display: inline-block;
+	margin-top: 5px;
+	padding-left: 60px;
+	padding-right: 60px;
+}
+
+.select {
+	height: 15px;
+	width: 200px;
 }
 
 /* EVERYTHING FOR THE PERSONA VIEW BELOW THIS LINE. EVERYTHING ABOVE FOR POPUP */
 
 #closeButton {
-	display:inline;
-	position:relative;
-	left: 70%;
 	bottom: 30px;
-}
-
-
-.personaPhoto{
-	height: 100px;
-	width: 100px;
-	float: left;
-	z-index: 10002;
-}
-
-.rightAtribute{
-	margin: 0;
-	padding: 0;
-	text-align: right;
+	display: inline;
+	left: 70%;
+	position: relative;
 }
 
 .personaLink {
-	overflow:hidden;
-	position:relative;
-	left:10%;
+	left: 10%;
+	overflow: hidden;
 	padding-bottom: 5px;
+	position: relative;
 }
-
 
 .personaParagraph {
 	border-color: orange;
 	border-style: solid;
-    border-width: 3px;	
+	border-width: 3px;
 	padding: 10px 15px 10px 25px;
+}
+
+.personaPhoto {
+	float: left;
+	height: 100px;
+	width: 100px;
+	z-index: 10002;
+}
+
+.rightAtribute {
+	margin: 0;
+	padding: 0;
+	text-align: right;
 }

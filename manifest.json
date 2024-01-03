@@ -2,7 +2,7 @@
 	"name": "GenderMag Recorder's Assistant",
 	"manifest_version": 2,
 	"description": "Walks you through GenderMag evaluations of the software or website you're creating, step-by-step, and produces a report at the end.",
-	"version": "0.4.5",
+	"version": "0.4.7",
 	"icons": { 
 	   "16": "icon.png",
            "48": "icon48.png",
@@ -22,6 +22,6 @@
 			"css": ["jquery-ui-1.12.1/jquery-ui.css"]
 		}
 	],
-	"permissions": ["storage", "tabs", "<all_urls>", "unlimitedStorage", "activeTab"],
+	"permissions": ["<all_urls>", "unlimitedStorage", "activeTab"],
 	"web_accessible_resources": ["/templates/*", "/images/*.jpg", "/images/*.png", "/styles/*.css", "styles/styles.css", "/jquery-ui-1.12.1/jquery-ui.css", "/font-awesome-4.6.1/*", "/Stuk-jszip-4cbaf0e/*" ]
 }
