@@ -6,28 +6,6 @@ body {
 	margin: 0px;
 }
 
-#slideout {
-	position: fixed;
-	bottom: 0px;
-	left: 50%;
-	width: 135px;
-	height:20px;
-	padding: 0px;
-	text-align: center;
-	transform: translate(-50%, -0%);
-	background: #7D1935;
-	-webkit-transition-duration: 0.3s;
-	-moz-transition-duration: 0.3s;
-	-o-transition-duration: 0.3s;
-	transition-duration: 0.3s;
-	border-width:0px;
-	z-index: 99999;
-}
-
-
-#slideout.clicked {
-	bottom: 250px;
-}
 #GenderMagFrame.clicked {
 	bottom: 0px;
 }
@@ -53,4 +31,24 @@ body {
 	z-index: 99999;
 }
 
+#slideout {
+	position: fixed;
+	bottom: 0px;
+	left: 50%;
+	width: 135px;
+	height:20px;
+	padding: 0px;
+	text-align: center;
+	transform: translate(-50%, -0%);
+	background: #7D1935;
+	-webkit-transition-duration: 0.3s;
+	-moz-transition-duration: 0.3s;
+	-o-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	border-width:0px;
+	z-index: 99999;
+}
 
+#slideout.clicked {
+	bottom: 250px;
+}
