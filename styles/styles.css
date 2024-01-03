@@ -186,13 +186,6 @@ label {
 	position: relative;
 }
 
-.personaPhoto {
-	float: left;
-	height: 100px;
-	width: 100px;
-	z-index: 10002;
-}
-
 .personaLink {
 	left: 10%;
 	overflow: hidden;
@@ -205,6 +198,13 @@ label {
 	border-style: solid;
 	border-width: 3px;
 	padding: 10px 15px 10px 25px;
+}
+
+.personaPhoto {
+	float: left;
+	height: 100px;
+	width: 100px;
+	z-index: 10002;
 }
 
 .rightAtribute {
