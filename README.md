@@ -109,28 +109,42 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    1) After you have installed the GenderMag recorder's assistance extension a 
    maroon button will appear on the bottom middle of the screen. Click it to 
    open the tool.
+
+   <img src="images/maroon_button.png">
       
    2) After clicking on the maroon button, text explaining what GenderMag is 
    will appear on the screen. Click on "Start GenderMag" to get started.
-      
+   
+   <img src="images/start_gendermag.png">
+
    3) Enter the name of your team and click submit.
+
+   <img src="images/submit.png">
    
    4) Select the persona that you want to use for this session. 
-      Currently, you can select from these personas: Abi, Tim, Pat, or a custom persona of your creation.
+   Currently, you can select from these personas: Abi, Tim, Pat, or a custom persona of your creation.
       
-      After you have selected the persona, the description of the selected 
-      persona you selected will appear to the right.
-      
-      
-      If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be listed on these forms instead of in the GenderMag extension.
+   <img src="images/persona.png">
 
-      If you want to change the persona or team name, click edit on top of the 
-      tool.
+   After you have selected the persona, the description of the selected 
+   persona you selected will appear to the right.
+      
+   If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be listed on these forms instead of in the GenderMag extension.
+
+   <img src="images/create_persona.png">
+
+   If you want to change the persona or team name, click edit on top of the tool.
+
+   <img src="images/edit.png">
    
    5) Provide the scenario that your persona will be performing in the text box 
    and click submit.
+
+   <img src="images/scenario.png">
     
    6) Enter a subgoal and click 'enter subgoal'. 
+
+   <img src="images/subgoal.png">
    
    7) Answer Yes, No, or Maybe to describe if the persona would have formed this
     subgoal as a step to their overall goal. In the text box, explain 
@@ -139,31 +153,49 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
     question. Then click save and continue.
     
    8) Enter an action that pertains to this subgoal. 
+
+   <img src="images/subgoal_action.png">
    
-   9) Click on the 'click here' button to take a screen capture of ideal action. 
+   9) Click on the 'click here' button to take a screen capture of ideal action.
+
+   <img src="images/click_here.png">
+
    Move the rectangular box around your box to the action that you want to focus 
    on and hit the left click. This will create a screen capture of ideal action. 
+
+   <img src="images/screenshot.png">
+
    If you want to add more info to the capture click on the draw on the image 
    button and annotate the image. If the image looks okay, click 'save and 
    continue'.
+
+   <img src="images/edit_screenshot.png">
 
    10) Answer: Yes, No, or Maybe for, will the persona know what to do at this 
    step, and in the text box under it explain why, why not, or why maybe? On 
    the right of that textbox select all the checkboxes against the facets that 
    were used to answer the previous question.
 
+   <img src="images/answer_screenshot.png">
+
    11) Perform the action you indicated previously in step 9 and click on the 
    'click here' link to continue.
+
+   <img src="images/perform_action.png">
    
    12) Answer: Yes, No, or Maybe for, if the persona did the right thing will 
    she know that they did the right thing, and is making progress towards the 
    goal and in the textbox under it explain why, why not, or why maybe? On the 
    right of that textbox select all the checkboxes against the facets that were
    used to answer the previous question. Click 'save and continue' when ready.
+
+   <img src="images/after_action.png">
        
    13) If your persona needs another action to complete the current subgoal, 
    enter the new action in the top text box and click 'add another action'. 
    Return to (9) and complete all subsequent steps.
+
+   <img src="images/finish_action.png">
    
    14) If the subgoal is complete, but another subgoal is needed to complete 
    the scenario, enter the subgoal in the bottom text box and click 'create new 
@@ -174,8 +206,10 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    your session's information.
    
    16) If the zip file was not downloaded click Re-Download zip file. Otherwise,
-    check the box next to the disclaimer saying that the file was downloaded and
-    hit "Quit GenderMag". This will reload the page and close the tool.
+   check the box next to the disclaimer saying that the file was downloaded and
+   hit "Quit GenderMag". This will reload the page and close the tool.
+
+   <img src="images/download.png">
 
 See the video at http://gendermag.org for examples of what running the tool 
 looks like.
