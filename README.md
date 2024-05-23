@@ -109,26 +109,29 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    1) After you have installed the GenderMag recorder's assistance extension a 
    maroon button will appear on the bottom middle of the screen. Click it to 
    open the tool.
+
+      <img src="images/maroon_button.png" width="400" border="2">
       
    2) After clicking on the maroon button, text explaining what GenderMag is 
    will appear on the screen. Click on "Start GenderMag" to get started.
-      
+
    3) Enter the name of your team and click submit.
    
    4) Select the persona that you want to use for this session. 
       Currently, you can select from these personas: Abi, Tim, Pat, or a custom persona of your creation.
-      
+
       After you have selected the persona, the description of the selected 
       persona you selected will appear to the right.
       
-      
       If you selected a custom persona, navigate to http://gendermag.org/custom_persona.php and design your custom persona using an online or PDF form. Your custom persona's facets and characteristics will be listed on these forms instead of in the GenderMag extension.
 
-      If you want to change the persona or team name, click edit on top of the 
-      tool.
+      <img src="images/create_persona.png" width="400" border="2">
+
+      If you want to change the persona or team name, click edit on top of the tool.
+
+      <img src="images/scenario.png" width="400" border="2">
    
-   5) Provide the scenario that your persona will be performing in the text box 
-   and click submit.
+   5) Provide the scenario that your persona will be performing in the text box and click submit.
     
    6) Enter a subgoal and click 'enter subgoal'. 
    
@@ -140,12 +143,16 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
     
    8) Enter an action that pertains to this subgoal. 
    
-   9) Click on the 'click here' button to take a screen capture of ideal action. 
-   Move the rectangular box around your box to the action that you want to focus 
-   on and hit the left click. This will create a screen capture of ideal action. 
-   If you want to add more info to the capture click on the draw on the image 
-   button and annotate the image. If the image looks okay, click 'save and 
-   continue'.
+   9) Click on the 'click here' button to take a screen capture of ideal action.
+   
+      Move the rectangular box around your box to the action that you want to focus 
+      on and hit the left click. This will create a screen capture of ideal action. 
+
+      <img src="images/screenshot.png" width="400" border="2">
+
+      If you want to add more info to the capture click on the draw on the image 
+      button and annotate the image. If the image looks okay, click 'save and 
+      continue'.
 
    10) Answer: Yes, No, or Maybe for, will the persona know what to do at this 
    step, and in the text box under it explain why, why not, or why maybe? On 
@@ -174,8 +181,8 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    your session's information.
    
    16) If the zip file was not downloaded click Re-Download zip file. Otherwise,
-    check the box next to the disclaimer saying that the file was downloaded and
-    hit "Quit GenderMag". This will reload the page and close the tool.
+   check the box next to the disclaimer saying that the file was downloaded and
+   hit "Quit GenderMag". This will reload the page and close the tool.
 
 See the video at http://gendermag.org for examples of what running the tool 
 looks like.
