@@ -9,7 +9,7 @@
                 <button id="saveImageAndCloseButton" class="closeToolTip" style="float:right; width:130px; height:25px;background-color:#7D1935;color:white;font-size: smaller"> Continue</button>
             </div>
 
-			<p id="imageCaption" style="margin:10px">
+			<p id="imageCaption" style="margin:10px; color:black">
 				This is a preview of your image.
 				You may also retake your image if you aren't happy with it. Once you have an image you like, select the continue button.
     		</p>
@@ -71,7 +71,7 @@
 							<span class="actionNameSpan" style="color:black;"></span>
 							<br>
 							</div>
-				<div>Please perform the action specified previously and then
+				<div style="color:black">Please perform the action specified previously and then
             click the 'Continue' button to proceed </div>
 			</p>
 
@@ -112,7 +112,7 @@
 
         </div>
         <hr id="HRmorelikefunpolice">
-		<p id="imageCaption2" style="margin:10px;">
+		<p id="imageCaption2" style="margin:10px; color:black">
 				Before action image preview:
 		</p>
 		<p id="imageCaption3" hidden>
@@ -135,9 +135,9 @@
 						<span class="actionNameSpan" style="color:black;"></span>
 						<br>
 						</div>
-            <p> Action Completed. </p>
+            <p style="color:black"> Action Completed. </p>
 
-            <p> If there is another action for this subgoal,
+            <p style="color:black"> If there is another action for this subgoal,
                 enter the name of the next action then click 'Create New Action' to
                 proceed to highlighting the action and taking a screenshot. </p>
 			<input id="actionNameInput" type="text" placeholder="ex: Type 'Sue' in the search bar" size="40">
@@ -145,12 +145,12 @@
 
             <br>
 
-            <p> If there are there is another subgoal for this scenario, enter the
+            <p style="color:black"> If there are there is another subgoal for this scenario, enter the
                 name of the next subgoal.</p>
             <input id="subgoalInput" type="text" placeholder="ex: Search for 'Sue' in the DB" size="40">
 			<input type="submit" id="newSubgoal" value="Create new subgoal"style="background-color:#7D1935;color:white;">
 
-			<p>If you are done with this session, please exit the tool</p>
+			<p style="color:black">If you are done with this session, please exit the tool</p>
             <input id="saveAndExit" type="submit" value="Download and end my GenderMag session"style="background-color:#7D1935;color:white;"></input><br>
 
         </div>
@@ -158,13 +158,13 @@
 		<div id ="theFinalCountDown" style="display:none;">
 			<div style="height:25px; background-color:#4A96AD;text-align:center;">
             </div>
-			<p>WARNING! Selecting 'Quit GenderMag' below will clear all of your current session's data. Please ensure that you have downloaded the zip file which contains all your screen captures and a file with all of your answers if you wish to have a copy of your current session.</p>
-			<label>You can <button id="finalDownload" style="background-color:#7D1935;color:white;"> Download zip file</button> or
+			<p style="color:black">WARNING! Selecting 'Quit GenderMag' below will clear all of your current session's data. Please ensure that you have downloaded the zip file which contains all your screen captures and a file with all of your answers if you wish to have a copy of your current session.</p>
+			<label style="color:black">You can <button id="finalDownload" style="background-color:#7D1935;color:white;"> Download zip file</button> or
                 <button id="oldFormat" style="background-color:#7D1935;color:white;">
                     download the old result format
                 </button> if needed
             </label><br><br>
-			<label><input id="finalYesCheckbox" type="checkbox"> I understand that I must download my files if I wish to save my current session's data. </label> <br>
+			<label style="color:black"><input id="finalYesCheckbox" type="checkbox"> I understand that I must download my files if I wish to save my current session's data. </label> <br>
 			<button id="finalYes" style="background-color:#7D1935;color:white;opacity:0.5" disabled> Quit GenderMag </button>
 			<button id="finalNo" style="background-color:#7D1935;color:white;"> I'm not done yet. Take me back </button>
 		</div>
