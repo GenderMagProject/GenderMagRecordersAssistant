@@ -72,9 +72,9 @@ function preActionQuestions(el){
     var personaName = getVarFromLocal("personaName");
     var pronoun = getVarFromLocal("personaPronoun");
     var possessive = getVarFromLocal("personaPossessive");
-    $(el).find("#preActQ").html("Will " + personaName+ " know what to do at this step?");
+    $(el).find("#preActQ").html("Will " + personaName+ " know what to do at this step?").attr("style","color:black");
     $(el).find("#preFacets").html("Which of " + personaName + 
-				  "'s facets did you use to answer the above question?");
+				  "'s facets did you use to answer the above question?").attr("style","color:black");
 
 	//hide draw button and retake button, show preaction questions
     $(el).find("#annotateImage").hide();
@@ -185,9 +185,9 @@ function postActionQuestions(el){
     $(el).find("#postActQ").html("If " + personaName + 
 				 " did the right thing (what you just demonstrated), will " +
         pronoun + " know that " + pronoun + " did the right thing and is making progress toward " +
-        possessive + " goal?");
+        possessive + " goal?").attr("style","color:black");
     $(el).find("#postFacets").html("Which of " + personaName +
-				   "'s facets did you use to answer the above question?");
+				   "'s facets did you use to answer the above question?").attr("style","color:black");
 
 	//hide do action prompt, show post action questions
 	$(el).find("#doActionPromptTemplate").hide();
