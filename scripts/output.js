@@ -15,29 +15,21 @@
 var imgList = [];
 var globName = "";
 
-/*
- * Function: insertImage()
- * Inserts an image into the excel file
- */
-function insertImage(){
-
-
-
-
-}
-
 
 
 /*
  * Function: now
+ * Ret: string hr:min
  * Gets the date and time in the format hr:min
  */
 function now() {
 	var date = new Date();
 	return date.getHours() + ":" + date.getMinutes();
 }
+
 /*
  * Function: today
+ * Ret: string mm/dd/yyyy 
  * Gets the date in the format month/day/year
  */
 function today() {
@@ -75,36 +67,38 @@ function getSubgoalInfo(){
         var subgoalEntry = [];
         var currSubgoal = subgoalList[j]; //Current Input
         subgoalEntry.push("\n");
-        subgoalEntry.push("\n"); // new row
+        subgoalEntry.push("\n"); 
         subgoalEntry.push("Subgoal " + (parseInt(j)+1));
         subgoalEntry.push(sanitizeString(currSubgoal.name));
-        subgoalEntry.push("\n"); // new row
+        subgoalEntry.push("\n"); 
         subgoalEntry.push("Will the persona have formed this subgoal as a step to their overall goal?");
-        subgoalEntry.push("\n"); // new row
-      // subgoalEntry.push(currSubgoal.ynm["yes"].localeCompare("TRUE"));
-         if(currSubgoal.ynm["yes"] === true){
+        subgoalEntry.push("\n"); 
+
+        if(currSubgoal.ynm["yes"] === true){
             subgoalEntry.push("Yes");
             subgoalEntry.push(currSubgoal.ynm["yes"]);
-            subgoalEntry.push("\n"); // new row
+            subgoalEntry.push("\n"); 
         }
+
         if(currSubgoal.ynm["no"] === true){
             subgoalEntry.push("No");
             subgoalEntry.push(currSubgoal.ynm["no"]);
-            subgoalEntry.push("\n"); // new row 
+            subgoalEntry.push("\n");  
         }
 
         if(currSubgoal.ynm["maybe"] === true){
             subgoalEntry.push("Maybe");
             subgoalEntry.push(currSubgoal.ynm["maybe"]);
-            subgoalEntry.push("\n"); // new row
+            subgoalEntry.push("\n"); 
         }
 
         subgoalEntry.push("Why?");
         subgoalEntry.push(sanitizeString(currSubgoal.why));
-        subgoalEntry.push("\n"); // new row
-        subgoalEntry.push("\n"); // new row
+        subgoalEntry.push("\n"); 
+        subgoalEntry.push("\n"); 
         subgoalEntry.push("Subgoal Facets:");
-        subgoalEntry.push("\n"); // new row
+        subgoalEntry.push("\n"); 
+
         if(currSubgoal.facetValues["motiv"] === true){
             subgoalEntry.push("Motivation");
             subgoalEntry.push(currSubgoal.facetValues["motiv"]);
@@ -132,7 +126,7 @@ function getSubgoalInfo(){
         if(currSubgoal.facetValues["tinker"] === true){
             subgoalEntry.push("Tinkering"); //FIX
             subgoalEntry.push(currSubgoal.facetValues["tinker"]);
-            subgoalEntry.push("\n"); // new row
+            subgoalEntry.push("\n");   
         }
 
 
@@ -172,125 +166,129 @@ function getActionInfo(actionList, j){
     for(var i in actionList) {
         //get new line and to the right part of csv
         actionEntry.push("\n");
-        actionEntry.push("\n"); //new row
+        actionEntry.push("\n"); 
         //pre action question
         actionEntry.push("Action " + actionList[i].id);
         actionEntry.push(actionList[i].name);
         actionEntry.push("\n");
         actionEntry.push("Will the persona know what to do at this step?");
-        actionEntry.push("\n"); //new row
+        actionEntry.push("\n"); 
+
         if(actionList[i].preAction.ynm["yes"] === true){
             actionEntry.push("Yes");
             actionEntry.push(actionList[i].preAction.ynm["yes"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n"); 
         }
 
         if(actionList[i].preAction.ynm["no"] === true){
             actionEntry.push("No");
             actionEntry.push(actionList[i].preAction.ynm["no"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n"); 
         }
 
         if(actionList[i].preAction.ynm["maybe"] === true){
             actionEntry.push("Maybe");
             actionEntry.push(actionList[i].preAction.ynm["maybe"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n"); 
         }
 
         actionEntry.push("Why?");
         actionEntry.push(sanitizeString(actionList[i].preAction.why));
-        actionEntry.push("\n"); //new row
+        actionEntry.push("\n"); 
         actionEntry.push("PreAction Facets:");
-        actionEntry.push("\n"); //new row
+        actionEntry.push("\n"); 
+
         if(actionList[i].preAction.facetValues["motiv"] === true){
             actionEntry.push("Motivation");
             actionEntry.push(actionList[i].preAction.facetValues["motiv"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n"); 
         }
 
         if(actionList[i].preAction.facetValues["info"] === true){
             actionEntry.push("Information Processing");
             actionEntry.push(actionList[i].preAction.facetValues["info"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].preAction.facetValues["self"] === true){
             actionEntry.push("Computer Self Efficacy");
             actionEntry.push(actionList[i].preAction.facetValues["self"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].preAction.facetValues["risk"] === true){
             actionEntry.push("Attitude Toward Risk");
             actionEntry.push(actionList[i].preAction.facetValues["risk"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].preAction.facetValues["tinker"] === true){
             actionEntry.push("Tinkering"); //FIX
             actionEntry.push(actionList[i].preAction.facetValues["tinker"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
-        actionEntry.push("\n"); //new row
-        actionEntry.push("\n"); //new row
+        actionEntry.push("\n");  
+        actionEntry.push("\n");  
         //post action question
         actionEntry.push(sanitizeString("If the persona does the right thing, will" +
             " they know that they did the right thing and is making " +
             "progress toward their goal?"));
-        actionEntry.push("\n"); //new row
+        actionEntry.push("\n");  
+
         if(actionList[i].postAction.ynm["yes"] === true){
             actionEntry.push("Yes");
             actionEntry.push();
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].postAction.ynm["no"] === true){
             actionEntry.push("No");
             actionEntry.push(actionList[i].postAction.ynm["no"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].postAction.ynm["maybe"] === true){
             actionEntry.push("Maybe");
             actionEntry.push(actionList[i].postAction.ynm["maybe"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         actionEntry.push("Why?");
         actionEntry.push(sanitizeString(actionList[i].postAction.why));
-        actionEntry.push("\n"); //new
-        actionEntry.push("\n"); //new row
+        actionEntry.push("\n"); 
+        actionEntry.push("\n");  
         actionEntry.push("Post action facets:");
-        actionEntry.push("\n"); //new row
+        actionEntry.push("\n");  
+
         if(actionList[i].postAction.facetValues["motiv"] === true){
             actionEntry.push("Motivation");
             actionEntry.push(actionList[i].postAction.facetValues["motiv"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].postAction.facetValues["info"] === true){
             actionEntry.push("Information Processing");
             actionEntry.push(actionList[i].postAction.facetValues["info"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].postAction.facetValues["self"] === true){
             actionEntry.push("Computer Self Efficacy");
             actionEntry.push(actionList[i].postAction.facetValues["self"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].postAction.facetValues["risk"] === true){
             actionEntry.push("Attitude Toward Risk");
             actionEntry.push(actionList[i].postAction.facetValues["risk"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         if(actionList[i].postAction.facetValues["tinker"] === true){
             actionEntry.push("Tinkering"); //FIX
             actionEntry.push(actionList[i].postAction.facetValues["tinker"]);
-            actionEntry.push("\n"); //new row
+            actionEntry.push("\n");  
         }
 
         actionEntry.push("\n");
@@ -300,7 +298,6 @@ function getActionInfo(actionList, j){
         actionEntry.push("\n");
 
         downloadURI(actionList[i].imgURL, "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
-       // var tempName = "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1);
     }
     return actionEntry.join(",");
 }
@@ -373,11 +370,13 @@ function downloadCSV(csvContent, old) {
 }
 
 /*
-*This function downloads the image into the designated folder when given the uri and name
+* Function: downloadURI 
+* Arg: uri - uniform resource identifier, will warn if null
+* Arg: name - name of image, will warn if null 
+* This function downloads the image into the designated folder when given the uri and name
 */
 function downloadURI(uri, name) {
     try {
-        //checks to see if the uri or name is null
         if (uri === null || name === null) throw "The uri or name for your image is null.";
         var safeName = name;
         //uri must be converted to string in order to perform slice function to shorten the uri
