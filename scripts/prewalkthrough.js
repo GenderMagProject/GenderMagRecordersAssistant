@@ -1,229 +1,317 @@
 /*
  * File: prewalkthrough.js
- * Functions: preWalkthrough, makeEditable, handlePreWalkthroughInfo
- * Description: Handles the slider walkthrough, starting from the beginning to 
- *              the scenario section where it calls drawSubgoal.
+ * Functions: preWalkthrough, makeEditable, handlePreWalkthroughInfo, 
+ *            handleTeamName, handlePersona, handlePronouns, handleScenario, 
+ *            handleSubgoal
+ * Description: This file has functions to handle the slider walkthrough from the 
+ *              beginning to the scenario section where it calls drawSubgoal.
  */
 
-/* 
- * Function: preWalkthrough
- * Description: Appends the HTML template to the specified element and initializes
- *              the prewalkthrough process. 
+/* Function: preWalkthrough
+ * Description: This function appends the HTML template found in <file> to the 
+ *              element with the ID of <id>. It then calls the 
+ *              handlePreWalkthroughInfo() function, which gets the user's team 
+ *              name, persona choice, and scenario name, and puts the first 
+ *              subgoal template on the screen.
  * Params:
- *   id (string): ID of the element where the template will be appended.
- *   file (string): Path to the local HTML template file.
- * Pre: The element with the specified ID must exist.
- * Post: The template is appended, and the user begins the prewalkthrough process.
+ *      id: the id of the element to which the template will be appended
+ *      file: the LOCAL path of the template to use (e.g., "/templates/popup.html")
+ * Pre: Element must exist
+ * Post: The template is appended to that element, and the user has filled out 
+ *       the prewalkthrough information. The user is on the first subgoal.
  */
 function preWalkthrough(id, file) {
-    const targetElement = $(id).contents().find('body');
-    targetElement.empty();
-
-    appendTemplateToElement(targetElement, file);
+    var el = $(id).contents().find('body');
+    el.empty();
+    appendTemplateToElement(el, file);
     makeEditable();
     handlePreWalkthroughInfo();
-
-    const sidebar = sidebarBody().find('body');
-    bindClickEvent(sidebar, '#saveAndExit', () => saveAndExit("slider"));
-    bindClickEvent(sidebar, '#justExit', () => justExit("slider"));
+    sidebarBody()
+        .find('body')
+        .off('click', '#saveAndExit')
+        .on('click', '#saveAndExit', function () {
+            saveAndExit("slider");
+        });
+    sidebarBody()
+        .find('body')
+        .off('click', '#justExit')
+        .on('click', '#justExit', function () {
+            justExit("slider");
+        });
 }
 
-/* 
- * Function: makeEditable
- * Description: Adds "Edit" functionality for input fields (team name, persona, scenario).
- * Pre: The prewalkthrough template is appended to the sidebar.
- * Post: The user can edit input fields via "Edit" buttons.
+/* Function: makeEditable
+ * Description: This function adds the functionality "Edit" buttons (e.g., for 
+ *              team name, persona, etc.). It hides the edit button and adds 
+ *              editable fields to the slider section.
+ * Params: None
+ * Pre: The prewalkthrough template has been appended to the sidebar (so the 
+ *      elements that are referenced exist).
+ * Post: The edit buttons allow the user to edit their input.
  */
 function makeEditable() {
-    const sidebar = sidebarBody().find('body');
+    // Team name button
+    sidebarBody()
+        .find('body')
+        .off('click', '#editTeam')
+        .on('click', '#editTeam', function () {
+            sidebarBody().find("#editTeam").hide();
+            sidebarBody().find("#getTeam").show();
+        });
 
-    bindClickEvent(sidebar, '#editTeam', () => toggleEditField("#editTeam", "#getTeam"));
-    bindClickEvent(sidebar, '#editPersona', () => {
-        toggleEditField("#editPersona", "#getPersona");
-        sidebarBody().find("#personaInfo").hide().empty();
-        sidebarBody().find("#getPersonaPronoun").show();
-    });
-    bindClickEvent(sidebar, '#editScenario', () => toggleEditField("#editScenario", "#getScenario"));
+    // Persona name button
+    sidebarBody()
+        .find('body')
+        .off('click', '#editPersona')
+        .on('click', '#editPersona', function () {
+            sidebarBody().find("#editPersona").hide();
+            sidebarBody().find("#personaInfo").hide();
+            sidebarBody().find("#personaInfo").empty();
+            sidebarBody().find("#getPersona").show();
+            sidebarBody().find("#getPersona").children().show();
+            sidebarBody().find("#getPersonaPronoun").show();
+        });
+
+    // Scenario name button
+    sidebarBody()
+        .find('body')
+        .off('click', '#editScenario')
+        .on('click', '#editScenario', function () {
+            sidebarBody().find("#editScenario").hide();
+            sidebarBody().find("#getScenario").show();
+            sidebarBody().find("#getScenario").children().show();
+        });
 }
 
-/*
- * Function: handlePreWalkthroughInfo
- * Description: Manages user inputs for the team name, persona, and scenario, 
- *              and prepares the setup for the subgoal phase.
- * Pre: The prewalkthrough template is appended to the sidebar.
- * Post: Relevant user inputs are saved, and the user progresses to the subgoal phase.
+/* Function: handlePreWalkthroughInfo
+ * Description: This function handles the prewalkthrough information -- team name, 
+ *              persona choice, and scenario name. Also asks the user for each of 
+ *              these in turn, and leaves the template ready to set up for the 
+ *              subgoal.
+ * Params: None
+ * Pre: The prewalkthrough template has been appended to the sidebar (so the 
+ *      elements that are referenced exist).
+ * Post: The user's team name, persona selection, and scenario have been stored 
+ *       in the local storage variables:
+ *           team name -> teamName
+ *           persona choice -> personaName
+ *           scenario -> scenarioName
  */
 function handlePreWalkthroughInfo() {
-    setupTeamName();
-    setupPersona();
-    setupPronouns();
-    setupScenario();
-    setupSubgoal();
+    handleTeamName();
+    handlePersona();
+    handlePronouns();
+    handleScenario();
+    handleSubgoal();
 }
 
-/*
- * Function: setupTeamName
- * Description: Handles the input, validation, and display of the team name.
+/* Function: handleTeamName
+ * Description: Manages the input and display logic for the team name.
  */
-function setupTeamName() {
-    const sidebar = sidebarBody();
-
-    if (statusIsTrue("gotTeamName")) {
-        displaySavedTeamName();
-        return;
-    }
-
-    bindKeyEvent("#teamInput", 13, () => sidebar.find("#submitTeam").click());
-    bindClickEvent(sidebar, '#submitTeam', () => {
-        const teamName = sidebar.find("#teamInput").val().trim();
-        if (!teamName) {
-            displayError("Please enter a name", "#teamError");
-            return;
+function handleTeamName() {
+    var isSetTeam = statusIsTrue("gotTeamName");
+    if (isSetTeam) {
+        sidebarBody().find("#explain").hide();
+        sidebarBody().find("#teamName").html(
+            "<b>Team:</b> " + getVarFromLocal("teamName")
+        );
+        sidebarBody().find("#editTeam").show();
+        sidebarBody().find("#getTeam").hide();
+        if (localStorage.getItem("inGetPersona") !== "true") {
+            sidebarBody().find("#getPersona").show();
         }
-
-        saveVarToLocal("teamName", teamName);
-        setStatusToTrue("gotTeamName");
-        displaySavedTeamName(teamName);
-    });
-}
-
-/*
- * Function: setupPersona
- * Description: Handles the input, validation, and display of the persona.
- */
-function setupPersona() {
-    const sidebar = sidebarBody();
-
-    if (statusIsTrue("gotPersonaName")) {
-        displaySavedPersona();
-        return;
+    } else {
+        sidebarBody()
+            .find("#teamInput")
+            .keyup(function (event) {
+                if (event.keyCode === 13) {
+                    sidebarBody().find("#submitTeam").unbind("click").click();
+                }
+            });
+        sidebarBody()
+            .find('body')
+            .off('click', '#submitTeam')
+            .on('click', '#submitTeam', function () {
+                var teamName = sidebarBody().find("#teamInput").val();
+                if (teamName === "") {
+                    alert("Please enter a name");
+                } else {
+                    saveVarToLocal("teamName", teamName);
+                    setStatusToTrue("gotTeamName");
+                    sidebarBody().find("#teamName").html(
+                        "<b>Team:</b> " + teamName
+                    );
+                    sidebarBody().find("#editTeam").show();
+                    sidebarBody().find("#getTeam").hide();
+                    sidebarBody().find("#getPersona").show();
+                    sidebarBody().find("#explain").hide();
+                }
+            });
     }
-
-    bindClickEvent(sidebar, '#submitPersona', () => {
-        const personaName = sidebar.find("#personaSelection").val().trim();
-        if (!personaName) {
-            displayError("Please select a persona", "#personaError");
-            return;
-        }
-
-        saveVarToLocal("personaName", personaName);
-        setStatusToTrue("gotPersonaName");
-        displaySavedPersona(personaName);
-    });
 }
 
-/*
- * Function: setupPronouns
- * Description: Handles the input, validation, and display of persona pronouns.
+/* Function: handlePersona
+ * Description: Manages the input and display logic for the persona.
  */
-function setupPronouns() {
-    const sidebar = sidebarBody();
-
-    if (statusIsTrue("gotPronoun")) {
-        displaySavedPronouns();
-        return;
+function handlePersona() {
+    var isSetPersona = statusIsTrue("gotPersonaName");
+    if (isSetPersona) {
+        var personaName = getVarFromLocal("personaName");
+        sidebarBody()
+            .find("#personaName")
+            .html("<b>Persona:</b> " + personaName);
+        loadPersona(personaName);
+        sidebarBody().find("#personaInfo").show();
+        sidebarBody().find("#getPersona").children().hide();
+        sidebarBody().find("#getPersona").hide();
+        sidebarBody().find("#editPersona").show();
+        sidebarBody().find("#getPersonaPronoun").show();
+    } else {
+        sidebarBody()
+            .find('body')
+            .off('click', '#submitPersona')
+            .on('click', '#submitPersona', function () {
+                var personaName = sidebarBody()
+                    .find("#personaSelection")
+                    .val();
+                saveVarToLocal("personaName", personaName);
+                setStatusToTrue("gotPersonaName");
+                sidebarBody()
+                    .find("#personaName")
+                    .html("<b>Persona:</b> " + personaName);
+                loadPersona(personaName);
+                sidebarBody().find("#personaInfo").show();
+                sidebarBody().find("#getPersona").children().hide();
+                sidebarBody().find("#getPersona").hide();
+                sidebarBody().find("#editPersona").show();
+                sidebarBody().find("#getPersonaPronoun").show();
+            });
     }
-
-    bindKeyEvent("#pronounInput", 13, () => sidebar.find("#submitPronoun").click());
-    bindKeyEvent("#possessiveInput", 13, () => sidebar.find("#submitPronoun").click());
-    bindClickEvent(sidebar, '#submitPronoun', () => {
-        const pronoun = sidebar.find("#pronounInput").val().trim();
-        const possessive = sidebar.find("#possessiveInput").val().trim();
-
-        if (!pronoun || !possessive) {
-            displayError("Please enter both pronoun and possessive adjective.", "#pronounError");
-            return;
-        }
-
-        saveVarToLocal("personaPronoun", pronoun);
-        saveVarToLocal("personaPossessive", possessive);
-        setStatusToTrue("gotPronoun");
-        displaySavedPronouns(pronoun, possessive);
-    });
 }
 
-/*
- * Function: setupScenario
- * Description: Handles the input, validation, and display of the scenario.
+/* Function: handlePronouns
+ * Description: Manages the input and display logic for pronouns.
  */
-function setupScenario() {
-    const sidebar = sidebarBody();
-
-    if (statusIsTrue("gotScenarioName")) {
-        displaySavedScenario();
-        return;
+function handlePronouns() {
+    var isSetPronoun = statusIsTrue("gotPronoun");
+    if (isSetPronoun) {
+        sidebarBody().find("#getPersonaPronoun").hide();
+        sidebarBody().find("#getScenario").show();
+    } else {
+        sidebarBody()
+            .find("#pronounInput")
+            .keyup(function (event) {
+                if (event.keyCode === 13) {
+                    sidebarBody().find("#submitPronoun").unbind("click").click();
+                }
+            });
+        sidebarBody()
+            .find('body')
+            .off('click', '#submitPronoun')
+            .on('click', '#submitPronoun', function () {
+                var pronoun = sidebarBody().find("#pronounInput").val();
+                var possessive = sidebarBody().find("#possessiveInput").val();
+                if (pronoun === "" || possessive === "") {
+                    alert("Please enter both pronoun and possessive.");
+                } else {
+                    saveVarToLocal("personaPronoun", pronoun);
+                    saveVarToLocal("personaPossessive", possessive);
+                    setStatusToTrue("gotPronoun");
+                    sidebarBody().find("#getPersonaPronoun").hide();
+                    sidebarBody().find("#getScenario").show();
+                }
+            });
     }
-
-    bindKeyEvent("#scenarioInput", 13, () => sidebar.find("#submitScenario").click());
-    bindClickEvent(sidebar, '#submitScenario', () => {
-        const scenarioName = sidebar.find("#scenarioInput").val().trim();
-
-        if (!scenarioName) {
-            displayError("Please enter the scenario name", "#scenarioError");
-            return;
-        }
-
-        saveVarToLocal("scenarioName", scenarioName);
-        setStatusToTrue("gotScenarioName");
-        setStatusToTrue("finishedPrewalkthrough");
-        displaySavedScenario(scenarioName);
-    });
 }
 
-/*
- * Function: setupSubgoal
- * Description: Handles the input, validation, and display of the subgoal.
+/* Function: handleScenario
+ * Description: Manages the input and display logic for the scenario.
  */
-function setupSubgoal() {
-    const sidebar = sidebarBody();
+function handleScenario() {
+    var isSetScenario = statusIsTrue("gotScenarioName");
+    if (isSetScenario) {
+        var scenarioName = getVarFromLocal("scenarioName");
+        sidebarBody().find("#scenarioName").html(
+            "<b>Scenario:</b> " + scenarioName
+        );
+        sidebarBody().find("#editScenario").show();
+        sidebarBody().find("#getScenario").children().hide();
+        sidebarBody().find("#getScenario").hide();
 
-    if (statusIsTrue("gotSubgoalName")) {
-        loadSavedSubgoal();
-        return;
+        // Transition to subgoal phase
+        sidebarBody().find("#getSubgoal").show(); // Ensure subgoal input is visible
+        setStatusToFalse("gotSubgoalName"); // Reset subgoal state to trigger input handling
+    } else {
+        sidebarBody()
+            .find("#scenarioInput")
+            .keyup(function (event) {
+                if (event.keyCode === 13) {
+                    sidebarBody().find("#submitScenario").unbind("click").click();
+                }
+            });
+        sidebarBody()
+            .find('body')
+            .off('click', '#submitScenario')
+            .on('click', '#submitScenario', function () {
+                var scenarioName = sidebarBody().find("#scenarioInput").val();
+                if (scenarioName === "") {
+                    alert("Please enter the scenario name");
+                } else {
+                    saveVarToLocal("scenarioName", scenarioName);
+                    setStatusToTrue("gotScenarioName");
+                    setStatusToTrue("finishedPrewalkthrough");
+                    setStatusToFalse("gotSubgoalName"); // Reset for subgoal phase
+                    sidebarBody().find("#scenarioName").html(
+                        "<b>Scenario:</b> " + scenarioName
+                    );
+                    sidebarBody().find("#editScenario").show();
+                    sidebarBody().find("#getScenario").children().hide();
+                    sidebarBody().find("#getScenario").hide();
+
+                    // Transition to subgoal phase
+                    sidebarBody().find("#getSubgoal").show(); // Display subgoal input
+                }
+            });
     }
-
-    bindKeyEvent("#subgoalInput", 13, () => sidebar.find("#submitSubgoal").click());
-    bindClickEvent(sidebar, '#submitSubgoal', () => {
-        const subgoalName = sidebar.find("#subgoalInput").val().trim();
-
-        if (!subgoalName) {
-            displayError("Please name your subgoal before continuing", "#subgoalError");
-            return;
-        }
-
-        saveSubgoalToLocal(subgoalName);
-        drawSubgoal(subgoalName);
-    });
 }
 
-/*
- * Helper Functions
+
+/* Function: handleSubgoal
+ * Description: Manages the input and display logic for subgoals.
  */
-
-function bindClickEvent(element, selector, callback) {
-    element.off('click', selector).on('click', selector, callback);
+function handleSubgoal() {
+    var isSetSubName = statusIsTrue("gotSubgoalName");
+    if (isSetSubName) {
+        var subgoalId = localStorage.getItem("numSubgoals");
+        if (!subgoalId) {
+            subgoalId = 1;
+            localStorage.setItem("numSubgoals", subgoalId);
+        }
+        drawSubgoal(subgoalId);
+    } else {
+        sidebarBody()
+            .find("#subgoalInput")
+            .keyup(function (event) {
+                if (event.keyCode === 13) {
+                    sidebarBody().find("#submitSubgoal").unbind("click").click();
+                }
+            });
+        sidebarBody()
+            .find('body')
+            .off('click', '#submitSubgoal')
+            .on('click', '#submitSubgoal', function () {
+                var subgoalName = sidebarBody().find("#subgoalInput").val();
+                if (subgoalName === "") {
+                    alert("Please name your subgoal before continuing");
+                } else {
+                    setStatusToTrue("gotSubgoalName");
+                    var subgoalId = localStorage.getItem("numSubgoals") || 1;
+                    subgoalId++;
+                    localStorage.setItem("numSubgoals", subgoalId);
+                    saveSubgoal(subgoalId, subgoalName, 0, "", 0);
+                    drawSubgoal(subgoalId);
+                }
+            });
+    }
 }
-
-function bindKeyEvent(selector, keyCode, callback) {
-    sidebarBody().find(selector).off('keyup').on('keyup', function (event) {
-        if (event.keyCode === keyCode) callback();
-    });
-}
-
-function toggleEditField(hideSelector, showSelector) {
-    sidebarBody().find(hideSelector).hide();
-    sidebarBody().find(showSelector).show();
-}
-
-function displayError(message, errorSelector) {
-    sidebarBody().find(errorSelector).text(message).show();
-}
-
-function displaySavedTeamName(teamName) {
-    const sidebar = sidebarBody();
-    teamName = teamName || getVarFromLocal("teamName");
-    sidebar.find("#teamName").html(`<b>Team:</b> ${teamName}`);
-    toggleEditField("#getTeam", "#editTeam");
-}
-
 
