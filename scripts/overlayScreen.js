@@ -29,7 +29,9 @@ function overlayScreen(onlyDraw) {
   //If skipping screenshot and loading tooltip window from local storage
   if (onlyDraw === "onlyToolTip") {
     closeSlider();
-    console.log("Slider is closed now, loading tooltip window from local storage");
+    console.log(
+      "Slider is closed now, loading tooltip window from local storage"
+    );
     sidebarBody().find("#nukeStatus").show();
     var canvasContainer;
     var canvas;
@@ -106,151 +108,207 @@ function overlayScreen(onlyDraw) {
         if (error) {
           console.error("Error appending action template:", error);
         } else {
-			//add button functionality
-		$(".closeToolTip").unbind( "click" ).unbind( "click" ).click(function() {
-			setStatusToTrue("gotScreenshot");
-			preActionQuestions(toolTip);
-		});
+          //add button functionality
+          $(".closeToolTip")
+            .unbind("click")
+            .unbind("click")
+            .click(function () {
+              setStatusToTrue("gotScreenshot");
+              preActionQuestions(toolTip);
+            });
 
-		$("#retakeImage").unbind( "click" ).unbind( "click" ).click(function(){
-			toolTip.remove();
-			setStatusToFalse("drewToolTip");
-			overlayScreen();
-			overlayScreen();
-		});
+          $("#retakeImage")
+            .unbind("click")
+            .unbind("click")
+            .click(function () {
+              toolTip.remove();
+              setStatusToFalse("drewToolTip");
+              overlayScreen();
+              overlayScreen();
+            });
 
-		//this is what i changed come back to this
+          //this is what i changed come back to this
 
-		//$("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
-       //     justExit("popup");
-		//});
+          //$("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
+          //     justExit("popup");
+          //});
 
-        $("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
-            justExit("popup");
-		});
+          $("#exitButton")
+            .unbind("click")
+            .unbind("click")
+            .click(function () {
+              justExit("popup");
+            });
 
+          $("#imageBack")
+            .unbind("click")
+            .unbind("click")
+            .click(function () {
+              toolTip.remove();
+              document.getElementById(
+                "genderMagCanvasContainer"
+              ).style.display = "none";
+              openSlider();
+            });
 
-		$("#imageBack").unbind( "click" ).unbind( "click" ).click(function(){
-		    toolTip.remove();
-        document.getElementById('genderMagCanvasContainer').style.display="none";
-			  openSlider();
-		});
+          var actionSpan = localStorage.getItem("currActionName");
+          $(".actionNameSpan").html("Action: " + actionSpan);
 
-		var actionSpan = localStorage.getItem("currActionName");
-		$(".actionNameSpan").html("Action: " + actionSpan);
-
-		//Get ready to display image
-		canvas = document.getElementById("imageCanvas");
-		canvas.width = "465";
-		canvas.height=	"350";
-		canvas.style.border="2px solid #4A96AD";
-		canvas.style.margin="10px";
-		var context = canvas.getContext("2d");
-		var myImg = document.getElementById("previewImage");
-		var imgURL = localStorage.getItem("currImgURL");
-		if (imgURL) {
+          //Get ready to display image
+          canvas = document.getElementById("imageCanvas");
+          canvas.width = "465";
+          canvas.height = "350";
+          canvas.style.border = "2px solid #4A96AD";
+          canvas.style.margin = "10px";
+          var context = canvas.getContext("2d");
+          var myImg = document.getElementById("previewImage");
+          var imgURL = localStorage.getItem("currImgURL");
+          if (imgURL) {
             myImg.src = imgURL;
+          } else {
+            myImg.src = localStorage.getItem("currImgURL");
+          }
+          var previewHeight = 350;
+          var previewWidth = 465;
+          var imageRatio = myImg.width / myImg.height;
+          var ratioHeight = myImg.height * 0.75;
+          var ratioWidth = imageRatio * ratioHeight;
+          var canContainer = document.getElementById(
+            "genderMagCanvasContainer"
+          );
+          var sourceY = canContainer.offsetTop;
+          var sourceX = canContainer.offsetLeft;
+
+          var sx = localStorage.getItem("sx");
+          var sy = localStorage.getItem("sy");
+
+          //draw preview image
+          if (sx && sy) {
+            context.drawImage(
+              myImg,
+              0,
+              0,
+              myImg.width,
+              myImg.height,
+              0,
+              0,
+              (previewWidth * 9) / 10,
+              (previewHeight * 9) / 10
+            );
+          } else {
+            context.drawImage(myImg, 0, 0, previewWidth, previewHeight);
+          }
+
+          //Functionality when 'draw on image' button is clicked
+          $(".previewTrigger")
+            .unbind("click")
+            .click(function () {
+              importStylesheet("head", "/styles/overlayScreen.css");
+              //appendTemplateToElement("body", "/templates/imageAnnotation.html");
+              appendTemplateToElement(
+                "body",
+                "/templates/imageAnnotation.html",
+                (error) => {
+                  if (error) {
+                    console.error(
+                      "Error appending image annotation template:",
+                      error
+                    );
+                    return;
+                  }
+                  console.log("Image Template Appended");
+                  $("#imageAnnotation").width(ratioWidth + 10);
+                  $("#imageAnnotation").height(ratioHeight + 40);
+                  $("#imageAnnotation").draggable();
+                  $("#annotationCanvas").attr("width", ratioWidth);
+                  $("#annotationCanvas").attr("height", ratioHeight);
+                  $("#annotationCanvas").width(ratioWidth);
+                  $("#annotationCanvas").height(ratioHeight);
+                  $("#imageAnnotation").css("position", "absolute");
+                  $("#imageAnnotation").css("top", myToolTip.style.top);
+                  $("#imageAnnotation").css("left", myToolTip.style.left);
+                  //$("#imageAnnotation").css("zIndex", 99999);
+
+                  //set up draw on image functionality
+                  var annotationCanvas =
+                    document.getElementById("annotationCanvas");
+                  ctx = annotationCanvas.getContext("2d");
+                  ctx.drawImage(myImg, 0, 0, ratioWidth, ratioHeight);
+
+                  //set button functionality on drawing pop up
+                  $("#undoDraw")
+                    .unbind("click")
+                    .click(function () {
+                      history.undo(annotationCanvas, ctx);
+                    });
+
+                  $("#redoDraw")
+                    .unbind("click")
+                    .click(function () {
+                      history.redo(annotationCanvas, ctx);
+                    });
+
+                  //functionality for closing drawing pop up and saving new image
+                  $("#backLargePreview")
+                    .unbind("click")
+                    .click(function () {
+                      $("#imageAnnotation").remove();
+                      var drawnOnURL = history.saveState(annotationCanvas);
+                      //set saved image as the annotated one
+                      localStorage.setItem("currImgURL", drawnOnURL);
+
+                      var smallerImg = document.getElementById("previewImage");
+                      var oldWidth = myImg.width;
+                      var oldHeight = myImg.height;
+                      smallerImg.src = drawnOnURL;
+                      context.clearRect(0, 0, 465, 150);
+
+                      //does this ever get called?
+                      if (oldHeight > smallerImg.height) {
+                        var sx = (sourceX * smallerImg.width) / oldWidth;
+                        var sy = (sourceY * smallerImg.height) / oldHeight;
+                        localStorage.setItem("sx", sx);
+                        localStorage.setItem("sy", sy);
+                        context.drawImage(
+                          myImg,
+                          sx,
+                          sy,
+                          smallerImg.width,
+                          smallerImg.height,
+                          0,
+                          0,
+                          (ratioWidth * 9) / 10,
+                          (ratioHeight * 9) / 10
+                        );
+                      } else {
+                        var sx = localStorage.getItem("sx");
+                        var sy = localStorage.getItem("sy");
+                        context.drawImage(
+                          myImg,
+                          sx,
+                          sy,
+                          smallerImg.width,
+                          smallerImg.height,
+                          0,
+                          0,
+                          (ratioWidth * 9) / 10,
+                          (ratioHeight * 9) / 10
+                        );
+                      }
+                    });
+
+                  $("#closeLargePreview")
+                    .unbind("click")
+                    .click(function () {
+                      $("#imageAnnotation").remove();
+                    });
+                }
+              );
+            });
         }
-        else {
-             myImg.src = localStorage.getItem("currImgURL");
-        }
-		var previewHeight = 350;
-		var previewWidth = 465;
-		var imageRatio = myImg.width/myImg.height;
-		var ratioHeight = myImg.height * 0.75;
-		var ratioWidth = imageRatio*ratioHeight;
-		var canContainer = document.getElementById("genderMagCanvasContainer");
-		var sourceY = canContainer.offsetTop;
-		var sourceX = canContainer.offsetLeft;
-
-		var sx = localStorage.getItem("sx");
-		var sy = localStorage.getItem("sy");
-
-		//draw preview image
-		if(sx && sy){
-			context.drawImage(myImg, 0, 0, myImg.width, myImg.height,0,0, previewWidth*9/10, previewHeight*9/10);
-		}
-		else{
-			context.drawImage(myImg, 0, 0, previewWidth, previewHeight);
-		}
-
-		//Functionality when 'draw on image' button is clicked
-		$(".previewTrigger").unbind( "click" ).click(function(){
-		    importStylesheet("head","/styles/overlayScreen.css");
-	    	//appendTemplateToElement("body", "/templates/imageAnnotation.html");
-			appendTemplateToElement("body", "/templates/imageAnnotation.html", (error) => {
-				if (error) {
-					console.error("Error appending image annotation template:", error);
-					return;
-				}
-				console.log("Image Template Appended");
-				$("#imageAnnotation").width(ratioWidth+10);
-				$("#imageAnnotation").height(ratioHeight+40);
-				$("#imageAnnotation").draggable();
-				$("#annotationCanvas").attr("width", ratioWidth);
-				$("#annotationCanvas").attr("height", ratioHeight);
-				$("#annotationCanvas").width(ratioWidth);
-				$("#annotationCanvas").height(ratioHeight);
-				$("#imageAnnotation").css("position", "absolute");
-				$("#imageAnnotation").css("top", myToolTip.style.top);
-				$("#imageAnnotation").css("left", myToolTip.style.left);
-				//$("#imageAnnotation").css("zIndex", 99999);
-	
-				//set up draw on image functionality
-				var annotationCanvas = document.getElementById("annotationCanvas");
-				ctx = annotationCanvas.getContext("2d");
-				ctx.drawImage(myImg,0,0, ratioWidth, ratioHeight);
-	
-				   //set button functionality on drawing pop up
-				$('#undoDraw').unbind( "click" ).click(function() {
-					history.undo(annotationCanvas, ctx);
-				});
-	
-				$('#redoDraw').unbind( "click" ).click(function() {
-					history.redo(annotationCanvas, ctx);
-				});
-	
-				//functionality for closing drawing pop up and saving new image
-				$("#backLargePreview").unbind( "click" ).click(function(){
-				   $("#imageAnnotation").remove();
-					var drawnOnURL = history.saveState(annotationCanvas);
-					//set saved image as the annotated one
-					localStorage.setItem("currImgURL", drawnOnURL);
-	
-					var smallerImg = document.getElementById("previewImage");
-					var oldWidth = myImg.width;
-					var oldHeight = myImg.height;
-					smallerImg.src = drawnOnURL;
-					context.clearRect(0,0,465, 150);
-	
-					//does this ever get called?
-					if(oldHeight > smallerImg.height){
-						var sx = sourceX *smallerImg.width/oldWidth;
-						var sy = sourceY *smallerImg.height/oldHeight;
-						localStorage.setItem("sx", sx);
-						localStorage.setItem("sy", sy);
-						context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0,
-						  ratioWidth*9/10, ratioHeight*9/10);
-					}
-					else{
-						var sx = localStorage.getItem("sx");
-						var sy = localStorage.getItem("sy");
-						context.drawImage(myImg, sx, sy, smallerImg.width,smallerImg.height,0,0,
-						  ratioWidth*9/10, ratioHeight*9/10);
-					}
-				});
-	
-				$("#closeLargePreview").unbind( "click" ).click(function(){
-					$("#imageAnnotation").remove();
-				});
-			});
-		   
-		})
-		}
       }
     );
     //add button functionality
-    
   } else {
     //close slider to prepare for screenshot box cursor
     closeSlider();
@@ -358,7 +416,7 @@ function overlayScreen(onlyDraw) {
             // 	//do nothing - not a bad error it just happens
             // 	console.log("Error in screenshot from overlay ",chrome.runtime.lastError);
             // }
-			//mv3 update
+            //mv3 update
             if (chrome.runtime.lastError) {
               console.error(
                 "Error in screenshot from overlay:",
@@ -672,9 +730,7 @@ function renderImage(imgURL) {
       var destY = canvas.height / 2 - destHeight / 2;
 
       //functionality for drawing preview image on pop up
-      $(".previewTrigger")
-        .unbind("click")
-        .click(function () {
+      $(".previewTrigger").unbind("click").click(function () {
           importStylesheet("head", "/styles/overlayScreen.css");
           //appendTemplateToElement("body", "/templates/imageAnnotation.html");
           // Add image annotation template to body
@@ -693,92 +749,92 @@ function renderImage(imgURL) {
                   data
                 );
                 // Add any dependent logic specific to the image annotation here
-				$("#imageAnnotation").width(ratioWidth + 10);
-          $("#imageAnnotation").height(ratioHeight + 40);
-          $("#imageAnnotation").draggable();
+                $("#imageAnnotation").width(ratioWidth + 10);
+                $("#imageAnnotation").height(ratioHeight + 40);
+                $("#imageAnnotation").draggable();
 
-          $("#annotationCanvas").attr("width", ratioWidth);
-          $("#annotationCanvas").attr("height", ratioHeight);
-          $("#annotationCanvas").width(ratioWidth);
-          $("#annotationCanvas").height(ratioHeight);
-          $("#imageAnnotation").css("position", "absolute");
-          $("#imageAnnotation").css("top", myToolTip.style.top);
-          $("#imageAnnotation").css("left", myToolTip.style.left);
-          $("#imageAnnotation").css("zIndex", 99999);
+                $("#annotationCanvas").attr("width", ratioWidth);
+                $("#annotationCanvas").attr("height", ratioHeight);
+                $("#annotationCanvas").width(ratioWidth);
+                $("#annotationCanvas").height(ratioHeight);
+                $("#imageAnnotation").css("position", "absolute");
+                $("#imageAnnotation").css("top", myToolTip.style.top);
+                $("#imageAnnotation").css("left", myToolTip.style.left);
+                $("#imageAnnotation").css("zIndex", 99999);
 
-          drawOnCanvas("#annotationCanvas");
-          var annotationCanvas = document.getElementById("annotationCanvas");
-          ctx = annotationCanvas.getContext("2d");
-          ctx.drawImage(myImg, 0, 0, ratioWidth, ratioHeight);
-          console.log("image drawn");
+                drawOnCanvas("#annotationCanvas");
+                var annotationCanvas =
+                  document.getElementById("annotationCanvas");
+                ctx = annotationCanvas.getContext("2d");
+                ctx.drawImage(myImg, 0, 0, ratioWidth, ratioHeight);
+                console.log("image drawn");
 
-          $("#undoDraw")
-            .unbind("click")
-            .click(function () {
-              var drawnOnURL = history.undo(annotationCanvas, ctx);
-              localStorage.setItem("currImgURL", drawnOnURL);
-            });
+                $("#undoDraw")
+                  .unbind("click")
+                  .click(function () {
+                    var drawnOnURL = history.undo(annotationCanvas, ctx);
+                    localStorage.setItem("currImgURL", drawnOnURL);
+                  });
 
-          $("#redoDraw")
-            .unbind("click")
-            .click(function () {
-              var drawnOnURL = history.redo(annotationCanvas, ctx);
-              localStorage.setItem("currImgURL", drawnOnURL);
-            });
+                $("#redoDraw")
+                  .unbind("click")
+                  .click(function () {
+                    var drawnOnURL = history.redo(annotationCanvas, ctx);
+                    localStorage.setItem("currImgURL", drawnOnURL);
+                  });
 
-          $("#backLargePreview")
-            .unbind("click")
-            .click(function () {
-              $("#imageAnnotation").remove();
-            });
-          $("#closeLargePreview")
-            .unbind("click")
-            .click(function () {
-              $("#imageAnnotation").remove();
-              var drawnOnURL = history.saveState(annotationCanvas);
-              localStorage.setItem("currImgURL", drawnOnURL);
+                $("#backLargePreview")
+                  .unbind("click")
+                  .click(function () {
+                    $("#imageAnnotation").remove();
+                  });
+                $("#closeLargePreview")
+                  .unbind("click")
+                  .click(function () {
+                    $("#imageAnnotation").remove();
+                    var drawnOnURL = history.saveState(annotationCanvas);
+                    localStorage.setItem("currImgURL", drawnOnURL);
 
-              var smallerImg = document.getElementById("previewImage");
-              var oldWidth = myImg.width;
-              var oldHeight = myImg.height;
-              smallerImg.src = drawnOnURL;
-              context.clearRect(0, 0, 465, 150);
-              if (oldHeight > smallerImg.height) {
-                var sx = (sourceX * smallerImg.width) / oldWidth;
-                var sy = (sourceY * smallerImg.height) / oldHeight;
-                localStorage.setItem("sx", sx);
-                localStorage.setItem("sy", sy);
-                context.drawImage(
-                  myImg,
-                  sx,
-                  sy,
-                  smallerImg.width,
-                  smallerImg.height,
-                  0,
-                  0,
-                  (ratioWidth * 9) / 10,
-                  (ratioHeight * 9) / 10
-                );
-              } else {
-                var sx = localStorage.getItem("sx");
-                var sy = localStorage.getItem("sy");
-                context.drawImage(
-                  myImg,
-                  sx,
-                  sy,
-                  smallerImg.width,
-                  smallerImg.height,
-                  0,
-                  0,
-                  (ratioWidth * 9) / 10,
-                  (ratioHeight * 9) / 10
-                );
-              }
-            });
+                    var smallerImg = document.getElementById("previewImage");
+                    var oldWidth = myImg.width;
+                    var oldHeight = myImg.height;
+                    smallerImg.src = drawnOnURL;
+                    context.clearRect(0, 0, 465, 150);
+                    if (oldHeight > smallerImg.height) {
+                      var sx = (sourceX * smallerImg.width) / oldWidth;
+                      var sy = (sourceY * smallerImg.height) / oldHeight;
+                      localStorage.setItem("sx", sx);
+                      localStorage.setItem("sy", sy);
+                      context.drawImage(
+                        myImg,
+                        sx,
+                        sy,
+                        smallerImg.width,
+                        smallerImg.height,
+                        0,
+                        0,
+                        (ratioWidth * 9) / 10,
+                        (ratioHeight * 9) / 10
+                      );
+                    } else {
+                      var sx = localStorage.getItem("sx");
+                      var sy = localStorage.getItem("sy");
+                      context.drawImage(
+                        myImg,
+                        sx,
+                        sy,
+                        smallerImg.width,
+                        smallerImg.height,
+                        0,
+                        0,
+                        (ratioWidth * 9) / 10,
+                        (ratioHeight * 9) / 10
+                      );
+                    }
+                  });
               }
             }
           );
-          
         });
 
       var sx = localStorage.getItem("sx");
