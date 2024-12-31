@@ -20,7 +20,15 @@
 function preWalkthrough (id, file) {
 	var el = $(id).contents().find('body');
 	el.empty();
-	appendTemplateToElement(el,file);
+	//appendTemplateToElement(el,file);
+	appendTemplateToElement(el, file, function (error) {
+		if (error) {
+			console.error("Error appending template in preWalkthrough:", error);
+		} else {
+			console.log("Template appended successfully in preWalkthrough.");
+		}
+	});
+	
 	makeEditable();
 	handlePreWalkthroughInfo();
 	sidebarBody().find('body').off('click', '#saveAndExit').on('click', '#saveAndExit', function() {
@@ -302,6 +310,7 @@ function handlePreWalkthroughInfo () {
 	
 	//If the state variable is set, reload previous input
 	var isSetSubName = statusIsTrue("gotSubgoalName");
+	console.log("IS subgoal name set? ",isSetSubName);
 	if (isSetSubName) {
 		//Restore from previous state
 		sidebarBody().find("#welcomeText").html("GenderMag Recorder's Assistant: <i>In Session</i>");

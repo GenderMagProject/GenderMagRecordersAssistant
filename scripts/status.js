@@ -22,8 +22,7 @@ var statusObject = {
 	gotSubgoalQuestions: "",                    //set in walkthrough.js
 	gotActionName: "",                          //set in walkthrough.js
     actionPromptOnScreen: "",                   //set in walkthrough.js
-    drewToolTip: "",                            //set in overlayScreen.js
-    highlightedAction: "",                      //set in overlayScreen.js
+    drewToolTip: "",                            //set in overlayScreen.js  
     gotScreenshot: "",                          //set in overlayScreen.js
 	gotPreActionQuestions: "",                  //set in action.js
     idealActionPerformed: "",                   //set in action.js
@@ -37,13 +36,14 @@ var statusObject = {
  * Params: None
  */
 function initStatusObject () {
+	console.log("3");
     var obj = JSON.parse(localStorage.getItem("statusObject"));
     if (obj) {
-        //console.log("statusObject found");
+        console.log("statusObject found");
     }
     else {
         localStorage.setItem("statusObject", JSON.stringify(statusObject));  
-        //console.log("Initializing status object...");
+        console.log("Initializing status object...");
     }
 }
 
