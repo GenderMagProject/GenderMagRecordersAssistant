@@ -7,7 +7,7 @@
 <div id="subgoalQuestions" style="height:75%; width:40%; float:left; margin:0px;padding:0px;overflow-x: hidden;overflow-y:auto;">
 	<h3 id="subgoalHeading" style="padding:0px;margin:0px;">Subgoal</h3>
 	<span id="goalQuestion" class="cwQuestion">Will Abi have formed this subgoal as a step to their overall goal?<br></span>
-	<div id="yesnomaybe" style="width:100%">
+	<!-- <div id="yesnomaybe" style="width:100%">
 		<span>
 		  <input type="checkbox" id="yes" value="yes" onclick="DisplayTextboxYes()">Yes
 			<input type="text" id="BwhyYes" style="display:none" placeholder="Why?"><br>
@@ -20,7 +20,22 @@
 		  <input type="checkbox" id="maybe" value="maybe" onclick="DisplayTextboxMaybe()">Maybe
 			<input type="text" id="BwhyMaybe" style="display:none" placeholder="Why?">
 		</span>
+	</div> -->
+	<div id="yesnomaybe" style="width:100%">
+		<span>
+			<input type="checkbox" id="yes" value="yes">Yes
+			<input type="text" id="BwhyYes" style="display:none" placeholder="Why?">
+		</span><br>
+		<span>
+			<input type="checkbox" id="no" value="no">No
+			<input type="text" id="BwhyNo" style="display:none" placeholder="Why?">
+		</span><br>
+		<span>
+			<input type="checkbox" id="maybe" value="maybe">Maybe
+			<input type="text" id="BwhyMaybe" style="display:none" placeholder="Why?">
+		</span>
 	</div>
+	
 	<div id="A0Q0Response" class="responseDiv" style="margin:5px;"> </div>
 	<!--textarea id="A0Q0whyNo" class="responseBox" placeholder="Why not?"></textarea>
 	<textarea id="A0Q0whyMaybe" class="responseBox" placeholder="Why maybe?"></textarea--><br>
@@ -43,7 +58,11 @@
 </div>
 
 <script type = "text/javascript">
+document.getElementById("yes").addEventListener('click',DisplayTextboxYes);
+document.getElementById("no").addEventListener('click', DisplayTextboxNo);
+document.getElementById("maybe").addEventListener('click' , DisplayTextboxMaybe);
 function DisplayTextboxYes() {
+	console.log("Inside DisplayTextboxYes");
 var checkBox = document.getElementById("yes");
 var text = document.getElementById("BwhyYes");
 if (checkBox.checked == true){
@@ -53,6 +72,7 @@ text.style.display = "none";
 }
 }
 function DisplayTextboxNo() {
+	console.log("Inside DisplayTextboxNo");
 var checkBox = document.getElementById("no");
 var text = document.getElementById("BwhyNo");
 if (checkBox.checked == true){
@@ -62,6 +82,7 @@ text.style.display = "none";
 }
 }
 function DisplayTextboxMaybe() {
+	console.log("Inside DisplayTextboxMaybe");
 var checkBox = document.getElementById("maybe");
 var text = document.getElementById("BwhyMaybe");
 if (checkBox.checked == true){
@@ -70,4 +91,4 @@ text.style.display = "block";
 text.style.display = "none";
 }
 }
-</script>
+</script> 

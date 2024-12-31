@@ -28,6 +28,7 @@ function saveSubgoal (id, name, yesnomaybe, whyText, facets, actionList = []) {
 	}
 	subArr[id-1] = subgoal;
 	localStorage.setItem("subgoalArray", JSON.stringify(subArr));  //update subgoalArray in local storage
+	console.log("Getting out from saveSubgoal successfully");
 	addToSandwich("subgoal", subgoal);
 }
 
@@ -41,7 +42,7 @@ function addToSandwich(type, item){
 	
 	if(!type.localeCompare("subgoal")){ 		
 		var subArr = getSubgoalArrayFromLocal();
-        var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
+        var arrowSRC=chrome.runtime.getURL("images/arrow_collapsed.png");
 		var sideSubgoal = ('<div stateVar=0 superCoolAttr=' + item.id 
 				   + ' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:blue;text-decoration:underline;margin:5px;" id="sideSubgoal'
 				   + item.id + '"> <img id="sideSubgoalImg' + item.id + '" src="'
@@ -398,7 +399,7 @@ function sideSubgoalExpandy (subgoalId, whatToDo) {
     
     if (whatToDo == "expand") {     //Just expand
 		//Change the arrow pic
-		var arrowSRC=chrome.extension.getURL("images/arrow_expanded.png");
+		var arrowSRC=chrome.runtime.getURL("images/arrow_expanded.png");
 		sideList.find('#sideSubgoalImg' + subgoalId).attr("src", arrowSRC);
         sideList.children().each(function () {
             var currId = (this.getAttribute('supercoolattr'));
@@ -415,7 +416,7 @@ function sideSubgoalExpandy (subgoalId, whatToDo) {
     
     else if (whatToDo == "collapse") {      //Just collapse
 		//Change the arrow pic
-		var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
+		var arrowSRC=chrome.runtime.getURL("images/arrow_collapsed.png");
 		sideList.find('#sideSubgoalImg' + subgoalId).attr("src", arrowSRC);
         sideList.children().each(function () {
             var currId = (this.getAttribute('supercoolattr'));
@@ -439,7 +440,7 @@ function sideSubgoalExpandy (subgoalId, whatToDo) {
         //If it's collapsed (stateVar == 0), expand and set the stateVar to 1
         if (stateVar == 0) {
 			//Change the arrow pic
-			var arrowSRC=chrome.extension.getURL("images/arrow_expanded.png");
+			var arrowSRC=chrome.runtime.getURL("images/arrow_expanded.png");
 			sideList.find('#sideSubgoalImg' + subgoalId).attr("src", arrowSRC);
             sideList.children().each(function () {
                 var currId = (this.getAttribute('supercoolattr'));
@@ -456,7 +457,7 @@ function sideSubgoalExpandy (subgoalId, whatToDo) {
         //If it's expanded (stateVar == 1), collapse and set the stateVar to 0
         else if (stateVar == 1) {
 			//Change the arrow pic
-			var arrowSRC=chrome.extension.getURL("images/arrow_collapsed.png");
+			var arrowSRC=chrome.runtime.getURL("images/arrow_collapsed.png");
 			sideList.find('#sideSubgoalImg' + subgoalId).attr("src", arrowSRC);
             sideList.children().each(function () {
                 var currId = (this.getAttribute('supercoolattr'));
@@ -499,9 +500,16 @@ function loadActionAnswersTemplate (actionId, subgoalId) {
 		var el = sidebarBody().find('#containeryo');
 		file = "/templates/actionAnswers.html";
 		el.empty();
-		appendTemplateToElement(el,file);
-		
-		var targetAction = subArr[subgoalId-1].actions[actionId-1];
+		//ToElement(el,file);
+		appendTemplateToElement(el, file, function (error) {
+			if (error) {
+				console.error("Error loading action answers template:", error);
+				return;
+			}
+			console.log("Action answers template appended successfully in loadActionAnswersTemplate.");
+	
+			// Add any additional logic here if needed after appending the template
+			var targetAction = subArr[subgoalId-1].actions[actionId-1];
 		//console.log("In loadAnswers", actionId, subgoalId, targetAction);
 		
 		sidebarBody().find('#answersActionNum').html(targetAction.id);
@@ -516,6 +524,8 @@ function loadActionAnswersTemplate (actionId, subgoalId) {
 		showMeTheStringYNM('#answersPostActionYNM', targetAction.postAction.ynm);
 		sidebarBody().find('#answersPostActionWhy').html(targetAction.postAction.why);
 		showMeTheStringFacets('#answersPostActionFacets', targetAction.postAction.facetValues);
+		});
+		
 		
 	}
 	

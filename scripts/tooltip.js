@@ -41,51 +41,109 @@ function updatePronouns() {
  * Description: This function creates a tooltip using an HTML template
  * Params: toolTipName - the name of the tooltip, folderName - the folder where the template is stored
  */
-function addToolTip(toolTipName, folderName){
-	// if the tooltip is already there, remove it and start again
-	if($("#"+toolTipName + "Div")){
-		$("#"+toolTipName+"Div").remove();
-	}
+// function addToolTip(toolTipName, folderName){
+// 	// if the tooltip is already there, remove it and start again
+// 	if($("#"+toolTipName + "Div")){
+// 		$("#"+toolTipName+"Div").remove();
+// 	}
 
-		var pageDiv = document.createElement("div");
-		pageDiv.id = toolTipName+"Div";
-		document.body.appendChild(pageDiv);
-		pageDiv.style.position="fixed";
-		pageDiv.style.right = "50px";
-		pageDiv.style.top = "30px";
-		pageDiv.style.height = "200px";
-		pageDiv.style.width = "500px";
-		pageDiv.style.zIndex = "99999";
-		pageDiv.style.border ="3px solid #4A96AD";
-		pageDiv.style.cursor="pointer";
-		pageDiv.style.borderRadius="5px";
-		pageDiv.style.backgroundColor = "white";
-		pageDiv.style.overflow = "auto";
+// 		var pageDiv = document.createElement("div");
+// 		pageDiv.id = toolTipName+"Div";
+// 		document.body.appendChild(pageDiv);
+// 		pageDiv.style.position="fixed";
+// 		pageDiv.style.right = "50px";
+// 		pageDiv.style.top = "30px";
+// 		pageDiv.style.height = "200px";
+// 		pageDiv.style.width = "500px";
+// 		pageDiv.style.zIndex = "99999";
+// 		pageDiv.style.border ="3px solid #4A96AD";
+// 		pageDiv.style.cursor="pointer";
+// 		pageDiv.style.borderRadius="5px";
+// 		pageDiv.style.backgroundColor = "white";
+// 		pageDiv.style.overflow = "auto";
 
-		appendTemplateToElement($("#"+toolTipName+"Div"), 'templates/'+folderName+ '/' +toolTipName +'.html');
-		$("#"+toolTipName+"Div").draggable();
-		$("#"+toolTipName+"Complete").hide();
-		// button to close
-		$("#" + toolTipName + "Button").off('click').on('click', function() {
-			$("#" + toolTipName + "Div").remove();
-		});
-		$('#'+toolTipName+'SeeMOAR').off('click').on('click', function() {
-				var isOpen = $(this).attr("stateVar");
+// 		appendTemplateToElement($("#"+toolTipName+"Div"), 'templates/'+folderName+ '/' +toolTipName +'.html');
+// 		$("#"+toolTipName+"Div").draggable();
+// 		$("#"+toolTipName+"Complete").hide();
+// 		// button to close
+// 		$("#" + toolTipName + "Button").off('click').on('click', function() {
+// 			$("#" + toolTipName + "Div").remove();
+// 		});
+// 		$('#'+toolTipName+'SeeMOAR').off('click').on('click', function() {
+// 				var isOpen = $(this).attr("stateVar");
 
-				//The "see more" is expanded and needs to be closed
-				if ($(this).attr("stateVar") == 0) {
-					$("#"+toolTipName+"Preview").hide();
-					$("#"+toolTipName+"Complete").show();
-					$("#"+toolTipName+"SeeMOAR").html("See less");	
-					$(this).attr("stateVar", 1);
-				}
-				//The "see more" is closed and needs to be opened
-				else{
-					$("#"+toolTipName+"Preview").show();
-					$("#"+toolTipName+"Complete").hide();
-					$("#"+toolTipName+"SeeMOAR").html("See more...");	
-					$(this).attr("stateVar", 0);
-				}
-		});
-	updatePronouns();
+// 				//The "see more" is expanded and needs to be closed
+// 				if ($(this).attr("stateVar") == 0) {
+// 					$("#"+toolTipName+"Preview").hide();
+// 					$("#"+toolTipName+"Complete").show();
+// 					$("#"+toolTipName+"SeeMOAR").html("See less");	
+// 					$(this).attr("stateVar", 1);
+// 				}
+// 				//The "see more" is closed and needs to be opened
+// 				else{
+// 					$("#"+toolTipName+"Preview").show();
+// 					$("#"+toolTipName+"Complete").hide();
+// 					$("#"+toolTipName+"SeeMOAR").html("See more...");	
+// 					$(this).attr("stateVar", 0);
+// 				}
+// 		});
+// 	updatePronouns();
+// }
+function addToolTip(toolTipName, folderName) {
+    // Remove existing tooltip if present
+    if ($("#" + toolTipName + "Div").length) {
+        $("#" + toolTipName + "Div").remove();
+    }
+
+    // Create the tooltip container
+    var pageDiv = document.createElement("div");
+    pageDiv.id = toolTipName + "Div";
+    document.body.appendChild(pageDiv);
+    Object.assign(pageDiv.style, {
+        position: "fixed",
+        right: "50px",
+        top: "30px",
+        height: "200px",
+        width: "500px",
+        zIndex: "99999",
+        border: "3px solid #4A96AD",
+        cursor: "pointer",
+        borderRadius: "5px",
+        backgroundColor: "white",
+        overflow: "auto",
+    });
+
+    // Append the template and bind events only after content is loaded
+    appendTemplateToElement($("#" + toolTipName + "Div"), 'templates/' + folderName + '/' + toolTipName + '.html', function (error) {
+        if (error) {
+            console.error("Error appending tooltip template:", error);
+            return;
+        }
+
+        // Bind events after content is appended
+        $("#" + toolTipName + "Button").off("click").on("click", function () {
+            $("#" + toolTipName + "Div").remove();
+        });
+
+        $('#' + toolTipName + 'SeeMOAR').off("click").on("click", function () {
+            var isOpen = $(this).attr("stateVar");
+            if (isOpen == 0) {
+                $("#" + toolTipName + "Preview").hide();
+                $("#" + toolTipName + "Complete").show();
+                $("#" + toolTipName + "SeeMOAR").html("See less");
+                $(this).attr("stateVar", 1);
+            } else {
+                $("#" + toolTipName + "Preview").show();
+                $("#" + toolTipName + "Complete").hide();
+                $("#" + toolTipName + "SeeMOAR").html("See more...");
+                $(this).attr("stateVar", 0);
+            }
+        });
+
+        // Make the tooltip draggable
+        $("#" + toolTipName + "Div").draggable();
+
+        // Update pronouns
+        updatePronouns();
+    });
 }
