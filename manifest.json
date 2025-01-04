@@ -42,7 +42,7 @@
 			"run_at": "document_start"
 		}
 	],
-	"permissions": ["unlimitedStorage", "activeTab", "tabs", "storage", "scripting","tabCapture"],
+	"permissions": ["unlimitedStorage", "activeTab", "scripting"],
 	"host_permissions": ["<all_urls>"],
 	"web_accessible_resources": [
 		{
