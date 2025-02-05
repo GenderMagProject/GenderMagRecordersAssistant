@@ -169,6 +169,7 @@ function getSubgoalInfo(){
  */
 function getActionInfo(actionList, j){
     var actionEntry = [];
+    console.log("In getAction Name getting whats actionList --> ",actionList)
     for(var i in actionList) {
         //get new line and to the right part of csv
         actionEntry.push("\n");
@@ -347,7 +348,7 @@ function createCSV() {
  * Creates and downloads a zip file containing the date and content of the gendermag session.
  */
 function downloadCSV(csvContent, old) {
-    console.log((csvContent));
+    console.log("In downloadCSV content prinnting csvContent",(csvContent));
 	var zip = new JSZip();
     var today = new Date();
     var dd = today.getDate() + 1;
@@ -361,9 +362,9 @@ function downloadCSV(csvContent, old) {
         zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
     }
 	var img = zip.folder("images");
-    console.log(imgList + "HHH");
+    console.log(imgList + "printing imgList HHH");
 	for(var i in imgList){
-	    console.log("IMAGE");
+	    console.log("IMAGE name, uri -->",imgList[i].name, imgList[i].uri);
 		img.file(imgList[i].name, imgList[i].uri, {base64: true});
 	}
 	zip.generateAsync({type:"blob"}).then(function(content) {
@@ -392,6 +393,7 @@ function downloadURI(uri, name) {
         console.log("imgobj", imgObj);
         //pushes the image to the list of images
         imgList.push(imgObj);
+        console.log("List of imgs in downloadURI is,",imgList);
     } catch (error) {
         console.log(error);
     }
