@@ -157,6 +157,7 @@ function saveIdealAction(name, yesnomaybe, whyText, facets, yesnomaybePost, whyT
 		facetValues: facetsPost
 	};
 	var currImgURL = localStorage.getItem("currImgURL");
+	console.log("In save ideal action checking 'currImgURL'-->", currImgURL);
 	var idealAction = {
 		id: preIdealAction.actionId,
 		name: preIdealAction.name,
