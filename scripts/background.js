@@ -64,8 +64,6 @@
  * Description : Behavior of the code as a chrome extension is handled through the chrome API.
  */
 //importScripts('scripts/screenshot.js');
-
-var screenShotURL;
 /* Put page action icon on all tabs */
 // chrome.tabs.onUpdated.addListener(function (tabId) {
 //     chrome.action.show(tabId);
@@ -178,6 +176,7 @@ function takeScreenShot() {
                     reject(chrome.runtime.lastError);
                     return;
                 }
+                console.log("Captured screenshot, sending to overlay.js");
 
                 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                     if (chrome.runtime.lastError) {
@@ -193,6 +192,7 @@ function takeScreenShot() {
                                 target: { tabId: tabs[0].id },
                                 func: (imageUrl) => {
                                     // This code runs in the content script context
+                                    console.log("In background , checking wats imageURL",imageUrl)
                                     if (typeof renderImage === "function") {
                                         renderImage(imageUrl);
                                     } else {
@@ -211,6 +211,22 @@ function takeScreenShot() {
                                 }
                             }
                         );
+
+                        // Send message to overlay.js (content script) to store the image in localStorage
+                        chrome.tabs.sendMessage(
+                            tabs[0].id,
+                            { callFunction: "renderImage", imageUrl: imgUrl },
+                            (response) => {
+                                if (chrome.runtime.lastError) {
+                                    console.error("Error sending message to overlay.js:", chrome.runtime.lastError);
+                                } else if (response && response.status === "success") {
+                                    console.log("Message processed successfully in overlay.js.");
+                                } else {
+                                    console.error("Unexpected response from overlay.js.");
+                                }
+                            }
+                        );
+                        
                     } else {
                         console.error("No active tabs found.");
                         reject(new Error("No active tabs found."));
