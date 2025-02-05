@@ -323,6 +323,7 @@ function saveAndExit(exitType) {
     }
 
     // Generate and download the CSV immediately
+    console.log("in save and exit in utilities");
     var scurvy = createCSV();
     downloadCSV(scurvy);
 }
