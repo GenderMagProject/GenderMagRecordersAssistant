@@ -11,11 +11,20 @@
  *    when screenshot is taken, the following process runs and render image is called.
  */
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  //console.log("renderimage" , request);
+  console.log("Received msg in overlay.js" , request);
   if (request.callFunction === "renderImage") {
+    console.log("Processing screenshot in overlay.js, received imageUrl:", request.imageUrl);
     renderImage(request.imageUrl);
+    console.log('event listener to ss call checking request.imageUrl',request.imageUrl);
     localStorage.setItem("currImgURL", request.imageUrl);
+
+    // Check if it's stored correctly
+    console.log("Stored currImgURL in localStorage:", localStorage.getItem("currImgURL")); 
+    // Send success response
+    sendResponse({ status: "success" });
   }
+  // Explicitly return true to indicate async response
+  return true;
 });
 
 /*
@@ -114,6 +123,7 @@ function overlayScreen(onlyDraw) {
             .unbind("click")
             .click(function () {
               setStatusToTrue("gotScreenshot");
+              
               preActionQuestions(toolTip);
             });
 
@@ -163,10 +173,14 @@ function overlayScreen(onlyDraw) {
           var context = canvas.getContext("2d");
           var myImg = document.getElementById("previewImage");
           var imgURL = localStorage.getItem("currImgURL");
+
           if (imgURL) {
+            console.log("printing in overlayScreen , priting preview img ->",imgURL)
             myImg.src = imgURL;
           } else {
+            
             myImg.src = localStorage.getItem("currImgURL");
+            console.log("Using stored imgURL:", myImg.src);
           }
           var previewHeight = 350;
           var previewWidth = 465;
@@ -395,7 +409,7 @@ function overlayScreen(onlyDraw) {
         }
         setStatusToTrue("highlightedAction");
         console.log(
-          "Highlight done set status to true for , highlightedAction"
+          "Highlight done set status to true for - highlightedAction"
         );
         for (var element in elements) {
           if (
@@ -531,20 +545,17 @@ function renderImage(imgURL) {
     if (error) {
       console.error("Error appending action template:", error);
     } else {
-      console.log("Action template appended in renderImage:", data);
+      console.log("Action.html appended in renderImage:", data);
       // Add any dependent logic specific to the action template here
 
       //add button functionality
-      $(".closeToolTip")
-        .unbind("click")
-        .click(function () {
+      $(".closeToolTip").unbind("click").click(function () {
           //toolTip.remove();
           setStatusToTrue("gotScreenshot");
+          console.log("in overlayScreen.js, just set status to true of gotScreenshot--> renderImage")
           preActionQuestions(toolTip);
         });
-      $("#retakeImage")
-        .unbind("click")
-        .click(function () {
+      $("#retakeImage").unbind("click").click(function () {
           toolTip.remove();
           setStatusToFalse("drewToolTip");
           overlayScreen();
@@ -693,9 +704,11 @@ function renderImage(imgURL) {
       };
 
       if (imgURL) {
+        console.log("in render img checking imgURL",imgURL)
         myImg.src = imgURL;
       } else {
         myImg.src = localStorage.getItem("currImgURL");
+        console.log("in render img checking currImgURL",currImgURL)
       }
 
       if (myImg.width === 0 || myImg.height === 0) {
@@ -744,10 +757,7 @@ function renderImage(imgURL) {
                   error
                 );
               } else {
-                console.log(
-                  "Image annotation template appended in renderImage:",
-                  data
-                );
+                console.log("Image annotation.html  appended in renderImage:",data);
                 // Add any dependent logic specific to the image annotation here
                 $("#imageAnnotation").width(ratioWidth + 10);
                 $("#imageAnnotation").height(ratioHeight + 40);
@@ -794,7 +804,7 @@ function renderImage(imgURL) {
                     $("#imageAnnotation").remove();
                     var drawnOnURL = history.saveState(annotationCanvas);
                     localStorage.setItem("currImgURL", drawnOnURL);
-
+                    console.log("Clicked save and continue and closed large preview")
                     var smallerImg = document.getElementById("previewImage");
                     var oldWidth = myImg.width;
                     var oldHeight = myImg.height;
