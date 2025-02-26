@@ -74,25 +74,8 @@ function makeEditable () {
 	});
 	
 }
-
-/* Function: handlePreWalkthroughInfo
- * Description: This function handles the prewalkthrough information -- team name, persona choice, and scenario name.
- *   Also asks the user for each of these in turn, and leaves the template ready to set up for the subgoal.
- * Params: None
- *
- * Pre: The prewalkthrough template has been appended to the sidebar (so the elements that are referenced exist).
- * Post: The user's team name, persona selection, and scenario have been stored in the local storage variables:
- *			team name -> teamName
- *			persona choice -> personaName
- *			scenario -> scenarioName
- */
-
-// TODO: Refactoring. This function might benefit from being broken up into smaller functions, and/or adding a way
-// to periodically update variables like length of subgoalArray.
-function handlePreWalkthroughInfo () {
-	
-	//var sidebarHead = $("#mySidebar").contents().find("head");
-
+//need to add description for below functions 
+function handleTeamName(){
 	//Set team name
 	//If the state variable is set, reload previous input
 	var isSetTeam = statusIsTrue("gotTeamName");
@@ -135,7 +118,9 @@ function handlePreWalkthroughInfo () {
 			}
 		});
 	}
+}
 
+function handlePersona(){
 	//If the state variable is set, reload previous input
 	var isSetPersona = statusIsTrue("gotPersonaName");
 	if (isSetPersona) {
@@ -173,7 +158,9 @@ function handlePreWalkthroughInfo () {
 			sidebarBody().find("#getPersonaPronoun").show();
 		});
 	}
+}
 
+function handlePronouns(){
 	var isSetPronoun = statusIsTrue("gotPronoun");
 	if (isSetPronoun) {
 		//Restore from previous state
@@ -227,8 +214,8 @@ function handlePreWalkthroughInfo () {
 			updatePronouns();
 		});
 	}
-	
-	//Get scenario name
+}
+function handleScenario(){
 	//If the state variable is set, reload previous input
 	var isSetScenario = statusIsTrue("gotScenarioName");
 	if (isSetScenario) {
@@ -306,8 +293,8 @@ function handlePreWalkthroughInfo () {
 			}
 		});
 	}
-	
-	
+}
+function handleSubgoal(){
 	//If the state variable is set, reload previous input
 	var isSetSubName = statusIsTrue("gotSubgoalName");
 	console.log("IS subgoal name set? ",isSetSubName);
@@ -375,6 +362,33 @@ function handlePreWalkthroughInfo () {
             }
 		});
 	}
+}
+/* Function: handlePreWalkthroughInfo
+ * Description: This function handles the prewalkthrough information -- team name, persona choice, and scenario name.
+ *   Also asks the user for each of these in turn, and leaves the template ready to set up for the subgoal.
+ * Params: None
+ *
+ * Pre: The prewalkthrough template has been appended to the sidebar (so the elements that are referenced exist).
+ * Post: The user's team name, persona selection, and scenario have been stored in the local storage variables:
+ *			team name -> teamName
+ *			persona choice -> personaName
+ *			scenario -> scenarioName
+ */
+
+// TODO: Refactoring. This function might benefit from being broken up into smaller functions, and/or adding a way
+// to periodically update variables like length of subgoalArray.
+function handlePreWalkthroughInfo () {
+	
+	//var sidebarHead = $("#mySidebar").contents().find("head");
+	//refactored files-- need to add description for methods
+	handleTeamName();
+	handlePersona();
+	handlePronouns();
+	//Get scenario name
+	handleScenario();
+	handleSubgoal();
+	
+	
 	
 }
 
