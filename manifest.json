@@ -9,7 +9,7 @@
 		"128": "icon128.png"
 	},
 	"background": {
-		"service_worker": "scripts/background.js"
+		"service_worker": "core/background.js"
 	},
 	"action": {
 		"default_icon": "icon.png",
@@ -23,9 +23,10 @@
 				"/scripts/jcanvas.min.js",
 				"jquery-ui-1.12.1/jquery-ui.min.js",
 				"scripts/tooltip.js",
-				"/scripts/utilities.js",
+				"/core/utilities.js",
+				"/core/setup.js",
+				"/features/walkthroughHandlers.js",
 				"scripts/overlayScreen.js",
-				"/scripts/setup.js",
 				"/scripts/prewalkthrough.js",
 				"scripts/script.js",
 				"/scripts/persona.js",
