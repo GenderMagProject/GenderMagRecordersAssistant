@@ -4,10 +4,10 @@
 // 	init();
 // })
 
-document.addEventListener('DOMContentLoaded', function () {
-    console.log("1");
-    init();
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     console.log("1");
+//     init();
+// });
 
 
 
