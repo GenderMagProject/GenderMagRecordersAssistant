@@ -22,23 +22,7 @@ function setFacetPopups(personaName) {
         //set functionality for motivation pop up info window
         $(".MTrigger").unbind("click").click(function () {
             addToolTip(lowercaseName+"MToolTip", personaName);
-            /*$('#abbyMSeeMOAR').off('click').on('click', function () {
-                var isOpen = $(this).attr("stateVar");
 
-                //The "see more" is expanded and needs to be closed
-                if (isOpen == 0) {
-                    $("#abbyMPreview").hide();
-                    $("#abbyMComplete").show();
-                    $("#abbyMSeeMOAR").html("See less");
-                    $(this).attr("stateVar", 1);
-                } else {
-                    $("#abbyMPreview").show();
-                    $("#abbyMComplete").hide();
-                    $("#abbyMSeeMOAR").html("See more...");
-                    $(this).attr("stateVar", 0);
-                }
-
-            });*/
         });
         //set up other info pop ups
         $(".IPSTrigger").unbind("click").click(function () {
@@ -331,7 +315,11 @@ function actionLoop(el){
 		}
 	});
 
-	//exits the gendermag session
+	/*
+	 *	Function: exit
+	 *	Description: This function lets the user to exit the gendermag session.
+	 *	Params: None
+	 */
 	function exit() {
 		//setStatusToFalse("inMiddleOfAction");
 		localStorage.setItem("inMiddleOfAction", "false");
