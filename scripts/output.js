@@ -16,19 +16,6 @@ var imgList = [];
 var globName = "";
 
 /*
- * Function: insertImage()
- * Inserts an image into the excel file
- */
-function insertImage(){
-
-
-
-
-}
-
-
-
-/*
  * Function: now
  * Gets the date and time in the format hr:min
  */
