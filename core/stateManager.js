@@ -39,12 +39,12 @@ var statusObject = {
  */
 function initStatusObject () {
 	console.log("3");
-    var obj = JSON.parse(localStorage.getItem("statusObject"));
+    var obj = getStatusObject();
     if (obj) {
         console.log("statusObject found");
     }
     else {
-        localStorage.setItem("statusObject", JSON.stringify(statusObject));  
+        saveStatusObject(statusObject);  
         console.log("Initializing status object...");
     }
 }

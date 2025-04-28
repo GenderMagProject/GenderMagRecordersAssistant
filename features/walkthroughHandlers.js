@@ -1,26 +1,5 @@
 // ****** General function used throughoout the walkthrough *******
-/* Function Name: addOnClicks
- * Description: Adds click event listeners to the slider bar to toggle its open/close state and set the status.
- * Parameters: None
- */
-function addOnClicks(){
-	
-	//when slider is clicked, open or close
-	var el = $("#slideout").contents().find("body");
-	if (el) {
-		$("#slideout").contents().find("body").off('click').on('click', function(event) {
-			$("#slideout").toggleClass("clicked");
-			$("#GenderMagFrame").toggleClass("clicked");
-            if ($( "#slideout" ).hasClass( "clicked" ) ) {
-                setStatusToTrue("sliderIsOpen");
-            }
-            else {
-                setStatusToFalse("sliderIsOpen");
-            }            
-		});
-	}
-    
-}
+
 
 /* Function Name: saveAndExit
  * Description: Handles the save and exit functionality, including appending a final warning template and binding events to buttons.
@@ -536,3 +515,50 @@ function drawAction(actionNum, subgoalId) {
     });
 }
 
+/*
+ * Function: reloadToolTipState
+ * Description: This function handles returning the tool to the correct location in the session when the page
+ *	 is reloaded. It checks which flags are set starting with the finished flag and ending with the
+ *	 screenshot flag.
+ * Params: none
+ */
+ function reloadToolTipState () {
+	//set up tool tip (skipping screenshot)
+	overlayScreen("onlyToolTip");
+	var toolTip = document.getElementById("myToolTip");
+
+	//if session is at end, open to action loop & trigger continue click to get to last page
+	if (statusIsTrue("finishedGM")) {
+		$(toolTip).find("#imageCanvasTemplate").hide();
+		actionLoop(toolTip);
+		$("#saveAndExit").click();
+	}
+	//if post action is finished, open to action loop
+	else if (statusIsTrue("gotPostActionQuestions")) {
+		$(toolTip).find("#imageCanvasTemplate").hide();
+		actionLoop(toolTip);
+	}
+	//if action was performed, go back to post action questions
+	else if (statusIsTrue("idealActionPerformed")) {
+		$(toolTip).find("#imageCanvasTemplate").hide();
+		postActionQuestions(toolTip);
+	}
+	//if preaction questions are done, go to action prompt
+	else if (statusIsTrue("gotPreActionQuestions")) {	
+		$(toolTip).find("#imageCanvasTemplate").hide();
+		doActionPrompt(toolTip);
+	}
+	//if screenshot taken, go to preaction
+	else if (statusIsTrue("gotScreenshot")) {
+		$(toolTip).find("#imageCanvasTemplate").hide();
+		preActionQuestions(toolTip);
+	}
+	//???? who what when why where how?
+	else if (statusIsTrue("highlightedAction")) {
+
+		//renderImage()
+		//console.log("on image");
+		//overlayScreen("onlyToolTip");
+	}
+	
+}

@@ -27,476 +27,347 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
  */
 function overlayScreen(onlyDraw) {
   //If skipping screenshot and loading tooltip window from local storage
+  closeSlider();
+  console.log("Slider is closed now, loading tooltip window from local storage");
+  sidebarBody().find("#nukeStatus").show();
+  const canvasContainer = getOrCreateCanvasContainer();
+  const genderMagCanvas = getOrCreateCanvas(canvasContainer);
+  const drawingState = {
+    ctx : genderMagCanvas.getContext("2d"),
+    rect: {},
+    drag: false,
+    screenshotFlag: onlyDraw === "onlyToolTip" ? undefined : true
+  };
+
   if (onlyDraw === "onlyToolTip") {
-    closeSlider();
-    console.log(
-      "Slider is closed now, loading tooltip window from local storage"
-    );
-    sidebarBody().find("#nukeStatus").show();
-    var canvasContainer;
-    var canvas;
-    //show existing container if exists, else make one
-    if (document.getElementById("genderMagCanvasContainer")) {
-      canvasContainer = document.getElementById("genderMagCanvasContainer");
-      canvasContainer.style.display = "block";
-      document.getElementById("genderMagCanvas").style.display = "block";
-    } else {
-      canvasContainer = document.createElement("div");
-
-      // Add style and append the div into the document
-      canvasContainer.id = "genderMagCanvasContainer";
-      canvasContainer.style.position = "fixed";
-      // Set to 100% so that it will have the dimensions of the document
-      canvasContainer.style.left = "0px";
-      canvasContainer.style.top = "0px";
-      canvasContainer.style.width = "100%";
-      canvasContainer.style.height = "100%";
-      canvasContainer.style.zIndex = "9999";
-      document.body.appendChild(canvasContainer);
-
-      //create genderMagCanvas element
-      canvas = document.createElement("canvas");
-      canvas.style.width = canvasContainer.scrollWidth + "px";
-      canvas.style.height = canvasContainer.scrollHeight + "px";
-      canvas.id = "genderMagCanvas";
-      canvas.position = "fixed";
-      canvas.style.opacity = 0.5;
-      canvas.width = canvasContainer.scrollWidth;
-      canvas.height = canvasContainer.scrollHeight;
-      canvas.style.overflow = "visible";
-      canvas.style.position = "fixed";
-
-      canvas.style.left = "0px";
-      canvas.style.top = "0px";
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
-      canvas.style.zIndex = "9999";
-
-      canvasContainer.appendChild(canvas);
-    }
-
-    var genderMagCanvas = document.getElementById("genderMagCanvas"),
-      ctx = genderMagCanvas.getContext("2d"),
-      rect = {},
-      drag = false;
-
-    //add pop up window to body
-    var toolTip = document.createElement("div");
-    toolTip.id = "myToolTip";
-    toolTip.style.position = "absolute";
-    toolTip.style.left = 100 + "px";
-    toolTip.style.top = 100 + "px";
-    toolTip.style.height = "600px";
-    toolTip.style.width = "500px";
-    toolTip.style.zIndex = "99999";
-    toolTip.style.border = "3px solid #4A96AD";
-    toolTip.style.backgroundColor = "white";
-    toolTip.style.cursor = "pointer";
-    toolTip.style.borderRadius = "5px";
-    toolTip.style.overflow = "auto";
-    setStatusToTrue("drewToolTip");
-
-    document.body.appendChild(toolTip);
-    $("#myToolTip").draggable();
-
-    //add action questions to pop up
-    //appendTemplateToElement(toolTip ,"./templates/action.html");
-    appendTemplateToElement(
-      toolTip,
-      "./templates/action.html",
-      (error, data) => {
-        if (error) {
-          console.error("Error appending action template:", error);
-        } else {
-          //add button functionality
-          $(".closeToolTip")
-            .unbind("click")
-            .unbind("click")
-            .click(function () {
-              setStatusToTrue("gotScreenshot");
-              preActionQuestions(toolTip);
-            });
-
-          $("#retakeImage")
-            .unbind("click")
-            .unbind("click")
-            .click(function () {
-              toolTip.remove();
-              setStatusToFalse("drewToolTip");
-              overlayScreen();
-              overlayScreen();
-            });
-
-          //this is what i changed come back to this
-
-          //$("#exitButton").unbind( "click" ).unbind( "click" ).click(function(){
-          //     justExit("popup");
-          //});
-
-          $("#exitButton")
-            .unbind("click")
-            .unbind("click")
-            .click(function () {
-              justExit("popup");
-            });
-
-          $("#imageBack")
-            .unbind("click")
-            .unbind("click")
-            .click(function () {
-              toolTip.remove();
-              document.getElementById(
-                "genderMagCanvasContainer"
-              ).style.display = "none";
-              openSlider();
-            });
-
-          var actionSpan = localStorage.getItem("currActionName");
-          $(".actionNameSpan").html("Action: " + actionSpan);
-
-          //Get ready to display image
-          canvas = document.getElementById("imageCanvas");
-          canvas.width = "465";
-          canvas.height = "350";
-          canvas.style.border = "2px solid #4A96AD";
-          canvas.style.margin = "10px";
-          var context = canvas.getContext("2d");
-          var myImg = document.getElementById("previewImage");
-          var imgURL = localStorage.getItem("currImgURL");
-          if (imgURL) {
-            myImg.src = imgURL;
-          } else {
-            myImg.src = localStorage.getItem("currImgURL");
-          }
-          var previewHeight = 350;
-          var previewWidth = 465;
-          var imageRatio = myImg.width / myImg.height;
-          var ratioHeight = myImg.height * 0.75;
-          var ratioWidth = imageRatio * ratioHeight;
-          var canContainer = document.getElementById(
-            "genderMagCanvasContainer"
-          );
-          var sourceY = canContainer.offsetTop;
-          var sourceX = canContainer.offsetLeft;
-
-          var sx = localStorage.getItem("sx");
-          var sy = localStorage.getItem("sy");
-
-          //draw preview image
-          if (sx && sy) {
-            context.drawImage(
-              myImg,
-              0,
-              0,
-              myImg.width,
-              myImg.height,
-              0,
-              0,
-              (previewWidth * 9) / 10,
-              (previewHeight * 9) / 10
-            );
-          } else {
-            context.drawImage(myImg, 0, 0, previewWidth, previewHeight);
-          }
-
-          //Functionality when 'draw on image' button is clicked
-          $(".previewTrigger")
-            .unbind("click")
-            .click(function () {
-              importStylesheet("head", "/styles/overlayScreen.css");
-              //appendTemplateToElement("body", "/templates/imageAnnotation.html");
-              appendTemplateToElement(
-                "body",
-                "/templates/imageAnnotation.html",
-                (error) => {
-                  if (error) {
-                    console.error(
-                      "Error appending image annotation template:",
-                      error
-                    );
-                    return;
-                  }
-                  console.log("Image Template Appended");
-                  $("#imageAnnotation").width(ratioWidth + 10);
-                  $("#imageAnnotation").height(ratioHeight + 40);
-                  $("#imageAnnotation").draggable();
-                  $("#annotationCanvas").attr("width", ratioWidth);
-                  $("#annotationCanvas").attr("height", ratioHeight);
-                  $("#annotationCanvas").width(ratioWidth);
-                  $("#annotationCanvas").height(ratioHeight);
-                  $("#imageAnnotation").css("position", "absolute");
-                  $("#imageAnnotation").css("top", myToolTip.style.top);
-                  $("#imageAnnotation").css("left", myToolTip.style.left);
-                  //$("#imageAnnotation").css("zIndex", 99999);
-
-                  //set up draw on image functionality
-                  var annotationCanvas =
-                    document.getElementById("annotationCanvas");
-                  ctx = annotationCanvas.getContext("2d");
-                  ctx.drawImage(myImg, 0, 0, ratioWidth, ratioHeight);
-
-                  //set button functionality on drawing pop up
-                  $("#undoDraw")
-                    .unbind("click")
-                    .click(function () {
-                      history.undo(annotationCanvas, ctx);
-                    });
-
-                  $("#redoDraw")
-                    .unbind("click")
-                    .click(function () {
-                      history.redo(annotationCanvas, ctx);
-                    });
-
-                  //functionality for closing drawing pop up and saving new image
-                  $("#backLargePreview")
-                    .unbind("click")
-                    .click(function () {
-                      $("#imageAnnotation").remove();
-                      var drawnOnURL = history.saveState(annotationCanvas);
-                      //set saved image as the annotated one
-                      localStorage.setItem("currImgURL", drawnOnURL);
-
-                      var smallerImg = document.getElementById("previewImage");
-                      var oldWidth = myImg.width;
-                      var oldHeight = myImg.height;
-                      smallerImg.src = drawnOnURL;
-                      context.clearRect(0, 0, 465, 150);
-
-                      //does this ever get called?
-                      if (oldHeight > smallerImg.height) {
-                        var sx = (sourceX * smallerImg.width) / oldWidth;
-                        var sy = (sourceY * smallerImg.height) / oldHeight;
-                        localStorage.setItem("sx", sx);
-                        localStorage.setItem("sy", sy);
-                        context.drawImage(
-                          myImg,
-                          sx,
-                          sy,
-                          smallerImg.width,
-                          smallerImg.height,
-                          0,
-                          0,
-                          (ratioWidth * 9) / 10,
-                          (ratioHeight * 9) / 10
-                        );
-                      } else {
-                        var sx = localStorage.getItem("sx");
-                        var sy = localStorage.getItem("sy");
-                        context.drawImage(
-                          myImg,
-                          sx,
-                          sy,
-                          smallerImg.width,
-                          smallerImg.height,
-                          0,
-                          0,
-                          (ratioWidth * 9) / 10,
-                          (ratioHeight * 9) / 10
-                        );
-                      }
-                    });
-
-                  $("#closeLargePreview")
-                    .unbind("click")
-                    .click(function () {
-                      $("#imageAnnotation").remove();
-                    });
-                }
-              );
-            });
-        }
-      }
-    );
-    //add button functionality
+  loadToolTipUI(drawingState);
   } else {
-    //close slider to prepare for screenshot box cursor
-    closeSlider();
-    console.log("Slider is closed now in the else part of overlayScreen");
-    sidebarBody().find("#nukeStatus").show();
-    //show existing container or create if doesn't exist
-    if (document.getElementById("genderMagCanvasContainer")) {
-      console.log("got genderMagCanvasContainer in overlayScreen ");
-      var canvasContainer = document.getElementById("genderMagCanvasContainer");
-      canvasContainer.style.display = "block";
-      document.getElementById("genderMagCanvas").style.display = "block";
-    } else {
-      var canvasContainer = document.createElement("div");
-      console.log("did not got genderMagCanvasContainer in overlayScreen ");
-      // Add style and append the div to the body
-      canvasContainer.id = "genderMagCanvasContainer";
-      canvasContainer.style.position = "fixed";
-      // Set to 100% so that it will have the dimensions of the document
-      canvasContainer.style.left = "0px";
-      canvasContainer.style.top = "0px";
-      canvasContainer.style.width = "100%";
-      canvasContainer.style.height = "100%";
-      canvasContainer.style.zIndex = "99999";
-      document.body.appendChild(canvasContainer);
-
-      //create canvas, add style, append to container
-      var canvas = document.createElement("canvas");
-      canvas.style.width = canvasContainer.scrollWidth + "px";
-      canvas.style.height = canvasContainer.scrollHeight + "px";
-      canvas.id = "genderMagCanvas";
-      canvas.position = "fixed";
-      canvas.style.opacity = 0.5;
-      canvas.width = canvasContainer.scrollWidth;
-      canvas.height = canvasContainer.scrollHeight;
-      canvas.style.overflow = "visible";
-      canvas.style.position = "fixed";
-
-      canvas.style.left = "0px";
-      canvas.style.top = "0px";
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
-      canvas.style.zIndex = "99999";
-
-      canvasContainer.appendChild(canvas);
-    }
-
-    var genderMagCanvas = document.getElementById("genderMagCanvas"),
-      ctx = genderMagCanvas.getContext("2d"),
-      rect = {},
-      drag = false;
-
-    //flag to indicate screenshot process is happening
-    var screenshotFlag = true;
-
-    //set listeners for taking screenshot
-    function init() {
-      genderMagCanvas.addEventListener("mousedown", mouseDown, false);
-      genderMagCanvas.addEventListener("mouseup", mouseUp, false);
-      genderMagCanvas.addEventListener("mousemove", mouseMove, false);
-    }
-
-    //mouse down gets location for screenshot box
-    function mouseDown(e) {
-      rect.startX = e.pageX - this.offsetLeft;
-      rect.startY = e.pageY - this.offsetTop;
-      drag = true;
-    }
-    //mouse up gets click on page and calls for screenshot
-    function mouseUp(e) {
-      console.log("Screenshot Flag after click ", screenshotFlag);
-      if (screenshotFlag) {
-        drag = false;
-        globXY = [e.pageX, e.pageY];
-        elm = document.elementFromPoint(rect.startX, rect.startY); //elm can return undefined;
-        var elements = new Array();
-        if (elm === null) {
-          elm = document.getElementById("genderMagCanvasContainer");
-        } else {
-          while (elm.id === "genderMagCanvas") {
-            elements.push(elm);
-            elm.style.display = "none";
-            elm = document.elementFromPoint(rect.startX, rect.startY);
-          }
-        }
-        setStatusToTrue("highlightedAction");
-        console.log(
-          "Highlight done set status to true for , highlightedAction"
-        );
-        for (var element in elements) {
-          if (
-            element.id === "genderMagCanvas" ||
-            element.id === "genderMagCanvasContainer" ||
-            element.id === "highlightHover" ||
-            element.id === "highlightBorder2"
-          ) {
-            element.style.display = "default";
-          }
-        }
-        //take the screenshot
-        chrome.runtime.sendMessage(
-          { greeting: "takeScreenShot" },
-          function (response) {
-            //catch error from screenshot
-            // if(chrome.runtime.lastError){
-            // 	//do nothing - not a bad error it just happens
-            // 	console.log("Error in screenshot from overlay ",chrome.runtime.lastError);
-            // }
-            //mv3 update
-            if (chrome.runtime.lastError) {
-              console.error(
-                "Error in screenshot from overlay:",
-                chrome.runtime.lastError
-              );
-            } else if (response && response.status === "screenshot started") {
-              console.log("Screenshot process initiated successfully.");
-            } else {
-              // as said by rpevious code do nothing.
-            }
-          }
-        );
-
-        setTimeout(function () {
-          $("#highlightHover").remove();
-          $("#highlightBorder2").remove();
-          //screenshot process finished, flag set to false
-          screenshotFlag = false;
-        }, 500);
-      }
-    }
-    //Function to create and display box cursor for screen capture
-    function mouseMove(e) {
-      if (drag) {
-        rect.w = e.pageX - this.offsetLeft - rect.startX;
-        rect.h = e.pageY - this.offsetTop - rect.startY;
-      }
-      //highlight hover is recreated every time mouse moves
-      if ($("#highlightHover") && screenshotFlag) {
-        rect.startX = e.clientX - this.offsetLeft;
-        rect.startY = e.clientY - this.offsetTop;
-        rect.w = e.pageX - this.offsetLeft - rect.startX;
-        rect.h = e.pageY - this.offsetTop - rect.startY;
-
-        $("#highlightHover").remove();
-        var highlightHover = document.createElement("div");
-        highlightHover.id = "highlightHover";
-        document
-          .getElementById("genderMagCanvasContainer")
-          .appendChild(highlightHover);
-        highlightHover.style.position = "absolute";
-        highlightHover.style.left = rect.startX - 30 + "px";
-        highlightHover.style.top = rect.startY - 20 + "px";
-        highlightHover.style.height = "50px";
-        highlightHover.style.width = "100px";
-        highlightHover.style.border = "6px solid #7D1935";
-        highlightHover.style.opacity = "1";
-      } else {
-        var highlightHover = document.createElement("div");
-        highlightHover.id = "highlightHover";
-      }
-      if ($("#highlightBorder2") && screenshotFlag) {
-        rect.startX = e.clientX - this.offsetLeft;
-        rect.startY = e.clientY - this.offsetTop;
-        rect.w = e.pageX - this.offsetLeft - rect.startX;
-        rect.h = e.pageY - this.offsetTop - rect.startY;
-
-        $("#highlightBorder2").remove();
-        var highlightBorder2 = document.createElement("div");
-        highlightBorder2.id = "highlightBorder2";
-        document
-          .getElementById("genderMagCanvasContainer")
-          .appendChild(highlightBorder2);
-        highlightBorder2.style.position = "absolute";
-        highlightBorder2.style.left = rect.startX - 30 + "px";
-        highlightBorder2.style.top = rect.startY - 20 + "px";
-        highlightBorder2.style.height = "50px";
-        highlightBorder2.style.width = "100px";
-        highlightBorder2.style.border = "3px solid #FFFFFF";
-        highlightBorder2.style.opacity = "1";
-      } else {
-        var highlightBorder2 = document.createElement("div");
-        highlightBorder2.id = "highlightBorder2";
-      }
-    }
-    function draw() {
-      ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
-    }
-    init();
+    initializeScreenshotListeners(genderMagCanvas, drawingState);
   }
+}
+
+
+function getOrCreateCanvasContainer() {
+  let container = document.getElementById("genderMagCanvasContainer");
+
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "genderMagCanvasContainer";
+    Object.assign(container.style, {
+      position: "fixed",
+      left: "0px",
+      top: "0px",
+      width: "100%",
+      height: "100%",
+      zIndex: "9999"
+    });
+    document.body.appendChild(container);
+  } else {
+    container.style.display = "block";
+    const existingCanvas = document.getElementById("genderMagCanvas");
+    if (existingCanvas) existingCanvas.style.display = "block";
+  }
+
+  return container;
+}
+function getOrCreateCanvas(container) {
+  let canvas = document.getElementById("genderMagCanvas");
+
+  if (!canvas) {
+    canvas = document.createElement("canvas");
+    canvas.id = "genderMagCanvas";
+
+    Object.assign(canvas.style, {
+      position: "fixed",
+      left: "0px",
+      top: "0px",
+      width: "100%",
+      height: "100%",
+      zIndex: "9999",
+      opacity: 0.5,
+      overflow: "visible"
+    });
+
+    canvas.width = container.scrollWidth;
+    canvas.height = container.scrollHeight;
+    canvas.style.width = container.scrollWidth + "px";
+    canvas.style.height = container.scrollHeight + "px";
+
+    container.appendChild(canvas);
+  }
+
+  return canvas;
+}
+function loadToolTipUI(drawingState) {
+  const toolTip = createToolTipElement();
+  appendTemplateToElement(toolTip,"./templates/action.html", (error, data) => {
+    if (error) {
+      console.error("Error appending action template:", error);
+    } else {
+      //add button functionality
+      setupToolTipButtonHandlers(toolTip);
+      updateActionNameUI();
+      const {
+        canvas: previewCanvas,
+        context: previewCtx,
+        myImg
+      } = prepareCanvasPreview();
+      const ratioHeight = myImg.height * 0.75;
+      const ratioWidth = (myImg.width / myImg.height) * ratioHeight;
+      var canContainer = document.getElementById("genderMagCanvasContainer");
+      var sourceY = canContainer.offsetTop;
+      var sourceX = canContainer.offsetLeft;
+      setupDrawOnImageLogic(myImg, ratioWidth, ratioHeight, sourceX, sourceY, previewCtx);
+    }
+  }
+ );
+}
+function createToolTipElement() {
+  const toolTip = document.createElement("div");
+  toolTip.id = "myToolTip";
+  Object.assign(toolTip.style, {
+    position: "absolute",
+    left: "100px",
+    top: "100px",
+    height: "600px",
+    width: "500px",
+    zIndex: "99999",
+    border: "3px solid #4A96AD",
+    backgroundColor: "white",
+    cursor: "pointer",
+    borderRadius: "5px",
+    overflow: "auto"
+  });
+  document.body.appendChild(toolTip);
+  setStatusToTrue("drewToolTip");
+  $("#myToolTip").draggable();
+  return toolTip;
+}
+
+function setupToolTipButtonHandlers(toolTip) {
+  $(".closeToolTip").off("click").on("click", () => {
+    setStatusToTrue("gotScreenshot");
+    preActionQuestions(toolTip);
+  });
+
+  $("#retakeImage").off("click").on("click", () => {
+    toolTip.remove();
+    setStatusToFalse("drewToolTip");
+    overlayScreen();
+    overlayScreen();
+  });
+
+  $("#exitButton").off("click").on("click", () => {
+    justExit("popup");
+  });
+
+  $("#imageBack").off("click").on("click", () => {
+    toolTip.remove();
+    document.getElementById("genderMagCanvasContainer").style.display = "none";
+    openSlider();
+  });
+}
+
+
+function updateActionNameUI() {
+  const actionSpan = localStorage.getItem("currActionName");
+  $(".actionNameSpan").html("Action: " + actionSpan);
+}
+
+function prepareCanvasPreview() {
+  //Get ready to display image
+  canvas = document.getElementById("imageCanvas");
+  canvas.width = "465";
+  canvas.height = "350";
+  canvas.style.border = "2px solid #4A96AD";
+  canvas.style.margin = "10px";
+  var context = canvas.getContext("2d");
+
+  var myImg = document.getElementById("previewImage");
+  var imgURL = localStorage.getItem("currImgURL");
+  if (imgURL) {
+    myImg.src = imgURL;
+  } else {
+    myImg.src = localStorage.getItem("currImgURL");
+  }
+  var previewHeight = 350;
+  var previewWidth = 465;
+  var imageRatio = myImg.width / myImg.height;
+  var ratioHeight = myImg.height * 0.75;
+  var ratioWidth = imageRatio * ratioHeight;
+
+  var sx = localStorage.getItem("sx");
+  var sy = localStorage.getItem("sy");
+
+  //draw preview image
+  if (sx && sy) {
+    context.drawImage(myImg,0,0,myImg.width,myImg.height,0,
+      0,(previewWidth * 9) / 10,(previewHeight * 9) / 10);
+  } else {
+    context.drawImage(myImg, 0, 0, previewWidth, previewHeight);
+  }
+  return { canvas, context, myImg };
+}
+
+function setupDrawOnImageLogic(myImg, ratioWidth, ratioHeight, sourceX, sourceY, canvasCtx ) {
+  //Functionality when 'draw on image' button is clicked
+  $(".previewTrigger").unbind("click").click(function () {
+    importStylesheet("head", "/styles/overlayScreen.css");
+    //appendTemplateToElement("body", "/templates/imageAnnotation.html");
+    appendTemplateToElement("body", "/templates/imageAnnotation.html",(error) => {
+        if (error) {
+          console.error("Error appending image annotation template:",error);
+          return;
+        }
+        console.log("Image Template Appended");
+        $("#imageAnnotation").width(ratioWidth + 10);
+        $("#imageAnnotation").height(ratioHeight + 40);
+        $("#imageAnnotation").draggable();
+        $("#annotationCanvas").attr("width", ratioWidth);
+        $("#annotationCanvas").attr("height", ratioHeight);
+        $("#annotationCanvas").width(ratioWidth);
+        $("#annotationCanvas").height(ratioHeight);
+        $("#imageAnnotation").css("position", "absolute");
+        $("#imageAnnotation").css("top", myToolTip.style.top);
+        $("#imageAnnotation").css("left", myToolTip.style.left);
+        //$("#imageAnnotation").css("zIndex", 99999);
+
+        //set up draw on image functionality
+        var annotationCanvas = document.getElementById("annotationCanvas");
+        drawCtx = annotationCanvas.getContext("2d");
+        drawCtx.drawImage(myImg, 0, 0, ratioWidth, ratioHeight);
+
+        //set button functionality on drawing pop up
+        $("#undoDraw").unbind("click").click(function () {
+            history.undo(annotationCanvas, drawCtx);
+          });
+
+        $("#redoDraw").unbind("click").click(function () {
+            history.redo(annotationCanvas, drawCtx);
+          });
+
+        //functionality for closing drawing pop up and saving new image
+        $("#backLargePreview").unbind("click").click(function () {
+            $("#imageAnnotation").remove();
+            var drawnOnURL = history.saveState(annotationCanvas);
+            //set saved image as the annotated one
+            localStorage.setItem("currImgURL", drawnOnURL);
+
+            var smallerImg = document.getElementById("previewImage");
+            var oldWidth = myImg.width;
+            var oldHeight = myImg.height;
+            smallerImg.src = drawnOnURL;
+            canvasCtx.clearRect(0, 0, 465, 150);
+
+            //does this ever get called?
+            if (oldHeight > smallerImg.height) {
+              var sx = (sourceX * smallerImg.width) / oldWidth;
+              var sy = (sourceY * smallerImg.height) / oldHeight;
+              localStorage.setItem("sx", sx);
+              localStorage.setItem("sy", sy);
+              canvasCtx.drawImage(myImg,sx, sy, smallerImg.width,smallerImg.height,
+                0, 0, (ratioWidth * 9) / 10, (ratioHeight * 9) / 10 );
+            } else {
+              var sx = localStorage.getItem("sx");
+              var sy = localStorage.getItem("sy");
+              context.drawImage( myImg,sx, sy,smallerImg.width, smallerImg.height, 0,0,
+                 (ratioWidth * 9) / 10,(ratioHeight * 9) / 10 );
+            }
+          });
+
+        $("#closeLargePreview").unbind("click").click(function () {
+            $("#imageAnnotation").remove();
+          });
+      }
+    );
+  });
+}
+
+function initializeScreenshotListeners(canvas, drawingState) {
+  canvas.addEventListener("mousedown", (e) => onMouseDown(e, canvas, drawingState));
+  canvas.addEventListener("mouseup", (e) => onMouseUp(e, canvas, drawingState));
+  canvas.addEventListener("mousemove", (e) => onMouseMove(e, canvas, drawingState));
+}
+
+function onMouseDown(e, canvas, drawingState) {
+  drawingState.rect.startX = e.pageX - canvas.offsetLeft;
+  drawingState.rect.startY = e.pageY - canvas.offsetTop;
+  drawingState.drag = true;
+}
+function onMouseUp(e, canvas, drawingState) {
+  if (!drawingState.screenshotFlag) return;
+
+  drawingState.drag = false;
+  globXY = [e.pageX, e.pageY];
+  let elm = document.elementFromPoint(drawingState.rect.startX, drawingState.rect.startY);
+  const elements = [];
+
+  if (elm === null) {
+    elm = document.getElementById("genderMagCanvasContainer");
+  } else {
+    while (elm && elm.id === "genderMagCanvas") {
+      elements.push(elm);
+      elm.style.display = "none";
+      elm = document.elementFromPoint(drawingState.rect.startX, drawingState.rect.startY);
+    }
+  }
+
+  setStatusToTrue("highlightedAction");
+
+  elements.forEach((el) => {
+    if (["genderMagCanvas", "genderMagCanvasContainer", "highlightHover", "highlightBorder2"].includes(el.id)) {
+      el.style.display = "default";
+    }
+  });
+
+  chrome.runtime.sendMessage({ greeting: "takeScreenShot" }, (response) => {
+    if (chrome.runtime.lastError) {
+      console.error("Screenshot error:", chrome.runtime.lastError);
+    } else if (response?.status === "screenshot started") {
+      console.log("Screenshot process initiated.");
+    }
+  });
+
+  setTimeout(() => {
+    $("#highlightHover").remove();
+    $("#highlightBorder2").remove();
+    drawingState.screenshotFlag = false;
+  }, 500);
+}
+function onMouseMove(e, canvas, drawingState) {
+
+  if (drawingState.drag) {
+    drawingState.rect.w = e.pageX - canvas.offsetLeft - drawingState.rect.startX;
+    drawingState.rect.h = e.pageY - canvas.offsetTop - drawingState.rect.startY;
+  }
+
+  if ($("#highlightHover").length && drawingState.screenshotFlag) {
+    updateHighlightBox(e, "highlightHover", "#7D1935", 6, canvas);
+  }
+
+  if ($("#highlightBorder2").length && drawingState.screenshotFlag) {
+    updateHighlightBox(e, "highlightBorder2", "#FFFFFF", 3, canvas);
+  }
+}
+function updateHighlightBox(e, id, color, thickness, canvas) {
+
+  const rectX = e.clientX - canvas.offsetLeft;
+  const rectY = e.clientY - canvas.offsetTop;
+
+  $(`#${id}`).remove();
+  const box = document.createElement("div");
+  box.id = id;
+  Object.assign(box.style, {
+    position: "absolute",
+    left: `${rectX - 30}px`,
+    top: `${rectY - 20}px`,
+    height: "50px",
+    width: "100px",
+    border: `${thickness}px solid ${color}`,
+    opacity: "1"
+  });
+
+  document.getElementById("genderMagCanvasContainer").appendChild(box);
 }
 
 /*
