@@ -6,7 +6,7 @@
  */
 
 
-//Sets persona name?? Runs at startup??
+// Loads the persona name from localStorage on startup, or defaults to "Abi"
 var personaName = localStorage.getItem("personaName");
 if (personaName !== null ) {personaName = personaName.slice(1, personaName.length-1);}
 else { personaName = "Abi"; }
@@ -331,7 +331,14 @@ function actionLoop(el){
 		}
 	});
 
-	//exits the gendermag session
+/*
+ * Function: exit
+ * Description: Ends the GenderMag session by saving status flags, showing final download options,
+ *              and preparing for final confirmation or cancellation. Provides options to download
+ *              the session data in different formats, ensures the user confirms data is saved before
+ *              quitting, and handles "go back" behavior.
+ * Params: none
+ */
 	function exit() {
 		//setStatusToFalse("inMiddleOfAction");
 		localStorage.setItem("inMiddleOfAction", "false");
