@@ -12,6 +12,7 @@
  */
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   //console.log("renderimage" , request);
+  console.log("Received renderImage call with URL:", request.imageUrl);
   if (request.callFunction === "renderImage") {
     renderImage(request.imageUrl);
     localStorage.setItem("currImgURL", request.imageUrl);
@@ -28,9 +29,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 function overlayScreen(onlyDraw) {
   //If skipping screenshot and loading tooltip window from local storage
   closeSlider();
+  console.log("check onlyDraw value in overlayScreen func:", onlyDraw);
   console.log("Slider is closed now, loading tooltip window from local storage");
   sidebarBody().find("#nukeStatus").show();
   const canvasContainer = getOrCreateCanvasContainer();
+  ensureHighlightBoxesExist(canvasContainer);
   const genderMagCanvas = getOrCreateCanvas(canvasContainer);
   const drawingState = {
     ctx : genderMagCanvas.getContext("2d"),
@@ -100,11 +103,13 @@ function getOrCreateCanvas(container) {
 }
 function loadToolTipUI(drawingState) {
   const toolTip = createToolTipElement();
+  console.log("ToolTip created in loadToolTipUI:", toolTip);
   appendTemplateToElement(toolTip,"./templates/action.html", (error, data) => {
     if (error) {
       console.error("Error appending action template:", error);
     } else {
       //add button functionality
+      console.log("Action template appended in loadToolTipUI:", data);
       setupToolTipButtonHandlers(toolTip);
       updateActionNameUI();
       const {
@@ -288,6 +293,37 @@ function initializeScreenshotListeners(canvas, drawingState) {
   canvas.addEventListener("mouseup", (e) => onMouseUp(e, canvas, drawingState));
   canvas.addEventListener("mousemove", (e) => onMouseMove(e, canvas, drawingState));
 }
+function ensureHighlightBoxesExist(container) {
+  console.log("Ensuring highlight boxes exist in container:", container);
+  if (!document.getElementById("highlightHover")) {
+    const hoverBox = document.createElement("div");
+    hoverBox.id = "highlightHover";
+    Object.assign(hoverBox.style, {
+      position: "absolute",
+      border: "6px solid #7D1935",
+      width: "100px",
+      height: "50px",
+      opacity: "1",
+      zIndex: "100000"
+    });
+    container.appendChild(hoverBox);
+  }
+
+  if (!document.getElementById("highlightBorder2")) {
+    const borderBox = document.createElement("div");
+    borderBox.id = "highlightBorder2";
+    Object.assign(borderBox.style, {
+      position: "absolute",
+      border: "3px solid #FFFFFF",
+      width: "100px",
+      height: "50px",
+      opacity: "1",
+      zIndex: "100001"
+    });
+    container.appendChild(borderBox);
+  }
+}
+
 
 function onMouseDown(e, canvas, drawingState) {
   drawingState.rect.startX = e.pageX - canvas.offsetLeft;
@@ -311,6 +347,19 @@ function onMouseUp(e, canvas, drawingState) {
       elm = document.elementFromPoint(drawingState.rect.startX, drawingState.rect.startY);
     }
   }
+
+// Compute and store screenshot offset based on user's highlighted element.
+// These offsets help position the captured image preview later in renderImage().
+// In the original version, this was done in renderImage(), but now moved here for better modularity and DOM context availability.
+
+  let sourceX = 0;
+  let sourceY = 0;
+
+  if (elm?.offsetLeft > 90) sourceX = elm.offsetLeft - 90;
+  if (elm?.offsetTop > 60)  sourceY = elm.offsetTop - 60;
+
+  localStorage.setItem("sourceX", sourceX);
+  localStorage.setItem("sourceY", sourceY);
 
   setStatusToTrue("highlightedAction");
 
@@ -582,17 +631,13 @@ function renderImage(imgURL) {
       //set size for annotation
       var ratioHeight = myImg.height * 0.75;
       var ratioWidth = imageRatio * ratioHeight;
-      var sourceY = elm.offsetTop;
-      var sourceX = elm.offsetLeft;
+      
+      // Retrieve screenshot offset (set during onMouseUp) to align preview correctly.
+      // This replaces older logic that directly accessed `elm.offsetTop/Left`.
 
-      if (elm.offsetLeft > 90) {
-        sourceX = elm.offsetLeft - 90;
-      }
-      if (elm.offsetTop > 60) {
-        sourceY = elm.offsetTop - 60;
-      }
-      localStorage.setItem("sourceX", sourceX);
-      localStorage.setItem("sourceY", sourceY);
+      const sourceX = Number(localStorage.getItem("sourceX")) || 0;
+      const sourceY = Number(localStorage.getItem("sourceY")) || 0;
+
       var destWidth = myImg.width - ratioWidth;
       var destHeight = myImg.height - ratioHeight;
       var sourceWidth = myImg.width - destWidth;

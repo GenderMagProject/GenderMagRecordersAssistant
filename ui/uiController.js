@@ -29,6 +29,7 @@ function closeSlider() {
  */
  // TODO: refactor to clarify logic and reduce duplicated code
 function addToSandwich(type, item){
+	console.log("Adding to sandwich:", type, item);
     if(!type.localeCompare("subgoal")){ 		
 		var subArr = getSubgoalArrayFromLocal();
         var arrowSRC=chrome.runtime.getURL("images/arrow_collapsed.png");

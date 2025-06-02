@@ -41,7 +41,7 @@ function initStatusObject () {
 	console.log("3");
     var obj = getStatusObject();
     if (obj) {
-        console.log("statusObject found");
+        console.log("statusObject found",obj);
     }
     else {
         saveStatusObject(statusObject);  

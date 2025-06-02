@@ -20,7 +20,7 @@ function initialize() {
 function init() {
     console.log("2");
 
-    // Initialize the status object
+    // Initialize the status object with all the flags
     initStatusObject();
 
     // Import all necessary stylesheets

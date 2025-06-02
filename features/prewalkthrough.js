@@ -108,12 +108,11 @@ function handleTeamName(){
 				saveVarToLocal("teamName", teamName);
 				setStatusToTrue("gotTeamName");
 
-				//Display team name and edit button
+				//Display team name and edit button, Hides #getTeam, shows #getPersona
 				sidebarBody().find("#teamName").html("<b>Team:</b> " + teamName);
 				sidebarBody().find("#editTeam").show();
 				sidebarBody().find("#getTeam").hide();
 				sidebarBody().find("#getPersona").show();
-				//Hide the initial instructions
 				sidebarBody().find("#explain").hide();
 			}
 		});
@@ -248,7 +247,6 @@ function handleScenario(){
 			});
 		}
 	}
-	
 	else {
 		//can use enter key or submit button to submit scenario name
 		sidebarBody().find("#scenarioInput").keyup(function(event){
@@ -331,7 +329,6 @@ function handleSubgoal(){
 			console.log("Drawn 2");
 		}			
 	}
-	
 	else {
 		//Happens if gotSubgoalName is false
 		sidebarBody().find('body').off('click', '#submitSubgoal').on('click', '#submitSubgoal', function() {

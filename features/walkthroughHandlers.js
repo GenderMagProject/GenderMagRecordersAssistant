@@ -258,6 +258,7 @@ function storeSubgoalInfo(subgoalId){
 // Helper function: draws actions in the right place
 function preDrawAction(subgoalId){
 	//increase number of actions and draw action
+    console.log("preDrawAction called with subgoalId:", subgoalId);
     var numActions = localStorage.getItem("numActions");
     if(numActions > 0){
         drawAction(numActions, subgoalId);
@@ -266,6 +267,7 @@ function preDrawAction(subgoalId){
         localStorage.setItem("numActions", 1);
         drawAction(1, subgoalId);
     }	
+    console.log("preDrawAction completed for subgoalId:", subgoalId);
 }
 
 /*
@@ -374,21 +376,17 @@ function drawSubgoal(subgoalId) {
                         preDrawAction(subgoalId);
                     });
             }
-        } 
-        // If subgoal questions haven't been answered yet
+        }
         else {
-            sidebarBody().find('body')
-                .off('click', '#editSubName')
-                .on('click', '#editSubName', function () {
+            sidebarBody().find('body').off('click', '#editSubName').on('click', '#editSubName', function () {
                     editSubgoal(subgoalId);
                 });
 
             sidebarBody().find('#editSubgoal').hide();
 
-            sidebarBody().find('body')
-                .off('click', '#addAction')
-                .on('click', '#addAction', function () {
+            sidebarBody().find('body').off('click', '#addAction').on('click', '#addAction', function () {
                     storeSubgoalInfo(subgoalId);
+                    console.log("preDrawAction called from drawSubgoal with subgoalId:", subgoalId);
                     preDrawAction(subgoalId);
                 });
         }
@@ -426,6 +424,7 @@ function drawAction(actionNum, subgoalId) {
 
         // If already got action name
         if (statusIsTrue("gotActionName")) {
+            console.log("Action name already set, retrieving from local storage.");
             if (actionNum > currArray[subgoalId - 1].actions.length) {
                 actionName = localStorage.getItem("currActionName");
             } else {
@@ -441,16 +440,18 @@ function drawAction(actionNum, subgoalId) {
         // Add onclicks
         sidebarBody().find('#submitActionName').unbind("click").click(function () {
             actionName = sidebarBody().find("#actionNameInput").val();
+            console.log("Action name submitted:", actionName);
             if (actionName === "" && !(statusIsTrue('gotActionName'))) {
                 alert("Please name your action before continuing");
-            } else {
+            }
+            else {
                 var actionItem = {
                     name: actionName,
                     actionId: actionNum,
                     subgoalId: subgoalId
                 };
                 saveVarToLocal("currActionName", actionName);
-
+                console.log("Saving action item:", actionItem);
                 var yesNoMaybe = { "yes": false, "no": false, "maybe": false };
                 var whyText = "";
                 var facets = {
@@ -475,10 +476,10 @@ function drawAction(actionNum, subgoalId) {
                 }
 
                 // Attach toggle functionality here
-            // document.getElementById("yes").addEventListener("change", () => toggleTextbox("yes", "BwhyYes"));
-            // document.getElementById("no").addEventListener("change", () => toggleTextbox("no", "BwhyNo"));
-            // document.getElementById("maybe").addEventListener("change", () => toggleTextbox("maybe", "BwhyMaybe"));
-            
+                // document.getElementById("yes").addEventListener("change", () => toggleTextbox("yes", "BwhyYes"));
+                // document.getElementById("no").addEventListener("change", () => toggleTextbox("no", "BwhyNo"));
+                // document.getElementById("maybe").addEventListener("change", () => toggleTextbox("maybe", "BwhyMaybe"));
+                
                 sidebarBody().find("#editAction").show();
                 sidebarBody().find("#editAction").unbind("click").click(function () {
                     sidebarBody().find('#editAction').hide();
@@ -499,6 +500,8 @@ function drawAction(actionNum, subgoalId) {
 
         // Call overlay screen function when user is ready for screen capture
         sidebarBody().find('body').off('click', '#overlayTrigger').on('click', '#overlayTrigger', function () {
+            console.log("Overlay trigger clicked, preparing for screen capture.");
+            console.log("checking status for drewToolTip:", statusIsTrue('drewToolTip'));
             if (statusIsTrue('drewToolTip')) {
                 var justTheToolTip = document.getElementById("myToolTip");
                 $(justTheToolTip).remove();
