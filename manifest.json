@@ -34,7 +34,6 @@
 				"/core/stateManager.js",
 				"/ui/uiController.js",
 				"/scripts/action.js",
-				"/scripts/status.js",
 				"/scripts/output.js",
 				"/Stuk-jszip-4cbaf0e/dist/jszip.js",
 				"/Stuk-jszip-4cbaf0e/vendor/FileSaver.js"

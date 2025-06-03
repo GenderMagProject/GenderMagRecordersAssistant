@@ -409,51 +409,5 @@ function actionLoop(el){
 	
 }
 
-/*
- * Function: reloadToolTipState
- * Description: This function handles returning the tool to the correct location in the session when the page
- *	 is reloaded. It checks which flags are set starting with the finished flag and ending with the
- *	 screenshot flag.
- * Params: none
- */
-function reloadToolTipState () {
-	//set up tool tip (skipping screenshot)
-	overlayScreen("onlyToolTip");
-	var toolTip = document.getElementById("myToolTip");
 
-	//if session is at end, open to action loop & trigger continue click to get to last page
-	if (statusIsTrue("finishedGM")) {
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		actionLoop(toolTip);
-		$("#saveAndExit").click();
-	}
-	//if post action is finished, open to action loop
-	else if (statusIsTrue("gotPostActionQuestions")) {
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		actionLoop(toolTip);
-	}
-	//if action was performed, go back to post action questions
-	else if (statusIsTrue("idealActionPerformed")) {
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		postActionQuestions(toolTip);
-	}
-	//if preaction questions are done, go to action prompt
-	else if (statusIsTrue("gotPreActionQuestions")) {	
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		doActionPrompt(toolTip);
-	}
-	//if screenshot taken, go to preaction
-	else if (statusIsTrue("gotScreenshot")) {
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		preActionQuestions(toolTip);
-	}
-	//???? who what when why where how?
-	else if (statusIsTrue("highlightedAction")) {
-
-		//renderImage()
-		//console.log("on image");
-		//overlayScreen("onlyToolTip");
-	}
-	
-}
 

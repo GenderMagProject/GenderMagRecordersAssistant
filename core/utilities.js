@@ -1,44 +1,3 @@
-
-/* Function Name: init
- * Description: Initializes the status object, imports necessary stylesheets, appends the slider template to the body, and sets up event listeners.
- * Parameters: None
- */
-function init() {
-    console.log("2");
-
-    // Initialize the status object
-    initStatusObject();
-
-    // Import all necessary stylesheets
-    importStylesheet("body", "./styles/slider.css");
-
-    // Append the template asynchronously and handle dependent tasks in a callback
-    appendTemplateToElement("body", "./templates/slider.html", (error, data) => {
-        if (error) {
-            console.error("Error appending slider template:", error);
-            return;
-        }
-
-        // Perform tasks that depend on the slider being loaded
-        console.log("Slider template appended successfully.");
-
-        // Import additional stylesheets for the slider content
-        importStylesheet($("#slideout").contents().find("head"), "/styles/sliderbody.css");
-        importStylesheet($("#slideout").contents().find("head"), "/styles/styles.css");
-        importStylesheet($("#slideout").contents().find("head"), "/jquery-ui-1.12.1/jquery-ui.css");
-        importStylesheet($("#slideout").contents().find("head"), "font-awesome-4.6.1/css/font-awesome.min.css");
-
-        // Append text and setup event listeners
-        $("#slideout").contents().find("body").append("GenderMag");
-        addOnClicks();
-        setup("#GenderMagFrame", "./templates/firstState.html");
-        reloadSandwich();
-		console.log("Utilities init execution completed")
-
-    });
-}
-
-
 /* Function: appendTemplateToElement
  * Description: This function is used to add the contents of another html file to a specified element
  * Params:
@@ -124,4 +83,25 @@ function appendTemplateToElement(el, file, callback) {
  */
 function sidebarBody() {
     return $("#GenderMagFrame").contents();
+}
+
+/* Function Name: setupSliderToggleClick
+ * Description: Adds click event listeners to the slider bar to toggle its open/close state and set the status.
+ * Parameters: None
+ */
+function setupSliderToggleClick(){
+	
+	//when slider is clicked, open or close
+	var el = $("#slideout").contents().find("body");
+	if (el) {
+        el.off("click").on("click", handleSliderClick);
+    }    
+}
+
+function handleSliderClick() {
+	$("#slideout").toggleClass("clicked");
+	$("#GenderMagFrame").toggleClass("clicked");
+
+	const isOpen = $("#slideout").hasClass("clicked");
+	isOpen ? setStatusToTrue("sliderIsOpen") : setStatusToFalse("sliderIsOpen");
 }
