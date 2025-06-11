@@ -293,6 +293,7 @@ function initializeScreenshotListeners(canvas, drawingState) {
   canvas.addEventListener("mouseup", (e) => onMouseUp(e, canvas, drawingState));
   canvas.addEventListener("mousemove", (e) => onMouseMove(e, canvas, drawingState));
 }
+//Helper function to ensure highlight boxes visually track the region user is selecting in the canvas container
 function ensureHighlightBoxesExist(container) {
   console.log("Ensuring highlight boxes exist in container:", container);
   if (!document.getElementById("highlightHover")) {
