@@ -615,6 +615,7 @@ function renderImage(imgURL) {
 
       if (imgURL) {
         myImg.src = imgURL;
+        localStorage.setItem("currImgURL", imgURL);
       } else {
         myImg.src = localStorage.getItem("currImgURL");
       }
