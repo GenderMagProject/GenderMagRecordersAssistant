@@ -52,6 +52,7 @@ function addToSandwich(type, item){
             // add the new subgoal to the sidebar
             if (!foundIt) {
                 sidebarBody().find("#subgoalList").append(sideSubgoal);
+                sidebarBody().find("#treeInfo").show();
             }
             
         }
