@@ -101,8 +101,9 @@ you have downloaded and installed the tool and want to run it, make sure the
 extension is enabled, navigate to the page you wish to perform GenderMag on 
 and click the GenderMag button at the bottom of the screen. 
 
-See the [video](http://gendermag.org/genderMag.html) from GenderMag.org for examples 
-and/or read the guide below.
+See the [video](http://gendermag.org/genderMag.html) (Under the How does it work? Tab) from GenderMag.org for examples 
+and/or read the guide below. 
+Another walkthrough video can be found [here](https://www.youtube.com/watch?v=GOy7Aq5lozQ) which covers the tool well.
 
 Here is a step-by-step guide on how to run the Recorder Assistant tool: 
 
@@ -184,8 +185,8 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    check the box next to the disclaimer saying that the file was downloaded and
    hit "Quit GenderMag". This will reload the page and close the tool.
 
-See the video at http://gendermag.org for examples of what running the tool 
-looks like.
+See the [video](http://gendermag.org/genderMag.html) for examples of what running the tool 
+looks like (Under the How does it work? Tab). Also be sure to checkout this recent [video](http://gendermag.org/genderMag.html) which covers the tool well.
 
 ## How to Disable GenderMag:
 
