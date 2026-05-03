@@ -40,6 +40,13 @@ function preWalkthrough (id, file) {
 
 }
 
+function syncPrewalkthroughSessionState(mutatorFn, context) {
+	if (typeof updateSessionState === "function") {
+		return updateSessionState(mutatorFn, context);
+	}
+	return null;
+}
+
 /* Function: makeEditable
  * Description: This function adds the functionality "Edit" buttons (e.g, for team name, persona, etc) - hide edit
  *   button and add edit fields to the slider section
@@ -78,17 +85,16 @@ function makeEditable () {
 function handleTeamName(){
 	//Set team name
 	//If the state variable is set, reload previous input
-	var isSetTeam = statusIsTrue("gotTeamName");
+	var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+	var isSetTeam = Boolean(sessionState && sessionState.teamName);
 	if (isSetTeam) {
 		//Hide initial instructions
 		sidebarBody().find("#explain").hide();
 
-		sidebarBody().find("#teamName").html("<b>Team:</b> "+ getVarFromLocal("teamName") );
+		sidebarBody().find("#teamName").html("<b>Team:</b> "+ sessionState.teamName );
 		sidebarBody().find("#editTeam").show();
 		sidebarBody().find("#getTeam").hide();
-		if( localStorage.getItem("inGetPersona") !== "true") {
-			sidebarBody().find("#getPersona").show();
-		}
+		sidebarBody().find("#getPersona").show();
 	}
 	//if not set, get and save info
 	else {
@@ -105,8 +111,10 @@ function handleTeamName(){
 				alert("Please enter a name");
 			}
 			else {
-				saveVarToLocal("teamName", teamName);
-				setStatusToTrue("gotTeamName");
+				syncPrewalkthroughSessionState(function (state) {
+					state.currentStep = "prewalkthrough";
+					state.teamName = teamName;
+				}, "Saved team name in sessionState.");
 
 				//Display team name and edit button, Hides #getTeam, shows #getPersona
 				sidebarBody().find("#teamName").html("<b>Team:</b> " + teamName);
@@ -121,10 +129,11 @@ function handleTeamName(){
 
 function handlePersona(){
 	//If the state variable is set, reload previous input
-	var isSetPersona = statusIsTrue("gotPersonaName");
+	var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+	var isSetPersona = Boolean(sessionState && sessionState.persona && sessionState.persona.name);
 	if (isSetPersona) {
 		//Restore from previous state
-		var personaName = getVarFromLocal("personaName");
+		var personaName = sessionState.persona.name;
 		sidebarBody().find("#personaName").html("<b>Persona:</b> " + personaName);
 		loadPersona(personaName);
 		sidebarBody().find("#personaInfo").show();
@@ -141,15 +150,15 @@ function handlePersona(){
 		sidebarBody().find('body').off('click', '#submitPersona').on('click', '#submitPersona', function() {
 			//Get and save persona selection
 			var personaName = sidebarBody().find("#personaSelection").val();
-			saveVarToLocal("personaName", personaName);
-            setStatusToTrue("gotPersonaName");
+			syncPrewalkthroughSessionState(function (state) {
+				state.currentStep = "prewalkthrough";
+				state.persona.name = personaName;
+			}, "Saved persona name in sessionState.");
 
 			//Display persona selection and related info
 			sidebarBody().find("#personaName").html("<b>Persona:</b> " + personaName);
 			loadPersona(personaName);
 			sidebarBody().find("#personaInfo").show();
-			var pronoun = localStorage.getItem('personaPronoun');
-			var possessive = localStorage.getItem('personaPossessive');
 			sidebarBody().find("#getPersona").children().hide();
 			sidebarBody().find("#getPersona").hide();
 
@@ -160,22 +169,16 @@ function handlePersona(){
 }
 
 function handlePronouns(){
-	var isSetPronoun = statusIsTrue("gotPronoun");
+	var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+	var isSetPronoun = Boolean(sessionState && sessionState.persona && sessionState.persona.pronoun && sessionState.persona.possessive);
 	if (isSetPronoun) {
 		//Restore from previous state
-		//Get and save scenario name
-		var pronoun = getVarFromLocal("pronoun");
-		var possessive = getVarFromLocal("possessive");
-		var personaName = getVarFromLocal("personaName");
+		var personaName = getSessionPersonaName(sessionState);
 		sidebarBody().find("#getPersonaPronoun").hide();
 
-		if( localStorage.getItem("inGetScenario") !== "true") {
-			//Show Scenario
-			sidebarBody().find("#getScenario").show();
-			//sidebarBody().find("#getScenario").children().show();
-			sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " 
-								   + personaName + " will be performing");
-		}
+		sidebarBody().find("#getScenario").show();
+		sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " 
+							   + personaName + " will be performing");
 	}
 	else{
 		//enter get pronoun stuff here
@@ -198,11 +201,12 @@ function handlePronouns(){
 				alert("Please enter both the pronoun and possessive adjective.");
 			}
 			else {
-				saveVarToLocal("personaPronoun", personaPronoun);
-				saveVarToLocal("personaPossessive", personaPossessive);
-
-				var personaName = getVarFromLocal("personaName");
-				setStatusToTrue("gotPronoun");
+				var personaName = getSessionPersonaName();
+				syncPrewalkthroughSessionState(function (state) {
+					state.currentStep = "prewalkthrough";
+					state.persona.pronoun = personaPronoun;
+					state.persona.possessive = personaPossessive;
+				}, "Saved persona pronouns in sessionState.");
 				sidebarBody().find("#getPersonaPronoun").hide();
 				sidebarBody().find("#getScenario").show();
 				sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " 
@@ -216,11 +220,12 @@ function handlePronouns(){
 }
 function handleScenario(){
 	//If the state variable is set, reload previous input
-	var isSetScenario = statusIsTrue("gotScenarioName");
+	var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+	var isSetScenario = Boolean(sessionState && sessionState.scenarioName);
 	if (isSetScenario) {
 		//Restore from previous state
 		//Get and save scenario name
-		var scenarioName = getVarFromLocal("scenarioName");
+		var scenarioName = sessionState.scenarioName;
 		
 		//Display scenario and related info
 		sidebarBody().find("#scenarioName").html("<b>Scenario:</b> " + scenarioName);
@@ -229,23 +234,16 @@ function handleScenario(){
 		sidebarBody().find("#getScenario").children().hide();
 		sidebarBody().find("#getScenario").hide();
 		
-		if( localStorage.getItem("inGetScenario") !== "true") {
-			//Show subgoal from local storage
-			sidebarBody().find("#getSubgoal").show();
-			sidebarBody().find("#setup").hide();
-			var personaName = getVarFromLocal("personaName");
-			if (!personaName) {
-				console.log("persona name was null. Check your save");
-			}
-			//prompt for subgoal name - can use submit button or enter key
-			sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " 
-								  + personaName + " to perform");
-			sidebarBody().find("#subgoalInput").keyup(function(event){
-				if(event.keyCode == 13){
-					sidebarBody().find("#submitSubgoal").unbind( "click" ).click();
-				} 
-			});
-		}
+		sidebarBody().find("#getSubgoal").show();
+		sidebarBody().find("#setup").hide();
+		var personaName = getSessionPersonaName(sessionState);
+		sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " 
+							  + personaName + " to perform");
+		sidebarBody().find("#subgoalInput").keyup(function(event){
+			if(event.keyCode == 13){
+				sidebarBody().find("#submitSubgoal").unbind( "click" ).click();
+			} 
+		});
 	}
 	else {
 		//can use enter key or submit button to submit scenario name
@@ -262,9 +260,10 @@ function handleScenario(){
 				alert("Please enter the scenario name");
 			}
 			else {
-				saveVarToLocal("scenarioName", scenarioName);
-				setStatusToTrue("gotScenarioName");
-				setStatusToTrue("finishedPrewalkthrough");
+				syncPrewalkthroughSessionState(function (state) {
+					state.currentStep = "prewalkthrough";
+					state.scenarioName = scenarioName;
+				}, "Saved scenario name in sessionState.");
 
 				//Display scenario and related info
 				sidebarBody().find("#scenarioName").html("<b>Scenario:</b> " + scenarioName);
@@ -277,10 +276,7 @@ function handleScenario(){
 				sidebarBody().find("#getSubgoal").show();
 				sidebarBody().find("#setup").hide();
 
-				var personaName = getVarFromLocal("personaName");
-				if (!personaName) {
-					console.log("persona name was null. Check your save");
-				}
+				var personaName = getSessionPersonaName();
 				sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " 
 									  + personaName + " to perform");
 				sidebarBody().find("#subgoalInput").keyup(function (event) {
@@ -294,37 +290,30 @@ function handleScenario(){
 }
 function handleSubgoal(){
 	//If the state variable is set, reload previous input
-	var isSetSubName = statusIsTrue("gotSubgoalName");
+	var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+	var isSetSubName = Boolean(sessionState && sessionState.currentSubgoalId);
 	console.log("IS subgoal name set? ",isSetSubName);
 	if (isSetSubName) {
 		//Restore from previous state
 		sidebarBody().find("#welcomeText").html("GenderMag Recorder's Assistant: <i>In Session</i>");
 
-		var subgoalArray = getSubgoalArrayFromLocal();
+		var subgoalArray = sessionState && Array.isArray(sessionState.subgoals) ? sessionState.subgoals : [];
 		if (!subgoalArray) {
 			//They haven't saved any subgoals yet, but they have the name
 			//var subName = localStorage.getItem("currSubgoalName");
 			sidebarBody().find("#editTeam").hide();
 			sidebarBody().find("#editPersona").hide();
 			sidebarBody().find("#editScenario").hide();
-			var subgoalId = localStorage.getItem("numSubgoals");
-			if(subgoalId == null){
-				subgoalId = 1;
-				localStorage.setItem("numSubgoals", subgoalId);
-			}
+			var subgoalId = sessionState.currentSubgoalId || 1;
 			drawSubgoal(subgoalId);
 		}
 		else {
 			//They have subgoals
 			//var subName = localStorage.getItem("currSubgoalName");
-			var subgoalId = localStorage.getItem("numSubgoals");
-			if(subgoalId == null){
-				subgoalId = 1;
-				localStorage.setItem("numSubgoals", subgoalId);
-			}
-            sidebarBody().find("#editTeam").hide();
-            sidebarBody().find("#editPersona").hide();
-            sidebarBody().find("#editScenario").hide();
+			var subgoalId = sessionState.currentSubgoalId || 1;
+                sidebarBody().find("#editTeam").hide();
+                sidebarBody().find("#editPersona").hide();
+                sidebarBody().find("#editScenario").hide();
 			drawSubgoal(subgoalId);
 			console.log("Drawn 2");
 		}			
@@ -336,25 +325,23 @@ function handleSubgoal(){
                 alert("Please name your subgoal before continuing");
             }
             else {
-            	sidebarBody().find("#welcomeText").html("GenderMag Recorder's Assistant: <i>In Session</i>");
+                sidebarBody().find("#welcomeText").html("GenderMag Recorder's Assistant: <i>In Session</i>");
                 sidebarBody().find("#editTeam").hide();
                 sidebarBody().find("#editPersona").hide();
                 sidebarBody().find("#editScenario").hide();
-                var subgoalId = localStorage.getItem("numSubgoals");
-                setStatusToTrue("gotSubgoalName");
+                var subgoalId = getSessionNextSubgoalId();
                 var subName = sidebarBody().find("#subgoalInput").val();
-                localStorage.setItem("currSubgoalName", subName);
-                if(subgoalId == null){
-                    subgoalId = 1;
-                    localStorage.setItem("numSubgoals", subgoalId);
-                }
-                else{
-                    subgoalId++;
-                    localStorage.setItem("numSubgoals", subgoalId);
-                    
-                }
 				//save a dummy subgoal so it can be reached again if the user clicks away
                 saveSubgoal(subgoalId, subName, 0, "", 0);
+				syncPrewalkthroughSessionState(function (state) {
+					state.currentStep = "subgoalQuestions";
+					state.currentSubgoalId = Number(subgoalId);
+					state.currentActionId = null;
+					state.draftAction = null;
+					state.screenshot.imageUrl = "";
+					state.screenshot.sourceX = 0;
+					state.screenshot.sourceY = 0;
+				}, "Started subgoal questions in sessionState.");
                 drawSubgoal(subgoalId);
             }
 		});

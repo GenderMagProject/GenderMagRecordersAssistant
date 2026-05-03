@@ -4,6 +4,25 @@
  * Last Modified: 2025-03-05 by Bhavika Madhwani (madhwanb@oregonstate.edu)
  */
 
+function exposeSessionStorageToContentScripts() {
+    if (!chrome.storage || !chrome.storage.session || !chrome.storage.session.setAccessLevel) {
+        return;
+    }
+
+    chrome.storage.session.setAccessLevel(
+        { accessLevel: "TRUSTED_AND_UNTRUSTED_CONTEXTS" },
+        () => {
+            if (chrome.runtime.lastError) {
+                console.error("Failed to expose session storage to content scripts:", chrome.runtime.lastError);
+            }
+        }
+    );
+}
+
+exposeSessionStorageToContentScripts();
+chrome.runtime.onStartup.addListener(exposeSessionStorageToContentScripts);
+chrome.runtime.onInstalled.addListener(exposeSessionStorageToContentScripts);
+
 /* Function Name: takeScreenShot
  * Description: Takes a screenshot of the current tab and renders it in the content script.
  * Parameters: None
@@ -77,6 +96,15 @@ function takeScreenShot() {
  * Last Modified: 2025-03-05 by Bhavika Madhwani (madhwanb@oregonstate.edu)
  */
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request && request.type === "gm:getTabContext") {
+        sendResponse({
+            tabId: sender.tab ? sender.tab.id : null,
+            windowId: sender.tab ? sender.tab.windowId : null,
+            active: sender.tab ? sender.tab.active : false
+        });
+        return false;
+    }
+
     if (request.greeting === "takeScreenShot") {
         console.log("Received request to take a screenshot");
 
@@ -110,7 +138,7 @@ chrome.action.onClicked.addListener(function (tab) {
             if (slideout.style.display === 'none') {
                 slideout.style.display = '';
                 gmFrame.style.display = '';
-            } else if (!statusIsTrue("sliderIsOpen")) {
+            } else if (!isSliderOpenInSession()) {
                 slideout.style.display = 'none';
                 gmFrame.style.display = 'none';
             }

@@ -15,9 +15,98 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   console.log("Received renderImage call with URL:", request.imageUrl);
   if (request.callFunction === "renderImage") {
     renderImage(request.imageUrl);
-    localStorage.setItem("currImgURL", request.imageUrl);
   }
 });
+
+function updateScreenshotSessionState(mutatorFn, context) {
+  if (typeof updateSessionState === "function") {
+    return updateSessionState(mutatorFn, context);
+  }
+  return null;
+}
+
+function getOverlaySessionState() {
+  if (typeof getSessionState === "function") {
+    return getSessionState();
+  }
+  return null;
+}
+
+function getOverlayScreenshotState() {
+  var sessionState = getOverlaySessionState();
+  var draftScreenshot = sessionState && sessionState.draftAction && sessionState.draftAction.screenshot
+    ? sessionState.draftAction.screenshot
+    : null;
+  var sessionScreenshot = sessionState && sessionState.screenshot ? sessionState.screenshot : null;
+
+  return {
+    imageUrl:
+      (draftScreenshot && draftScreenshot.imageUrl) ||
+      (sessionScreenshot && sessionScreenshot.imageUrl) ||
+      localStorage.getItem("currImgURL") ||
+      "",
+    sourceX: Number(
+      draftScreenshot && draftScreenshot.sourceX !== undefined
+        ? draftScreenshot.sourceX
+        : (sessionScreenshot && sessionScreenshot.sourceX !== undefined
+          ? sessionScreenshot.sourceX
+          : localStorage.getItem("sourceX"))
+    ) || 0,
+    sourceY: Number(
+      draftScreenshot && draftScreenshot.sourceY !== undefined
+        ? draftScreenshot.sourceY
+        : (sessionScreenshot && sessionScreenshot.sourceY !== undefined
+          ? sessionScreenshot.sourceY
+          : localStorage.getItem("sourceY"))
+    ) || 0
+  };
+}
+
+function getOverlayActionName() {
+  if (typeof getSessionCurrentActionName === "function") {
+    var currentActionName = getSessionCurrentActionName();
+    if (currentActionName) {
+      return currentActionName;
+    }
+  }
+
+  return localStorage.getItem("currActionName") || "";
+}
+
+function syncPreviewImageState(imageUrl, context) {
+  if (!imageUrl) {
+    return;
+  }
+
+  if (typeof updateScreenshotSessionState === "function") {
+    updateScreenshotSessionState(function (state) {
+      state.screenshot.imageUrl = imageUrl;
+      if (state.draftAction && state.draftAction.screenshot) {
+        state.draftAction.screenshot.imageUrl = imageUrl;
+      }
+    }, context);
+    return;
+  }
+
+  localStorage.setItem("currImgURL", imageUrl);
+}
+
+function syncPreviewOffsetState(sourceX, sourceY, context) {
+  if (typeof updateScreenshotSessionState === "function") {
+    updateScreenshotSessionState(function (state) {
+      state.screenshot.sourceX = sourceX;
+      state.screenshot.sourceY = sourceY;
+      if (state.draftAction && state.draftAction.screenshot) {
+        state.draftAction.screenshot.sourceX = sourceX;
+        state.draftAction.screenshot.sourceY = sourceY;
+      }
+    }, context);
+    return;
+  }
+
+  localStorage.setItem("sourceX", sourceX);
+  localStorage.setItem("sourceY", sourceY);
+}
 
 /*
  * Function: overlayScreen
@@ -26,7 +115,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
  * Params: onlyDraw - tells whether to go straight to drawing the pop up ("onlyToolTip")
  *   or to take the screenshot first ("")
  */
-function overlayScreen(onlyDraw) {
+function overlayScreen(onlyDraw, onToolTipReady) {
   //If skipping screenshot and loading tooltip window from local storage
   closeSlider();
   console.log("check onlyDraw value in overlayScreen func:", onlyDraw);
@@ -43,8 +132,10 @@ function overlayScreen(onlyDraw) {
   };
 
   if (onlyDraw === "onlyToolTip") {
-  loadToolTipUI(drawingState);
+  setHighlightBoxesVisible(false);
+  loadToolTipUI(drawingState, onToolTipReady);
   } else {
+    setHighlightBoxesVisible(true);
     initializeScreenshotListeners(genderMagCanvas, drawingState);
   }
 }
@@ -101,7 +192,7 @@ function getOrCreateCanvas(container) {
 
   return canvas;
 }
-function loadToolTipUI(drawingState) {
+function loadToolTipUI(drawingState, onToolTipReady) {
   const toolTip = createToolTipElement();
   console.log("ToolTip created in loadToolTipUI:", toolTip);
   appendTemplateToElement(toolTip,"./templates/action.html", (error, data) => {
@@ -115,19 +206,25 @@ function loadToolTipUI(drawingState) {
       const {
         canvas: previewCanvas,
         context: previewCtx,
-        myImg
+        myImg,
+        ratioWidth,
+        ratioHeight
       } = prepareCanvasPreview();
-      const ratioHeight = myImg.height * 0.75;
-      const ratioWidth = (myImg.width / myImg.height) * ratioHeight;
       var canContainer = document.getElementById("genderMagCanvasContainer");
       var sourceY = canContainer.offsetTop;
       var sourceX = canContainer.offsetLeft;
       setupDrawOnImageLogic(myImg, ratioWidth, ratioHeight, sourceX, sourceY, previewCtx);
+      if (typeof onToolTipReady === "function") {
+        onToolTipReady(toolTip);
+      }
     }
   }
  );
 }
 function createToolTipElement() {
+  if (typeof ensureFloatingUiBaseStyles === "function") {
+    ensureFloatingUiBaseStyles();
+  }
   const toolTip = document.createElement("div");
   toolTip.id = "myToolTip";
   Object.assign(toolTip.style, {
@@ -144,29 +241,54 @@ function createToolTipElement() {
     overflow: "auto"
   });
   document.body.appendChild(toolTip);
-  setStatusToTrue("drewToolTip");
   $("#myToolTip").draggable();
   return toolTip;
 }
 
 function setupToolTipButtonHandlers(toolTip) {
-  $(".closeToolTip").off("click").on("click", () => {
-    setStatusToTrue("gotScreenshot");
+  $(toolTip).find(".closeToolTip").off("click").on("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    updateScreenshotSessionState(function (state) {
+      state.currentStep = "preActionQuestions";
+      if (state.draftAction) {
+        state.draftAction.status = "screenshotCaptured";
+      }
+    }, "Accepted screenshot preview and moved to pre-action questions.");
     preActionQuestions(toolTip);
   });
 
-  $("#retakeImage").off("click").on("click", () => {
+  $(toolTip).find("#retakeImage").off("click").on("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     toolTip.remove();
-    setStatusToFalse("drewToolTip");
+    updateScreenshotSessionState(function (state) {
+      state.currentStep = "actionPrompt";
+      state.screenshot.imageUrl = "";
+      state.screenshot.sourceX = 0;
+      state.screenshot.sourceY = 0;
+      if (state.draftAction) {
+        state.draftAction.screenshot = {
+          imageUrl: "",
+          sourceX: 0,
+          sourceY: 0
+        };
+        state.draftAction.status = "named";
+      }
+    }, "Retaking screenshot and clearing preview state.");
     overlayScreen();
     overlayScreen();
   });
 
-  $("#exitButton").off("click").on("click", () => {
+  $(toolTip).find("#exitButton").off("click").on("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     justExit("popup");
   });
 
-  $("#imageBack").off("click").on("click", () => {
+  $(toolTip).find("#imageBack").off("click").on("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     toolTip.remove();
     document.getElementById("genderMagCanvasContainer").style.display = "none";
     openSlider();
@@ -175,8 +297,43 @@ function setupToolTipButtonHandlers(toolTip) {
 
 
 function updateActionNameUI() {
-  const actionSpan = localStorage.getItem("currActionName");
+  const actionSpan = getOverlayActionName();
   $(".actionNameSpan").html("Action: " + actionSpan);
+}
+
+function whenPreviewImageReady(img, onReady) {
+  if (!img) {
+    return;
+  }
+
+  if (img.complete && (img.naturalWidth || img.width)) {
+    onReady(img);
+    return;
+  }
+
+  const handleLoad = function () {
+    img.removeEventListener("load", handleLoad);
+    onReady(img);
+  };
+
+  img.addEventListener("load", handleLoad);
+}
+
+function redrawPreviewCanvasFromCurrentImage(img, context, previewWidth, previewHeight) {
+  whenPreviewImageReady(img, function () {
+    context.clearRect(0, 0, previewWidth, previewHeight);
+    context.drawImage(img, 0, 0, previewWidth, previewHeight);
+  });
+}
+
+function setCurrentPreviewImage(img, context, imageUrl, previewWidth, previewHeight) {
+  if (!img || !context || !imageUrl) {
+    return;
+  }
+
+  syncPreviewImageState(imageUrl, "Updated screenshot preview image source.");
+  img.src = imageUrl;
+  redrawPreviewCanvasFromCurrentImage(img, context, previewWidth, previewHeight);
 }
 
 function prepareCanvasPreview() {
@@ -189,34 +346,36 @@ function prepareCanvasPreview() {
   var context = canvas.getContext("2d");
 
   var myImg = document.getElementById("previewImage");
-  var imgURL = localStorage.getItem("currImgURL");
+  var screenshotState = getOverlayScreenshotState();
+  var imgURL = screenshotState.imageUrl;
   if (imgURL) {
     myImg.src = imgURL;
   } else {
-    myImg.src = localStorage.getItem("currImgURL");
+    myImg.removeAttribute("src");
   }
   var previewHeight = 350;
   var previewWidth = 465;
-  var imageRatio = myImg.width / myImg.height;
-  var ratioHeight = myImg.height * 0.75;
+  var imageWidth = myImg.naturalWidth || myImg.width || 1920;
+  var imageHeight = myImg.naturalHeight || myImg.height || 742;
+  var imageRatio = imageWidth / imageHeight;
+  var ratioHeight = imageHeight * 0.75;
   var ratioWidth = imageRatio * ratioHeight;
 
-  var sx = localStorage.getItem("sx");
-  var sy = localStorage.getItem("sy");
-
-  //draw preview image
-  if (sx && sy) {
-    context.drawImage(myImg,0,0,myImg.width,myImg.height,0,
-      0,(previewWidth * 9) / 10,(previewHeight * 9) / 10);
-  } else {
+  function drawPreviewImage() {
+    context.clearRect(0, 0, previewWidth, previewHeight);
     context.drawImage(myImg, 0, 0, previewWidth, previewHeight);
   }
-  return { canvas, context, myImg };
+
+  whenPreviewImageReady(myImg, drawPreviewImage);
+  return { canvas, context, myImg, ratioWidth, ratioHeight };
 }
 
 function setupDrawOnImageLogic(myImg, ratioWidth, ratioHeight, sourceX, sourceY, canvasCtx ) {
   //Functionality when 'draw on image' button is clicked
   $(".previewTrigger").unbind("click").click(function () {
+    if (typeof ensureFloatingUiBaseStyles === "function") {
+      ensureFloatingUiBaseStyles();
+    }
     importStylesheet("head", "/styles/overlayScreen.css");
     //appendTemplateToElement("body", "/templates/imageAnnotation.html");
     appendTemplateToElement("body", "/templates/imageAnnotation.html",(error) => {
@@ -239,49 +398,145 @@ function setupDrawOnImageLogic(myImg, ratioWidth, ratioHeight, sourceX, sourceY,
 
         //set up draw on image functionality
         var annotationCanvas = document.getElementById("annotationCanvas");
-        drawCtx = annotationCanvas.getContext("2d");
-        drawCtx.drawImage(myImg, 0, 0, ratioWidth, ratioHeight);
+        var drawCtx = annotationCanvas.getContext("2d");
+
+        function drawOnCanvas(canvas) {
+          var $myCanvas = $(canvas);
+          var $offset = $myCanvas.offset();
+          var lineWidth = 2;
+          var lineColor = "#FF0000";
+          var isMouseDown = false;
+          var pos = { x: 0, y: 0 };
+          var lastPos = { x: 0, y: 0 };
+
+          function paintLine(x1, y1, x2, y2, paintWidth, paintColor) {
+            $myCanvas.drawLine({
+              strokeStyle: paintColor,
+              strokeWidth: paintWidth,
+              rounded: true,
+              strokeJoin: "round",
+              strokeCap: "round",
+              x1: x1,
+              y1: y1,
+              x2: x2,
+              y2: y2,
+            });
+          }
+
+          $myCanvas.off("mousedown mouseup mousemove");
+
+          $myCanvas.on("mousedown", function (e) {
+            $offset = $myCanvas.offset();
+            e.stopPropagation();
+            isMouseDown = true;
+            history.saveState($myCanvas[0]);
+          });
+
+          $myCanvas.on("mouseup", function () {
+            $offset = $myCanvas.offset();
+            isMouseDown = false;
+          });
+
+          $myCanvas.on("mousemove", function (e) {
+            lastPos.x = pos.x;
+            lastPos.y = pos.y;
+            pos.x = e.pageX - $offset.left;
+            pos.y = e.pageY - $offset.top;
+
+            if (isMouseDown) {
+              paintLine(
+                lastPos.x,
+                lastPos.y,
+                pos.x,
+                pos.y,
+                lineWidth,
+                lineColor
+              );
+            }
+          });
+        }
+
+        var history = {
+          redo_list: [],
+          undo_list: [],
+          saveState: function (canvas, list, keep_redo) {
+            keep_redo = keep_redo || false;
+            if (!keep_redo) {
+              this.redo_list = [];
+            }
+            (list || this.undo_list).push(canvas.toDataURL());
+            return canvas.toDataURL();
+          },
+
+          undo: function (canvas, context) {
+            return this.restoreState(
+              canvas,
+              context,
+              this.undo_list,
+              this.redo_list
+            );
+          },
+
+          redo: function (canvas, context) {
+            return this.restoreState(
+              canvas,
+              context,
+              this.redo_list,
+              this.undo_list
+            );
+          },
+
+          restoreState: function (canvas, context, pop, push) {
+            if (pop.length) {
+              this.saveState(canvas, push, true);
+              var restore_state = pop.pop();
+              var img = document.createElement("img");
+              img.src = restore_state;
+              img.onload = function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0);
+              };
+              return img.src;
+            }
+          },
+        };
+
+        drawOnCanvas("#annotationCanvas");
+        whenPreviewImageReady(myImg, function () {
+          drawCtx.clearRect(0, 0, ratioWidth, ratioHeight);
+          drawCtx.drawImage(myImg, 0, 0, ratioWidth, ratioHeight);
+        });
 
         //set button functionality on drawing pop up
         $("#undoDraw").unbind("click").click(function () {
-            history.undo(annotationCanvas, drawCtx);
-          });
-
-        $("#redoDraw").unbind("click").click(function () {
-            history.redo(annotationCanvas, drawCtx);
-          });
-
-        //functionality for closing drawing pop up and saving new image
-        $("#backLargePreview").unbind("click").click(function () {
-            $("#imageAnnotation").remove();
-            var drawnOnURL = history.saveState(annotationCanvas);
-            //set saved image as the annotated one
-            localStorage.setItem("currImgURL", drawnOnURL);
-
-            var smallerImg = document.getElementById("previewImage");
-            var oldWidth = myImg.width;
-            var oldHeight = myImg.height;
-            smallerImg.src = drawnOnURL;
-            canvasCtx.clearRect(0, 0, 465, 150);
-
-            //does this ever get called?
-            if (oldHeight > smallerImg.height) {
-              var sx = (sourceX * smallerImg.width) / oldWidth;
-              var sy = (sourceY * smallerImg.height) / oldHeight;
-              localStorage.setItem("sx", sx);
-              localStorage.setItem("sy", sy);
-              canvasCtx.drawImage(myImg,sx, sy, smallerImg.width,smallerImg.height,
-                0, 0, (ratioWidth * 9) / 10, (ratioHeight * 9) / 10 );
-            } else {
-              var sx = localStorage.getItem("sx");
-              var sy = localStorage.getItem("sy");
-              context.drawImage( myImg,sx, sy,smallerImg.width, smallerImg.height, 0,0,
-                 (ratioWidth * 9) / 10,(ratioHeight * 9) / 10 );
+            var drawnOnURL = history.undo(annotationCanvas, drawCtx);
+            if (drawnOnURL) {
+              syncPreviewImageState(drawnOnURL, "Updated screenshot preview after annotation undo.");
             }
           });
 
+        $("#redoDraw").unbind("click").click(function () {
+            var drawnOnURL = history.redo(annotationCanvas, drawCtx);
+            if (drawnOnURL) {
+              syncPreviewImageState(drawnOnURL, "Updated screenshot preview after annotation redo.");
+            }
+          });
+
+        $("#backLargePreview").unbind("click").click(function () {
+            $("#imageAnnotation").remove();
+          });
+
+        // Save the annotated image and return to the screenshot preview.
         $("#closeLargePreview").unbind("click").click(function () {
             $("#imageAnnotation").remove();
+            var drawnOnURL = history.saveState(annotationCanvas);
+            setCurrentPreviewImage(myImg, canvasCtx, drawnOnURL, 465, 350);
+            updateScreenshotSessionState(function (state) {
+              state.screenshot.imageUrl = drawnOnURL;
+              if (state.draftAction && state.draftAction.screenshot) {
+                state.draftAction.screenshot.imageUrl = drawnOnURL;
+              }
+            }, "Updated screenshot preview after annotation.");
           });
       }
     );
@@ -305,7 +560,8 @@ function ensureHighlightBoxesExist(container) {
       width: "100px",
       height: "50px",
       opacity: "1",
-      zIndex: "100000"
+      zIndex: "100000",
+      display: "none"
     });
     container.appendChild(hoverBox);
   }
@@ -319,9 +575,24 @@ function ensureHighlightBoxesExist(container) {
       width: "100px",
       height: "50px",
       opacity: "1",
-      zIndex: "100001"
+      zIndex: "100001",
+      display: "none"
     });
     container.appendChild(borderBox);
+  }
+}
+
+function setHighlightBoxesVisible(isVisible) {
+  const displayValue = isVisible ? "block" : "none";
+  const hoverBox = document.getElementById("highlightHover");
+  const borderBox = document.getElementById("highlightBorder2");
+
+  if (hoverBox) {
+    hoverBox.style.display = displayValue;
+  }
+
+  if (borderBox) {
+    borderBox.style.display = displayValue;
   }
 }
 
@@ -359,10 +630,7 @@ function onMouseUp(e, canvas, drawingState) {
   if (elm?.offsetLeft > 90) sourceX = elm.offsetLeft - 90;
   if (elm?.offsetTop > 60)  sourceY = elm.offsetTop - 60;
 
-  localStorage.setItem("sourceX", sourceX);
-  localStorage.setItem("sourceY", sourceY);
-
-  setStatusToTrue("highlightedAction");
+  syncPreviewOffsetState(sourceX, sourceY, "Stored screenshot source offsets.");
 
   elements.forEach((el) => {
     if (["genderMagCanvas", "genderMagCanvasContainer", "highlightHover", "highlightBorder2"].includes(el.id)) {
@@ -373,7 +641,7 @@ function onMouseUp(e, canvas, drawingState) {
   chrome.runtime.sendMessage({ greeting: "takeScreenShot" }, (response) => {
     if (chrome.runtime.lastError) {
       console.error("Screenshot error:", chrome.runtime.lastError);
-    } else if (response?.status === "screenshot started") {
+    } else if (response?.status === "success") {
       console.log("Screenshot process initiated.");
     }
   });
@@ -426,9 +694,33 @@ function updateHighlightBox(e, id, color, thickness, canvas) {
  * Params: imgURL - the url of the image to be used in the preview
  */
 function renderImage(imgURL) {
+  if (imgURL) {
+    updateScreenshotSessionState(function (state) {
+      var screenshotState = getOverlayScreenshotState();
+      var sourceX = screenshotState.sourceX;
+      var sourceY = screenshotState.sourceY;
+      state.currentStep = "screenshotPreview";
+      state.screenshot.imageUrl = imgURL;
+      state.screenshot.sourceX = sourceX;
+      state.screenshot.sourceY = sourceY;
+
+      if (state.draftAction) {
+        state.draftAction.screenshot = {
+          imageUrl: imgURL,
+          sourceX: sourceX,
+          sourceY: sourceY
+        };
+        state.draftAction.status = "screenshotPreview";
+      }
+    }, "Stored screenshot preview in sessionState from renderImage.");
+  }
+
   //create div, add style, append to body
   var toolTip = document.createElement("div");
   toolTip.id = "myToolTip";
+  if (typeof ensureFloatingUiBaseStyles === "function") {
+    ensureFloatingUiBaseStyles();
+  }
   toolTip.style.position = "absolute";
   toolTip.style.left = 100 + "px";
   toolTip.style.top = 100 + "px";
@@ -440,7 +732,6 @@ function renderImage(imgURL) {
   toolTip.style.cursor = "pointer";
   toolTip.style.borderRadius = "5px";
   toolTip.style.overflow = "auto";
-  setStatusToTrue("drewToolTip");
 
   document.body.appendChild(toolTip);
   //make pop up draggable
@@ -460,14 +751,32 @@ function renderImage(imgURL) {
         .unbind("click")
         .click(function () {
           //toolTip.remove();
-          setStatusToTrue("gotScreenshot");
+          updateScreenshotSessionState(function (state) {
+            state.currentStep = "preActionQuestions";
+            if (state.draftAction) {
+              state.draftAction.status = "screenshotCaptured";
+            }
+          }, "Accepted screenshot preview and moved to pre-action questions.");
           preActionQuestions(toolTip);
         });
       $("#retakeImage")
         .unbind("click")
         .click(function () {
           toolTip.remove();
-          setStatusToFalse("drewToolTip");
+          updateScreenshotSessionState(function (state) {
+            state.currentStep = "actionPrompt";
+            state.screenshot.imageUrl = "";
+            state.screenshot.sourceX = 0;
+            state.screenshot.sourceY = 0;
+            if (state.draftAction) {
+              state.draftAction.screenshot = {
+                imageUrl: "",
+                sourceX: 0,
+                sourceY: 0
+              };
+              state.draftAction.status = "named";
+            }
+          }, "Retaking screenshot and clearing preview state.");
           overlayScreen();
         });
       $("#exitButton")
@@ -484,10 +793,10 @@ function renderImage(imgURL) {
           document.getElementById("genderMagCanvasContainer").style.display =
             "none";
           openSlider();
-        });
+      });
 
       //print current action name on pop up
-      var actionSpan = localStorage.getItem("currActionName");
+      var actionSpan = getOverlayActionName();
       $(".actionNameSpan").html("Action: " + actionSpan);
       var canvas = document.getElementById("imageCanvas");
       canvas.width = "465";
@@ -535,7 +844,7 @@ function renderImage(imgURL) {
           e.stopPropagation();
           isMouseDown = true;
           var drawnOnURL = history.saveState($myCanvas[0]);
-          localStorage.setItem("currImgURL", drawnOnURL);
+          syncPreviewImageState(drawnOnURL, "Saved annotation baseline in sessionState.");
         });
 
         //On mouseup the painting functionality stops
@@ -615,9 +924,8 @@ function renderImage(imgURL) {
 
       if (imgURL) {
         myImg.src = imgURL;
-        localStorage.setItem("currImgURL", imgURL);
       } else {
-        myImg.src = localStorage.getItem("currImgURL");
+        myImg.src = getOverlayScreenshotState().imageUrl || "";
       }
 
       if (myImg.width === 0 || myImg.height === 0) {
@@ -637,8 +945,9 @@ function renderImage(imgURL) {
       // Retrieve screenshot offset (set during onMouseUp) to align preview correctly.
       // This replaces older logic that directly accessed `elm.offsetTop/Left`.
 
-      const sourceX = Number(localStorage.getItem("sourceX")) || 0;
-      const sourceY = Number(localStorage.getItem("sourceY")) || 0;
+      const screenshotState = getOverlayScreenshotState();
+      const sourceX = screenshotState.sourceX;
+      const sourceY = screenshotState.sourceY;
 
       var destWidth = myImg.width - ratioWidth;
       var destHeight = myImg.height - ratioHeight;
@@ -649,6 +958,9 @@ function renderImage(imgURL) {
 
       //functionality for drawing preview image on pop up
       $(".previewTrigger").unbind("click").click(function () {
+          if (typeof ensureFloatingUiBaseStyles === "function") {
+            ensureFloatingUiBaseStyles();
+          }
           importStylesheet("head", "/styles/overlayScreen.css");
           //appendTemplateToElement("body", "/templates/imageAnnotation.html");
           // Add image annotation template to body
@@ -691,14 +1003,14 @@ function renderImage(imgURL) {
                   .unbind("click")
                   .click(function () {
                     var drawnOnURL = history.undo(annotationCanvas, ctx);
-                    localStorage.setItem("currImgURL", drawnOnURL);
+                    syncPreviewImageState(drawnOnURL, "Updated screenshot preview after annotation undo.");
                   });
 
                 $("#redoDraw")
                   .unbind("click")
                   .click(function () {
                     var drawnOnURL = history.redo(annotationCanvas, ctx);
-                    localStorage.setItem("currImgURL", drawnOnURL);
+                    syncPreviewImageState(drawnOnURL, "Updated screenshot preview after annotation redo.");
                   });
 
                 $("#backLargePreview")
@@ -711,69 +1023,18 @@ function renderImage(imgURL) {
                   .click(function () {
                     $("#imageAnnotation").remove();
                     var drawnOnURL = history.saveState(annotationCanvas);
-                    localStorage.setItem("currImgURL", drawnOnURL);
-
-                    var smallerImg = document.getElementById("previewImage");
-                    var oldWidth = myImg.width;
-                    var oldHeight = myImg.height;
-                    smallerImg.src = drawnOnURL;
-                    context.clearRect(0, 0, 465, 150);
-                    if (oldHeight > smallerImg.height) {
-                      var sx = (sourceX * smallerImg.width) / oldWidth;
-                      var sy = (sourceY * smallerImg.height) / oldHeight;
-                      localStorage.setItem("sx", sx);
-                      localStorage.setItem("sy", sy);
-                      context.drawImage(
-                        myImg,
-                        sx,
-                        sy,
-                        smallerImg.width,
-                        smallerImg.height,
-                        0,
-                        0,
-                        (ratioWidth * 9) / 10,
-                        (ratioHeight * 9) / 10
-                      );
-                    } else {
-                      var sx = localStorage.getItem("sx");
-                      var sy = localStorage.getItem("sy");
-                      context.drawImage(
-                        myImg,
-                        sx,
-                        sy,
-                        smallerImg.width,
-                        smallerImg.height,
-                        0,
-                        0,
-                        (ratioWidth * 9) / 10,
-                        (ratioHeight * 9) / 10
-                      );
-                    }
+                    setCurrentPreviewImage(myImg, context, drawnOnURL, previewWidth, previewHeight);
+                    syncPreviewImageState(drawnOnURL, "Updated screenshot preview after closing annotation.");
                   });
               }
             }
           );
         });
 
-      var sx = localStorage.getItem("sx");
-      var sy = localStorage.getItem("sy");
-      if (sx && sy) {
-        context.drawImage(
-          myImg,
-          0,
-          0,
-          myImg.width,
-          myImg.height,
-          0,
-          0,
-          (previewWidth * 9) / 10,
-          (previewHeight * 9) / 10
-        );
-      } else {
-        myImg.onload = function () {
-          context.drawImage(myImg, 0, 0, previewWidth, previewHeight);
-        };
-      }
+      whenPreviewImageReady(myImg, function () {
+        context.clearRect(0, 0, previewWidth, previewHeight);
+        context.drawImage(myImg, 0, 0, previewWidth, previewHeight);
+      });
     }
   });
 }

@@ -15,6 +15,70 @@
 var imgList = [];
 var globName = "";
 
+function getSessionStateForExport() {
+    if (typeof getSessionState === "function") {
+        return getSessionState();
+    }
+    return null;
+}
+
+function getExportSubgoalList() {
+    var sessionState = getSessionStateForExport();
+    if (sessionState && Array.isArray(sessionState.subgoals) && sessionState.subgoals.length > 0) {
+        return sessionState.subgoals;
+    }
+    return getSubgoalArrayFromLocal() || [];
+}
+
+function getExportDraftAction() {
+    var sessionState = getSessionStateForExport();
+    if (sessionState && sessionState.draftAction && sessionState.currentStep !== "finished") {
+        return sessionState.draftAction;
+    }
+
+    return null;
+}
+
+function getExportMetadata() {
+    var sessionState = getSessionStateForExport();
+    return {
+        teamName: sessionState && sessionState.teamName ? sessionState.teamName : localStorage.getItem("teamName"),
+        personaName: sessionState && sessionState.persona ? sessionState.persona.name : localStorage.getItem("personaName"),
+        scenarioName: sessionState && sessionState.scenarioName ? sessionState.scenarioName : localStorage.getItem("scenarioName")
+    };
+}
+
+function resetExportArtifacts() {
+    imgList = [];
+    globName = "";
+}
+
+function getActionImageUrl(action) {
+    if (!action) {
+        return "";
+    }
+
+    if (action.imgURL) {
+        return action.imgURL;
+    }
+
+    if (action.screenshot && action.screenshot.imageUrl) {
+        return action.screenshot.imageUrl;
+    }
+
+    return "";
+}
+
+function getExportActionName(action) {
+    var actionName = action && action.name ? String(action.name) : "";
+
+    if (actionName.length > 1 && actionName[0] === "\"" && actionName[actionName.length - 1] === "\"") {
+        return actionName.slice(1, -1);
+    }
+
+    return actionName;
+}
+
 /*
  * Function: now
  * Gets the date and time in the format hr:min
@@ -55,7 +119,7 @@ function sanitizeString(unsafeWord){
  * so that each subgoal includes the actions associate with it
  */
 function getSubgoalInfo(){
-    var subgoalList= getSubgoalArrayFromLocal();
+    var subgoalList= getExportSubgoalList();
 
     var fullEntry = "";
     for (var j in subgoalList) {
@@ -139,9 +203,10 @@ function getSubgoalInfo(){
     // Add any uncompleted action
     // The assumption here is that uncompleted actions will always belong to the last subgoal
     // This assumption may need to be updated later on
-    if(localStorage.getItem("inMiddleOfAction")==="true" && !localStorage.getItem("finishedGM")){
+    var draftAction = getExportDraftAction();
+    if(draftAction){
             console.log("middle of action!");
-            var actString = getActionInfo([getVarFromLocal("currPreAction")]);
+            var actString = getActionInfo([draftAction]);
             fullEntry = fullEntry + actString;
     }
     return fullEntry;
@@ -201,9 +266,9 @@ function getActionInfo(actionList, j){
             actionEntry.push("\n"); //new row
         }
 
-        if(actionList[i].preAction.facetValues["self"] === true){
+        if(actionList[i].preAction.facetValues["self"] === true || actionList[i].preAction.facetValues["selfE"] === true){
             actionEntry.push("Computer Self Efficacy");
-            actionEntry.push(actionList[i].preAction.facetValues["self"]);
+            actionEntry.push(actionList[i].preAction.facetValues["self"] || actionList[i].preAction.facetValues["selfE"]);
             actionEntry.push("\n"); //new row
         }
 
@@ -262,9 +327,9 @@ function getActionInfo(actionList, j){
             actionEntry.push("\n"); //new row
         }
 
-        if(actionList[i].postAction.facetValues["self"] === true){
+        if(actionList[i].postAction.facetValues["self"] === true || actionList[i].postAction.facetValues["selfE"] === true){
             actionEntry.push("Computer Self Efficacy");
-            actionEntry.push(actionList[i].postAction.facetValues["self"]);
+            actionEntry.push(actionList[i].postAction.facetValues["self"] || actionList[i].postAction.facetValues["selfE"]);
             actionEntry.push("\n"); //new row
         }
 
@@ -283,10 +348,12 @@ function getActionInfo(actionList, j){
         actionEntry.push("\n");
         actionEntry.push("\n");
         actionEntry.push("Action Image Name:");
-        actionEntry.push("S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
+        var exportActionName = getExportActionName(actionList[i]);
+        var exportActionImageName = "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+exportActionName;
+        actionEntry.push(exportActionImageName);
         actionEntry.push("\n");
 
-        downloadURI(actionList[i].imgURL, "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
+        downloadURI(getActionImageUrl(actionList[i]), exportActionImageName);
        // var tempName = "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1);
     }
     return actionEntry.join(",");
@@ -301,9 +368,10 @@ function getActionInfo(actionList, j){
 function createCSV() {
 	var csvContent = "";
 	var header1 = "GenderMag Recorder's Assistant Results"
-	var teamName = localStorage.getItem("teamName");
-	var personaName = localStorage.getItem("personaName");
-	var scenarioName = localStorage.getItem("scenarioName");
+	var metadata = getExportMetadata();
+	var teamName = metadata.teamName;
+	var personaName = metadata.personaName;
+	var scenarioName = metadata.scenarioName;
 	var today = new Date();
 	var dd = String(today.getDate()).padStart(2, '0');
 	var mm = today.getMonth();
@@ -311,6 +379,7 @@ function createCSV() {
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	var todayString = months[mm] + " " + dd + " " + yyyy;
 	var DTTPS = [teamName, personaName, scenarioName];
+	resetExportArtifacts();
 	csvContent += header1 + "\n";
     var header2 = ["Date:", todayString, "Time:", now()];
     csvContent += header2 + "\n";
@@ -415,7 +484,7 @@ function downloadURI(uri, name) {
  *
  */
 function parseSubgoalArray(){
-    var userInput= getSubgoalArrayFromLocal();
+    var userInput= getExportSubgoalList();
     var entry = []; //corresponds to a single row in the csv
     var entries = [];
 
@@ -446,7 +515,7 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].preAction.ynm["maybe"]);
             entry.push(currI.actions[i].preAction.facetValues["motiv"]);
             entry.push(currI.actions[i].preAction.facetValues["info"]);
-            entry.push(currI.actions[i].preAction.facetValues["self"]);
+            entry.push(currI.actions[i].preAction.facetValues["self"] || currI.actions[i].preAction.facetValues["selfE"]);
             entry.push(currI.actions[i].preAction.facetValues["risk"]);
             entry.push(currI.actions[i].preAction.facetValues["tinker"]);
 
@@ -457,22 +526,15 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].postAction.ynm["maybe"]);
             entry.push(currI.actions[i].postAction.facetValues["motiv"]);
             entry.push(currI.actions[i].postAction.facetValues["info"]);
-            entry.push(currI.actions[i].postAction.facetValues["self"]);
+            entry.push(currI.actions[i].postAction.facetValues["self"] || currI.actions[i].postAction.facetValues["selfE"]);
             entry.push(currI.actions[i].postAction.facetValues["risk"]);
             entry.push(currI.actions[i].postAction.facetValues["tinker"]);
 
             //url currently is about 4X as long as longest cell allowed in excel, so instead just downloading image as part of zip
             //entry.push('\"' +currI.actions[i].imgURL+'\"');
 
-            var newName = currI.actions[i].name;
-            if(currI.actions[i].name[0] == "\""){
-                newName = currI.actions[i].name.slice(1)
-            }
-            if(currI.actions[i].name[currI.actions[i].name.length-1] == "\""){
-                newName = newName.slice(0, newName.length-1)
-            }
-
-            downloadURI(currI.actions[i].imgURL, "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
+            var newName = getExportActionName(currI.actions[i]);
+            downloadURI(getActionImageUrl(currI.actions[i]), "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
         }
 
         if (entry.length != 0) {
@@ -490,10 +552,12 @@ function createOldCSV() {
     var entries = parseSubgoalArray();
     var csvContent = "";
     var header1 = ["Date", "Time", "Team", "Persona", "Scenario"];
+    resetExportArtifacts();
     csvContent += header1.join(",") + "\n";
-    var teamName = localStorage.getItem("teamName");
-    var persona5Delayed = localStorage.getItem("personaName");
-    var inAWorld = localStorage.getItem("scenarioName");
+    var metadata = getExportMetadata();
+    var teamName = metadata.teamName;
+    var persona5Delayed = metadata.personaName;
+    var inAWorld = metadata.scenarioName;
     var DTTPS = [today(), now(), teamName, persona5Delayed, inAWorld];
     globName += DTTPS[0];
     globName += DTTPS[2];

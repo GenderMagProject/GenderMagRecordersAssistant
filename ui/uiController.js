@@ -6,7 +6,11 @@ function openSlider() {
     if (!$("#slideout").hasClass("clicked")) {
         $("#slideout").addClass("clicked");
         $("#GenderMagFrame").addClass("clicked");
-        setStatusToTrue("sliderIsOpen");
+        if (typeof updateSessionState === "function") {
+            updateSessionState(function (state) {
+                state.ui.sliderOpen = true;
+            }, "Opened slider in sessionState.");
+        }
     }
 }
 
@@ -18,7 +22,11 @@ function closeSlider() {
     if ($("#slideout").hasClass("clicked")) {
         $("#slideout").toggleClass("clicked");
         $("#GenderMagFrame").toggleClass("clicked");
-        setStatusToFalse("sliderIsOpen");
+        if (typeof updateSessionState === "function") {
+            updateSessionState(function (state) {
+                state.ui.sliderOpen = false;
+            }, "Closed slider in sessionState.");
+        }
     }
 }
 
@@ -54,11 +62,21 @@ function addToSandwich(type, item){
                 sidebarBody().find("#subgoalList").append(sideSubgoal);
             }
             
-        }
+		}
 		sidebarBody().find("#sideSubgoal" + item.id).unbind( "click" ).click(function(){
 			subArr = getSubgoalArrayFromLocal(); // in case something changes before the button is clicked
+			var currentSessionState = typeof getSessionState === "function" ? getSessionState() : null;
+			var savedSubgoal = getSessionSubgoalById(item.id, currentSessionState);
+			var hasSavedQuestions = Boolean(
+				savedSubgoal &&
+				(
+					savedSubgoal.why ||
+					(savedSubgoal.ynm && (savedSubgoal.ynm.yes || savedSubgoal.ynm.no || savedSubgoal.ynm.maybe)) ||
+					(savedSubgoal.actions && savedSubgoal.actions.length > 0)
+				)
+			);
 			// do not enter drawSubgoal with a different id until the current subgoal is saved
-			if (statusIsTrue("gotSubgoalQuestions") || item.id == subArr.length){
+			if (hasSavedQuestions || item.id == subArr.length){
 				drawSubgoal(item.id);
 			}
             sideSubgoalExpandy(item.id, 0);
@@ -82,9 +100,6 @@ function addToSandwich(type, item){
 		if (!foundIt) {
 			sidebarBody().find("#subgoalList").append(sideAction);
 			sideSubgoalExpandy(item.subgoalId, "expand");
-            var actionNum = localStorage.getItem("numActions");
-            actionNum++;
-            localStorage.setItem("numActions", actionNum);
 		}
 		// simple display
         else {
@@ -99,16 +114,14 @@ function addToSandwich(type, item){
 	}
 	// create a new action object and add to the list
 	else if(!type.localeCompare("idealAction") && !item){ 	
-		var subgoalId = localStorage.getItem("numSubgoals");
-		var actionId = localStorage.getItem("numActions");
-		var actionName = localStorage.getItem("currActionName");
+		var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+		var subgoalId = sessionState ? sessionState.currentSubgoalId : null;
+		var actionId = getSessionCurrentActionId(sessionState);
+		var actionName = getSessionCurrentActionName(sessionState);
 		var sideAction = ('<div superCoolAttr="' + subgoalId + '-' + actionId
 		+ '"style=white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-indent:25px;color:blue;text-decoration:underline;margin:5px;" id="sideAction'
 		+ subgoalId + '-' + actionId + '">Action ' + actionId + ': ' + actionName + '</div>');
 		sidebarBody().find("#subgoalList").append(sideAction);
-		var actionNum = localStorage.getItem("numActions");
-		actionNum++;
-		localStorage.setItem("numActions", actionNum);
         var sideActionIdToFind = "#sideAction" + subgoalId + "-" + actionId;
 		sidebarBody().find(sideActionIdToFind).unbind( "click" ).click(function(){
 			drawAction(actionId, subgoalId);
@@ -129,12 +142,47 @@ function addToSandwich(type, item){
 // buttons within an each() loop?
 function reloadSandwich () {
 	console.log("Reloading sandwich menu...");
-	var sidebarHTML = localStorage.getItem('sidebarHTML');
-	//console.log(sidebarHTML);
 	var subgoalDiv = sidebarBody().find('#subgoalList');
 	//check to see if user is on subgoals before refresh
-	if (subgoalDiv && statusIsTrue('finishedPrewalkthrough')) {
-		subgoalDiv.html(sidebarHTML);
+	if (subgoalDiv && hasStartedSession()) {
+		subgoalDiv.empty();
+		var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+		var savedSubgoals = sessionState && Array.isArray(sessionState.subgoals) ? sessionState.subgoals : [];
+		var draftAction = sessionState && sessionState.draftAction ? sessionState.draftAction : null;
+
+		savedSubgoals.forEach(function (savedSubgoal) {
+			addToSandwich("subgoal", {
+				id: savedSubgoal.id,
+				name: savedSubgoal.name,
+				ynm: savedSubgoal.ynm,
+				why: savedSubgoal.why,
+				facetValues: savedSubgoal.facetValues,
+				actions: savedSubgoal.actions
+			});
+
+			(savedSubgoal.actions || []).forEach(function (savedAction) {
+				addToSandwich("idealAction", {
+					subgoalId: savedSubgoal.id,
+					actionId: savedAction.id,
+					name: savedAction.name
+				});
+			});
+		});
+
+		if (
+			draftAction &&
+			draftAction.subgoalId &&
+			draftAction.id &&
+			typeof isDraftActionInProgress === "function" &&
+			isDraftActionInProgress(sessionState)
+		) {
+			addToSandwich("idealAction", {
+				subgoalId: draftAction.subgoalId,
+				actionId: draftAction.id,
+				name: draftAction.name
+			});
+		}
+
 		sidebarBody().find('#subgoalList').children().each(function () {
 			var currId = this.getAttribute('supercoolattr');
 			//console.log(currId);
@@ -143,8 +191,18 @@ function reloadSandwich () {
 				//console.log("subgoal");
 			sidebarBody().find("#sideSubgoal" + currId).unbind( "click" ).click(function(){
 				var subArr = getSubgoalArrayFromLocal(); // in case something changes before the button is clicked
+				var currentSessionState = typeof getSessionState === "function" ? getSessionState() : null;
+				var savedSubgoal = getSessionSubgoalById(currId, currentSessionState);
+				var hasSavedQuestions = Boolean(
+					savedSubgoal &&
+					(
+						savedSubgoal.why ||
+						(savedSubgoal.ynm && (savedSubgoal.ynm.yes || savedSubgoal.ynm.no || savedSubgoal.ynm.maybe)) ||
+						(savedSubgoal.actions && savedSubgoal.actions.length > 0)
+					)
+				);
 				// do not enter drawSubgoal with a different id until the current subgoal is saved
-				if (statusIsTrue("gotSubgoalQuestions") || currId == subArr.length){
+				if (hasSavedQuestions || currId == subArr.length){
 					drawSubgoal(currId);
 				}
             	sideSubgoalExpandy(currId, 0);
@@ -425,12 +483,6 @@ function showMeTheStringFacets (targetId, targetObj) {
 	sidebarBody().find(targetId).html(myString);
 	
 }
-
-// Add the unload event handler to save the sidebar HTML before refresh
-$(window).unload(function() {
-    var sidebarHTML = sidebarBody().find('#subgoalList').html();
-    localStorage.setItem('sidebarHTML', sidebarHTML);
-});
 
 // after setting up persona, subgoal the walkthrough functions start here
 

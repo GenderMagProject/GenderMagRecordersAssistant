@@ -5,11 +5,61 @@
  *   after the screenshot through the end and exit of the session
  */
 
+function toSessionFacetValues(facets) {
+    return {
+        "motiv": Boolean(facets.motiv),
+        "info": Boolean(facets.info),
+        "selfE": Boolean(facets.selfE || facets.self),
+        "risk": Boolean(facets.risk),
+        "tinker": Boolean(facets.tinker),
+        "none": Boolean(facets.none)
+    };
+}
 
-//Sets persona name?? Runs at startup??
-var personaName = localStorage.getItem("personaName");
-if (personaName !== null ) {personaName = personaName.slice(1, personaName.length-1);}
-else { personaName = "Abi"; }
+function syncDraftActionState(mutatorFn, context) {
+    if (typeof updateSessionState === "function") {
+        return updateSessionState(mutatorFn, context);
+    }
+    return null;
+}
+
+function createDraftActionState(actionId, subgoalId, actionName) {
+    return {
+        id: actionId,
+        subgoalId: subgoalId,
+        name: actionName,
+        screenshot: {
+            imageUrl: "",
+            sourceX: 0,
+            sourceY: 0
+        },
+        preAction: {
+            ynm: { "yes": false, "no": false, "maybe": false },
+            why: "",
+            facetValues: {
+                "motiv": false,
+                "info": false,
+                "selfE": false,
+                "risk": false,
+                "tinker": false,
+                "none": false
+            }
+        },
+        postAction: {
+            ynm: { "yes": false, "no": false, "maybe": false },
+            why: "",
+            facetValues: {
+                "motiv": false,
+                "info": false,
+                "selfE": false,
+                "risk": false,
+                "tinker": false,
+                "none": false
+            }
+        },
+        status: "named"
+    };
+}
 
 /*
  * Function: setFacetPopups
@@ -69,9 +119,9 @@ function setFacetPopups(personaName) {
  */
 function preActionQuestions(el){
     //get persona name and pronouns to set question text
-    var personaName = getVarFromLocal("personaName");
-    var pronoun = getVarFromLocal("personaPronoun");
-    var possessive = getVarFromLocal("personaPossessive");
+    var personaName = getSessionPersonaName();
+    var pronoun = getSessionPersonaPronoun();
+    var possessive = getSessionPersonaPossessive();
     $(el).find("#preActQ").html("Will " + personaName+ " know what to do at this step?").attr("style","color:black");
     $(el).find("#preFacets").html("Which of " + personaName + 
 				  "'s facets did you use to answer the above question?").attr("style","color:black");
@@ -84,9 +134,11 @@ function preActionQuestions(el){
     $(el).find("#imageCaption2").show();
     $(el).find("#HRmorelikefunpolice").show();
     //when save and continue button is clicked, save input values
-    $("#preActionClose").unbind( "click" ).click(function(){
+    $(el).find("#preActionClose").off("click").on("click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
 		//(actionName)Currently save and then deletes this name before it can be called again
-		var actionName = localStorage.getItem("currActionName"); 
+		var actionName = getSessionCurrentActionName();
 		var yesNoMaybe = {"yes": $('#actionYes').is(":checked"),
 			"no": $('#actionNo').is(":checked"),
 			"maybe": $('#actionMaybe').is(":checked")};
@@ -109,22 +161,38 @@ function preActionQuestions(el){
 			"tinker": false,
 			"none": false};
 
-	saveIdealAction(actionName, yesNoMaybe, whyText, facets, yesNoMaybePost, whyTextPost,facetsPost);
-        setStatusToTrue("gotPreActionQuestions");
+        syncDraftActionState(function (state) {
+            state.currentStep = "doActionPrompt";
+            if (state.draftAction) {
+                state.draftAction.preAction = {
+                    ynm: yesNoMaybe,
+                    why: whyText,
+                    facetValues: toSessionFacetValues(facets)
+                };
+                state.draftAction.status = "preActionAnswered";
+            }
+        }, "Saved pre-action answers in sessionState.");
 	doActionPrompt(el);
 	});
 	
 	//when back button is clicked, show buttons, hide preaction
-	$("#preActionBack").unbind( "click" ).click(function(){
+	$(el).find("#preActionBack").off("click").on("click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
 		//if popup is set up, change elements to be shown, else set up new pop up
-        if (statusIsTrue("drewToolTip")) {
+        if (document.getElementById("myToolTip")) {
             $(el).find("#preActionTemplate").hide();
             $(el).find("#imageCanvasTemplate").show();
             $(el).find("#retakeImage").show();
-            $(el).find("#annotateImage").show();
-            $(el).find("#HRmorelikefunpolice").hide();
+			$(el).find("#annotateImage").show();
+			$(el).find("#HRmorelikefunpolice").hide();
 			$(el).find("#imageCaption2").hide();
-			setStatusToFalse("gotScreenshot");
+            syncDraftActionState(function (state) {
+                state.currentStep = "screenshotPreview";
+                if (state.draftAction) {
+                    state.draftAction.status = "screenshotPreview";
+                }
+            }, "Returned from pre-action questions to screenshot preview.");
         } else {
             renderImage();
         }
@@ -152,21 +220,42 @@ function doActionPrompt(el){
     container.style.display = "none";
 
     //add button functions
-	$("#postAction").unbind( "click" ).click(function(){
-        setStatusToTrue("idealActionPerformed");
+	$(el).find("#postAction").off("click").on("click", function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        syncDraftActionState(function (state) {
+            state.currentStep = "postActionQuestions";
+            if (state.draftAction) {
+                state.draftAction.status = "performed";
+            }
+        }, "Moved from do-action prompt to post-action questions.");
 		postActionQuestions(el);
 	});
 	//back button to return to preaction questions
-	$("#doActionBack").unbind( "click" ).click(function(){
+	$(el).find("#doActionBack").off("click").on("click", function(event){
+        event.preventDefault();
+        event.stopPropagation();
 		$(el).find("#doActionPromptTemplate").hide();
         $(el).find("#preActionTemplate").show();
-        setStatusToFalse("gotPreActionQuestions");
+        syncDraftActionState(function (state) {
+            state.currentStep = "preActionQuestions";
+            if (state.draftAction) {
+                state.draftAction.status = "preActionAnswered";
+            }
+        }, "Returned from do-action prompt to pre-action questions.");
 		preActionQuestions(el);
 	});
 	//continue link to go to postaction questions
-	$(".continueTrigger").unbind("click").click(function(){
-		setStatusToTrue("idealActionPerformed");
+	$(el).find(".continueTrigger").off("click").on("click", function(event){
+        event.preventDefault();
+        event.stopPropagation();
         container.style.display = "block";
+        syncDraftActionState(function (state) {
+            state.currentStep = "postActionQuestions";
+            if (state.draftAction) {
+                state.draftAction.status = "performed";
+            }
+        }, "Continued from do-action prompt to post-action questions.");
 		postActionQuestions(el);
 	});
 }
@@ -179,9 +268,9 @@ function doActionPrompt(el){
  */
 function postActionQuestions(el){
     //get persona name and pronouns to set question text
-    var personaName = getVarFromLocal("personaName");
-    var pronoun = getVarFromLocal("personaPronoun");
-    var possessive = getVarFromLocal("personaPossessive");
+    var personaName = getSessionPersonaName();
+    var pronoun = getSessionPersonaPronoun();
+    var possessive = getSessionPersonaPossessive();
     $(el).find("#postActQ").html("If " + personaName + 
 				 " did the right thing (what you just demonstrated), will " +
         pronoun + " know that " + pronoun + " did the right thing and is making progress toward " +
@@ -197,17 +286,19 @@ function postActionQuestions(el){
     $(el).find("#imageCaption3").show();
 
 	//link to show image preview again
-	$("#afterb44lyfe").unbind("click").click(function(){
+	$(el).find("#afterb44lyfe").off("click").on("click", function(event){
+        event.preventDefault();
+        event.stopPropagation();
 		$(el).find("#imageCaption2").show();
 		$(el).find("#imageCanvas").show();
 		$(el).find("#imageCaption3").hide();
 	});
 
 	//save and continue button - on click save input
-	$("#submitPostAction").unbind( "click" ).click(function(){
-	    setStatusToTrue("gotPostActionQuestions");
-	    setStatusToFalse("inMiddleOfAction");
-		var actionName = localStorage.getItem("currActionName");
+	$(el).find("#submitPostAction").off("click").on("click", function(event){
+        event.preventDefault();
+        event.stopPropagation();
+		var actionName = getSessionCurrentActionName();
 		var yesNoMaybe = {"yes": $('#YNMyes').is(":checked"),
 			"no": $('#YNMno').is(":checked"),
 			"maybe": $('#YNMmaybe').is(":checked")};
@@ -219,17 +310,35 @@ function postActionQuestions(el){
 			"tinker": $('#Q2tinker').is(":checked"),
 			"none": $('#Q2none').is(":checked")};
 		savePostIdealAction(actionName, yesNoMaybe, whyText, facets);
+        syncDraftActionState(function (state) {
+            state.currentStep = "actionLoop";
+            if (state.draftAction) {
+                state.draftAction.postAction = {
+                    ynm: yesNoMaybe,
+                    why: whyText,
+                    facetValues: toSessionFacetValues(facets)
+                };
+                state.draftAction.status = "complete";
+            }
+        }, "Saved post-action answers and entered action loop.");
         //move on to checking if user wants new subgoal or action or end session
 		actionLoop(el);
 	});
 
-	$("#postActionBack").unbind("click").click(function(){
-		setStatusToFalse("idealActionPerformed");
+	$(el).find("#postActionBack").off("click").on("click", function(event){
+        event.preventDefault();
+        event.stopPropagation();
 		$(el).find("#doActionPromptTemplate").show();
 		$(el).find("#postActionTemplate").hide();
 		$(el).find("#imageCaption2").show();
 		$(el).find("#imageCanvas").show();
 		$(el).find("#imageCaption3").hide();
+        syncDraftActionState(function (state) {
+            state.currentStep = "doActionPrompt";
+            if (state.draftAction) {
+                state.draftAction.status = "performed";
+            }
+        }, "Returned from post-action questions to do-action prompt.");
 
 		doActionPrompt(el);
 	});
@@ -256,14 +365,20 @@ function actionLoop(el){
 	$(el).find("#actionLoopTemplate").show();
 
 	//make new action on 'add another action' button click
-	$("#moreActions").unbind( "click" ).click(function(){
+	$(el).find("#moreActions").off("click").on("click", function(){
 		if ($(el).find("#actionNameInput").val() == ""){
 			alert("Please name your action before continuing");
 		} else{
 			//save action name, get screenshot, set up pop up, start action questions
-			localStorage.setItem("currActionName", $(el).find("#actionNameInput").val());
 			var actionName = $(el).find("#actionNameInput").val();
-			addToSandwich('idealAction', 0);
+			var currentSessionState = typeof getSessionState === "function" ? getSessionState() : null;
+			var nextSubgoalId = currentSessionState ? currentSessionState.currentSubgoalId : null;
+			var nextActionId = getSessionNextActionId(currentSessionState, nextSubgoalId);
+			addToSandwich('idealAction', {
+                subgoalId: nextSubgoalId,
+                actionId: nextActionId,
+                name: actionName
+            });
             var yesNoMaybe = {"yes": false,
                 "no": false,
                 "maybe": false};
@@ -274,136 +389,138 @@ function actionLoop(el){
                 "risk": false,
                 "tinker": false,
                 "none": false};
-            saveIdealAction(actionName, yesNoMaybe, whyText, facets, yesNoMaybe, whyText, facets);
+            var currentSubgoal = currentSessionState
+                ? getSessionSubgoalById(currentSessionState.currentSubgoalId, currentSessionState)
+                : null;
+            syncDraftActionState(function (state) {
+                state.currentStep = "actionPrompt";
+                state.currentSubgoalId = nextSubgoalId || state.currentSubgoalId;
+                state.currentActionId = nextActionId;
+                state.screenshot.imageUrl = "";
+                state.screenshot.sourceX = 0;
+                state.screenshot.sourceY = 0;
+                state.draftAction = createDraftActionState(nextActionId, state.currentSubgoalId, actionName);
+            }, "Started another action from action loop in sessionState.");
 			$(el).remove();
-        	setStatusToFalse("drewToolTip");
 			overlayScreen("");
 			preActionQuestions(el);
 
-        	//Reset action states
-			setStatusToTrue("inMiddleOfAction");
-        	setStatusToFalse("highlightedAction");
-        	setStatusToFalse("gotScreenshot");
-        	setStatusToFalse("gotPreActionQuestions");
-        	setStatusToFalse("idealActionPerformed");
-        	setStatusToFalse("gotPostActionQuestions");
 		}
 	});
 
 	//make new subgoal on 'create new subgoal' button click
-	$("#newSubgoal").unbind( "click" ).click(function(){
+	$(el).find("#newSubgoal").off("click").on("click", function(){
 		if($(el).find("#subgoalInput").val() === ""){
 			alert("Please name your subgoal before continuing");
 		}
 		else{
 			//reset subgoal stats, set new name as current subgoal name
-			localStorage.setItem("numActions", 0 );
-			localStorage.setItem("currSubgoalName", $(el).find("#subgoalInput").val() );
-			setStatusToTrue("gotSubgoalName");
+			var newSubgoalName = $(el).find("#subgoalInput").val();
 			//remove tooltip
 			$(el).remove();
-        	setStatusToFalse("drewToolTip");
         	//close canvas so page is clickable
         	document.getElementById('genderMagCanvasContainer').style.display="none";
 
-        	//Reset action states
-        	setStatusToFalse("gotActionName");
-        	setStatusToFalse("actionPromptOnScreen");
-        	setStatusToFalse("drewToolTip");
-        	setStatusToFalse("highlightedAction");
-        	setStatusToFalse("gotScreenshot");
-        	setStatusToFalse("gotPreActionQuestions");
-        	setStatusToFalse("idealActionPerformed");
-        	setStatusToFalse("gotPostActionQuestions");
-        	//Reset subgoal states
-        	//setStatusToFalse("gotSubgoalName");
-        	setStatusToFalse("gotSubgoalQuestions");
-
         	//open slider and go back to subgoal questions
 			openSlider();
-			var numSubgoals = Number(localStorage.getItem("numSubgoals"));
-			numSubgoals++;
-			localStorage.setItem("numSubgoals", numSubgoals)
+			var numSubgoals = getSessionNextSubgoalId();
 			//save a dummy subgoal so it can be reached again if the user clicks away
-			var subName = localStorage.getItem("currSubgoalName");
-			saveSubgoal(numSubgoals, subName, 0, "", 0);
+			saveSubgoal(numSubgoals, newSubgoalName, 0, "", 0);
+            syncDraftActionState(function (state) {
+                state.currentStep = "subgoalQuestions";
+                state.currentSubgoalId = numSubgoals;
+                state.currentActionId = null;
+                state.draftAction = null;
+                state.screenshot.imageUrl = "";
+                state.screenshot.sourceX = 0;
+                state.screenshot.sourceY = 0;
+            }, "Started a new subgoal from action loop in sessionState.");
 			drawSubgoal(numSubgoals); //creates undefined unnamed subgoal
 		}
 	});
 
 	//exits the gendermag session
 	function exit() {
-		//setStatusToFalse("inMiddleOfAction");
-		localStorage.setItem("inMiddleOfAction", "false");
 		$(el).find("#actionLoopTemplate").hide();
 		$(el).find("#theFinalCountDown").show();
 		$(el).find("#exitButton").hide();
 
 		//on click of redownload zip button, download sheet again
-		$("#finalDownload").unbind("click").click(function () {
-			setStatusToFalse("inMiddleOfAction");
+		$(el).find("#finalDownload").off("click").on("click", function () {
 			var scurvy = createCSV();
 			downloadCSV(scurvy, false);
 		});
 
-		$("#oldFormat").unbind("click").click(function () {
+		$(el).find("#oldFormat").off("click").on("click", function () {
 			var scurvy = createOldCSV();
 			downloadCSV(scurvy, true);
 		});
 
 		//make sure user has downloaded their file before quitting
-		$("#finalYesCheckbox").unbind("click").click(function () {
-			if ($('#finalYesCheckbox').is(":checked")) {
-				$('#finalYes').prop('disabled', false);
-				$("#finalYes").attr("style","background-color:#7D1935;color:white;");
+		$(el).find("#finalYesCheckbox").off("click").on("click", function () {
+			if ($(el).find('#finalYesCheckbox').is(":checked")) {
+				$(el).find('#finalYes').prop('disabled', false);
+				$(el).find("#finalYes").attr("style","background-color:#7D1935;color:white;");
 			}
 			else {
-				$('#finalYes').prop('disabled', true);
-				$("#finalYes").attr("style","background-color:#7D1935;color:white;opacity:0.5");
+				$(el).find('#finalYes').prop('disabled', true);
+				$(el).find("#finalYes").attr("style","background-color:#7D1935;color:white;opacity:0.5");
 			}
 		});	
 
 		//final quit button clears local storage and reloads
-		$("#finalYes").unbind("click").click(function () {
-			localStorage.clear(); 
-			location.reload();
+		$(el).find("#finalYes").off("click").on("click", function () {
+			resetSessionState(function () {
+				localStorage.clear(); 
+				location.reload();
+			});
 		});
 
 		//'I'm not done, take me back' button returns to action loop
-		$("#finalNo").unbind("click").click(function () {
-			$('#theFinalCountDown').hide();
-			setStatusToFalse('finishedGM');
-			$('#actionLoopTemplate').show();
-			$('#exitButton').show();
+		$(el).find("#finalNo").off("click").on("click", function () {
+			$(el).find('#theFinalCountDown').hide();
+			$(el).find('#actionLoopTemplate').show();
+			$(el).find('#exitButton').show();
+            syncDraftActionState(function (state) {
+                state.currentStep = "actionLoop";
+            }, "Returned from final exit confirmation to action loop.");
 		});
 	}
 
 	//TODO(roseg31) : Investigate this...
 	//on save and exit button click, save all info, close session
-	$("#saveAndExit").unbind( "click" ).click(function(){
+	$(el).find("#saveAndExit").off("click").on("click", function(){
 		//create and download sheet with session data
-        setStatusToTrue("finishedGM");
+        syncDraftActionState(function (state) {
+            state.currentStep = "finished";
+        }, "Marked walkthrough as finished in sessionState.");
 		var scurvy = createCSV();
 		downloadCSV(scurvy);
 
 		exit();
 	});
 
-	$("#justExit").unbind( "click" ).click(function(){
-		setStatusToTrue("finishedGM");
+	$(el).find("#justExit").off("click").on("click", function(){
+        syncDraftActionState(function (state) {
+            state.currentStep = "finished";
+        }, "Marked walkthrough as finished in sessionState.");
 		var scurvy = createCSV();
 		exit();
 	});
 
 	//back button returns to post action questions, resets got post action key
-	$("#loopActionBack").unbind( "click" ).click(function(){
+	$(el).find("#loopActionBack").off("click").on("click", function(){
 		$(el).find("#actionLoopTemplate").hide();
         $(el).find("#postActionTemplate").show();
 		$(el).find("#imageCanvas").show();
 		$(el).find("#imageCaption2").show();
 		$(el).find("#HRmorelikefunpolice").show();
-        setStatusToFalse("gotPostActionQuestions");
-		setStatusToTrue("inMiddleOfAction");
+        syncDraftActionState(function (state) {
+            state.currentStep = "postActionQuestions";
+            if (state.draftAction) {
+                state.draftAction.status = "complete";
+            }
+        }, "Returned from action loop to post-action questions.");
 		postActionQuestions(el);
 	});
 	

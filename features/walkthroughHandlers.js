@@ -185,14 +185,14 @@ function editSubgoal(subgoalNum){
 	}
 
 	//retrieve persona name from local storage, if it's not there somethings wrong
-	var personaName = getVarFromLocal("personaName");
-    var pronoun = getVarFromLocal("personaPronoun");
-    var possessive = getVarFromLocal("personaPossessive");
+	var personaName = getSessionPersonaName();
+    var pronoun = getSessionPersonaPronoun();
+    var possessive = getSessionPersonaPossessive();
 	if (!personaName) {
 		console.log("persona name was null. Check your save");
 	}
 	//prompt subgoal rename
-	sidebarBody().find("#subgoalPrompt").html("Rename subgoal \"" + localStorage.getItem("currSubgoalName") + "\":");
+	sidebarBody().find("#subgoalPrompt").html("Rename subgoal \"" + getSessionCurrentSubgoalName() + "\":");
 	var subgoals = getSubgoalArrayFromLocal();
 	//fill the input box with existing subgoal name
 	sidebarBody().find("#subgoalInput").val(subgoals[subgoalNum-1].name);
@@ -205,9 +205,7 @@ function editSubgoal(subgoalNum){
 		else {
 			//change the name in storage
 			//var subgoalId = subgoalNum;
-			setStatusToTrue("gotSubgoalName");
 			var subName = sidebarBody().find("#subgoalInput").val();
-			localStorage.setItem("currSubgoalName", subName);
 
 			//Display subgoal questions again
        displayMainSubgoalInfo(subName);
@@ -220,12 +218,8 @@ function editSubgoal(subgoalNum){
 
 	//cancels editing the subgoal
 	sidebarBody().find('body').off('click', '#cancelSubgoal').on('click', '#cancelSubgoal', function() {
-			//changes the name to the current subgoal name
-			setStatusToTrue("gotSubgoalName");
-	
-		
 			//Display subgoal questions again
-			displayMainSubgoalInfo(localStorage.getItem("currSubgoalName"));
+			displayMainSubgoalInfo(getSessionCurrentSubgoalName());
 	});
 
 }
@@ -250,23 +244,17 @@ function storeSubgoalInfo(subgoalId){
 		"none": sidebarBody().find("#A0Q0none").is(":checked")
 	};
     saveSubgoal(subgoalId, subgoal.name, yesNoMaybe, whyText, facets, subgoal.actions);
-
-    //change key for subgoal questions
-    setStatusToTrue("gotSubgoalQuestions");
+	updateSessionState(function (state) {
+		state.currentStep = "subgoalQuestions";
+		state.currentSubgoalId = Number(subgoalId);
+	}, "Saved subgoal answers in sessionState.");
 }
 
 // Helper function: draws actions in the right place
 function preDrawAction(subgoalId){
 	//increase number of actions and draw action
     console.log("preDrawAction called with subgoalId:", subgoalId);
-    var numActions = localStorage.getItem("numActions");
-    if(numActions > 0){
-        drawAction(numActions, subgoalId);
-    }
-    else{
-        localStorage.setItem("numActions", 1);
-        drawAction(1, subgoalId);
-    }	
+    drawAction(getSessionNextActionId(getSessionState(), subgoalId), subgoalId);
     console.log("preDrawAction completed for subgoalId:", subgoalId);
 }
 
@@ -283,14 +271,22 @@ function drawSubgoal(subgoalId) {
     var id = "#GenderMagFrame";
     var file = "/templates/subgoal.html";
 
-    // Check if subgoal questions are already set
-    var isSetSubgoalQuestions = statusIsTrue("gotSubgoalQuestions");
+    var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+    var sessionSubgoal = getSessionSubgoalById(subgoalId, sessionState);
+    var isSetSubgoalQuestions = Boolean(
+        sessionSubgoal &&
+        (
+            sessionSubgoal.why ||
+            (sessionSubgoal.ynm && (sessionSubgoal.ynm.yes || sessionSubgoal.ynm.no || sessionSubgoal.ynm.maybe)) ||
+            (sessionSubgoal.actions && sessionSubgoal.actions.length > 0)
+        )
+    );
 
     // Get current subgoal, empty the question container, and add in subgoal questions
-    var personaName = getVarFromLocal("personaName");
-    var pronoun = getVarFromLocal("personaPronoun");
-    var possessive = getVarFromLocal("personaPossessive");
-    var subName = localStorage.getItem("currSubgoalName");
+    var personaName = getSessionPersonaName(sessionState);
+    var pronoun = getSessionPersonaPronoun(sessionState);
+    var possessive = getSessionPersonaPossessive(sessionState);
+    var subName = sessionSubgoal && sessionSubgoal.name ? sessionSubgoal.name : getSessionCurrentSubgoalName(sessionState);
 
     var el = $(id).contents().find('#containeryo');
     el.empty();
@@ -418,15 +414,31 @@ function drawAction(actionNum, subgoalId) {
         console.log("Template appended successfully in drawAction.");
 
         var actionName = "THE ACTION NAME";
+        var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+        var isCurrentDraftAction = Boolean(
+            sessionState &&
+            sessionState.currentStep === "actionPrompt" &&
+            Number(sessionState.currentSubgoalId) === Number(subgoalId) &&
+            Number(sessionState.currentActionId) === Number(actionNum) &&
+            sessionState.draftAction &&
+            sessionState.draftAction.name
+        );
 
         // Retrieve subgoal array from local storage
         var currArray = getSubgoalArrayFromLocal();
 
-        // If already got action name
-        if (statusIsTrue("gotActionName")) {
-            console.log("Action name already set, retrieving from local storage.");
+        if (isCurrentDraftAction) {
+            console.log("Action name found in sessionState draftAction.");
+            actionName = sessionState.draftAction.name;
+            sidebarBody().find('#getActionName').hide();
+            sidebarBody().find('#actionNameGot').html("<b> Action: " + actionName + "</b>");
+            sidebarBody().find('#actionNameGot').show();
+            sidebarBody().find("#promptAction").show();
+        }
+        else if (currArray && currArray[subgoalId - 1] && currArray[subgoalId - 1].actions && actionNum <= currArray[subgoalId - 1].actions.length) {
+            console.log("Action already saved, retrieving from subgoalArray.");
             if (actionNum > currArray[subgoalId - 1].actions.length) {
-                actionName = localStorage.getItem("currActionName");
+                actionName = getSessionCurrentActionName(sessionState);
             } else {
                 actionName = currArray[subgoalId - 1].actions[actionNum - 1].name;
             }
@@ -434,14 +446,13 @@ function drawAction(actionNum, subgoalId) {
             sidebarBody().find('#actionNameGot').html("<b> Action: " + actionName + "</b>");
             sidebarBody().find('#actionNameGot').show();
             sidebarBody().find("#promptAction").show();
-            setStatusToTrue("actionPromptOnScreen");
         }
 
         // Add onclicks
         sidebarBody().find('#submitActionName').unbind("click").click(function () {
             actionName = sidebarBody().find("#actionNameInput").val();
             console.log("Action name submitted:", actionName);
-            if (actionName === "" && !(statusIsTrue('gotActionName'))) {
+            if (actionName === "" && !isCurrentDraftAction) {
                 alert("Please name your action before continuing");
             }
             else {
@@ -450,7 +461,6 @@ function drawAction(actionNum, subgoalId) {
                     actionId: actionNum,
                     subgoalId: subgoalId
                 };
-                saveVarToLocal("currActionName", actionName);
                 console.log("Saving action item:", actionItem);
                 var yesNoMaybe = { "yes": false, "no": false, "maybe": false };
                 var whyText = "";
@@ -462,14 +472,54 @@ function drawAction(actionNum, subgoalId) {
                     "tinker": false,
                     "none": false
                 };
-                saveIdealAction(actionName, yesNoMaybe, whyText, facets, yesNoMaybe, whyText, facets);
+                updateSessionState(function (state) {
+                    state.currentStep = "actionPrompt";
+                    state.currentSubgoalId = subgoalId;
+                    state.currentActionId = actionNum;
+                    state.screenshot.imageUrl = "";
+                    state.screenshot.sourceX = 0;
+                    state.screenshot.sourceY = 0;
+                    state.draftAction = {
+                        id: actionNum,
+                        subgoalId: subgoalId,
+                        name: actionName,
+                        screenshot: {
+                            imageUrl: "",
+                            sourceX: 0,
+                            sourceY: 0
+                        },
+                        preAction: {
+                            ynm: { "yes": false, "no": false, "maybe": false },
+                            why: "",
+                            facetValues: {
+                                "motiv": false,
+                                "info": false,
+                                "selfE": false,
+                                "risk": false,
+                                "tinker": false,
+                                "none": false
+                            }
+                        },
+                        postAction: {
+                            ynm: { "yes": false, "no": false, "maybe": false },
+                            why: "",
+                            facetValues: {
+                                "motiv": false,
+                                "info": false,
+                                "selfE": false,
+                                "risk": false,
+                                "tinker": false,
+                                "none": false
+                            }
+                        },
+                        status: "named"
+                    };
+                }, "Created draftAction after action name submission.");
 
-                setStatusToTrue("gotActionName");
                 sidebarBody().find('#getActionName').hide();
                 sidebarBody().find('#actionNameGot').html("<b> Action: " + actionName + "</b>");
                 sidebarBody().find('#actionNameGot').show();
                 sidebarBody().find("#promptAction").show();
-                setStatusToTrue("actionPromptOnScreen");
 
                 if (actionNum > currArray[subgoalId - 1].actions.length) {
                     addToSandwich("idealAction", actionItem);
@@ -486,7 +536,11 @@ function drawAction(actionNum, subgoalId) {
                     sidebarBody().find('#getActionName').show();
                     sidebarBody().find('#actionNamePrompt').hide();
                     sidebarBody().find("#promptAction").hide();
-                    setStatusToFalse("actionPromptOnScreen");
+                    updateSessionState(function (state) {
+                        if (state.currentStep === "actionPrompt") {
+                            state.currentStep = "subgoalQuestions";
+                        }
+                    }, "Returned from action prompt edit to subgoal questions.");
                 });
             }
         });
@@ -501,8 +555,8 @@ function drawAction(actionNum, subgoalId) {
         // Call overlay screen function when user is ready for screen capture
         sidebarBody().find('body').off('click', '#overlayTrigger').on('click', '#overlayTrigger', function () {
             console.log("Overlay trigger clicked, preparing for screen capture.");
-            console.log("checking status for drewToolTip:", statusIsTrue('drewToolTip'));
-            if (statusIsTrue('drewToolTip')) {
+            console.log("checking sessionState for tooltip recovery:", sessionState && sessionState.currentStep);
+            if (document.getElementById("myToolTip")) {
                 var justTheToolTip = document.getElementById("myToolTip");
                 $(justTheToolTip).remove();
             }
@@ -512,8 +566,7 @@ function drawAction(actionNum, subgoalId) {
         // When back button is clicked, get rid of the action stuff and go back to subgoal
         sidebarBody().find("#promptActionBack").unbind("click").click(function () {
             el.empty();
-            var subgoalId = localStorage.getItem("numSubgoals");
-            drawSubgoal(subgoalId);
+            drawSubgoal(getSessionState().currentSubgoalId);
         });
     });
 }
@@ -526,42 +579,43 @@ function drawAction(actionNum, subgoalId) {
  * Params: none
  */
  function reloadToolTipState () {
-	//set up tool tip (skipping screenshot)
-	overlayScreen("onlyToolTip");
-	var toolTip = document.getElementById("myToolTip");
+	//set up tool tip (skipping screenshot) and wait for the tooltip template
+	//to finish loading before applying the recovered state.
+	overlayScreen("onlyToolTip", function (toolTip) {
+		var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
 
-	//if session is at end, open to action loop & trigger continue click to get to last page
-	if (statusIsTrue("finishedGM")) {
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		actionLoop(toolTip);
-		$("#saveAndExit").click();
-	}
-	//if post action is finished, open to action loop
-	else if (statusIsTrue("gotPostActionQuestions")) {
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		actionLoop(toolTip);
-	}
-	//if action was performed, go back to post action questions
-	else if (statusIsTrue("idealActionPerformed")) {
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		postActionQuestions(toolTip);
-	}
-	//if preaction questions are done, go to action prompt
-	else if (statusIsTrue("gotPreActionQuestions")) {	
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		doActionPrompt(toolTip);
-	}
-	//if screenshot taken, go to preaction
-	else if (statusIsTrue("gotScreenshot")) {
-		$(toolTip).find("#imageCanvasTemplate").hide();
-		preActionQuestions(toolTip);
-	}
-	//???? who what when why where how?
-	else if (statusIsTrue("highlightedAction")) {
+		if (sessionState && sessionState.currentStep) {
+			console.log("[sessionState] Attempting tooltip recovery from currentStep:", sessionState.currentStep);
 
-		//renderImage()
-		//console.log("on image");
-		//overlayScreen("onlyToolTip");
-	}
-	
+			switch (sessionState.currentStep) {
+				case "finished":
+					$(toolTip).find("#imageCanvasTemplate").hide();
+					actionLoop(toolTip);
+					$("#saveAndExit").click();
+					return;
+				case "actionLoop":
+					$(toolTip).find("#imageCanvasTemplate").hide();
+					actionLoop(toolTip);
+					return;
+				case "postActionQuestions":
+					$(toolTip).find("#imageCanvasTemplate").hide();
+					postActionQuestions(toolTip);
+					return;
+				case "doActionPrompt":
+					$(toolTip).find("#imageCanvasTemplate").hide();
+					doActionPrompt(toolTip);
+					return;
+				case "preActionQuestions":
+					$(toolTip).find("#imageCanvasTemplate").hide();
+					preActionQuestions(toolTip);
+					return;
+				case "screenshotPreview":
+					console.log("[sessionState] Restored screenshot preview from sessionState.");
+					return;
+				default:
+					console.log("[sessionState] No direct tooltip recovery mapping for currentStep:", sessionState.currentStep);
+					return;
+			}
+		}
+	});
 }
