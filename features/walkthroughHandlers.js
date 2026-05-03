@@ -58,19 +58,24 @@ function saveAndExit(exitType) {
 function bindSliderFinalButtons(el, exitType) {
     console.log("Binding events for buttons inside #sliderFinalWarning.");
 
-    $(el).find("#sliderFinalDownload").off("click").on("click", function () {
+    $(el).find("#sliderFinalDownload").off("click").on("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
         console.log("Download button clicked.");
         var scurvy = createCSV();
         downloadCSV(scurvy, false);
     });
 
-    $(el).find("#oldFormat").off("click").on("click", function () {
+    $(el).find("#oldFormat").off("click").on("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
         console.log("Old format download button clicked.");
         var scurvy = createOldCSV();
         downloadCSV(scurvy, true);
     });
 
-    $(el).find("#sliderYesCheckbox").off("click").on("click", function () {
+    $(el).find("#sliderYesCheckbox").off("change").on("change", function (event) {
+        event.stopPropagation();
         console.log("Yes checkbox clicked. Checked:", $(el).find('#sliderYesCheckbox').is(":checked"));
         if ($(el).find('#sliderYesCheckbox').is(":checked")) {
             $(el).find('#sliderFinalYes').prop('disabled', false);
@@ -81,13 +86,19 @@ function bindSliderFinalButtons(el, exitType) {
         }
     });
 
-    $(el).find("#sliderFinalYes").off("click").on("click", function () {
+    $(el).find("#sliderFinalYes").off("click").on("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
         console.log("Quit GenderMag button clicked.");
-        localStorage.clear();
-        location.reload();
+        resetSessionState(function () {
+            localStorage.clear();
+            location.reload();
+        });
     });
 
-    $(el).find("#sliderFinalNo").off("click").on("click", function () {
+    $(el).find("#sliderFinalNo").off("click").on("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
         console.log("Take me back button clicked.");
         sidebarBody().find('#saveAndExit').attr("hidden", false);
         sidebarBody().find('#justExit').attr("hidden", false);

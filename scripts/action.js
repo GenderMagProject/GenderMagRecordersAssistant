@@ -365,7 +365,9 @@ function actionLoop(el){
 	$(el).find("#actionLoopTemplate").show();
 
 	//make new action on 'add another action' button click
-	$(el).find("#moreActions").off("click").on("click", function(){
+	$(el).find("#moreActions").off("click").on("click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
 		if ($(el).find("#actionNameInput").val() == ""){
 			alert("Please name your action before continuing");
 		} else{
@@ -409,7 +411,9 @@ function actionLoop(el){
 	});
 
 	//make new subgoal on 'create new subgoal' button click
-	$(el).find("#newSubgoal").off("click").on("click", function(){
+	$(el).find("#newSubgoal").off("click").on("click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
 		if($(el).find("#subgoalInput").val() === ""){
 			alert("Please name your subgoal before continuing");
 		}
@@ -446,18 +450,23 @@ function actionLoop(el){
 		$(el).find("#exitButton").hide();
 
 		//on click of redownload zip button, download sheet again
-		$(el).find("#finalDownload").off("click").on("click", function () {
+		$(el).find("#finalDownload").off("click").on("click", function (event) {
+			event.preventDefault();
+			event.stopPropagation();
 			var scurvy = createCSV();
 			downloadCSV(scurvy, false);
 		});
 
-		$(el).find("#oldFormat").off("click").on("click", function () {
+		$(el).find("#oldFormat").off("click").on("click", function (event) {
+			event.preventDefault();
+			event.stopPropagation();
 			var scurvy = createOldCSV();
 			downloadCSV(scurvy, true);
 		});
 
 		//make sure user has downloaded their file before quitting
-		$(el).find("#finalYesCheckbox").off("click").on("click", function () {
+		$(el).find("#finalYesCheckbox").off("change").on("change", function (event) {
+			event.stopPropagation();
 			if ($(el).find('#finalYesCheckbox').is(":checked")) {
 				$(el).find('#finalYes').prop('disabled', false);
 				$(el).find("#finalYes").attr("style","background-color:#7D1935;color:white;");
@@ -469,7 +478,9 @@ function actionLoop(el){
 		});	
 
 		//final quit button clears local storage and reloads
-		$(el).find("#finalYes").off("click").on("click", function () {
+		$(el).find("#finalYes").off("click").on("click", function (event) {
+			event.preventDefault();
+			event.stopPropagation();
 			resetSessionState(function () {
 				localStorage.clear(); 
 				location.reload();
@@ -477,7 +488,9 @@ function actionLoop(el){
 		});
 
 		//'I'm not done, take me back' button returns to action loop
-		$(el).find("#finalNo").off("click").on("click", function () {
+		$(el).find("#finalNo").off("click").on("click", function (event) {
+			event.preventDefault();
+			event.stopPropagation();
 			$(el).find('#theFinalCountDown').hide();
 			$(el).find('#actionLoopTemplate').show();
 			$(el).find('#exitButton').show();
@@ -489,7 +502,9 @@ function actionLoop(el){
 
 	//TODO(roseg31) : Investigate this...
 	//on save and exit button click, save all info, close session
-	$(el).find("#saveAndExit").off("click").on("click", function(){
+	$(el).find("#saveAndExit").off("click").on("click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
 		//create and download sheet with session data
         syncDraftActionState(function (state) {
             state.currentStep = "finished";
@@ -500,7 +515,9 @@ function actionLoop(el){
 		exit();
 	});
 
-	$(el).find("#justExit").off("click").on("click", function(){
+	$(el).find("#justExit").off("click").on("click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
         syncDraftActionState(function (state) {
             state.currentStep = "finished";
         }, "Marked walkthrough as finished in sessionState.");
@@ -509,7 +526,9 @@ function actionLoop(el){
 	});
 
 	//back button returns to post action questions, resets got post action key
-	$(el).find("#loopActionBack").off("click").on("click", function(){
+	$(el).find("#loopActionBack").off("click").on("click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
 		$(el).find("#actionLoopTemplate").hide();
         $(el).find("#postActionTemplate").show();
 		$(el).find("#imageCanvas").show();

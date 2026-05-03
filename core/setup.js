@@ -145,32 +145,49 @@ function registerTabOwnershipHandlers() {
 }
 
 function restoreWalkthroughState() {
-	if (!currentTabOwnsSession(getSessionState())) {
+	var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+
+	if (!currentTabOwnsSession(sessionState)) {
 		hideInactiveSessionUi();
 		return;
 	}
 
 	isSliderOpenInSession() ? openSlider() : closeSlider();
-	preWalkthrough("#GenderMagFrame", "./templates/popup.html");
 
-	var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
-	if (sessionState && sessionState.currentStep) {
-		console.log("[sessionState] Attempting walkthrough recovery from currentStep:", sessionState.currentStep);
+	if (!sessionState || !sessionState.currentStep) {
+		preWalkthrough("#GenderMagFrame", "./templates/popup.html");
+		return;
+	}
 
-		if (sessionState.currentStep === "subgoalQuestions" && sessionState.currentSubgoalId) {
-			drawSubgoal(sessionState.currentSubgoalId);
-			return;
-		}
+	console.log("[sessionState] Attempting walkthrough recovery from currentStep:", sessionState.currentStep);
 
-		if (sessionState.currentStep === "actionPrompt" && sessionState.currentSubgoalId && sessionState.currentActionId) {
+	if (isTooltipStep(sessionState)) {
+		preWalkthrough("#GenderMagFrame", "./templates/popup.html", function () {
+			reloadToolTipState();
+		}, { skipSubgoalStage: true });
+		return;
+	}
+
+	if (sessionState.currentStep === "actionPrompt" && sessionState.currentSubgoalId && sessionState.currentActionId) {
+		preWalkthrough("#GenderMagFrame", "./templates/popup.html", function () {
 			drawAction(sessionState.currentActionId, sessionState.currentSubgoalId);
-			return;
-		}
+		}, { skipSubgoalStage: true });
+		return;
 	}
 
-	if (sessionState && isTooltipStep(sessionState)) {
-		reloadToolTipState();
+	if (sessionState.currentStep === "subgoalQuestions" && sessionState.currentSubgoalId) {
+		preWalkthrough("#GenderMagFrame", "./templates/popup.html", function () {
+			drawSubgoal(sessionState.currentSubgoalId);
+		}, { skipSubgoalStage: true });
+		return;
 	}
+
+	if (sessionState.currentStep === "prewalkthrough") {
+		preWalkthrough("#GenderMagFrame", "./templates/popup.html");
+		return;
+	}
+
+	preWalkthrough("#GenderMagFrame", "./templates/popup.html");
 }
 
 function removeFloatingSessionUi() {

@@ -17,8 +17,9 @@
  * Post: The template is appended to that element, and the user has filled out the prewalkthrough information.
  * 	The user is on the first subgoal.
  */
-function preWalkthrough (id, file) {
+function preWalkthrough (id, file, onReady, options) {
 	var el = $(id).contents().find('body');
+	var walkthroughOptions = options || {};
 	el.empty();
 	//appendTemplateToElement(el,file);
 	appendTemplateToElement(el, file, function (error) {
@@ -26,18 +27,19 @@ function preWalkthrough (id, file) {
 			console.error("Error appending template in preWalkthrough:", error);
 		} else {
 			console.log("Template appended successfully in preWalkthrough.");
+			makeEditable();
+			handlePreWalkthroughInfo(walkthroughOptions);
+			sidebarBody().find('body').off('click', '#saveAndExit').on('click', '#saveAndExit', function() {
+				saveAndExit("slider");
+			});
+			sidebarBody().find('body').off('click', '#justExit').on('click', '#justExit', function() {
+				justExit("slider");
+			});
+			if (typeof onReady === "function") {
+				onReady();
+			}
 		}
 	});
-	
-	makeEditable();
-	handlePreWalkthroughInfo();
-	sidebarBody().find('body').off('click', '#saveAndExit').on('click', '#saveAndExit', function() {
-		saveAndExit("slider");
-	});
-	sidebarBody().find('body').off('click', '#justExit').on('click', '#justExit', function() {
-		justExit("slider");
-	});
-
 }
 
 function syncPrewalkthroughSessionState(mutatorFn, context) {
@@ -361,7 +363,8 @@ function handleSubgoal(){
 
 // TODO: Refactoring. This function might benefit from being broken up into smaller functions, and/or adding a way
 // to periodically update variables like length of subgoalArray.
-function handlePreWalkthroughInfo () {
+function handlePreWalkthroughInfo (options) {
+	var walkthroughOptions = options || {};
 	
 	//var sidebarHead = $("#mySidebar").contents().find("head");
 	//refactored files-- need to add description for methods
@@ -370,7 +373,9 @@ function handlePreWalkthroughInfo () {
 	handlePronouns();
 	//Get scenario name
 	handleScenario();
-	handleSubgoal();
+	if (!walkthroughOptions.skipSubgoalStage) {
+		handleSubgoal();
+	}
 	
 	
 	
