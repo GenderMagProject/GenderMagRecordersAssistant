@@ -6,14 +6,11 @@
  */
 
 function toSessionFacetValues(facets) {
-    return {
-        "motiv": Boolean(facets.motiv),
-        "info": Boolean(facets.info),
-        "selfE": Boolean(facets.selfE || facets.self),
-        "risk": Boolean(facets.risk),
-        "tinker": Boolean(facets.tinker),
-        "none": Boolean(facets.none)
-    };
+    if (typeof toSessionFacets === "function") {
+        return toSessionFacets(facets);
+    }
+
+    return facets || {};
 }
 
 function syncDraftActionState(mutatorFn, context) {
@@ -67,11 +64,12 @@ function createDraftActionState(actionId, subgoalId, actionName) {
  * Params: personaName
  */
 function setFacetPopups(personaName) {
-    if(personaName !== "Custom"){
-        var lowercaseName = personaName.toLowerCase();
+    var personaType = typeof getSessionPersonaType === "function" ? getSessionPersonaType() : personaName;
+    if (isStandardGenderMagPersona(personaType)) {
+        var lowercaseName = personaType.toLowerCase();
         //set functionality for motivation pop up info window
         $(".MTrigger").unbind("click").click(function () {
-            addToolTip(lowercaseName+"MToolTip", personaName);
+            addToolTip(lowercaseName+"MToolTip", personaType);
             /*$('#abbyMSeeMOAR').off('click').on('click', function () {
                 var isOpen = $(this).attr("stateVar");
 
@@ -92,22 +90,29 @@ function setFacetPopups(personaName) {
         });
         //set up other info pop ups
         $(".IPSTrigger").unbind("click").click(function () {
-            addToolTip(lowercaseName+"IPSToolTip", personaName);
+            addToolTip(lowercaseName+"IPSToolTip", personaType);
 
         });
         $(".SETrigger").unbind("click").click(function () {
-            addToolTip(lowercaseName+"SEToolTip", personaName);
+            addToolTip(lowercaseName+"SEToolTip", personaType);
 
         });
         $(".RTrigger").unbind("click").click(function () {
-            addToolTip(lowercaseName+"RToolTip", personaName);
+            addToolTip(lowercaseName+"RToolTip", personaType);
 
         });
         $(".TTrigger").unbind("click").click(function () {
-            addToolTip(lowercaseName+"TToolTip", personaName);
+            addToolTip(lowercaseName+"TToolTip", personaType);
 
         });
     }
+}
+
+function renderActionFacetOptions(el, targetSelector, idPrefix) {
+    renderFacetOptions($(el).find(targetSelector), {
+        idPrefix: idPrefix,
+        enableFacetTooltips: !isSessionDiyPersona()
+    });
 }
 
 /*
@@ -119,12 +124,15 @@ function setFacetPopups(personaName) {
  */
 function preActionQuestions(el){
     //get persona name and pronouns to set question text
-    var personaName = getSessionPersonaName();
+    var personaName = typeof getSessionPersonaDisplayName === "function"
+        ? getSessionPersonaDisplayName()
+        : getSessionPersonaName();
     var pronoun = getSessionPersonaPronoun();
     var possessive = getSessionPersonaPossessive();
     $(el).find("#preActQ").html("Will " + personaName+ " know what to do at this step?").attr("style","color:black");
     $(el).find("#preFacets").html("Which of " + personaName + 
 				  "'s facets did you use to answer the above question?").attr("style","color:black");
+    renderActionFacetOptions(el, "#preFacetOptions", "preFacet");
 
 	//hide draw button and retake button, show preaction questions
     $(el).find("#annotateImage").hide();
@@ -133,22 +141,27 @@ function preActionQuestions(el){
     $(el).find("#preActionTemplate").show();
     $(el).find("#imageCaption2").show();
     $(el).find("#HRmorelikefunpolice").show();
+
+    var draftAction = typeof getSessionDraftAction === "function" ? getSessionDraftAction() : null;
+    if (draftAction && draftAction.preAction) {
+        $(el).find('#actionYes').prop("checked", Boolean(draftAction.preAction.ynm && draftAction.preAction.ynm.yes));
+        $(el).find('#actionNo').prop("checked", Boolean(draftAction.preAction.ynm && draftAction.preAction.ynm.no));
+        $(el).find('#actionMaybe').prop("checked", Boolean(draftAction.preAction.ynm && draftAction.preAction.ynm.maybe));
+        $(el).find('#whyYes').val(draftAction.preAction.why || "");
+        applyFacetSelections($(el).find("#preFacetOptions"), draftAction.preAction.facetValues || {});
+    }
+
     //when save and continue button is clicked, save input values
     $(el).find("#preActionClose").off("click").on("click", function(event){
 		event.preventDefault();
 		event.stopPropagation();
 		//(actionName)Currently save and then deletes this name before it can be called again
 		var actionName = getSessionCurrentActionName();
-		var yesNoMaybe = {"yes": $('#actionYes').is(":checked"),
-			"no": $('#actionNo').is(":checked"),
-			"maybe": $('#actionMaybe').is(":checked")};
-		var whyText = $('#whyYes').val();
-		var facets = {"motiv": $('#motiv').is(":checked"),
-			"info": $('#info').is(":checked"),
-			"self": $('#self').is(":checked"),
-			"risk": $('#risk').is(":checked"),
-			"tinker": $('#tinker').is(":checked"),
-			"none": $('#none').is(":checked")};
+		var yesNoMaybe = {"yes": $(el).find('#actionYes').is(":checked"),
+			"no": $(el).find('#actionNo').is(":checked"),
+			"maybe": $(el).find('#actionMaybe').is(":checked")};
+		var whyText = $(el).find('#whyYes').val();
+		var facets = collectFacetSelections($(el).find("#preFacetOptions"));
 
 		var yesNoMaybePost = {"yes": false,
 			"no": false,
@@ -268,7 +281,9 @@ function doActionPrompt(el){
  */
 function postActionQuestions(el){
     //get persona name and pronouns to set question text
-    var personaName = getSessionPersonaName();
+    var personaName = typeof getSessionPersonaDisplayName === "function"
+        ? getSessionPersonaDisplayName()
+        : getSessionPersonaName();
     var pronoun = getSessionPersonaPronoun();
     var possessive = getSessionPersonaPossessive();
     $(el).find("#postActQ").html("If " + personaName + 
@@ -277,6 +292,7 @@ function postActionQuestions(el){
         possessive + " goal?").attr("style","color:black");
     $(el).find("#postFacets").html("Which of " + personaName +
 				   "'s facets did you use to answer the above question?").attr("style","color:black");
+    renderActionFacetOptions(el, "#postFacetOptions", "postFacet");
 
 	//hide do action prompt, show post action questions
 	$(el).find("#doActionPromptTemplate").hide();
@@ -284,6 +300,15 @@ function postActionQuestions(el){
     $(el).find("#imageCaption2").hide();	
     $(el).find("#imageCanvas").hide();
     $(el).find("#imageCaption3").show();
+
+    var draftAction = typeof getSessionDraftAction === "function" ? getSessionDraftAction() : null;
+    if (draftAction && draftAction.postAction) {
+        $(el).find('#YNMyes').prop("checked", Boolean(draftAction.postAction.ynm && draftAction.postAction.ynm.yes));
+        $(el).find('#YNMno').prop("checked", Boolean(draftAction.postAction.ynm && draftAction.postAction.ynm.no));
+        $(el).find('#YNMmaybe').prop("checked", Boolean(draftAction.postAction.ynm && draftAction.postAction.ynm.maybe));
+        $(el).find('#postWhyYes').val(draftAction.postAction.why || "");
+        applyFacetSelections($(el).find("#postFacetOptions"), draftAction.postAction.facetValues || {});
+    }
 
 	//link to show image preview again
 	$(el).find("#afterb44lyfe").off("click").on("click", function(event){
@@ -299,16 +324,11 @@ function postActionQuestions(el){
         event.preventDefault();
         event.stopPropagation();
 		var actionName = getSessionCurrentActionName();
-		var yesNoMaybe = {"yes": $('#YNMyes').is(":checked"),
-			"no": $('#YNMno').is(":checked"),
-			"maybe": $('#YNMmaybe').is(":checked")};
-		var whyText = $('#postWhyYes').val();
-		var facets = {"motiv": $('#Q2motiv').is(":checked"),
-			"info": $('#Q2info').is(":checked"),
-			"self": $('#Q2self').is(":checked"),
-			"risk": $('#Q2risk').is(":checked"),
-			"tinker": $('#Q2tinker').is(":checked"),
-			"none": $('#Q2none').is(":checked")};
+		var yesNoMaybe = {"yes": $(el).find('#YNMyes').is(":checked"),
+			"no": $(el).find('#YNMno').is(":checked"),
+			"maybe": $(el).find('#YNMmaybe').is(":checked")};
+		var whyText = $(el).find('#postWhyYes').val();
+		var facets = collectFacetSelections($(el).find("#postFacetOptions"));
 		savePostIdealAction(actionName, yesNoMaybe, whyText, facets);
         syncDraftActionState(function (state) {
             state.currentStep = "actionLoop";

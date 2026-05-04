@@ -30,9 +30,12 @@ function createDefaultSessionState() {
 		},
 		teamName: "",
 		persona: {
+			selectedType: "",
 			name: "",
 			pronoun: "",
-			possessive: ""
+			possessive: "",
+			description: "",
+			facets: []
 		},
 		scenarioName: "",
 		currentSubgoalId: null,
@@ -119,8 +122,39 @@ function getSessionPersona(state) {
 	return sessionState && sessionState.persona ? sessionState.persona : createDefaultSessionState().persona;
 }
 
+function isSessionBuiltInPersonaName(personaName) {
+	return ["Abi", "Pat", "Tim", "Custom", "DIY"].indexOf(personaName) >= 0;
+}
+
+function getSessionPersonaType(state) {
+	var persona = getSessionPersona(state);
+	if (persona.selectedType) {
+		return persona.selectedType;
+	}
+
+	if (persona.name && isSessionBuiltInPersonaName(persona.name)) {
+		return persona.name;
+	}
+
+	return "";
+}
+
 function getSessionPersonaName(state) {
-	return getSessionPersona(state).name || "Abi";
+	var persona = getSessionPersona(state);
+	if (persona.name) {
+		return persona.name;
+	}
+
+	var personaType = getSessionPersonaType(state);
+	if (personaType && personaType !== "DIY") {
+		return personaType;
+	}
+
+	return "";
+}
+
+function getSessionPersonaDisplayName(state) {
+	return getSessionPersonaName(state) || "Abi";
 }
 
 function getSessionPersonaPronoun(state) {
@@ -129,6 +163,65 @@ function getSessionPersonaPronoun(state) {
 
 function getSessionPersonaPossessive(state) {
 	return getSessionPersona(state).possessive || "their";
+}
+
+function getSessionPersonaDescription(state) {
+	return getSessionPersona(state).description || "";
+}
+
+function isSessionDiyPersona(state) {
+	return getSessionPersonaType(state) === "DIY";
+}
+
+function normalizePersonaFacetScale(scale) {
+	if (typeof scale !== "string") {
+		return "Medium";
+	}
+
+	var normalizedScale = scale.toLowerCase();
+	if (normalizedScale === "low") {
+		return "Low";
+	}
+	if (normalizedScale === "high") {
+		return "High";
+	}
+	return "Medium";
+}
+
+function createSessionPersonaFacetId(name, index) {
+	var baseId = String(name || ("facet-" + (index + 1)))
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-+|-+$/g, "");
+
+	if (!baseId) {
+		baseId = "facet-" + (index + 1);
+	}
+
+	return baseId + "-" + (index + 1);
+}
+
+function normalizeSessionPersonaFacet(facet, index) {
+	var facetName = facet && facet.name ? String(facet.name).trim() : "";
+	var facetDescription = facet && facet.description ? String(facet.description).trim() : "";
+
+	return {
+		id: facet && facet.id ? String(facet.id) : createSessionPersonaFacetId(facetName, index),
+		name: facetName,
+		description: facetDescription,
+		scale: normalizePersonaFacetScale(facet && facet.scale)
+	};
+}
+
+function getSessionPersonaFacets(state) {
+	var persona = getSessionPersona(state);
+	if (!Array.isArray(persona.facets)) {
+		return [];
+	}
+
+	return persona.facets.map(function (facet, index) {
+		return normalizeSessionPersonaFacet(facet, index);
+	});
 }
 
 function getSessionCurrentSubgoal(state) {
@@ -219,14 +312,22 @@ function toSessionYNM(ynm) {
 
 function toSessionFacets(facets) {
 	if (facets && typeof facets === "object") {
-		return {
-			motiv: Boolean(facets.motiv),
-			info: Boolean(facets.info),
-			selfE: Boolean(facets.selfE || facets.self),
-			risk: Boolean(facets.risk),
-			tinker: Boolean(facets.tinker),
-			none: Boolean(facets.none)
-		};
+		var normalizedFacets = {};
+
+		Object.keys(facets).forEach(function (facetKey) {
+			normalizedFacets[facetKey] = Boolean(facets[facetKey]);
+		});
+
+		if (normalizedFacets.self || normalizedFacets.selfE) {
+			normalizedFacets.self = Boolean(normalizedFacets.self || normalizedFacets.selfE);
+			normalizedFacets.selfE = Boolean(normalizedFacets.self || normalizedFacets.selfE);
+		}
+
+		if (!Object.prototype.hasOwnProperty.call(normalizedFacets, "none")) {
+			normalizedFacets.none = false;
+		}
+
+		return normalizedFacets;
 	}
 
 	return createDefaultSessionFacets();
@@ -422,8 +523,11 @@ function clearLegacySessionMirror() {
 	[
 		"teamName",
 		"personaName",
+		"personaType",
 		"personaPronoun",
 		"personaPossessive",
+		"personaDescription",
+		"personaFacets",
 		"scenarioName",
 		"subgoalArray",
 		"numSubgoals",
@@ -464,8 +568,11 @@ function mirrorLegacySessionState(state) {
 
 	setJsonLocalValue("teamName", sessionState.teamName || "");
 	setJsonLocalValue("personaName", sessionState.persona && sessionState.persona.name ? sessionState.persona.name : "");
+	setJsonLocalValue("personaType", getSessionPersonaType(sessionState));
 	setJsonLocalValue("personaPronoun", sessionState.persona && sessionState.persona.pronoun ? sessionState.persona.pronoun : "");
 	setJsonLocalValue("personaPossessive", sessionState.persona && sessionState.persona.possessive ? sessionState.persona.possessive : "");
+	setJsonLocalValue("personaDescription", getSessionPersonaDescription(sessionState));
+	setJsonLocalValue("personaFacets", getSessionPersonaFacets(sessionState));
 	setJsonLocalValue("scenarioName", sessionState.scenarioName || "");
 
 	var legacySubgoalArray = buildLegacySubgoalArrayFromSessionState(sessionState);

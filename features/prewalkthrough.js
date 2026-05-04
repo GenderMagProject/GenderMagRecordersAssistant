@@ -49,6 +49,194 @@ function syncPrewalkthroughSessionState(mutatorFn, context) {
 	return null;
 }
 
+function getDisplayedPersonaLabel(state) {
+	var sessionState = state || (typeof getSessionState === "function" ? getSessionState() : null);
+	var personaType = typeof getSessionPersonaType === "function" ? getSessionPersonaType(sessionState) : "Abi";
+	var personaName = typeof getSessionPersonaName === "function" ? getSessionPersonaName(sessionState) : personaType;
+
+	if (personaType === DIY_PERSONA_TYPE) {
+		return personaName && personaName !== DIY_PERSONA_TYPE ? personaName : DIY_PERSONA_OPTION_LABEL;
+	}
+
+	return personaName;
+}
+
+function setPersonaHeaderLabel(state) {
+	sidebarBody().find("#personaName").html("<b>Persona:</b> " + getDisplayedPersonaLabel(state));
+}
+
+function showScenarioSetupScreen(state) {
+	var sessionState = state || (typeof getSessionState === "function" ? getSessionState() : null);
+	var personaName = typeof getSessionPersonaDisplayName === "function"
+		? getSessionPersonaDisplayName(sessionState)
+		: getSessionPersonaName(sessionState);
+
+	sidebarBody().find("#getScenario").children().show();
+	sidebarBody().find("#getScenario").show();
+	sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario "
+		+ personaName + " will be performing");
+
+	if (typeof isSessionDiyPersona === "function" && isSessionDiyPersona(sessionState)) {
+		loadPersona(DIY_PERSONA_TYPE, { mode: "summary", state: sessionState });
+	}
+}
+
+function showSubgoalSetupScreen(state) {
+	var sessionState = state || (typeof getSessionState === "function" ? getSessionState() : null);
+	var personaName = typeof getSessionPersonaDisplayName === "function"
+		? getSessionPersonaDisplayName(sessionState)
+		: getSessionPersonaName(sessionState);
+
+	sidebarBody().find("#getSubgoal").children().show();
+	sidebarBody().find("#getSubgoal").show();
+	sidebarBody().find("#setup").hide();
+	sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for "
+		+ personaName + " to perform");
+	sidebarBody().find("#subgoalInput").keyup(function(event){
+		if(event.keyCode == 13){
+			sidebarBody().find("#submitSubgoal").unbind( "click" ).click();
+		}
+	});
+
+	if (typeof isSessionDiyPersona === "function" && isSessionDiyPersona(sessionState)) {
+		loadPersona(DIY_PERSONA_TYPE, { mode: "summary", state: sessionState });
+	}
+}
+
+function setDiyFacetValidation(message) {
+	$("#diyFacetValidation").text(message || "");
+}
+
+function buildDiyFacetRow(rowIndex, facetData) {
+	var facet = facetData || {};
+	var selectedScale = facet.scale || "Medium";
+	var facetName = typeof escapePersonaHtml === "function" ? escapePersonaHtml(facet.name || "") : (facet.name || "");
+	var facetDescription = typeof escapePersonaHtml === "function" ? escapePersonaHtml(facet.description || "") : (facet.description || "");
+
+	return [
+		"<div class=\"diyFacetRow\" data-row-index=\"", rowIndex, "\" style=\"display:flex; gap:10px; margin-bottom:10px; align-items:flex-start;\">",
+		"<input type=\"text\" class=\"diyFacetName\" style=\"width:22%;\" placeholder=\"Facet name\" value=\"", facetName, "\">",
+		"<textarea class=\"diyFacetDescription\" rows=\"2\" style=\"width:53%;\" placeholder=\"Facet description\">", facetDescription, "</textarea>",
+		"<select class=\"diyFacetScale\" style=\"width:20%;\">",
+		"<option value=\"Low\"", selectedScale === "Low" ? " selected" : "", ">Low</option>",
+		"<option value=\"Medium\"", selectedScale === "Medium" ? " selected" : "", ">Medium</option>",
+		"<option value=\"High\"", selectedScale === "High" ? " selected" : "", ">High</option>",
+		"</select>",
+		"</div>"
+	].join("");
+}
+
+function addDiyFacetRow(facetData) {
+	var rows = $("#diyFacetRows .diyFacetRow");
+	if (rows.length >= DIY_PERSONA_MAX_FACETS) {
+		setDiyFacetValidation("You can add up to " + DIY_PERSONA_MAX_FACETS + " facets for now.");
+		return false;
+	}
+
+	$("#diyFacetRows").append(buildDiyFacetRow(rows.length + 1, facetData));
+	setDiyFacetValidation("");
+	return true;
+}
+
+function collectDiyFacetRows() {
+	var rows = [];
+
+	$("#diyFacetRows .diyFacetRow").each(function (index) {
+		rows.push({
+			id: "diy-facet-" + (index + 1),
+			name: $(this).find(".diyFacetName").val().trim(),
+			description: $(this).find(".diyFacetDescription").val().trim(),
+			scale: $(this).find(".diyFacetScale").val()
+		});
+	});
+
+	return rows;
+}
+
+function closeDiyFacetModal() {
+	$("#diyFacetModalBackdrop").remove();
+}
+
+function showDiyFacetModal(onSaveComplete) {
+	closeDiyFacetModal();
+	if (typeof ensureFloatingUiBaseStyles === "function") {
+		ensureFloatingUiBaseStyles();
+	}
+
+	appendTemplateToElement("body", "/templates/custom/diyFacetModal.html", function (error) {
+		if (error) {
+			console.error("Error loading DIY facet modal:", error);
+			return;
+		}
+
+		var existingFacets = typeof getSessionPersonaFacets === "function"
+			? getSessionPersonaFacets()
+			: [];
+
+		if (existingFacets.length > 0) {
+			existingFacets.forEach(function (facet) {
+				addDiyFacetRow(facet);
+			});
+		} else {
+			addDiyFacetRow();
+		}
+
+		if ($("#diyFacetModal").draggable) {
+			$("#diyFacetModal").draggable({ handle: "#diyFacetModalHeader" });
+		}
+
+		$("#addDiyFacetRow").off("click").on("click", function (event) {
+			event.preventDefault();
+			event.stopPropagation();
+			addDiyFacetRow();
+		});
+
+		$("#saveDiyFacetRows").off("click").on("click", function (event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
+			var personaName = typeof getSessionPersonaName === "function" ? getSessionPersonaName(sessionState) : "";
+			var personaDescription = typeof getSessionPersonaDescription === "function" ? getSessionPersonaDescription(sessionState) : "";
+			var diyFacets = collectDiyFacetRows();
+
+			if (!personaName || personaName === DIY_PERSONA_TYPE) {
+				setDiyFacetValidation("Please enter a persona name before saving facets.");
+				return;
+			}
+
+			if (!personaDescription) {
+				setDiyFacetValidation("Please enter a persona description before saving facets.");
+				return;
+			}
+
+			if (diyFacets.length === 0) {
+				setDiyFacetValidation("Please add at least one facet.");
+				return;
+			}
+
+			for (var i = 0; i < diyFacets.length; i++) {
+				if (!diyFacets[i].name || !diyFacets[i].description || ["Low", "Medium", "High"].indexOf(diyFacets[i].scale) < 0) {
+					setDiyFacetValidation("Each facet needs a name, description, and Low/Medium/High scale.");
+					return;
+				}
+			}
+
+			var updatedState = syncPrewalkthroughSessionState(function (state) {
+				state.currentStep = "prewalkthrough";
+				state.persona.facets = diyFacets;
+			}, "Saved DIY persona facets in sessionState.");
+
+			closeDiyFacetModal();
+			loadPersona(DIY_PERSONA_TYPE, { mode: "summary", state: updatedState });
+
+			if (typeof onSaveComplete === "function") {
+				onSaveComplete(updatedState);
+			}
+		});
+	});
+}
+
 /* Function: makeEditable
  * Description: This function adds the functionality "Edit" buttons (e.g, for team name, persona, etc) - hide edit
  *   button and add edit fields to the slider section
@@ -70,6 +258,7 @@ function makeEditable () {
 		sidebarBody().find("#editPersona").hide();
 		sidebarBody().find("#personaInfo").hide();
 		sidebarBody().find("#personaInfo").empty();
+		closeDiyFacetModal();
 		sidebarBody().find("#getPersona").show();
 		sidebarBody().find("#getPersona").children().show();
 		sidebarBody().find("#getPersonaPronoun").show();
@@ -132,12 +321,20 @@ function handleTeamName(){
 function handlePersona(){
 	//If the state variable is set, reload previous input
 	var sessionState = typeof getSessionState === "function" ? getSessionState() : null;
-	var isSetPersona = Boolean(sessionState && sessionState.persona && sessionState.persona.name);
+	var isSetPersona = Boolean(
+		sessionState &&
+		sessionState.persona &&
+		(sessionState.persona.name || sessionState.persona.selectedType)
+	);
 	if (isSetPersona) {
 		//Restore from previous state
-		var personaName = sessionState.persona.name;
-		sidebarBody().find("#personaName").html("<b>Persona:</b> " + personaName);
-		loadPersona(personaName);
+		var personaType = getSessionPersonaType(sessionState);
+		sidebarBody().find("#personaSelection").val(personaType);
+		setPersonaHeaderLabel(sessionState);
+		loadPersona(personaType, {
+			mode: personaType === DIY_PERSONA_TYPE && !sessionState.scenarioName ? "editor" : "summary",
+			state: sessionState
+		});
 		sidebarBody().find("#personaInfo").show();
 		sidebarBody().find("#getPersona").children().hide();
 		sidebarBody().find("#getPersona").hide();
@@ -150,16 +347,35 @@ function handlePersona(){
 	else {
 		//Persona selection
 		sidebarBody().find('body').off('click', '#submitPersona').on('click', '#submitPersona', function() {
-			//Get and save persona selection
-			var personaName = sidebarBody().find("#personaSelection").val();
-			syncPrewalkthroughSessionState(function (state) {
+			var personaType = sidebarBody().find("#personaSelection").val();
+			var updatedState = syncPrewalkthroughSessionState(function (state) {
+				var previousType = getSessionPersonaType(state);
 				state.currentStep = "prewalkthrough";
-				state.persona.name = personaName;
+				state.persona.selectedType = personaType;
+				if (previousType !== personaType) {
+					state.persona.pronoun = "";
+					state.persona.possessive = "";
+				}
+
+				if (personaType === DIY_PERSONA_TYPE) {
+					if (previousType !== DIY_PERSONA_TYPE) {
+						state.persona.name = "";
+						state.persona.description = "";
+						state.persona.facets = [];
+					}
+				} else {
+					state.persona.name = personaType;
+					state.persona.description = "";
+					state.persona.facets = [];
+				}
 			}, "Saved persona name in sessionState.");
 
 			//Display persona selection and related info
-			sidebarBody().find("#personaName").html("<b>Persona:</b> " + personaName);
-			loadPersona(personaName);
+			setPersonaHeaderLabel(updatedState);
+			loadPersona(personaType, {
+				mode: personaType === DIY_PERSONA_TYPE ? "editor" : "summary",
+				state: updatedState
+			});
 			sidebarBody().find("#personaInfo").show();
 			sidebarBody().find("#getPersona").children().hide();
 			sidebarBody().find("#getPersona").hide();
@@ -175,12 +391,15 @@ function handlePronouns(){
 	var isSetPronoun = Boolean(sessionState && sessionState.persona && sessionState.persona.pronoun && sessionState.persona.possessive);
 	if (isSetPronoun) {
 		//Restore from previous state
-		var personaName = getSessionPersonaName(sessionState);
 		sidebarBody().find("#getPersonaPronoun").hide();
 
-		sidebarBody().find("#getScenario").show();
-		sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " 
-							   + personaName + " will be performing");
+		if (isSessionDiyPersona(sessionState) && getSessionPersonaFacets(sessionState).length === 0 && !sessionState.scenarioName) {
+			showDiyFacetModal(function (updatedState) {
+				showScenarioSetupScreen(updatedState || getSessionState());
+			});
+		} else {
+			showScenarioSetupScreen(sessionState);
+		}
 	}
 	else{
 		//enter get pronoun stuff here
@@ -199,22 +418,38 @@ function handlePronouns(){
 			//Get and save scenario name
 			var personaPronoun = sidebarBody().find("#pronounInput").val();
 			var personaPossessive = sidebarBody().find("#possessiveInput").val();
+			var sessionStateBeforeSave = typeof getSessionState === "function" ? getSessionState() : null;
+			var personaType = getSessionPersonaType(sessionStateBeforeSave);
+			var diyPersonaName = sidebarBody().find("#diyPersonaNameInput").val().trim();
+			var diyPersonaDescription = sidebarBody().find("#diyPersonaDescriptionInput").val().trim();
 			if(personaPronoun === "" || personaPossessive === ""){
 				alert("Please enter both the pronoun and possessive adjective.");
 			}
+			else if (personaType === DIY_PERSONA_TYPE && (diyPersonaName === "" || diyPersonaDescription === "")) {
+				alert("Please enter both the DIY persona name and persona description before continuing.");
+			}
 			else {
-				var personaName = getSessionPersonaName();
-				syncPrewalkthroughSessionState(function (state) {
+				var updatedState = syncPrewalkthroughSessionState(function (state) {
 					state.currentStep = "prewalkthrough";
+					if (getSessionPersonaType(state) === DIY_PERSONA_TYPE) {
+						state.persona.name = diyPersonaName;
+						state.persona.description = diyPersonaDescription;
+					}
 					state.persona.pronoun = personaPronoun;
 					state.persona.possessive = personaPossessive;
 				}, "Saved persona pronouns in sessionState.");
 				sidebarBody().find("#getPersonaPronoun").hide();
-				sidebarBody().find("#getScenario").show();
-				sidebarBody().find("#scenarioPrompt").html("Take a moment to describe the scenario " 
-									   + personaName + " will be performing");
+				setPersonaHeaderLabel(updatedState);
 				sidebarBody().find("#editPersona").show();
 				personaShown = true;
+
+				if (getSessionPersonaType(updatedState) === DIY_PERSONA_TYPE) {
+					showDiyFacetModal(function (savedState) {
+						showScenarioSetupScreen(savedState || getSessionState());
+					});
+				} else {
+					showScenarioSetupScreen(updatedState);
+				}
 			}
 			updatePronouns();
 		});
@@ -235,17 +470,7 @@ function handleScenario(){
 		
 		sidebarBody().find("#getScenario").children().hide();
 		sidebarBody().find("#getScenario").hide();
-		
-		sidebarBody().find("#getSubgoal").show();
-		sidebarBody().find("#setup").hide();
-		var personaName = getSessionPersonaName(sessionState);
-		sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " 
-							  + personaName + " to perform");
-		sidebarBody().find("#subgoalInput").keyup(function(event){
-			if(event.keyCode == 13){
-				sidebarBody().find("#submitSubgoal").unbind( "click" ).click();
-			} 
-		});
+		showSubgoalSetupScreen(sessionState);
 	}
 	else {
 		//can use enter key or submit button to submit scenario name
@@ -274,18 +499,7 @@ function handleScenario(){
 				sidebarBody().find("#getScenario").children().hide();
 				sidebarBody().find("#getScenario").hide();
 
-				//Show subtask
-				sidebarBody().find("#getSubgoal").show();
-				sidebarBody().find("#setup").hide();
-
-				var personaName = getSessionPersonaName();
-				sidebarBody().find("#subgoalPrompt").html("Now that you've completed the initial setup, enter a subgoal for " 
-									  + personaName + " to perform");
-				sidebarBody().find("#subgoalInput").keyup(function (event) {
-					if (event.keyCode == 13) {
-						sidebarBody().find("#submitSubgoal").unbind("click").click();
-					}
-				});
+				showSubgoalSetupScreen(getSessionState());
 			}
 		});
 	}

@@ -376,6 +376,17 @@ function loadActionAnswersTemplate (actionId, subgoalId) {
 		
 		sidebarBody().find('#answersActionNum').html(targetAction.id);
 		sidebarBody().find('#answersActionName').html(targetAction.name);
+		var personaName = typeof getSessionPersonaDisplayName === "function"
+			? getSessionPersonaDisplayName()
+			: (typeof getSessionPersonaName === "function" ? getSessionPersonaName() : "Abi");
+		var personaPronoun = typeof getSessionPersonaPronoun === "function" ? getSessionPersonaPronoun() : "they";
+		var personaPossessive = typeof getSessionPersonaPossessive === "function" ? getSessionPersonaPossessive() : "their";
+		sidebarBody().find('#answersPreActionQuestion').html("Will " + personaName + " know what to do at this step?");
+		sidebarBody().find('#answersPostActionQuestion').html(
+			"If " + personaName + " does the right thing, will " + personaPronoun +
+			" know that " + personaPronoun + " did the right thing and that " +
+			personaPronoun + " is making progress toward " + personaPossessive + " goal?"
+		);
 		
 		//Image stuff goes here
 		
@@ -420,66 +431,10 @@ function showMeTheStringYNM (targetId, targetObj) {
 /*Iterates through the passed facets object to see which values are true
  and puts the right string on the answers template in the passed id. */
 function showMeTheStringFacets (targetId, targetObj) {
-	
-	var myString = "";
-	var propsFound = 0;
-	var foundFacet = "";
-	for (var prop in targetObj) {
-		if (targetObj[prop] == true) {
-			foundFacet = prop;
-			propsFound++;
-		
-			//Switch statement-ish on the facet
-			//If it is the first prop found, add the true value without comma.
-			//Concatenates the rest of the true values with commas afterwards.
-			if (foundFacet == "info") {
-				if (propsFound == 1) {
-					myString = myString.concat("Information Processing Style");
-				}
-				else {
-					myString = myString.concat(", Information Processing Style");
-				}
-			}
-			else if (foundFacet == "motiv") {
-				if (propsFound == 1) {
-					myString = myString.concat("Motivation");
-				}
-				else {
-					myString = myString.concat(", Motivation");
-				}
-			}
-			else if (foundFacet == "risk") {
-				if (propsFound == 1) {
-					myString = myString.concat("Attitude towards Risk");
-				}
-				else {
-					myString = myString.concat(", Attitude towards Risk");
-				}
-			}
-			else if (foundFacet == "self") {
-				if (propsFound == 1) {
-					myString = myString.concat("Computer Self-efficacies");
-				}
-				else {
-					myString = myString.concat(", Computer Self-efficacies");
-				}
-			}
-			else if (foundFacet == "tinker") {
-				if (propsFound == 1) {
-					myString = myString.concat("Learning: by Process vs. by Tinkering");
-				}
-				else {
-					myString = myString.concat(", Learning: by Process vs. by Tinkering");
-				}
-			}
-		}
-		
-	}
-	if (propsFound == 0) {
-		myString = "none";
-	}
-	
-	
+	var labels = typeof getSelectedFacetLabels === "function"
+		? getSelectedFacetLabels(targetObj, typeof getSessionState === "function" ? getSessionState() : null)
+		: [];
+	var myString = labels.length > 0 ? labels.join(", ") : "None of the Above";
 	sidebarBody().find(targetId).html(myString);
 	
 }

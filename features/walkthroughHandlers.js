@@ -196,7 +196,9 @@ function editSubgoal(subgoalNum){
 	}
 
 	//retrieve persona name from local storage, if it's not there somethings wrong
-	var personaName = getSessionPersonaName();
+	var personaName = typeof getSessionPersonaDisplayName === "function"
+		? getSessionPersonaDisplayName()
+		: getSessionPersonaName();
     var pronoun = getSessionPersonaPronoun();
     var possessive = getSessionPersonaPossessive();
 	if (!personaName) {
@@ -247,13 +249,7 @@ function storeSubgoalInfo(subgoalId){
     if (whyText === "") {
         whyText = sidebarBody().find('#A0Q0Response').html();
     }
-    var facets = {"motiv": sidebarBody().find("#A0Q0motiv").is(":checked"),
-		"info": sidebarBody().find("#A0Q0info").is(":checked"),
-		"selfE": sidebarBody().find("#A0Q0selfE").is(":checked"),
-		"risk": sidebarBody().find("#A0Q0risk").is(":checked"),
-		"tinker": sidebarBody().find("#A0Q0tinker").is(":checked"),
-		"none": sidebarBody().find("#A0Q0none").is(":checked")
-	};
+    var facets = collectFacetSelections(sidebarBody().find("#subgoalFacetOptions"));
     saveSubgoal(subgoalId, subgoal.name, yesNoMaybe, whyText, facets, subgoal.actions);
 	updateSessionState(function (state) {
 		state.currentStep = "subgoalQuestions";
@@ -294,7 +290,9 @@ function drawSubgoal(subgoalId) {
     );
 
     // Get current subgoal, empty the question container, and add in subgoal questions
-    var personaName = getSessionPersonaName(sessionState);
+    var personaName = typeof getSessionPersonaDisplayName === "function"
+        ? getSessionPersonaDisplayName(sessionState)
+        : getSessionPersonaName(sessionState);
     var pronoun = getSessionPersonaPronoun(sessionState);
     var possessive = getSessionPersonaPossessive(sessionState);
     var subName = sessionSubgoal && sessionSubgoal.name ? sessionSubgoal.name : getSessionCurrentSubgoalName(sessionState);
@@ -316,6 +314,10 @@ function drawSubgoal(subgoalId) {
         sidebarBody().find('#goalFacets').html(
             "Which (if any) of " + personaName + "'s facets did you use to answer the previous question?"
         );
+		renderFacetOptions(sidebarBody().find("#subgoalFacetOptions"), {
+			idPrefix: "subgoalFacet",
+			enableFacetTooltips: false
+		});
 
         // If subgoal questions are already answered
         if (isSetSubgoalQuestions) {
@@ -335,12 +337,7 @@ function drawSubgoal(subgoalId) {
             sidebarBody().find('#no').prop("checked", subgoal.ynm.no);
             sidebarBody().find('#maybe').prop("checked", subgoal.ynm.maybe);
 
-            sidebarBody().find('#A0Q0motiv').prop("checked", subgoal.facetValues.motiv);
-            sidebarBody().find('#A0Q0info').prop("checked", subgoal.facetValues.info);
-            sidebarBody().find('#A0Q0selfE').prop("checked", subgoal.facetValues.selfE);
-            sidebarBody().find('#A0Q0risk').prop("checked", subgoal.facetValues.risk);
-            sidebarBody().find('#A0Q0tinker').prop("checked", subgoal.facetValues.tinker);
-            sidebarBody().find('#A0Q0none').prop("checked", subgoal.facetValues.none);
+            applyFacetSelections(sidebarBody().find("#subgoalFacetOptions"), subgoal.facetValues);
 
             sidebarBody().find('#editSubgoal').show();
 
