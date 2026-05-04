@@ -90,6 +90,9 @@ function updatePronouns() {
 // 	updatePronouns();
 // }
 function addToolTip(toolTipName, folderName) {
+    if (typeof ensureFloatingUiBaseStyles === "function") {
+        ensureFloatingUiBaseStyles();
+    }
     // Remove existing tooltip if present
     if ($("#" + toolTipName + "Div").length) {
         $("#" + toolTipName + "Div").remove();

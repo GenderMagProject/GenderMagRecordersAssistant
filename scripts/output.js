@@ -15,6 +15,116 @@
 var imgList = [];
 var globName = "";
 
+function getSessionStateForExport() {
+    if (typeof getSessionState === "function") {
+        return getSessionState();
+    }
+    return null;
+}
+
+function getExportSubgoalList() {
+    var sessionState = getSessionStateForExport();
+    if (sessionState && Array.isArray(sessionState.subgoals) && sessionState.subgoals.length > 0) {
+        return sessionState.subgoals;
+    }
+    return getSubgoalArrayFromLocal() || [];
+}
+
+function getExportDraftAction() {
+    var sessionState = getSessionStateForExport();
+    if (sessionState && sessionState.draftAction && sessionState.currentStep !== "finished") {
+        return sessionState.draftAction;
+    }
+
+    return null;
+}
+
+function getExportMetadata() {
+    var sessionState = getSessionStateForExport();
+    return {
+        teamName: sessionState && sessionState.teamName ? sessionState.teamName : localStorage.getItem("teamName"),
+        personaType: sessionState && typeof getSessionPersonaType === "function" ? getSessionPersonaType(sessionState) : localStorage.getItem("personaType"),
+        personaName: sessionState && sessionState.persona ? sessionState.persona.name : localStorage.getItem("personaName"),
+        personaPronoun: sessionState && sessionState.persona ? sessionState.persona.pronoun : localStorage.getItem("personaPronoun"),
+        personaPossessive: sessionState && sessionState.persona ? sessionState.persona.possessive : localStorage.getItem("personaPossessive"),
+        personaDescription: sessionState && typeof getSessionPersonaDescription === "function" ? getSessionPersonaDescription(sessionState) : localStorage.getItem("personaDescription"),
+        customFacets: sessionState && typeof getSessionPersonaFacets === "function" ? getSessionPersonaFacets(sessionState) : [],
+        scenarioName: sessionState && sessionState.scenarioName ? sessionState.scenarioName : localStorage.getItem("scenarioName")
+    };
+}
+
+function resetExportArtifacts() {
+    imgList = [];
+    globName = "";
+}
+
+function getActionImageUrl(action) {
+    if (!action) {
+        return "";
+    }
+
+    if (action.imgURL) {
+        return action.imgURL;
+    }
+
+    if (action.screenshot && action.screenshot.imageUrl) {
+        return action.screenshot.imageUrl;
+    }
+
+    return "";
+}
+
+function getExportActionName(action) {
+    var actionName = action && action.name ? String(action.name) : "";
+
+    if (actionName.length > 1 && actionName[0] === "\"" && actionName[actionName.length - 1] === "\"") {
+        return actionName.slice(1, -1);
+    }
+
+    return actionName;
+}
+
+function getFacetLabelsForExport(facetValues) {
+    if (typeof getSelectedFacetLabels === "function") {
+        return getSelectedFacetLabels(facetValues, getSessionStateForExport());
+    }
+
+    return [];
+}
+
+function appendFacetSection(entry, heading, facetValues) {
+    var facetLabels = getFacetLabelsForExport(facetValues);
+
+    entry.push(heading);
+    entry.push("\n");
+
+    facetLabels.forEach(function (label) {
+        entry.push(label);
+        entry.push(true);
+        entry.push("\n");
+    });
+}
+
+function buildCustomFacetMetadataRows(metadata) {
+    var rows = [];
+
+    rows.push(["Persona Pronoun", metadata.personaPronoun || "", "Persona Possessive", metadata.personaPossessive || ""]);
+
+    if (metadata.personaDescription) {
+        rows.push(["Persona Description", sanitizeString(metadata.personaDescription)]);
+    }
+
+    if (metadata.personaType === DIY_PERSONA_TYPE && metadata.customFacets && metadata.customFacets.length > 0) {
+        rows.push(["Custom Facets"]);
+        rows.push(["Facet Name", "Scale", "Description"]);
+        metadata.customFacets.forEach(function (facet) {
+            rows.push([facet.name, facet.scale, sanitizeString(facet.description)]);
+        });
+    }
+
+    return rows;
+}
+
 /*
  * Function: now
  * Gets the date and time in the format hr:min
@@ -55,7 +165,7 @@ function sanitizeString(unsafeWord){
  * so that each subgoal includes the actions associate with it
  */
 function getSubgoalInfo(){
-    var subgoalList= getSubgoalArrayFromLocal();
+    var subgoalList= getExportSubgoalList();
 
     var fullEntry = "";
     for (var j in subgoalList) {
@@ -90,37 +200,7 @@ function getSubgoalInfo(){
         subgoalEntry.push(sanitizeString(currSubgoal.why));
         subgoalEntry.push("\n"); // new row
         subgoalEntry.push("\n"); // new row
-        subgoalEntry.push("Subgoal Facets:");
-        subgoalEntry.push("\n"); // new row
-        if(currSubgoal.facetValues["motiv"] === true){
-            subgoalEntry.push("Motivation");
-            subgoalEntry.push(currSubgoal.facetValues["motiv"]);
-            subgoalEntry.push("\n");
-        }
-
-        if(currSubgoal.facetValues["info"] === true){
-            subgoalEntry.push("Information Processing");
-            subgoalEntry.push(currSubgoal.facetValues["info"]);
-            subgoalEntry.push("\n");
-        }
-
-        if(currSubgoal.facetValues["selfE"] === true){
-            subgoalEntry.push("Computer Self Efficacy");
-            subgoalEntry.push(currSubgoal.facetValues["selfE"]);
-            subgoalEntry.push("\n");
-        }
-
-        if(currSubgoal.facetValues["risk"] === true){
-            subgoalEntry.push("Attitude Toward Risk");
-            subgoalEntry.push(currSubgoal.facetValues["risk"]);
-            subgoalEntry.push("\n");
-        }
-
-        if(currSubgoal.facetValues["tinker"] === true){
-            subgoalEntry.push("Tinkering"); //FIX
-            subgoalEntry.push(currSubgoal.facetValues["tinker"]);
-            subgoalEntry.push("\n"); // new row
-        }
+        appendFacetSection(subgoalEntry, "Subgoal Facets:", currSubgoal.facetValues);
 
 
         var subgoalString = subgoalEntry.join(",");
@@ -139,9 +219,10 @@ function getSubgoalInfo(){
     // Add any uncompleted action
     // The assumption here is that uncompleted actions will always belong to the last subgoal
     // This assumption may need to be updated later on
-    if(localStorage.getItem("inMiddleOfAction")==="true" && !localStorage.getItem("finishedGM")){
+    var draftAction = getExportDraftAction();
+    if(draftAction){
             console.log("middle of action!");
-            var actString = getActionInfo([getVarFromLocal("currPreAction")]);
+            var actString = getActionInfo([draftAction]);
             fullEntry = fullEntry + actString;
     }
     return fullEntry;
@@ -187,37 +268,7 @@ function getActionInfo(actionList, j){
         actionEntry.push("Why?");
         actionEntry.push(sanitizeString(actionList[i].preAction.why));
         actionEntry.push("\n"); //new row
-        actionEntry.push("PreAction Facets:");
-        actionEntry.push("\n"); //new row
-        if(actionList[i].preAction.facetValues["motiv"] === true){
-            actionEntry.push("Motivation");
-            actionEntry.push(actionList[i].preAction.facetValues["motiv"]);
-            actionEntry.push("\n"); //new row
-        }
-
-        if(actionList[i].preAction.facetValues["info"] === true){
-            actionEntry.push("Information Processing");
-            actionEntry.push(actionList[i].preAction.facetValues["info"]);
-            actionEntry.push("\n"); //new row
-        }
-
-        if(actionList[i].preAction.facetValues["self"] === true){
-            actionEntry.push("Computer Self Efficacy");
-            actionEntry.push(actionList[i].preAction.facetValues["self"]);
-            actionEntry.push("\n"); //new row
-        }
-
-        if(actionList[i].preAction.facetValues["risk"] === true){
-            actionEntry.push("Attitude Toward Risk");
-            actionEntry.push(actionList[i].preAction.facetValues["risk"]);
-            actionEntry.push("\n"); //new row
-        }
-
-        if(actionList[i].preAction.facetValues["tinker"] === true){
-            actionEntry.push("Tinkering"); //FIX
-            actionEntry.push(actionList[i].preAction.facetValues["tinker"]);
-            actionEntry.push("\n"); //new row
-        }
+        appendFacetSection(actionEntry, "PreAction Facets:", actionList[i].preAction.facetValues);
 
         actionEntry.push("\n"); //new row
         actionEntry.push("\n"); //new row
@@ -248,45 +299,17 @@ function getActionInfo(actionList, j){
         actionEntry.push(sanitizeString(actionList[i].postAction.why));
         actionEntry.push("\n"); //new
         actionEntry.push("\n"); //new row
-        actionEntry.push("Post action facets:");
-        actionEntry.push("\n"); //new row
-        if(actionList[i].postAction.facetValues["motiv"] === true){
-            actionEntry.push("Motivation");
-            actionEntry.push(actionList[i].postAction.facetValues["motiv"]);
-            actionEntry.push("\n"); //new row
-        }
-
-        if(actionList[i].postAction.facetValues["info"] === true){
-            actionEntry.push("Information Processing");
-            actionEntry.push(actionList[i].postAction.facetValues["info"]);
-            actionEntry.push("\n"); //new row
-        }
-
-        if(actionList[i].postAction.facetValues["self"] === true){
-            actionEntry.push("Computer Self Efficacy");
-            actionEntry.push(actionList[i].postAction.facetValues["self"]);
-            actionEntry.push("\n"); //new row
-        }
-
-        if(actionList[i].postAction.facetValues["risk"] === true){
-            actionEntry.push("Attitude Toward Risk");
-            actionEntry.push(actionList[i].postAction.facetValues["risk"]);
-            actionEntry.push("\n"); //new row
-        }
-
-        if(actionList[i].postAction.facetValues["tinker"] === true){
-            actionEntry.push("Tinkering"); //FIX
-            actionEntry.push(actionList[i].postAction.facetValues["tinker"]);
-            actionEntry.push("\n"); //new row
-        }
+        appendFacetSection(actionEntry, "Post action facets:", actionList[i].postAction.facetValues);
 
         actionEntry.push("\n");
         actionEntry.push("\n");
         actionEntry.push("Action Image Name:");
-        actionEntry.push("S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
+        var exportActionName = getExportActionName(actionList[i]);
+        var exportActionImageName = "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+exportActionName;
+        actionEntry.push(exportActionImageName);
         actionEntry.push("\n");
 
-        downloadURI(actionList[i].imgURL, "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1));
+        downloadURI(getActionImageUrl(actionList[i]), exportActionImageName);
        // var tempName = "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+actionList[i].name.substring(1, actionList[i].name.length-1);
     }
     return actionEntry.join(",");
@@ -301,9 +324,10 @@ function getActionInfo(actionList, j){
 function createCSV() {
 	var csvContent = "";
 	var header1 = "GenderMag Recorder's Assistant Results"
-	var teamName = localStorage.getItem("teamName");
-	var personaName = localStorage.getItem("personaName");
-	var scenarioName = localStorage.getItem("scenarioName");
+	var metadata = getExportMetadata();
+	var teamName = metadata.teamName;
+	var personaName = metadata.personaName;
+	var scenarioName = metadata.scenarioName;
 	var today = new Date();
 	var dd = String(today.getDate()).padStart(2, '0');
 	var mm = today.getMonth();
@@ -311,16 +335,20 @@ function createCSV() {
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	var todayString = months[mm] + " " + dd + " " + yyyy;
 	var DTTPS = [teamName, personaName, scenarioName];
+	resetExportArtifacts();
 	csvContent += header1 + "\n";
     var header2 = ["Date:", todayString, "Time:", now()];
     csvContent += header2 + "\n";
-    var header3 = ["Team", "Persona", "Scenario"];
+	var header3 = ["Team", "Persona", "Scenario"];
     csvContent += header3.join(",") + "\n";
 	console.log(todayString);
 	globName += DTTPS[0];
 	globName += DTTPS[2];
 	globName += "GenderMagSession";
 	csvContent += DTTPS.join(",") + "\n";
+	buildCustomFacetMetadataRows(metadata).forEach(function (row) {
+		csvContent += row.join(",") + "\n";
+	});
 	var fullContent = getSubgoalInfo();
 	csvContent += fullContent;
 
@@ -415,7 +443,7 @@ function downloadURI(uri, name) {
  *
  */
 function parseSubgoalArray(){
-    var userInput= getSubgoalArrayFromLocal();
+    var userInput= getExportSubgoalList();
     var entry = []; //corresponds to a single row in the csv
     var entries = [];
 
@@ -432,10 +460,11 @@ function parseSubgoalArray(){
             currI.facetValues["selfE"],
             currI.facetValues["risk"],
             currI.facetValues["tinker"],
+            sanitizeString(getFacetLabelsForExport(currI.facetValues).join("; ")),
         ];
         for(var i in currI.actions){
             //get new line and to the right part of csv
-            entry.push("\n, , , , , , , , ,");
+            entry.push("\n, , , , , , , , , ,");
 
             //pre action question
             //console.log("action name", currI.actions[i].preAction.why, currI.actions[i].postAction.why)
@@ -446,9 +475,10 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].preAction.ynm["maybe"]);
             entry.push(currI.actions[i].preAction.facetValues["motiv"]);
             entry.push(currI.actions[i].preAction.facetValues["info"]);
-            entry.push(currI.actions[i].preAction.facetValues["self"]);
+            entry.push(currI.actions[i].preAction.facetValues["self"] || currI.actions[i].preAction.facetValues["selfE"]);
             entry.push(currI.actions[i].preAction.facetValues["risk"]);
             entry.push(currI.actions[i].preAction.facetValues["tinker"]);
+            entry.push(sanitizeString(getFacetLabelsForExport(currI.actions[i].preAction.facetValues).join("; ")));
 
             //post action question
             entry.push(sanitizeString(currI.actions[i].postAction.why));
@@ -457,22 +487,16 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].postAction.ynm["maybe"]);
             entry.push(currI.actions[i].postAction.facetValues["motiv"]);
             entry.push(currI.actions[i].postAction.facetValues["info"]);
-            entry.push(currI.actions[i].postAction.facetValues["self"]);
+            entry.push(currI.actions[i].postAction.facetValues["self"] || currI.actions[i].postAction.facetValues["selfE"]);
             entry.push(currI.actions[i].postAction.facetValues["risk"]);
             entry.push(currI.actions[i].postAction.facetValues["tinker"]);
+            entry.push(sanitizeString(getFacetLabelsForExport(currI.actions[i].postAction.facetValues).join("; ")));
 
             //url currently is about 4X as long as longest cell allowed in excel, so instead just downloading image as part of zip
             //entry.push('\"' +currI.actions[i].imgURL+'\"');
 
-            var newName = currI.actions[i].name;
-            if(currI.actions[i].name[0] == "\""){
-                newName = currI.actions[i].name.slice(1)
-            }
-            if(currI.actions[i].name[currI.actions[i].name.length-1] == "\""){
-                newName = newName.slice(0, newName.length-1)
-            }
-
-            downloadURI(currI.actions[i].imgURL, "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
+            var newName = getExportActionName(currI.actions[i]);
+            downloadURI(getActionImageUrl(currI.actions[i]), "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
         }
 
         if (entry.length != 0) {
@@ -490,28 +514,33 @@ function createOldCSV() {
     var entries = parseSubgoalArray();
     var csvContent = "";
     var header1 = ["Date", "Time", "Team", "Persona", "Scenario"];
+    resetExportArtifacts();
     csvContent += header1.join(",") + "\n";
-    var teamName = localStorage.getItem("teamName");
-    var persona5Delayed = localStorage.getItem("personaName");
-    var inAWorld = localStorage.getItem("scenarioName");
+    var metadata = getExportMetadata();
+    var teamName = metadata.teamName;
+    var persona5Delayed = metadata.personaName;
+    var inAWorld = metadata.scenarioName;
     var DTTPS = [today(), now(), teamName, persona5Delayed, inAWorld];
     globName += DTTPS[0];
     globName += DTTPS[2];
     globName += "OldFormatGenderMagSession";
     csvContent += DTTPS.join(",") + "\n";
+    buildCustomFacetMetadataRows(metadata).forEach(function (row) {
+        csvContent += row.join(",") + "\n";
+    });
 
 
     var header2 = ["Subgoal",
         "Will the persona have formed this subgoal as a step to their overall goal?",
         "Yes", "No", "Maybe",
-        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker",
+        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets",
         "Action",
         "Will the persona know what to do at this step?",
         "Yes", "No", "Maybe",
-        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker",
+        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets",
         sanitizeString("If the persona does the right thing, will they know that they did the right thing and is making progress toward their goal?"),
         "Yes", "No", "Maybe",
-        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker"];
+        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets"];
     csvContent += header2.join(",") + "\n";
 
     entries.forEach(function(entry, index){

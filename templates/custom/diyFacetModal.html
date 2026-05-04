@@ -1,0 +1,23 @@
+<div id="diyFacetModalBackdrop" style="position:fixed; inset:0; z-index:100020; background-color:transparent;">
+	<div id="diyFacetModal" style="position:absolute; left:100px; top:100px; width:820px; max-width:calc(100vw - 140px); max-height:calc(100vh - 140px); background-color:white; border:3px solid #4A96AD; border-radius:5px; box-sizing:border-box; color:black; overflow:hidden; display:flex; flex-direction:column;">
+		<div id="diyFacetModalHeader" style="height:25px; background-color:#4A96AD; text-align:center; color:white; line-height:25px; font-weight:bold; flex:0 0 auto;">
+			Custom Persona Facets
+		</div>
+		<div id="diyFacetModalBody" style="padding:12px; max-height:calc(100vh - 190px);">
+			<p style="margin-top:0;">
+				Add the facets you want to use for this DIY persona. You can add up to six facets.
+			</p>
+			<div id="diyFacetValidation" style="color:#7D1935; margin-bottom:8px; min-height:18px;"></div>
+			<div style="display:flex; font-weight:bold; margin-bottom:8px; gap:10px;">
+				<div style="width:22%;">Facet name</div>
+				<div style="width:53%;">Facet description</div>
+				<div style="width:20%;">Scale</div>
+			</div>
+			<div id="diyFacetRows"></div>
+			<div style="margin-top:12px;">
+				<button type="button" id="addDiyFacetRow" style="background-color:#7D1935; color:white; margin-right:8px;">Add more</button>
+				<button type="button" id="saveDiyFacetRows" style="background-color:#7D1935; color:white;">Save and close</button>
+			</div>
+		</div>
+	</div>
+</div>

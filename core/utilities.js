@@ -66,7 +66,7 @@ function appendTemplateToElement(el, file, callback) {
  * Pre: element el must exist
  * Post: Stylesheet will be added to the element.
  */
- function importStylesheet(el, file){
+function importStylesheet(el, file){
 	console.log("4");
 	//console.log("#"+ el);
 	return $("<link>", {
@@ -75,6 +75,90 @@ function appendTemplateToElement(el, file, callback) {
 			href: chrome.runtime.getURL(file),
 			type: "text/css"
 		}).appendTo($(el));	
+}
+
+function ensureFloatingUiBaseStyles() {
+    if (document.getElementById("genderMagFloatingUiBaseStyles")) {
+        return;
+    }
+
+    var style = document.createElement("style");
+    style.id = "genderMagFloatingUiBaseStyles";
+    style.textContent = [
+        "#myToolTip, #imageAnnotation, #diyFacetModal, [id$='ToolTipDiv'] {",
+        "  font-family: Arial, Helvetica, sans-serif;",
+        "  font-size: 14px;",
+        "  line-height: 1.4;",
+        "  color: #000000;",
+        "  box-sizing: border-box;",
+        "  letter-spacing: normal;",
+        "  word-spacing: normal;",
+        "  text-transform: none;",
+        "  text-indent: 0;",
+        "  text-rendering: auto;",
+        "}",
+        "#myToolTip *, #imageAnnotation *, #diyFacetModal *, [id$='ToolTipDiv'] * {",
+        "  box-sizing: border-box;",
+        "  font-family: inherit;",
+        "  line-height: inherit;",
+        "  letter-spacing: normal;",
+        "  word-spacing: normal;",
+        "  text-transform: none;",
+        "  text-indent: 0;",
+        "  max-width: none;",
+        "}",
+        "#myToolTip button, #myToolTip input, #myToolTip textarea, #myToolTip select,",
+        "#imageAnnotation button, #imageAnnotation input, #imageAnnotation textarea, #imageAnnotation select,",
+        "#diyFacetModal button, #diyFacetModal input, #diyFacetModal textarea, #diyFacetModal select,",
+        "[id$='ToolTipDiv'] button, [id$='ToolTipDiv'] input, [id$='ToolTipDiv'] textarea, [id$='ToolTipDiv'] select {",
+        "  font: inherit;",
+        "}",
+        "#myToolTip p, #imageAnnotation p, #diyFacetModal p, [id$='ToolTipDiv'] p {",
+        "  margin: 10px 0;",
+        "  width: auto;",
+        "}",
+        "#myToolTip textarea, #imageAnnotation textarea, #diyFacetModal textarea {",
+        "  resize: vertical;",
+        "}",
+        "#myToolTip canvas, #imageAnnotation canvas {",
+        "  display: block;",
+        "}",
+        "#myToolTip #imagePreviewActions {",
+        "  display: flex;",
+        "  justify-content: flex-end;",
+        "  align-items: center;",
+        "  gap: 10px;",
+        "  flex-wrap: wrap;",
+        "  margin-top: 10px;",
+        "}",
+        "#myToolTip #imagePreviewActions button {",
+        "  float: none !important;",
+        "  width: auto;",
+        "  min-width: 185px;",
+        "  min-height: 25px;",
+        "  padding: 0 14px;",
+        "  white-space: nowrap;",
+        "}",
+        "#myToolTip .ui-draggable-handle, [id$='ToolTipDiv'].ui-draggable-handle {",
+        "  cursor: move;",
+        "}",
+        "#myToolTip button, #imageAnnotation button, #diyFacetModal button, [id$='ToolTipDiv'] button {",
+        "  text-transform: none;",
+        "  letter-spacing: normal;",
+        "}",
+        "#diyFacetModalHeader {",
+        "  cursor: move;",
+        "}",
+        "#diyFacetRows {",
+        "  display: flex;",
+        "  flex-direction: column;",
+        "  gap: 10px;",
+        "}",
+        "#diyFacetModalBody {",
+        "  overflow-y: auto;",
+        "}"
+    ].join("\n");
+    document.head.appendChild(style);
 }
 
 /* Function Name: sidebarBody
@@ -103,5 +187,9 @@ function handleSliderClick() {
 	$("#GenderMagFrame").toggleClass("clicked");
 
 	const isOpen = $("#slideout").hasClass("clicked");
-	isOpen ? setStatusToTrue("sliderIsOpen") : setStatusToFalse("sliderIsOpen");
+	if (typeof updateSessionState === "function") {
+		updateSessionState(function (state) {
+			state.ui.sliderOpen = isOpen;
+		}, "Updated slider open state in sessionState.");
+	}
 }
