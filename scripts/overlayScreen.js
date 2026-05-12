@@ -73,6 +73,76 @@ function getOverlayActionName() {
   return localStorage.getItem("currActionName") || "";
 }
 
+function reportOverlayError(config) {
+  var options = config || {};
+  var technicalError = options.error || options.technicalError || null;
+  var technicalMessage = options.technicalMessage || "";
+
+  if (!technicalMessage && technicalError) {
+    technicalMessage = technicalError.message || String(technicalError);
+  }
+
+  if (typeof reportExtensionError === "function") {
+    reportExtensionError({
+      code: options.code || "OVERLAY_RUNTIME_ERROR",
+      source: "scripts/overlayScreen.js",
+      userMessage: options.userMessage || "Something went wrong while the screenshot preview was being prepared.",
+      technicalMessage: technicalMessage,
+      error: technicalError,
+      details: options.details || {}
+    });
+    return;
+  }
+
+  alert((options.userMessage || "Something went wrong in the extension.") +
+    (technicalMessage ? "\n\nTechnical details:\n" + technicalMessage : ""));
+}
+
+function cleanupOverlayCaptureUi() {
+  var toolTip = document.getElementById("myToolTip");
+  if (toolTip) {
+    toolTip.remove();
+  }
+
+  var annotation = document.getElementById("imageAnnotation");
+  if (annotation) {
+    annotation.remove();
+  }
+
+  var canvasContainer = document.getElementById("genderMagCanvasContainer");
+  if (canvasContainer) {
+    canvasContainer.remove();
+  }
+
+  var nukeStatus = sidebarBody().find("#nukeStatus");
+  if (nukeStatus && nukeStatus.length) {
+    nukeStatus.hide();
+  }
+
+  if (typeof openSlider === "function") {
+    openSlider();
+  }
+}
+
+function handleScreenshotRuntimeFailure(response, details) {
+  var responseDetails = response && response.details ? response.details : {};
+  var mergedDetails = Object.assign({}, responseDetails, details || {});
+
+  reportOverlayError({
+    code: response && response.code ? response.code : "SCREENSHOT_RUNTIME_FAILURE",
+    userMessage: response && response.userMessage
+      ? response.userMessage
+      : "The extension could not capture a screenshot on this page.",
+    technicalMessage: response && response.technicalMessage
+      ? response.technicalMessage
+      : "The screenshot workflow failed.",
+    error: response && (response.error || response.errorMessage) ? (response.error || response.errorMessage) : null,
+    details: mergedDetails
+  });
+
+  cleanupOverlayCaptureUi();
+}
+
 function syncPreviewImageState(imageUrl, context) {
   if (!imageUrl) {
     return;
@@ -197,7 +267,17 @@ function loadToolTipUI(drawingState, onToolTipReady) {
   console.log("ToolTip created in loadToolTipUI:", toolTip);
   appendTemplateToElement(toolTip,"./templates/action.html", (error, data) => {
     if (error) {
-      console.error("Error appending action template:", error);
+      toolTip.remove();
+      reportOverlayError({
+        code: "ACTION_PREVIEW_TEMPLATE_FAILED",
+        userMessage: "The screenshot preview window could not be opened.",
+        technicalMessage: "Failed to append the action preview template in loadToolTipUI.",
+        error: error,
+        details: {
+          template: "./templates/action.html",
+          stage: "loadToolTipUI"
+        }
+      });
     } else {
       //add button functionality
       console.log("Action template appended in loadToolTipUI:", data);
@@ -380,7 +460,16 @@ function setupDrawOnImageLogic(myImg, ratioWidth, ratioHeight, sourceX, sourceY,
     //appendTemplateToElement("body", "/templates/imageAnnotation.html");
     appendTemplateToElement("body", "/templates/imageAnnotation.html",(error) => {
         if (error) {
-          console.error("Error appending image annotation template:",error);
+          reportOverlayError({
+            code: "IMAGE_ANNOTATION_TEMPLATE_FAILED",
+            userMessage: "The screenshot annotation window could not be opened.",
+            technicalMessage: "Failed to append the image annotation template while preparing screenshot annotation.",
+            error: error,
+            details: {
+              template: "/templates/imageAnnotation.html",
+              stage: "setupDrawOnImageLogic"
+            }
+          });
           return;
         }
         console.log("Image Template Appended");
@@ -640,8 +729,36 @@ function onMouseUp(e, canvas, drawingState) {
 
   chrome.runtime.sendMessage({ greeting: "takeScreenShot" }, (response) => {
     if (chrome.runtime.lastError) {
-      console.error("Screenshot error:", chrome.runtime.lastError);
-    } else if (response?.status === "success") {
+      handleScreenshotRuntimeFailure({
+        code: "SCREENSHOT_REQUEST_DISPATCH_FAILED",
+        userMessage: "The extension could not send the screenshot request.",
+        technicalMessage: "chrome.runtime.sendMessage failed while requesting a screenshot.",
+        error: chrome.runtime.lastError
+      }, {
+        stage: "sendMessage"
+      });
+      return;
+    }
+
+    if (!response) {
+      handleScreenshotRuntimeFailure({
+        code: "SCREENSHOT_EMPTY_RESPONSE",
+        userMessage: "The screenshot request did not return a usable response.",
+        technicalMessage: "The screenshot request completed without a response payload."
+      }, {
+        stage: "sendResponse"
+      });
+      return;
+    }
+
+    if (response.status === "error") {
+      handleScreenshotRuntimeFailure(response, {
+        stage: "sendResponse"
+      });
+      return;
+    }
+
+    if (response.status === "success") {
       console.log("Screenshot process initiated.");
     }
   });
@@ -741,7 +858,17 @@ function renderImage(imgURL) {
   //appendTemplateToElement(toolTip ,"./templates/action.html");
   appendTemplateToElement(toolTip, "./templates/action.html", (error, data) => {
     if (error) {
-      console.error("Error appending action template:", error);
+      toolTip.remove();
+      reportOverlayError({
+        code: "ACTION_PREVIEW_TEMPLATE_FAILED",
+        userMessage: "The screenshot preview window could not be opened.",
+        technicalMessage: "Failed to append the action preview template in renderImage.",
+        error: error,
+        details: {
+          template: "./templates/action.html",
+          stage: "renderImage"
+        }
+      });
     } else {
       console.log("Action template appended in renderImage:", data);
       // Add any dependent logic specific to the action template here
@@ -969,10 +1096,16 @@ function renderImage(imgURL) {
             "/templates/imageAnnotation.html",
             (error, data) => {
               if (error) {
-                console.error(
-                  "Error appending image annotation template:",
-                  error
-                );
+                reportOverlayError({
+                  code: "IMAGE_ANNOTATION_TEMPLATE_FAILED",
+                  userMessage: "The screenshot annotation window could not be opened.",
+                  technicalMessage: "Failed to append the image annotation template in renderImage.",
+                  error: error,
+                  details: {
+                    template: "/templates/imageAnnotation.html",
+                    stage: "renderImage"
+                  }
+                });
               } else {
                 console.log(
                   "Image annotation template appended in renderImage:",

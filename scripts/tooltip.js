@@ -119,7 +119,17 @@ function addToolTip(toolTipName, folderName) {
     // Append the template and bind events only after content is loaded
     appendTemplateToElement($("#" + toolTipName + "Div"), 'templates/' + folderName + '/' + toolTipName + '.html', function (error) {
         if (error) {
-            console.error("Error appending tooltip template:", error);
+            reportExtensionError({
+                code: "FACET_TOOLTIP_TEMPLATE_FAILED",
+                source: "scripts/tooltip.js",
+                userMessage: "A persona facet tooltip could not be opened.",
+                technicalMessage: "Failed to append a facet tooltip template.",
+                error: error,
+                details: {
+                    toolTipName: toolTipName,
+                    folderName: folderName
+                }
+            });
             return;
         }
 

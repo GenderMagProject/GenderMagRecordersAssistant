@@ -24,7 +24,16 @@ function preWalkthrough (id, file, onReady, options) {
 	//appendTemplateToElement(el,file);
 	appendTemplateToElement(el, file, function (error) {
 		if (error) {
-			console.error("Error appending template in preWalkthrough:", error);
+			reportExtensionError({
+				code: "PREWALKTHROUGH_TEMPLATE_FAILED",
+				source: "features/prewalkthrough.js",
+				userMessage: "The walkthrough setup screen could not be loaded.",
+				technicalMessage: "Failed to append the pre-walkthrough template.",
+				error: error,
+				details: {
+					template: file
+				}
+			});
 		} else {
 			console.log("Template appended successfully in preWalkthrough.");
 			makeEditable();
@@ -165,7 +174,16 @@ function showDiyFacetModal(onSaveComplete) {
 
 	appendTemplateToElement("body", "/templates/custom/diyFacetModal.html", function (error) {
 		if (error) {
-			console.error("Error loading DIY facet modal:", error);
+			reportExtensionError({
+				code: "DIY_FACET_MODAL_FAILED",
+				source: "features/prewalkthrough.js",
+				userMessage: "The DIY facet editor could not be opened.",
+				technicalMessage: "Failed to load the DIY facet modal template.",
+				error: error,
+				details: {
+					template: "/templates/custom/diyFacetModal.html"
+				}
+			});
 			return;
 		}
 

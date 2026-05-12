@@ -473,15 +473,13 @@ function actionLoop(el){
 		$(el).find("#finalDownload").off("click").on("click", function (event) {
 			event.preventDefault();
 			event.stopPropagation();
-			var scurvy = createCSV();
-			downloadCSV(scurvy, false);
+			generateAndDownloadReport(false, "scripts/action.js:finalDownload");
 		});
 
 		$(el).find("#oldFormat").off("click").on("click", function (event) {
 			event.preventDefault();
 			event.stopPropagation();
-			var scurvy = createOldCSV();
-			downloadCSV(scurvy, true);
+			generateAndDownloadReport(true, "scripts/action.js:oldFormat");
 		});
 
 		//make sure user has downloaded their file before quitting
@@ -529,8 +527,7 @@ function actionLoop(el){
         syncDraftActionState(function (state) {
             state.currentStep = "finished";
         }, "Marked walkthrough as finished in sessionState.");
-		var scurvy = createCSV();
-		downloadCSV(scurvy);
+		generateAndDownloadReport(false, "scripts/action.js:saveAndExit");
 
 		exit();
 	});
@@ -541,7 +538,6 @@ function actionLoop(el){
         syncDraftActionState(function (state) {
             state.currentStep = "finished";
         }, "Marked walkthrough as finished in sessionState.");
-		var scurvy = createCSV();
 		exit();
 	});
 

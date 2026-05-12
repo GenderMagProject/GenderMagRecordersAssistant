@@ -48,11 +48,23 @@ function appendTemplateToElement(el, file, callback) {
             }
         })
         .catch(error => {
-            console.error("Error appending template to element:", error);
-
             // Callback with error
             if (typeof callback === "function") {
                 callback(error, null);
+                return;
+            }
+
+            if (typeof reportExtensionError === "function") {
+                reportExtensionError({
+                    code: "TEMPLATE_APPEND_FAILED",
+                    source: "core/utilities.js",
+                    userMessage: "Part of the GenderMag interface could not be loaded.",
+                    technicalMessage: "appendTemplateToElement failed to load or append a template.",
+                    error: error,
+                    details: {
+                        template: file
+                    }
+                });
             }
         });
 }

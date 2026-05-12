@@ -4,6 +4,65 @@
  * Last Modified: 2025-03-05 by Bhavika Madhwani (madhwanb@oregonstate.edu)
  */
 
+importScripts("errorHandler.js");
+
+function buildBackgroundErrorPayload(code, userMessage, technicalMessage, error, details) {
+    return {
+        code: code,
+        source: "core/background.js",
+        userMessage: userMessage,
+        technicalMessage: technicalMessage,
+        error: error,
+        details: details || {}
+    };
+}
+
+function relayBackgroundError(payload, preferredTabId) {
+    function sendToTab(tabId) {
+        if (!tabId || !chrome.tabs || !chrome.tabs.sendMessage) {
+            return;
+        }
+
+        chrome.tabs.sendMessage(tabId, {
+            type: "gm:extensionError",
+            payload: payload
+        }, function () {
+            if (chrome.runtime && chrome.runtime.lastError) {
+                // No-op: some pages cannot receive extension UI messages.
+            }
+        });
+    }
+
+    if (preferredTabId) {
+        sendToTab(preferredTabId);
+        return;
+    }
+
+    if (!chrome.tabs || !chrome.tabs.query) {
+        return;
+    }
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        if (chrome.runtime && chrome.runtime.lastError) {
+            return;
+        }
+
+        if (tabs && tabs.length > 0) {
+            sendToTab(tabs[0].id);
+        }
+    });
+}
+
+function rejectScreenshotFailure(reject, code, userMessage, technicalMessage, error, details) {
+    reject({
+        code: code,
+        userMessage: userMessage,
+        technicalMessage: technicalMessage,
+        errorMessage: error && error.message ? error.message : String(error || ""),
+        details: details || {}
+    });
+}
+
 function exposeSessionStorageToContentScripts() {
     if (!chrome.storage || !chrome.storage.session || !chrome.storage.session.setAccessLevel) {
         return;
@@ -13,7 +72,12 @@ function exposeSessionStorageToContentScripts() {
         { accessLevel: "TRUSTED_AND_UNTRUSTED_CONTEXTS" },
         () => {
             if (chrome.runtime.lastError) {
-                console.error("Failed to expose session storage to content scripts:", chrome.runtime.lastError);
+                relayBackgroundError(buildBackgroundErrorPayload(
+                    "SESSION_STORAGE_ACCESS_FAILED",
+                    "The extension could not enable session storage for this page. Session recovery may not work correctly until you refresh.",
+                    "Failed to expose session storage to content scripts.",
+                    chrome.runtime.lastError
+                ));
             }
         }
     );
@@ -33,22 +97,37 @@ function takeScreenShot() {
     return new Promise((resolve, reject) => {
         chrome.windows.getCurrent((win) => {
             if (chrome.runtime.lastError) {
-                console.error("Error getting current window:", chrome.runtime.lastError);
-                reject(chrome.runtime.lastError);
+                rejectScreenshotFailure(
+                    reject,
+                    "SCREENSHOT_WINDOW_LOOKUP_FAILED",
+                    "The extension could not determine which window to capture.",
+                    "Failed to get the current window before taking a screenshot.",
+                    chrome.runtime.lastError
+                );
                 return;
             }
 
             chrome.tabs.captureVisibleTab(win.id, { format: "png" }, (imgUrl) => {
                 if (chrome.runtime.lastError) {
-                    console.error("Error capturing tab:", chrome.runtime.lastError);
-                    reject(chrome.runtime.lastError);
+                    rejectScreenshotFailure(
+                        reject,
+                        "SCREENSHOT_CAPTURE_FAILED",
+                        "The extension could not capture a screenshot on this page.",
+                        "Failed to capture the active tab screenshot.",
+                        chrome.runtime.lastError
+                    );
                     return;
                 }
 
                 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                     if (chrome.runtime.lastError) {
-                        console.error("Error querying tabs:", chrome.runtime.lastError);
-                        reject(chrome.runtime.lastError);
+                        rejectScreenshotFailure(
+                            reject,
+                            "SCREENSHOT_TAB_QUERY_FAILED",
+                            "The extension could not locate the active tab after taking the screenshot.",
+                            "Failed to locate the active tab for screenshot rendering.",
+                            chrome.runtime.lastError
+                        );
                         return;
                     }
 
@@ -58,28 +137,56 @@ function takeScreenShot() {
                             {
                                 target: { tabId: tabs[0].id },
                                 func: (imageUrl) => {
-                                    // This code runs in the content script context
                                     if (typeof renderImage === "function") {
                                         renderImage(imageUrl);
-                                    } else {
-                                        console.error("Render function not available.");
+                                        return { rendered: true };
                                     }
+
+                                    return {
+                                        rendered: false,
+                                        reason: "renderImage function was not available in the page context."
+                                    };
                                 },
-                                args: [imgUrl], // Pass the image URL to the content script
+                                args: [imgUrl],
                             },
                             (injectionResults) => {
                                 if (chrome.runtime.lastError) {
-                                    console.error("Error injecting script:", chrome.runtime.lastError);
-                                    reject(chrome.runtime.lastError);
-                                } else {
-                                    console.log("Screenshot logic completed successfully.");
-                                    resolve();
+                                    rejectScreenshotFailure(
+                                        reject,
+                                        "SCREENSHOT_RENDER_INJECTION_FAILED",
+                                        "The extension captured the screenshot but could not open the preview window.",
+                                        "Failed to inject the screenshot preview into the active tab.",
+                                        chrome.runtime.lastError
+                                    );
+                                    return;
                                 }
+
+                                var firstResult = injectionResults && injectionResults[0] && injectionResults[0].result
+                                    ? injectionResults[0].result
+                                    : null;
+
+                                if (!firstResult || firstResult.rendered !== true) {
+                                    rejectScreenshotFailure(
+                                        reject,
+                                        "SCREENSHOT_RENDER_FUNCTION_MISSING",
+                                        "The extension captured the screenshot but could not display the preview window.",
+                                        "The screenshot preview function was not available in the page context.",
+                                        new Error(firstResult && firstResult.reason ? firstResult.reason : "renderImage function missing.")
+                                    );
+                                    return;
+                                }
+
+                                resolve();
                             }
                         );
                     } else {
-                        console.error("No active tabs found.");
-                        reject(new Error("No active tabs found."));
+                        rejectScreenshotFailure(
+                            reject,
+                            "SCREENSHOT_NO_ACTIVE_TAB",
+                            "The extension could not find the active tab to display the screenshot preview.",
+                            "No active tab was found for screenshot rendering.",
+                            new Error("No active tabs found.")
+                        );
                     }
                 });
             });
@@ -105,15 +212,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return false;
     }
 
-    if (request.greeting === "takeScreenShot") {
-        console.log("Received request to take a screenshot");
-
+    if (request && request.greeting === "takeScreenShot") {
         takeScreenShot()
             .then(() => {
                 sendResponse({ status: "success" });
             })
             .catch((error) => {
-                sendResponse({ status: "error", error: error.message });
+                sendResponse({
+                    status: "error",
+                    code: error && error.code ? error.code : "SCREENSHOT_UNKNOWN_FAILURE",
+                    userMessage: error && error.userMessage ? error.userMessage : "The extension could not capture a screenshot on this page.",
+                    technicalMessage: error && error.technicalMessage ? error.technicalMessage : "Screenshot capture failed.",
+                    error: error && error.errorMessage ? error.errorMessage : "",
+                    details: error && error.details ? error.details : {}
+                });
             });
 
         // Return true to indicate asynchronous response
@@ -142,6 +254,16 @@ chrome.action.onClicked.addListener(function (tab) {
                 slideout.style.display = 'none';
                 gmFrame.style.display = 'none';
             }
+        }
+    }, function () {
+        if (chrome.runtime.lastError) {
+            relayBackgroundError(buildBackgroundErrorPayload(
+                "ACTION_PANEL_TOGGLE_FAILED",
+                "The extension could not open on this page.",
+                "Failed to inject the panel toggle code into the active tab.",
+                chrome.runtime.lastError,
+                { tabId: tab && tab.id ? tab.id : null }
+            ), tab && tab.id ? tab.id : null);
         }
     });
 });

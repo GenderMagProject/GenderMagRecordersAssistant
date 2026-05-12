@@ -22,6 +22,7 @@
 				"jquery-ui-1.12.1/external/jquery/jquery.js",
 				"/scripts/jcanvas.min.js",
 				"jquery-ui-1.12.1/jquery-ui.min.js",
+				"/core/errorHandler.js",
 				"scripts/tooltip.js",
 				"/core/utilities.js",
 				"/core/setup.js",

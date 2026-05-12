@@ -130,7 +130,17 @@ function addToSandwich(type, item){
 	}
     
     else {
-        console.log("Something went wrong in addToSandwich OH GOD PANIC", type, item);
+        reportExtensionError({
+            code: "SIDEBAR_ITEM_RENDER_FAILED",
+            source: "ui/uiController.js",
+            userMessage: "The extension could not update the walkthrough sidebar correctly.",
+            technicalMessage: "addToSandwich received an unsupported type or incomplete item.",
+            error: new Error("Unsupported addToSandwich call."),
+            details: {
+                type: type,
+                item: item
+            }
+        });
     }
 	
 }
@@ -365,7 +375,18 @@ function loadActionAnswersTemplate (actionId, subgoalId) {
 		//ToElement(el,file);
 		appendTemplateToElement(el, file, function (error) {
 			if (error) {
-				console.error("Error loading action answers template:", error);
+				reportExtensionError({
+					code: "ACTION_ANSWERS_TEMPLATE_FAILED",
+					source: "ui/uiController.js",
+					userMessage: "The saved action answers could not be loaded.",
+					technicalMessage: "Failed to append the action answers template.",
+					error: error,
+					details: {
+						template: file,
+						actionId: actionId,
+						subgoalId: subgoalId
+					}
+				});
 				return;
 			}
 			console.log("Action answers template appended successfully in loadActionAnswersTemplate.");

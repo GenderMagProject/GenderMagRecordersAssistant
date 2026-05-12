@@ -14,7 +14,17 @@ function saveAndExit(exitType) {
         el.contents().hide();
         appendTemplateToElement(el, '/templates/sliderFinalWarning.html', function (error) {
             if (error) {
-                console.error("Error appending template:", error);
+                reportExtensionError({
+                    code: "SLIDER_EXIT_WARNING_FAILED",
+                    source: "features/walkthroughHandlers.js",
+                    userMessage: "The final exit warning could not be opened.",
+                    technicalMessage: "Failed to append the slider final warning template from the slider flow.",
+                    error: error,
+                    details: {
+                        template: "/templates/sliderFinalWarning.html",
+                        exitType: exitType
+                    }
+                });
                 return;
             }
             console.log("Template '/templates/sliderFinalWarning.html' appended successfully for slider exit.");
@@ -31,7 +41,17 @@ function saveAndExit(exitType) {
         el.contents().hide();
         appendTemplateToElement(el, '/templates/sliderFinalWarning.html', function (error) {
             if (error) {
-                console.error("Error appending template:", error);
+                reportExtensionError({
+                    code: "POPUP_EXIT_WARNING_FAILED",
+                    source: "features/walkthroughHandlers.js",
+                    userMessage: "The final exit warning could not be opened.",
+                    technicalMessage: "Failed to append the slider final warning template from the popup flow.",
+                    error: error,
+                    details: {
+                        template: "/templates/sliderFinalWarning.html",
+                        exitType: exitType
+                    }
+                });
                 return;
             }
             console.log("Template '/templates/sliderFinalWarning.html' appended successfully for non-slider exit.");
@@ -44,8 +64,7 @@ function saveAndExit(exitType) {
     }
 
     // Generate and download the CSV immediately
-    var scurvy = createCSV();
-    downloadCSV(scurvy);
+    generateAndDownloadReport(false, "features/walkthroughHandlers.js:saveAndExit");
 }
 
 /* Function Name: bindSliderFinalButtons
@@ -62,16 +81,14 @@ function bindSliderFinalButtons(el, exitType) {
         event.preventDefault();
         event.stopPropagation();
         console.log("Download button clicked.");
-        var scurvy = createCSV();
-        downloadCSV(scurvy, false);
+        generateAndDownloadReport(false, "features/walkthroughHandlers.js:bindSliderFinalButtons");
     });
 
     $(el).find("#oldFormat").off("click").on("click", function (event) {
         event.preventDefault();
         event.stopPropagation();
         console.log("Old format download button clicked.");
-        var scurvy = createOldCSV();
-        downloadCSV(scurvy, true);
+        generateAndDownloadReport(true, "features/walkthroughHandlers.js:bindSliderFinalButtons");
     });
 
     $(el).find("#sliderYesCheckbox").off("change").on("change", function (event) {
@@ -134,7 +151,17 @@ function justExit(exitType) {
         el.contents().hide();
         appendTemplateToElement(el, '/templates/sliderFinalWarning.html', function (error) {
             if (error) {
-                console.error("Error appending template:", error);
+                reportExtensionError({
+                    code: "JUST_EXIT_WARNING_FAILED",
+                    source: "features/walkthroughHandlers.js",
+                    userMessage: "The final exit warning could not be opened.",
+                    technicalMessage: "Failed to append the slider final warning template from the slider just-exit flow.",
+                    error: error,
+                    details: {
+                        template: "/templates/sliderFinalWarning.html",
+                        exitType: exitType
+                    }
+                });
                 return;
             }
             console.log("Template '/templates/sliderFinalWarning.html' appended successfully for slider exit.");
@@ -151,7 +178,17 @@ function justExit(exitType) {
         el.contents().hide();
         appendTemplateToElement(el, '/templates/sliderFinalWarning.html', function (error) {
             if (error) {
-                console.error("Error appending template:", error);
+                reportExtensionError({
+                    code: "JUST_EXIT_POPUP_WARNING_FAILED",
+                    source: "features/walkthroughHandlers.js",
+                    userMessage: "The final exit warning could not be opened.",
+                    technicalMessage: "Failed to append the slider final warning template from the popup just-exit flow.",
+                    error: error,
+                    details: {
+                        template: "/templates/sliderFinalWarning.html",
+                        exitType: exitType
+                    }
+                });
                 return;
             }
             console.log("Template '/templates/sliderFinalWarning.html' appended successfully for non-slider exit.");
@@ -303,7 +340,17 @@ function drawSubgoal(subgoalId) {
     // Append the template to the element
     appendTemplateToElement(el, file, function (error) {
         if (error) {
-            console.error("Error appending template in drawSubgoal:", error);
+            reportExtensionError({
+                code: "SUBGOAL_TEMPLATE_FAILED",
+                source: "features/walkthroughHandlers.js",
+                userMessage: "The subgoal screen could not be loaded.",
+                technicalMessage: "Failed to append the subgoal template in drawSubgoal.",
+                error: error,
+                details: {
+                    template: file,
+                    subgoalId: subgoalId
+                }
+            });
             return;
         }
 
@@ -415,7 +462,18 @@ function drawAction(actionNum, subgoalId) {
     
     appendTemplateToElement(el, file, function (error) {
         if (error) {
-            console.error("Error appending template in drawAction:", error);
+            reportExtensionError({
+                code: "ACTION_PROMPT_TEMPLATE_FAILED",
+                source: "features/walkthroughHandlers.js",
+                userMessage: "The action prompt could not be loaded.",
+                technicalMessage: "Failed to append the action prompt template in drawAction.",
+                error: error,
+                details: {
+                    template: file,
+                    actionNum: actionNum,
+                    subgoalId: subgoalId
+                }
+            });
             return;
         }
 

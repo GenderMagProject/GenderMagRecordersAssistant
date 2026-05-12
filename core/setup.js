@@ -32,7 +32,16 @@ function init() {
 
             appendTemplateToElement("body", "./templates/slider.html", (error, data) => {
                 if (error) {
-                    console.error("Error appending slider template:", error);
+                    reportExtensionError({
+                        code: "SLIDER_TEMPLATE_LOAD_FAILED",
+                        source: "core/setup.js",
+                        userMessage: "The main GenderMag panel could not be loaded on this page.",
+                        technicalMessage: "Failed to append the slider template during initialization.",
+                        error: error,
+                        details: {
+                            template: "./templates/slider.html"
+                        }
+                    });
                     return;
                 }
 
@@ -63,7 +72,13 @@ function requestCurrentTabContext(onReady) {
 
     chrome.runtime.sendMessage({ type: "gm:getTabContext" }, function (response) {
         if (chrome.runtime.lastError) {
-            console.error("Failed to get current tab context:", chrome.runtime.lastError);
+            reportExtensionError({
+                code: "TAB_CONTEXT_REQUEST_FAILED",
+                source: "core/setup.js",
+                userMessage: "The extension could not identify this tab correctly. Session recovery may not work until you refresh the page.",
+                technicalMessage: "Failed to get current tab context from the background service worker.",
+                error: chrome.runtime.lastError
+            });
         } else if (response && response.tabId !== null && response.tabId !== undefined) {
             currentGenderMagTabId = response.tabId;
         }
@@ -249,7 +264,16 @@ function renderStartScreen(iframeSelector, templatePath) {
 
 	appendTemplateToElement(el, templatePath, function (error) {
 		if (error) {
-			console.error("Error loading body:", error);
+			reportExtensionError({
+				code: "START_SCREEN_TEMPLATE_FAILED",
+				source: "core/setup.js",
+				userMessage: "The GenderMag start screen could not be loaded.",
+				technicalMessage: "Failed to load the start screen template.",
+				error: error,
+				details: {
+					template: templatePath
+				}
+			});
 			return;
 		}
 		console.log("Body appended in setup.");

@@ -187,6 +187,47 @@ function buildPrimaryExportMetadataRows(metadata, todayString, currentTime) {
     return rows;
 }
 
+function reportExportError(options) {
+    var config = options || {};
+
+    if (typeof reportExtensionError === "function") {
+        reportExtensionError({
+            code: config.code || "EXPORT_FAILED",
+            source: "scripts/output.js",
+            userMessage: config.userMessage || "The walkthrough report could not be exported.",
+            technicalMessage: config.technicalMessage || "",
+            error: config.error || null,
+            details: config.details || {}
+        });
+        return;
+    }
+
+    alert(config.userMessage || "The walkthrough report could not be exported.");
+}
+
+function generateAndDownloadReport(old, source) {
+    try {
+        var csvContent = old ? createOldCSV() : createCSV();
+        return downloadCSV(csvContent, old, source);
+    } catch (error) {
+        reportExportError({
+            code: old ? "OLD_FORMAT_REPORT_BUILD_FAILED" : "REPORT_BUILD_FAILED",
+            userMessage: old
+                ? "The old-format walkthrough report could not be prepared."
+                : "The walkthrough report could not be prepared.",
+            technicalMessage: old
+                ? "createOldCSV threw an error while preparing the old-format report."
+                : "createCSV threw an error while preparing the report.",
+            error: error,
+            details: {
+                format: old ? "old" : "standard",
+                triggerSource: source || "unknown"
+            }
+        });
+        return Promise.resolve(false);
+    }
+}
+
 /*
  * Function: now
  * Gets the date and time in the format hr:min
@@ -418,30 +459,75 @@ function createCSV() {
  * Arg: old - boolean 
  * Creates and downloads a zip file containing the date and content of the gendermag session.
  */
-function downloadCSV(csvContent, old) {
-    console.log((csvContent));
-	var zip = new JSZip();
-    var today = new Date();
-    var dd = today.getDate() + 1;
-    var mm = today.getMonth() + 1;
-    var yyyy = today.getFullYear();
-    var hr = today.getHours();
-    var min = today.getMinutes();
-    if(old){
-        zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
-    } else {
-        zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+function downloadCSV(csvContent, old, source) {
+    try {
+	    var zip = new JSZip();
+        var today = new Date();
+        var dd = today.getDate() + 1;
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        var hr = today.getHours();
+        var min = today.getMinutes();
+        if(old){
+            zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+        } else {
+            zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+        }
+	    var img = zip.folder("images");
+	    for(var i in imgList){
+		    img.file(imgList[i].name, imgList[i].uri, {base64: true});
+	    }
+
+	    return zip.generateAsync({type:"blob"}).then(function(content) {
+            try {
+		        saveAs(content, globName+".zip");
+                return true;
+            } catch (error) {
+                reportExportError({
+                    code: old ? "OLD_FORMAT_REPORT_SAVE_FAILED" : "REPORT_SAVE_FAILED",
+                    userMessage: old
+                        ? "The old-format walkthrough ZIP could not be saved."
+                        : "The walkthrough ZIP could not be saved.",
+                    technicalMessage: "saveAs threw an error while saving the generated ZIP file.",
+                    error: error,
+                    details: {
+                        format: old ? "old" : "standard",
+                        triggerSource: source || "unknown",
+                        zipName: globName + ".zip"
+                    }
+                });
+                return false;
+            }
+	    }).catch(function (error) {
+            reportExportError({
+                code: old ? "OLD_FORMAT_REPORT_ZIP_FAILED" : "REPORT_ZIP_FAILED",
+                userMessage: old
+                    ? "The old-format walkthrough ZIP could not be created."
+                    : "The walkthrough ZIP could not be created.",
+                technicalMessage: "JSZip failed while generating the export ZIP.",
+                error: error,
+                details: {
+                    format: old ? "old" : "standard",
+                    triggerSource: source || "unknown"
+                }
+            });
+            return false;
+        });
+    } catch (error) {
+        reportExportError({
+            code: old ? "OLD_FORMAT_REPORT_EXPORT_FAILED" : "REPORT_EXPORT_FAILED",
+            userMessage: old
+                ? "The old-format walkthrough report could not be exported."
+                : "The walkthrough report could not be exported.",
+            technicalMessage: "downloadCSV failed before ZIP generation completed.",
+            error: error,
+            details: {
+                format: old ? "old" : "standard",
+                triggerSource: source || "unknown"
+            }
+        });
+        return Promise.resolve(false);
     }
-	var img = zip.folder("images");
-    console.log(imgList + "HHH");
-	for(var i in imgList){
-	    console.log("IMAGE");
-		img.file(imgList[i].name, imgList[i].uri, {base64: true});
-	}
-	zip.generateAsync({type:"blob"}).then(function(content) {
-    // see FileSaver.js
-		saveAs(content, globName+".zip");
-	});
 }
 
 /*
@@ -465,7 +551,15 @@ function downloadURI(uri, name) {
         //pushes the image to the list of images
         imgList.push(imgObj);
     } catch (error) {
-        console.log(error);
+        reportExportError({
+            code: "REPORT_IMAGE_ATTACH_FAILED",
+            userMessage: "One of the screenshot images could not be added to the export.",
+            technicalMessage: "downloadURI failed while preparing an image for the report ZIP.",
+            error: error,
+            details: {
+                imageName: name
+            }
+        });
     }
 }
 

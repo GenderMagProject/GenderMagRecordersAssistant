@@ -72,7 +72,13 @@ function getLocalSessionStateMirror() {
 		return JSON.parse(rawState);
 	}
 	catch (error) {
-		console.error("Failed to parse local sessionState mirror:", error);
+		reportExtensionError({
+			code: "SESSION_STATE_PARSE_FAILED",
+			source: "core/stateManager.js",
+			userMessage: "Saved walkthrough data could not be read correctly. The extension may continue with a fresh state.",
+			technicalMessage: "Failed to parse the local sessionState mirror.",
+			error: error
+		});
 		return null;
 	}
 }
@@ -614,7 +620,13 @@ function persistSessionStateToExtensionStorage(state, context) {
 
 	chrome.storage.session.set({ [EXTENSION_SESSION_STATE_KEY]: cloneSessionState(state) }, function () {
 		if (chrome.runtime.lastError) {
-			console.error("Failed to persist sessionState to chrome.storage.session:", chrome.runtime.lastError);
+			reportExtensionError({
+				code: "SESSION_STATE_PERSIST_FAILED",
+				source: "core/stateManager.js",
+				userMessage: "The extension could not save session progress to browser storage. Refresh recovery may not work until this is fixed.",
+				technicalMessage: "Failed to persist sessionState to chrome.storage.session.",
+				error: chrome.runtime.lastError
+			});
 			return;
 		}
 		if (context) {
@@ -633,7 +645,13 @@ function clearExtensionSessionStorage(onComplete) {
 
 	chrome.storage.session.remove(EXTENSION_SESSION_STATE_KEY, function () {
 		if (chrome.runtime.lastError) {
-			console.error("Failed to clear extension sessionState:", chrome.runtime.lastError);
+			reportExtensionError({
+				code: "SESSION_STATE_CLEAR_FAILED",
+				source: "core/stateManager.js",
+				userMessage: "The extension could not clear stored session data cleanly.",
+				technicalMessage: "Failed to clear the extension sessionState.",
+				error: chrome.runtime.lastError
+			});
 		}
 		if (typeof onComplete === "function") {
 			onComplete();
@@ -677,7 +695,13 @@ function bootstrapSessionState(onReady) {
 
 	chrome.storage.session.get(EXTENSION_SESSION_STATE_KEY, function (storedState) {
 		if (chrome.runtime.lastError) {
-			console.error("Failed to read sessionState from chrome.storage.session:", chrome.runtime.lastError);
+			reportExtensionError({
+				code: "SESSION_STATE_READ_FAILED",
+				source: "core/stateManager.js",
+				userMessage: "The extension could not read stored session data. Recovery may fall back to a simpler local copy.",
+				technicalMessage: "Failed to read sessionState from chrome.storage.session.",
+				error: chrome.runtime.lastError
+			});
 			var erroredState = localState || createDefaultSessionState();
 			mirrorLegacySessionState(erroredState);
 			if (typeof onReady === "function") {
@@ -987,7 +1011,13 @@ function glueActionsAndSave (action, postAction) {
     //Save it to local
     var currArray = getSubgoalArrayFromLocal();
     if (!currArray) {
-        console.log("Something went wrong, can't find the subgoal array");
+        reportExtensionError({
+            code: "SUBGOAL_ARRAY_MISSING",
+            source: "core/stateManager.js",
+            userMessage: "The extension could not save the completed action because the current subgoal list was missing.",
+            technicalMessage: "glueActionsAndSave could not find the subgoal array before saving an action.",
+            error: new Error("Subgoal array missing during glueActionsAndSave.")
+        });
     }
     else {
         var targetSubgoal = currArray[(currArray.length - 1)];      //The last subgoal added

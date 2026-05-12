@@ -303,7 +303,16 @@ function loadPersona(personaName, options) {
 
 	var persona = personas[personaName];
 	if (!persona) {
-		console.error("Unknown persona:", personaName);
+		reportExtensionError({
+			code: "UNKNOWN_PERSONA_TYPE",
+			source: "features/persona.js",
+			userMessage: "The selected persona could not be loaded.",
+			technicalMessage: "loadPersona was called with an unknown persona type.",
+			error: new Error("Unknown persona: " + personaName),
+			details: {
+				personaName: personaName
+			}
+		});
 		return;
 	}
 
@@ -312,7 +321,17 @@ function loadPersona(personaName, options) {
 
 	appendTemplateToElement(personaContainer, persona.template, function (error) {
 		if (error) {
-			console.error("Error loading " + personaName + " template:", error);
+			reportExtensionError({
+				code: "PERSONA_TEMPLATE_FAILED",
+				source: "features/persona.js",
+				userMessage: "The persona details for this step could not be loaded.",
+				technicalMessage: "Failed to load the selected persona template.",
+				error: error,
+				details: {
+					personaName: personaName,
+					template: persona.template
+				}
+			});
 			return;
 		}
 
