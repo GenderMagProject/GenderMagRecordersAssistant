@@ -420,8 +420,14 @@ function handlePronouns(){
 			var personaPossessive = sidebarBody().find("#possessiveInput").val();
 			var sessionStateBeforeSave = typeof getSessionState === "function" ? getSessionState() : null;
 			var personaType = getSessionPersonaType(sessionStateBeforeSave);
-			var diyPersonaName = sidebarBody().find("#diyPersonaNameInput").val().trim();
-			var diyPersonaDescription = sidebarBody().find("#diyPersonaDescriptionInput").val().trim();
+			var diyPersonaName = "";
+			var diyPersonaDescription = "";
+			if (personaType === DIY_PERSONA_TYPE) {
+				var diyPersonaNameValue = sidebarBody().find("#diyPersonaNameInput").val();
+				var diyPersonaDescriptionValue = sidebarBody().find("#diyPersonaDescriptionInput").val();
+				diyPersonaName = typeof diyPersonaNameValue === "string" ? diyPersonaNameValue.trim() : "";
+				diyPersonaDescription = typeof diyPersonaDescriptionValue === "string" ? diyPersonaDescriptionValue.trim() : "";
+			}
 			if(personaPronoun === "" || personaPossessive === ""){
 				alert("Please enter both the pronoun and possessive adjective.");
 			}

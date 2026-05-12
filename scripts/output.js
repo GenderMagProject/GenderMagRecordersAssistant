@@ -125,13 +125,75 @@ function buildCustomFacetMetadataRows(metadata) {
     return rows;
 }
 
+function formatExportCell(value) {
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return sanitizeString(String(value));
+}
+
+function buildPrimaryExportMetadataRows(metadata, todayString, currentTime) {
+    var rows = [];
+    var hasDiyFacets = metadata.personaType === DIY_PERSONA_TYPE && metadata.customFacets && metadata.customFacets.length > 0;
+
+    rows.push(["Date:", todayString, "Time:", currentTime]);
+    rows.push([]);
+
+    if (metadata.personaDescription) {
+        rows.push([
+            "Team:",
+            formatExportCell(metadata.teamName),
+            "Persona:",
+            formatExportCell(metadata.personaName),
+            "Persona Description:",
+            formatExportCell(metadata.personaDescription)
+        ]);
+    } else {
+        rows.push([
+            "Team:",
+            formatExportCell(metadata.teamName),
+            "Persona:",
+            formatExportCell(metadata.personaName)
+        ]);
+    }
+
+    rows.push([
+        "Persona Pronoun:",
+        formatExportCell(metadata.personaPronoun),
+        "Persona Possessive:",
+        formatExportCell(metadata.personaPossessive)
+    ]);
+    rows.push([]);
+
+    if (hasDiyFacets) {
+        rows.push(["Custom Facets"]);
+        metadata.customFacets.forEach(function (facet) {
+            rows.push([
+                "Facet Name:",
+                formatExportCell(facet.name),
+                "Facet Description:",
+                formatExportCell(facet.description),
+                "Scale:",
+                formatExportCell(facet.scale)
+            ]);
+        });
+        rows.push([]);
+    }
+
+    rows.push(["Scenario:", formatExportCell(metadata.scenarioName)]);
+    rows.push([]);
+
+    return rows;
+}
+
 /*
  * Function: now
  * Gets the date and time in the format hr:min
  */
 function now() {
 	var date = new Date();
-	return date.getHours() + ":" + date.getMinutes();
+	return String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0');
 }
 /*
  * Function: today
@@ -337,16 +399,11 @@ function createCSV() {
 	var DTTPS = [teamName, personaName, scenarioName];
 	resetExportArtifacts();
 	csvContent += header1 + "\n";
-    var header2 = ["Date:", todayString, "Time:", now()];
-    csvContent += header2 + "\n";
-	var header3 = ["Team", "Persona", "Scenario"];
-    csvContent += header3.join(",") + "\n";
 	console.log(todayString);
 	globName += DTTPS[0];
 	globName += DTTPS[2];
 	globName += "GenderMagSession";
-	csvContent += DTTPS.join(",") + "\n";
-	buildCustomFacetMetadataRows(metadata).forEach(function (row) {
+	buildPrimaryExportMetadataRows(metadata, todayString, now()).forEach(function (row) {
 		csvContent += row.join(",") + "\n";
 	});
 	var fullContent = getSubgoalInfo();
