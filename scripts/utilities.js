@@ -122,12 +122,11 @@
 // function importStylesheet(el, file){
 // 	console.log("4");
 // 	//console.log("#"+ el);
-// 	return $("<link>", {
-// 			rel:"stylesheet",
-// 			//href: chrome.extension.getURL(file),
-// 			href: chrome.runtime.getURL(file),
-// 			type: "text/css"
-// 		}).appendTo($(el));	
+//     const link = document.createElement("link");
+//     link.rel = "stylesheet";
+//     link.href = chrome.runtime.getURL(file);
+//     link.type = "text/css";
+//     el.appendChild(link);
 // }
 
 // /* Function: addOnClicks
@@ -168,9 +167,11 @@
 //  * Params: None
 //  */
 // function openSlider(){
-// 	if(!$("#slideout").hasClass("clicked")){
-// 		$("#slideout").addClass("clicked");
-// 		$("#GenderMagFrame").addClass("clicked");
+//     const $slideout = $("#slideout");
+//     const $genderMagFrame = $("#GenderMagFrame");
+// 	if(!$slideout.hasClass("clicked")){
+// 		$slideout.addClass("clicked");
+// 		$genderMagFrame.addClass("clicked");
 //         setStatusToTrue("sliderIsOpen");
 // 	}
 // }
@@ -181,9 +182,11 @@
 //  * Params: None
 //  */
 // function closeSlider(){
-// 	if($("#slideout").hasClass("clicked")){
-// 		$("#slideout").toggleClass("clicked");
-// 		$("#GenderMagFrame").toggleClass("clicked");
+//     const $slideout = $("#slideout");
+//     const $genderMagFrame = $("#GenderMagFrame");
+// 	if($slideout.hasClass("clicked")){
+// 		$slideout.removeClass("clicked");
+// 		$genderMagFrame.removeClass("clicked");
 //         setStatusToFalse("sliderIsOpen");
 // 	}
 // }
