@@ -249,7 +249,8 @@ function getSubgoalInfo(){
         subgoalEntry.push("Subgoal " + (parseInt(j)+1));
         subgoalEntry.push(sanitizeString(currSubgoal.name));
         subgoalEntry.push("\n"); // new row
-        subgoalEntry.push("Will the persona have formed this subgoal as a step to their overall goal?");
+        subgoalEntry.push("Will the persona have formed this subgoal as a "+
+                          "step to their overall goal?");
         subgoalEntry.push("\n"); // new row
       // subgoalEntry.push(currSubgoal.ynm["yes"].localeCompare("TRUE"));
          if(currSubgoal.ynm["yes"] === true){
@@ -341,7 +342,8 @@ function getActionInfo(actionList, j){
         actionEntry.push("Why?");
         actionEntry.push(sanitizeString(actionList[i].preAction.why));
         actionEntry.push("\n"); //new row
-        appendFacetSection(actionEntry, "PreAction Facets:", actionList[i].preAction.facetValues);
+        appendFacetSection(actionEntry, "PreAction Facets:",
+                           actionList[i].preAction.facetValues);
 
         actionEntry.push("\n"); //new row
         actionEntry.push("\n"); //new row
@@ -372,13 +374,16 @@ function getActionInfo(actionList, j){
         actionEntry.push(sanitizeString(actionList[i].postAction.why));
         actionEntry.push("\n"); //new
         actionEntry.push("\n"); //new row
-        appendFacetSection(actionEntry, "Post action facets:", actionList[i].postAction.facetValues);
+        appendFacetSection(actionEntry, "Post action facets:",
+                           actionList[i].postAction.facetValues);
 
         actionEntry.push("\n");
         actionEntry.push("\n");
         actionEntry.push("Action Image Name:");
         var exportActionName = getExportActionName(actionList[i]);
-        var exportActionImageName = "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+exportActionName;
+        var exportActionImageName = "S"+(1 + parseInt(j))+"A"+
+                                    (parseInt(actionList[i].id))+"_"+
+                                    exportActionName;
         actionEntry.push(exportActionImageName);
         actionEntry.push("\n");
 
