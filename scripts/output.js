@@ -25,8 +25,8 @@ function getSessionStateForExport() {
 
 function getExportSubgoalList() {
     var sessionState = getSessionStateForExport();
-    if (sessionState && Array.isArray(sessionState.subgoals)
-        && sessionState.subgoals.length > 0) {
+    if (sessionState && Array.isArray(sessionState.subgoals) &&
+        sessionState.subgoals.length > 0) {
         return sessionState.subgoals;
     }
     return getSubgoalArrayFromLocal() || [];
@@ -34,8 +34,8 @@ function getExportSubgoalList() {
 
 function getExportDraftAction() {
     var sessionState = getSessionStateForExport();
-    if (sessionState && sessionState.draftAction
-        && sessionState.currentStep !== "finished") {
+    if (sessionState &&
+        sessionState.draftAction && sessionState.currentStep !== "finished") {
         return sessionState.draftAction;
     }
 
@@ -80,8 +80,8 @@ function getActionImageUrl(action) {
 function getExportActionName(action) {
     var actionName = action && action.name ? String(action.name) : "";
 
-    if (actionName.length > 1 && actionName[0] === "\""
-        && actionName[actionName.length - 1] === "\"") {
+    if (actionName.length > 1 && actionName[0] === "\"" &&
+        actionName[actionName.length - 1] === "\"") {
         return actionName.slice(1, -1);
     }
 
