@@ -113,20 +113,21 @@ function buildCustomFacetMetadataRows(metadata) {
     var rows = [];
 
     rows.push(["Persona Pronoun", metadata.personaPronoun || "",
-        "Persona Possessive", metadata.personaPossessive || ""]);
+               "Persona Possessive", metadata.personaPossessive || ""]);
 
     if (metadata.personaDescription) {
         rows.push(["Persona Description",
-            sanitizeString(metadata.personaDescription)]);
+                   sanitizeString(metadata.personaDescription)]);
     }
 
-    if (metadata.personaType === DIY_PERSONA_TYPE && metadata.customFacets
-        && metadata.customFacets.length > 0) {
+    if (metadata.personaType === DIY_PERSONA_TYPE && metadata.customFacets &&
+        metadata.customFacets.length > 0) {
         rows.push(["Custom Facets"]);
         rows.push(["Facet Name", "Scale", "Description"]);
         metadata.customFacets.forEach(function (facet) {
-            rows.push([facet.name, facet.scale,
-                sanitizeString(facet.description)]);
+            rows.push(
+                [facet.name, facet.scale, sanitizeString(facet.description)]
+            );
         });
     }
 
@@ -143,8 +144,8 @@ function formatExportCell(value) {
 
 function buildPrimaryExportMetadataRows(metadata, todayString, currentTime) {
     var rows = [];
-    var hasDiyFacets = metadata.personaType === DIY_PERSONA_TYPE
-        && metadata.customFacets && metadata.customFacets.length > 0;
+    var hasDiyFacets = metadata.personaType === DIY_PERSONA_TYPE &&
+        metadata.customFacets && metadata.customFacets.length > 0;
 
     rows.push(["Date:", todayString, "Time:", currentTime]);
     rows.push([]);
