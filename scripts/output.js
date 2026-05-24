@@ -203,7 +203,8 @@ function buildPrimaryExportMetadataRows(metadata, todayString, currentTime) {
  */
 function now() {
 	var date = new Date();
-	return String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0');
+	return String(date.getHours()).padStart(2, '0') +
+                  ":" + String(date.getMinutes()).padStart(2, '0');
 }
 /*
  * Function: today
@@ -233,8 +234,8 @@ function sanitizeString(unsafeWord){
 /*
  * Function: getSubgoalInfo
  * Ret: string (ready for csv)
- * Formats the subgoal information for the csv file. Also makes call to getActionInfo
- * so that each subgoal includes the actions associate with it
+ * Formats the subgoal information for the csv file. Also makes call to
+ * getActionInfo so that each subgoal includes the actions associate with it
  */
 function getSubgoalInfo(){
     var subgoalList= getExportSubgoalList();
