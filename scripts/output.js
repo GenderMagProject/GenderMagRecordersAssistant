@@ -410,7 +410,10 @@ function createCSV() {
 	var dd = String(today.getDate()).padStart(2, '0');
 	var mm = today.getMonth();
 	var yyyy = today.getFullYear();
-    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
 	var todayString = months[mm] + " " + dd + " " + yyyy;
 	var DTTPS = [teamName, personaName, scenarioName];
 	resetExportArtifacts();
@@ -419,9 +422,9 @@ function createCSV() {
 	globName += DTTPS[0];
 	globName += DTTPS[2];
 	globName += "GenderMagSession";
-	buildPrimaryExportMetadataRows(metadata, todayString, now()).forEach(function (row) {
-		csvContent += row.join(",") + "\n";
-	});
+	buildPrimaryExportMetadataRows(metadata, todayString, now()).forEach(
+        function (row) { csvContent += row.join(",") + "\n"; }
+    );
 	var fullContent = getSubgoalInfo();
 	csvContent += fullContent;
 
@@ -444,9 +447,11 @@ function downloadCSV(csvContent, old) {
     var hr = today.getHours();
     var min = today.getMinutes();
     if(old){
-        zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+        zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy +
+                 "-at-" + hr + "-" + min + ".csv", csvContent);
     } else {
-        zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+        zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" +
+                 hr + "-" + min + ".csv", csvContent);
     }
 	var img = zip.folder("images");
     console.log(imgList + "HHH");
@@ -468,7 +473,8 @@ function downloadURI(uri, name) {
         //checks to see if the uri or name is null
         if (uri === null || name === null) throw "The uri or name for your image is null.";
         var safeName = name;
-        //uri must be converted to string in order to perform slice function to shorten the uri
+        //uri must be converted to string in order to perform slice function to 
+        //shorten the uri
         toString(uri);
         var safeUri = uri.slice(22);
         console.log("in image", safeUri);
@@ -533,7 +539,9 @@ function parseSubgoalArray(){
             currI.facetValues["selfE"],
             currI.facetValues["risk"],
             currI.facetValues["tinker"],
-            sanitizeString(getFacetLabelsForExport(currI.facetValues).join("; ")),
+            sanitizeString(
+                getFacetLabelsForExport(currI.facetValues).join("; ")
+            ),
         ];
         for(var i in currI.actions){
             //get new line and to the right part of csv
@@ -548,10 +556,13 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].preAction.ynm["maybe"]);
             entry.push(currI.actions[i].preAction.facetValues["motiv"]);
             entry.push(currI.actions[i].preAction.facetValues["info"]);
-            entry.push(currI.actions[i].preAction.facetValues["self"] || currI.actions[i].preAction.facetValues["selfE"]);
+            entry.push(currI.actions[i].preAction.facetValues["self"] || 
+                currI.actions[i].preAction.facetValues["selfE"]);
             entry.push(currI.actions[i].preAction.facetValues["risk"]);
             entry.push(currI.actions[i].preAction.facetValues["tinker"]);
-            entry.push(sanitizeString(getFacetLabelsForExport(currI.actions[i].preAction.facetValues).join("; ")));
+            entry.push(sanitizeString(
+                getFacetLabelsForExport(currI.actions[i].preAction.facetValues).join("; ")
+            ));
 
             //post action question
             entry.push(sanitizeString(currI.actions[i].postAction.why));
@@ -560,16 +571,21 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].postAction.ynm["maybe"]);
             entry.push(currI.actions[i].postAction.facetValues["motiv"]);
             entry.push(currI.actions[i].postAction.facetValues["info"]);
-            entry.push(currI.actions[i].postAction.facetValues["self"] || currI.actions[i].postAction.facetValues["selfE"]);
+            entry.push(currI.actions[i].postAction.facetValues["self"] || 
+                currI.actions[i].postAction.facetValues["selfE"]);
             entry.push(currI.actions[i].postAction.facetValues["risk"]);
             entry.push(currI.actions[i].postAction.facetValues["tinker"]);
             entry.push(sanitizeString(getFacetLabelsForExport(currI.actions[i].postAction.facetValues).join("; ")));
 
-            //url currently is about 4X as long as longest cell allowed in excel, so instead just downloading image as part of zip
+            //url currently is about 4X as long as longest cell allowed in excel
+            //so instead just downloading image as part of zip
             //entry.push('\"' +currI.actions[i].imgURL+'\"');
 
             var newName = getExportActionName(currI.actions[i]);
-            downloadURI(getActionImageUrl(currI.actions[i]), "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
+            downloadURI(
+                getActionImageUrl(currI.actions[i]),
+                "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName
+            );
         }
 
         if (entry.length != 0) {
@@ -603,7 +619,8 @@ function createOldCSV() {
     });
 
 
-    var header2 = ["Subgoal",
+    var header2 = [
+        "Subgoal",
         "Will the persona have formed this subgoal as a step to their overall goal?",
         "Yes", "No", "Maybe",
         "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets",
@@ -611,9 +628,14 @@ function createOldCSV() {
         "Will the persona know what to do at this step?",
         "Yes", "No", "Maybe",
         "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets",
-        sanitizeString("If the persona does the right thing, will they know that they did the right thing and is making progress toward their goal?"),
+        sanitizeString(
+            "If the persona does the right thing, will they know that they" +
+            " did the right thing and is making progress toward their goal?"
+        ),
         "Yes", "No", "Maybe",
-        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets"];
+        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker",
+        "Selected Facets"
+    ];
     csvContent += header2.join(",") + "\n";
 
     entries.forEach(function(entry, index){
