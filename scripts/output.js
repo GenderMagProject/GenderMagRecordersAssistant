@@ -34,8 +34,8 @@ function getExportSubgoalList() {
 
 function getExportDraftAction() {
     var sessionState = getSessionStateForExport();
-    if (sessionState &&
-        sessionState.draftAction && sessionState.currentStep !== "finished") {
+    if (sessionState && sessionState.draftAction &&
+        sessionState.currentStep !== "finished") {
         return sessionState.draftAction;
     }
 
@@ -125,9 +125,8 @@ function buildCustomFacetMetadataRows(metadata) {
         rows.push(["Custom Facets"]);
         rows.push(["Facet Name", "Scale", "Description"]);
         metadata.customFacets.forEach(function (facet) {
-            rows.push(
-                [facet.name, facet.scale, sanitizeString(facet.description)]
-            );
+            rows.push([facet.name, facet.scale,
+                       sanitizeString(facet.description)]);
         });
     }
 
@@ -410,10 +409,9 @@ function createCSV() {
 	var dd = String(today.getDate()).padStart(2, '0');
 	var mm = today.getMonth();
 	var yyyy = today.getFullYear();
-    var months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
+    var months = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November",
+                  "December"];
 	var todayString = months[mm] + " " + dd + " " + yyyy;
 	var DTTPS = [teamName, personaName, scenarioName];
 	resetExportArtifacts();
@@ -557,7 +555,7 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].preAction.facetValues["motiv"]);
             entry.push(currI.actions[i].preAction.facetValues["info"]);
             entry.push(currI.actions[i].preAction.facetValues["self"] || 
-                currI.actions[i].preAction.facetValues["selfE"]);
+                       currI.actions[i].preAction.facetValues["selfE"]);
             entry.push(currI.actions[i].preAction.facetValues["risk"]);
             entry.push(currI.actions[i].preAction.facetValues["tinker"]);
             entry.push(sanitizeString(
@@ -572,7 +570,7 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].postAction.facetValues["motiv"]);
             entry.push(currI.actions[i].postAction.facetValues["info"]);
             entry.push(currI.actions[i].postAction.facetValues["self"] || 
-                currI.actions[i].postAction.facetValues["selfE"]);
+                       currI.actions[i].postAction.facetValues["selfE"]);
             entry.push(currI.actions[i].postAction.facetValues["risk"]);
             entry.push(currI.actions[i].postAction.facetValues["tinker"]);
             entry.push(sanitizeString(getFacetLabelsForExport(currI.actions[i].postAction.facetValues).join("; ")));
@@ -582,10 +580,8 @@ function parseSubgoalArray(){
             //entry.push('\"' +currI.actions[i].imgURL+'\"');
 
             var newName = getExportActionName(currI.actions[i]);
-            downloadURI(
-                getActionImageUrl(currI.actions[i]),
-                "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName
-            );
+            downloadURI(getActionImageUrl(currI.actions[i]),
+                        "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
         }
 
         if (entry.length != 0) {
