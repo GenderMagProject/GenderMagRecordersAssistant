@@ -248,8 +248,7 @@ function getSubgoalInfo(){
         subgoalEntry.push("Subgoal " + (parseInt(j)+1));
         subgoalEntry.push(sanitizeString(currSubgoal.name));
         subgoalEntry.push("\n"); // new row
-        subgoalEntry.push("Will the persona have formed this subgoal as a "+
-                          "step to their overall goal?");
+        subgoalEntry.push("Will the persona have formed this subgoal as a step to their overall goal?");
         subgoalEntry.push("\n"); // new row
       // subgoalEntry.push(currSubgoal.ynm["yes"].localeCompare("TRUE"));
          if(currSubgoal.ynm["yes"] === true){
@@ -347,9 +346,7 @@ function getActionInfo(actionList, j){
         actionEntry.push("\n"); //new row
         actionEntry.push("\n"); //new row
         //post action question
-        actionEntry.push(sanitizeString("If the persona does the right thing, will" +
-            " they know that they did the right thing and is making " +
-            "progress toward their goal?"));
+        actionEntry.push(sanitizeString("If the persona does the right thing, will they know that they did the right thing and is making progress toward their goal?"));
         actionEntry.push("\n"); //new row
         if(actionList[i].postAction.ynm["yes"] === true){
             actionEntry.push("Yes");
@@ -624,10 +621,7 @@ function createOldCSV() {
         "Will the persona know what to do at this step?",
         "Yes", "No", "Maybe",
         "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets",
-        sanitizeString(
-            "If the persona does the right thing, will they know that they" +
-            " did the right thing and is making progress toward their goal?"
-        ),
+        sanitizeString("If the persona does the right thing, will they know that they did the right thing and is making progress toward their goal?"),
         "Yes", "No", "Maybe",
         "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker",
         "Selected Facets"
