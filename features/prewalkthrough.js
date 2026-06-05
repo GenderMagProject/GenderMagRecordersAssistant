@@ -581,8 +581,6 @@ function handleSubgoal(){
  *			scenario -> scenarioName
  */
 
-// TODO: Refactoring. This function might benefit from being broken up into smaller functions, and/or adding a way
-// to periodically update variables like length of subgoalArray.
 function handlePreWalkthroughInfo (options) {
 	var walkthroughOptions = options || {};
 	
