@@ -1,7 +1,8 @@
 /*
  * Filename : output.js
- * Functions : now, today, sanitizeString, getSubgoalInfo, getActionInfo, createCSV,
- * downloadCSV, downloadURI, create_zip, parseSubgoalArray, createOldCSV
+ * Functions : now, today, sanitizeString, getSubgoalInfo, getActionInfo,
+ *             createCSV, downloadCSV, downloadURI, create_zip,
+ *             parseSubgoalArray, createOldCSV
  * Description : Generates the data that will be in the output.csv file 
 */
 
@@ -24,7 +25,8 @@ function getSessionStateForExport() {
 
 function getExportSubgoalList() {
     var sessionState = getSessionStateForExport();
-    if (sessionState && Array.isArray(sessionState.subgoals) && sessionState.subgoals.length > 0) {
+    if (sessionState && Array.isArray(sessionState.subgoals) &&
+        sessionState.subgoals.length > 0) {
         return sessionState.subgoals;
     }
     return getSubgoalArrayFromLocal() || [];
@@ -32,7 +34,8 @@ function getExportSubgoalList() {
 
 function getExportDraftAction() {
     var sessionState = getSessionStateForExport();
-    if (sessionState && sessionState.draftAction && sessionState.currentStep !== "finished") {
+    if (sessionState && sessionState.draftAction &&
+        sessionState.currentStep !== "finished") {
         return sessionState.draftAction;
     }
 
@@ -77,7 +80,8 @@ function getActionImageUrl(action) {
 function getExportActionName(action) {
     var actionName = action && action.name ? String(action.name) : "";
 
-    if (actionName.length > 1 && actionName[0] === "\"" && actionName[actionName.length - 1] === "\"") {
+    if (actionName.length > 1 && actionName[0] === "\"" &&
+        actionName[actionName.length - 1] === "\"") {
         return actionName.slice(1, -1);
     }
 
@@ -108,17 +112,21 @@ function appendFacetSection(entry, heading, facetValues) {
 function buildCustomFacetMetadataRows(metadata) {
     var rows = [];
 
-    rows.push(["Persona Pronoun", metadata.personaPronoun || "", "Persona Possessive", metadata.personaPossessive || ""]);
+    rows.push(["Persona Pronoun", metadata.personaPronoun || "",
+               "Persona Possessive", metadata.personaPossessive || ""]);
 
     if (metadata.personaDescription) {
-        rows.push(["Persona Description", sanitizeString(metadata.personaDescription)]);
+        rows.push(["Persona Description",
+                   sanitizeString(metadata.personaDescription)]);
     }
 
-    if (metadata.personaType === DIY_PERSONA_TYPE && metadata.customFacets && metadata.customFacets.length > 0) {
+    if (metadata.personaType === DIY_PERSONA_TYPE && metadata.customFacets &&
+        metadata.customFacets.length > 0) {
         rows.push(["Custom Facets"]);
         rows.push(["Facet Name", "Scale", "Description"]);
         metadata.customFacets.forEach(function (facet) {
-            rows.push([facet.name, facet.scale, sanitizeString(facet.description)]);
+            rows.push([facet.name, facet.scale,
+                       sanitizeString(facet.description)]);
         });
     }
 
@@ -135,7 +143,8 @@ function formatExportCell(value) {
 
 function buildPrimaryExportMetadataRows(metadata, todayString, currentTime) {
     var rows = [];
-    var hasDiyFacets = metadata.personaType === DIY_PERSONA_TYPE && metadata.customFacets && metadata.customFacets.length > 0;
+    var hasDiyFacets = metadata.personaType === DIY_PERSONA_TYPE &&
+        metadata.customFacets && metadata.customFacets.length > 0;
 
     rows.push(["Date:", todayString, "Time:", currentTime]);
     rows.push([]);
@@ -193,7 +202,8 @@ function buildPrimaryExportMetadataRows(metadata, todayString, currentTime) {
  */
 function now() {
 	var date = new Date();
-	return String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0');
+	return String(date.getHours()).padStart(2, '0') +
+                  ":" + String(date.getMinutes()).padStart(2, '0');
 }
 /*
  * Function: today
@@ -223,8 +233,8 @@ function sanitizeString(unsafeWord){
 /*
  * Function: getSubgoalInfo
  * Ret: string (ready for csv)
- * Formats the subgoal information for the csv file. Also makes call to getActionInfo
- * so that each subgoal includes the actions associate with it
+ * Formats the subgoal information for the csv file. Also makes call to
+ * getActionInfo so that each subgoal includes the actions associate with it
  */
 function getSubgoalInfo(){
     var subgoalList= getExportSubgoalList();
@@ -330,14 +340,13 @@ function getActionInfo(actionList, j){
         actionEntry.push("Why?");
         actionEntry.push(sanitizeString(actionList[i].preAction.why));
         actionEntry.push("\n"); //new row
-        appendFacetSection(actionEntry, "PreAction Facets:", actionList[i].preAction.facetValues);
+        appendFacetSection(actionEntry, "PreAction Facets:",
+                           actionList[i].preAction.facetValues);
 
         actionEntry.push("\n"); //new row
         actionEntry.push("\n"); //new row
         //post action question
-        actionEntry.push(sanitizeString("If the persona does the right thing, will" +
-            " they know that they did the right thing and is making " +
-            "progress toward their goal?"));
+        actionEntry.push(sanitizeString("If the persona does the right thing, will they know that they did the right thing and is making progress toward their goal?"));
         actionEntry.push("\n"); //new row
         if(actionList[i].postAction.ynm["yes"] === true){
             actionEntry.push("Yes");
@@ -361,13 +370,16 @@ function getActionInfo(actionList, j){
         actionEntry.push(sanitizeString(actionList[i].postAction.why));
         actionEntry.push("\n"); //new
         actionEntry.push("\n"); //new row
-        appendFacetSection(actionEntry, "Post action facets:", actionList[i].postAction.facetValues);
+        appendFacetSection(actionEntry, "Post action facets:",
+                           actionList[i].postAction.facetValues);
 
         actionEntry.push("\n");
         actionEntry.push("\n");
         actionEntry.push("Action Image Name:");
         var exportActionName = getExportActionName(actionList[i]);
-        var exportActionImageName = "S"+(1 + parseInt(j))+"A"+(parseInt(actionList[i].id))+"_"+exportActionName;
+        var exportActionImageName = "S"+(1 + parseInt(j))+"A"+
+                                    (parseInt(actionList[i].id))+"_"+
+                                    exportActionName;
         actionEntry.push(exportActionImageName);
         actionEntry.push("\n");
 
@@ -394,7 +406,9 @@ function createCSV() {
 	var dd = String(today.getDate()).padStart(2, '0');
 	var mm = today.getMonth();
 	var yyyy = today.getFullYear();
-    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var months = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November",
+                  "December"];
 	var todayString = months[mm] + " " + dd + " " + yyyy;
 	var DTTPS = [teamName, personaName, scenarioName];
 	resetExportArtifacts();
@@ -403,9 +417,9 @@ function createCSV() {
 	globName += DTTPS[0];
 	globName += DTTPS[2];
 	globName += "GenderMagSession";
-	buildPrimaryExportMetadataRows(metadata, todayString, now()).forEach(function (row) {
-		csvContent += row.join(",") + "\n";
-	});
+	buildPrimaryExportMetadataRows(metadata, todayString, now()).forEach(
+        function (row) { csvContent += row.join(",") + "\n"; }
+    );
 	var fullContent = getSubgoalInfo();
 	csvContent += fullContent;
 
@@ -428,9 +442,11 @@ function downloadCSV(csvContent, old) {
     var hr = today.getHours();
     var min = today.getMinutes();
     if(old){
-        zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+        zip.file("OldFormatGenderMagSession-on-" + mm + "-" + dd + "-" + yyyy +
+                 "-at-" + hr + "-" + min + ".csv", csvContent);
     } else {
-        zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" + hr + "-" + min + ".csv", csvContent);
+        zip.file("GenderMagSession-on-" + mm + "-" + dd + "-" + yyyy + "-at-" +
+                 hr + "-" + min + ".csv", csvContent);
     }
 	var img = zip.folder("images");
     console.log(imgList + "HHH");
@@ -452,7 +468,8 @@ function downloadURI(uri, name) {
         //checks to see if the uri or name is null
         if (uri === null || name === null) throw "The uri or name for your image is null.";
         var safeName = name;
-        //uri must be converted to string in order to perform slice function to shorten the uri
+        //uri must be converted to string in order to perform slice function to 
+        //shorten the uri
         toString(uri);
         var safeUri = uri.slice(22);
         console.log("in image", safeUri);
@@ -517,7 +534,9 @@ function parseSubgoalArray(){
             currI.facetValues["selfE"],
             currI.facetValues["risk"],
             currI.facetValues["tinker"],
-            sanitizeString(getFacetLabelsForExport(currI.facetValues).join("; ")),
+            sanitizeString(
+                getFacetLabelsForExport(currI.facetValues).join("; ")
+            ),
         ];
         for(var i in currI.actions){
             //get new line and to the right part of csv
@@ -532,10 +551,13 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].preAction.ynm["maybe"]);
             entry.push(currI.actions[i].preAction.facetValues["motiv"]);
             entry.push(currI.actions[i].preAction.facetValues["info"]);
-            entry.push(currI.actions[i].preAction.facetValues["self"] || currI.actions[i].preAction.facetValues["selfE"]);
+            entry.push(currI.actions[i].preAction.facetValues["self"] || 
+                       currI.actions[i].preAction.facetValues["selfE"]);
             entry.push(currI.actions[i].preAction.facetValues["risk"]);
             entry.push(currI.actions[i].preAction.facetValues["tinker"]);
-            entry.push(sanitizeString(getFacetLabelsForExport(currI.actions[i].preAction.facetValues).join("; ")));
+            entry.push(sanitizeString(
+                getFacetLabelsForExport(currI.actions[i].preAction.facetValues).join("; ")
+            ));
 
             //post action question
             entry.push(sanitizeString(currI.actions[i].postAction.why));
@@ -544,16 +566,19 @@ function parseSubgoalArray(){
             entry.push(currI.actions[i].postAction.ynm["maybe"]);
             entry.push(currI.actions[i].postAction.facetValues["motiv"]);
             entry.push(currI.actions[i].postAction.facetValues["info"]);
-            entry.push(currI.actions[i].postAction.facetValues["self"] || currI.actions[i].postAction.facetValues["selfE"]);
+            entry.push(currI.actions[i].postAction.facetValues["self"] || 
+                       currI.actions[i].postAction.facetValues["selfE"]);
             entry.push(currI.actions[i].postAction.facetValues["risk"]);
             entry.push(currI.actions[i].postAction.facetValues["tinker"]);
             entry.push(sanitizeString(getFacetLabelsForExport(currI.actions[i].postAction.facetValues).join("; ")));
 
-            //url currently is about 4X as long as longest cell allowed in excel, so instead just downloading image as part of zip
+            //url currently is about 4X as long as longest cell allowed in excel
+            //so instead just downloading image as part of zip
             //entry.push('\"' +currI.actions[i].imgURL+'\"');
 
             var newName = getExportActionName(currI.actions[i]);
-            downloadURI(getActionImageUrl(currI.actions[i]), "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
+            downloadURI(getActionImageUrl(currI.actions[i]),
+                        "S"+(1 + parseInt(j))+"A"+(parseInt(i))+"_"+newName);
         }
 
         if (entry.length != 0) {
@@ -587,7 +612,8 @@ function createOldCSV() {
     });
 
 
-    var header2 = ["Subgoal",
+    var header2 = [
+        "Subgoal",
         "Will the persona have formed this subgoal as a step to their overall goal?",
         "Yes", "No", "Maybe",
         "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets",
@@ -597,7 +623,9 @@ function createOldCSV() {
         "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets",
         sanitizeString("If the persona does the right thing, will they know that they did the right thing and is making progress toward their goal?"),
         "Yes", "No", "Maybe",
-        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker", "Selected Facets"];
+        "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker",
+        "Selected Facets"
+    ];
     csvContent += header2.join(",") + "\n";
 
     entries.forEach(function(entry, index){
