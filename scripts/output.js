@@ -189,15 +189,18 @@ function buildPrimaryExportMetadataRows(metadata, todayString, currentTime) {
 
 /*
  * Function: now
- * Gets the date and time in the format hr:min
+ * Ret: string (formatted time)
+ * Returns the current time in the format hr:min
  */
 function now() {
 	var date = new Date();
 	return String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0');
 }
+
 /*
  * Function: today
- * Gets the date in the format month/day/year
+ * Ret: string (formatted date)
+ * Returns the date in the format month/day/year
  */
 function today() {
     var date = new Date();
@@ -224,7 +227,7 @@ function sanitizeString(unsafeWord){
  * Function: getSubgoalInfo
  * Ret: string (ready for csv)
  * Formats the subgoal information for the csv file. Also makes call to getActionInfo
- * so that each subgoal includes the actions associate with it
+ * so that each subgoal includes the actions associated with it
  */
 function getSubgoalInfo(){
     var subgoalList= getExportSubgoalList();
@@ -445,8 +448,11 @@ function downloadCSV(csvContent, old) {
 }
 
 /*
-*This function downloads the image into the designated folder when given the uri and name
-*/
+ * Function: downloadURI
+ * Arg: uri - the image data URI
+ * Arg: name - the desired filename
+ * Adds an image to the zip archive by creating a named object from the URI.
+ */
 function downloadURI(uri, name) {
     try {
         //checks to see if the uri or name is null
@@ -495,9 +501,12 @@ function downloadURI(uri, name) {
 		ynm: yesnomaybe,
 		why: whyText,
 		facetValues: facets
+
 /*
  * Function: parseSubgoalArray
- *
+ * Ret: array of arrays representing csv-formatted subgoal/action entries
+ * Parses user input stored locally and transforms it into an array of rows
+ * compatible with old-format GenderMag CSV.
  */
 function parseSubgoalArray(){
     var userInput= getExportSubgoalList();
@@ -562,9 +571,12 @@ function parseSubgoalArray(){
     }
     return entries;
 }
+
 /*
- * Function: createOLDCSV
- *
+ * Function: createOldCSV
+ * Ret: string (ready for csv)
+ * Assembles header and data content from parseSubgoalArray into a final
+ * CSV string for the old-format GenderMag report.
  */
 function createOldCSV() {
     console.log('getting things');
