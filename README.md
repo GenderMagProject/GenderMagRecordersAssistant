@@ -26,7 +26,7 @@ Contributing</a>.
 * [Download Chrome](https://www.google.com/chrome/)
 * Short paper: [The GenderMag Recorder’s Assistant](https://ieeexplore.ieee.org/document/8506505) 
 * Long paper (Research Study): [Semi-Automating (or not) a Socio-Technical Method for Socio-Technical Systems](https://ieeexplore.ieee.org/document/8506514)
-* [Video](https://www.youtube.com/watch?v=GOy7Aq5lozQ) using the GenderMag Recorder's Assistant.
+* [Video](https://www.youtube.com/watch?v=KajONveZB_g) using the GenderMag Recorder's Assistant.
     
 # How does GenderMag make software more inclusive?</h1>
 
@@ -101,8 +101,9 @@ you have downloaded and installed the tool and want to run it, make sure the
 extension is enabled, navigate to the page you wish to perform GenderMag on 
 and click the GenderMag button at the bottom of the screen. 
 
-See the [video](http://gendermag.org/genderMag.html) from GenderMag.org for examples 
-and/or read the guide below.
+See the [video](http://gendermag.org/genderMag.html) (Under the How does it work? Tab) from 
+GenderMag.org for examples and/or read the guide below.
+Additionally, here is the link to the [video](https://www.youtube.com/watch?v=KajONveZB_g) guide directly.
 
 Here is a step-by-step guide on how to run the Recorder Assistant tool: 
 
@@ -185,7 +186,8 @@ Here is a step-by-step guide on how to run the Recorder Assistant tool:
    hit "Quit GenderMag". This will reload the page and close the tool.
 
 See the video at http://gendermag.org for examples of what running the tool 
-looks like.
+looks like (Under the How does it work? Tab).
+Additionally, here is the link to the [video](https://www.youtube.com/watch?v=KajONveZB_g) guide directly.
 
 ## How to Disable GenderMag:
 
